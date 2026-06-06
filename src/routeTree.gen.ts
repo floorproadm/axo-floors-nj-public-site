@@ -29,6 +29,7 @@ import { Route as CampaignRouteImport } from './routes/campaign'
 import { Route as BuildersRouteImport } from './routes/builders'
 import { Route as BuilderOfferRouteImport } from './routes/builder-offer'
 import { Route as BaseBoardsRouteImport } from './routes/base-boards'
+import { Route as AxoMasterSystemRouteImport } from './routes/axo-master-system'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -132,6 +133,11 @@ const BaseBoardsRoute = BaseBoardsRouteImport.update({
   path: '/base-boards',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AxoMasterSystemRoute = AxoMasterSystemRouteImport.update({
+  id: '/axo-master-system',
+  path: '/axo-master-system',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AboutRoute = AboutRouteImport.update({
   id: '/about',
   path: '/about',
@@ -146,6 +152,7 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/axo-master-system': typeof AxoMasterSystemRoute
   '/base-boards': typeof BaseBoardsRoute
   '/builder-offer': typeof BuilderOfferRoute
   '/builders': typeof BuildersRoute
@@ -170,6 +177,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/axo-master-system': typeof AxoMasterSystemRoute
   '/base-boards': typeof BaseBoardsRoute
   '/builder-offer': typeof BuilderOfferRoute
   '/builders': typeof BuildersRoute
@@ -195,6 +203,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/axo-master-system': typeof AxoMasterSystemRoute
   '/base-boards': typeof BaseBoardsRoute
   '/builder-offer': typeof BuilderOfferRoute
   '/builders': typeof BuildersRoute
@@ -221,6 +230,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/axo-master-system'
     | '/base-boards'
     | '/builder-offer'
     | '/builders'
@@ -245,6 +255,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/axo-master-system'
     | '/base-boards'
     | '/builder-offer'
     | '/builders'
@@ -269,6 +280,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/axo-master-system'
     | '/base-boards'
     | '/builder-offer'
     | '/builders'
@@ -294,6 +306,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AxoMasterSystemRoute: typeof AxoMasterSystemRoute
   BaseBoardsRoute: typeof BaseBoardsRoute
   BuilderOfferRoute: typeof BuilderOfferRoute
   BuildersRoute: typeof BuildersRoute
@@ -458,6 +471,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BaseBoardsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/axo-master-system': {
+      id: '/axo-master-system'
+      path: '/axo-master-system'
+      fullPath: '/axo-master-system'
+      preLoaderRoute: typeof AxoMasterSystemRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -478,6 +498,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AxoMasterSystemRoute: AxoMasterSystemRoute,
   BaseBoardsRoute: BaseBoardsRoute,
   BuilderOfferRoute: BuilderOfferRoute,
   BuildersRoute: BuildersRoute,
