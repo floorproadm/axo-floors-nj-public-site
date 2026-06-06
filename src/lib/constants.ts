@@ -56,3 +56,11 @@ export function formatAppointmentTime(
   const em = total % 60;
   return `${start} – ${fmt(eh, em)}`;
 }
+
+// ─── Contact / Brand ───────────────────────────────────────
+export const AXO_PHONE_DISPLAY = '(732) 351-8653';
+export const AXO_PHONE_TEL = '+17323518653';
+export const AXO_PHONE_E164 = '+17323518653';
+export const AXO_EMAIL = 'info@axofloorsnj.com';
+export const AXO_FACEBOOK = 'https://www.facebook.com/axofloorsnj';
+export const AXO_INSTAGRAM = 'https://www.instagram.com/axofloorsnj';
