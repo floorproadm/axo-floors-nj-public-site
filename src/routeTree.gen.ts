@@ -9,157 +9,13 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as WowPackRouteImport } from './routes/wow-pack'
-import { Route as VinylPlankFlooringRouteImport } from './routes/vinyl-plank-flooring'
-import { Route as ThankYouRouteImport } from './routes/thank-you'
-import { Route as StaircaseRouteImport } from './routes/staircase'
-import { Route as StainGalleryRouteImport } from './routes/stain-gallery'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as ScheduleEstimateRouteImport } from './routes/schedule-estimate'
-import { Route as SandingAndRefinishRouteImport } from './routes/sanding-and-refinish'
-import { Route as ReviewRequestRouteImport } from './routes/review-request'
-import { Route as RefinishingRouteImport } from './routes/refinishing'
-import { Route as ReferralProgramRouteImport } from './routes/referral-program'
-import { Route as RealtorsRouteImport } from './routes/realtors'
-import { Route as QuizRouteImport } from './routes/quiz'
-import { Route as PartnerProgramRouteImport } from './routes/partner-program'
-import { Route as InstallationRouteImport } from './routes/installation'
-import { Route as HubRouteImport } from './routes/hub'
-import { Route as HardwoodFlooringRouteImport } from './routes/hardwood-flooring'
-import { Route as GalleryRouteImport } from './routes/gallery'
-import { Route as FloorDiagnosticRouteImport } from './routes/floor-diagnostic'
-import { Route as ContactRouteImport } from './routes/contact'
-import { Route as CampaignRouteImport } from './routes/campaign'
-import { Route as BuildersRouteImport } from './routes/builders'
-import { Route as BuilderOfferRouteImport } from './routes/builder-offer'
-import { Route as BaseBoardsRouteImport } from './routes/base-boards'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as IndexRouteImport } from './routes/index'
 
-const WowPackRoute = WowPackRouteImport.update({
-  id: '/wow-pack',
-  path: '/wow-pack',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const VinylPlankFlooringRoute = VinylPlankFlooringRouteImport.update({
-  id: '/vinyl-plank-flooring',
-  path: '/vinyl-plank-flooring',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ThankYouRoute = ThankYouRouteImport.update({
-  id: '/thank-you',
-  path: '/thank-you',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StaircaseRoute = StaircaseRouteImport.update({
-  id: '/staircase',
-  path: '/staircase',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StainGalleryRoute = StainGalleryRouteImport.update({
-  id: '/stain-gallery',
-  path: '/stain-gallery',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ScheduleEstimateRoute = ScheduleEstimateRouteImport.update({
-  id: '/schedule-estimate',
-  path: '/schedule-estimate',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SandingAndRefinishRoute = SandingAndRefinishRouteImport.update({
-  id: '/sanding-and-refinish',
-  path: '/sanding-and-refinish',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ReviewRequestRoute = ReviewRequestRouteImport.update({
-  id: '/review-request',
-  path: '/review-request',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RefinishingRoute = RefinishingRouteImport.update({
-  id: '/refinishing',
-  path: '/refinishing',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ReferralProgramRoute = ReferralProgramRouteImport.update({
-  id: '/referral-program',
-  path: '/referral-program',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RealtorsRoute = RealtorsRouteImport.update({
-  id: '/realtors',
-  path: '/realtors',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const QuizRoute = QuizRouteImport.update({
-  id: '/quiz',
-  path: '/quiz',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PartnerProgramRoute = PartnerProgramRouteImport.update({
-  id: '/partner-program',
-  path: '/partner-program',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const InstallationRoute = InstallationRouteImport.update({
-  id: '/installation',
-  path: '/installation',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HubRoute = HubRouteImport.update({
-  id: '/hub',
-  path: '/hub',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HardwoodFlooringRoute = HardwoodFlooringRouteImport.update({
-  id: '/hardwood-flooring',
-  path: '/hardwood-flooring',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const GalleryRoute = GalleryRouteImport.update({
-  id: '/gallery',
-  path: '/gallery',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FloorDiagnosticRoute = FloorDiagnosticRouteImport.update({
-  id: '/floor-diagnostic',
-  path: '/floor-diagnostic',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CampaignRoute = CampaignRouteImport.update({
-  id: '/campaign',
-  path: '/campaign',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BuildersRoute = BuildersRouteImport.update({
-  id: '/builders',
-  path: '/builders',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BuilderOfferRoute = BuilderOfferRouteImport.update({
-  id: '/builder-offer',
-  path: '/builder-offer',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BaseBoardsRoute = BaseBoardsRouteImport.update({
-  id: '/base-boards',
-  path: '/base-boards',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SplatRoute = SplatRouteImport.update({
@@ -176,386 +32,40 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
-  '/about': typeof AboutRoute
-  '/base-boards': typeof BaseBoardsRoute
-  '/builder-offer': typeof BuilderOfferRoute
-  '/builders': typeof BuildersRoute
-  '/campaign': typeof CampaignRoute
-  '/contact': typeof ContactRoute
-  '/floor-diagnostic': typeof FloorDiagnosticRoute
-  '/gallery': typeof GalleryRoute
-  '/hardwood-flooring': typeof HardwoodFlooringRoute
-  '/hub': typeof HubRoute
-  '/installation': typeof InstallationRoute
-  '/partner-program': typeof PartnerProgramRoute
-  '/quiz': typeof QuizRoute
-  '/realtors': typeof RealtorsRoute
-  '/referral-program': typeof ReferralProgramRoute
-  '/refinishing': typeof RefinishingRoute
-  '/review-request': typeof ReviewRequestRoute
-  '/sanding-and-refinish': typeof SandingAndRefinishRoute
-  '/schedule-estimate': typeof ScheduleEstimateRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/stain-gallery': typeof StainGalleryRoute
-  '/staircase': typeof StaircaseRoute
-  '/thank-you': typeof ThankYouRoute
-  '/vinyl-plank-flooring': typeof VinylPlankFlooringRoute
-  '/wow-pack': typeof WowPackRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
-  '/about': typeof AboutRoute
-  '/base-boards': typeof BaseBoardsRoute
-  '/builder-offer': typeof BuilderOfferRoute
-  '/builders': typeof BuildersRoute
-  '/campaign': typeof CampaignRoute
-  '/contact': typeof ContactRoute
-  '/floor-diagnostic': typeof FloorDiagnosticRoute
-  '/gallery': typeof GalleryRoute
-  '/hardwood-flooring': typeof HardwoodFlooringRoute
-  '/hub': typeof HubRoute
-  '/installation': typeof InstallationRoute
-  '/partner-program': typeof PartnerProgramRoute
-  '/quiz': typeof QuizRoute
-  '/realtors': typeof RealtorsRoute
-  '/referral-program': typeof ReferralProgramRoute
-  '/refinishing': typeof RefinishingRoute
-  '/review-request': typeof ReviewRequestRoute
-  '/sanding-and-refinish': typeof SandingAndRefinishRoute
-  '/schedule-estimate': typeof ScheduleEstimateRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/stain-gallery': typeof StainGalleryRoute
-  '/staircase': typeof StaircaseRoute
-  '/thank-you': typeof ThankYouRoute
-  '/vinyl-plank-flooring': typeof VinylPlankFlooringRoute
-  '/wow-pack': typeof WowPackRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
-  '/about': typeof AboutRoute
-  '/base-boards': typeof BaseBoardsRoute
-  '/builder-offer': typeof BuilderOfferRoute
-  '/builders': typeof BuildersRoute
-  '/campaign': typeof CampaignRoute
-  '/contact': typeof ContactRoute
-  '/floor-diagnostic': typeof FloorDiagnosticRoute
-  '/gallery': typeof GalleryRoute
-  '/hardwood-flooring': typeof HardwoodFlooringRoute
-  '/hub': typeof HubRoute
-  '/installation': typeof InstallationRoute
-  '/partner-program': typeof PartnerProgramRoute
-  '/quiz': typeof QuizRoute
-  '/realtors': typeof RealtorsRoute
-  '/referral-program': typeof ReferralProgramRoute
-  '/refinishing': typeof RefinishingRoute
-  '/review-request': typeof ReviewRequestRoute
-  '/sanding-and-refinish': typeof SandingAndRefinishRoute
-  '/schedule-estimate': typeof ScheduleEstimateRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/stain-gallery': typeof StainGalleryRoute
-  '/staircase': typeof StaircaseRoute
-  '/thank-you': typeof ThankYouRoute
-  '/vinyl-plank-flooring': typeof VinylPlankFlooringRoute
-  '/wow-pack': typeof WowPackRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/$'
-    | '/about'
-    | '/base-boards'
-    | '/builder-offer'
-    | '/builders'
-    | '/campaign'
-    | '/contact'
-    | '/floor-diagnostic'
-    | '/gallery'
-    | '/hardwood-flooring'
-    | '/hub'
-    | '/installation'
-    | '/partner-program'
-    | '/quiz'
-    | '/realtors'
-    | '/referral-program'
-    | '/refinishing'
-    | '/review-request'
-    | '/sanding-and-refinish'
-    | '/schedule-estimate'
-    | '/sitemap.xml'
-    | '/stain-gallery'
-    | '/staircase'
-    | '/thank-you'
-    | '/vinyl-plank-flooring'
-    | '/wow-pack'
+  fullPaths: '/' | '/$' | '/sitemap.xml'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/$'
-    | '/about'
-    | '/base-boards'
-    | '/builder-offer'
-    | '/builders'
-    | '/campaign'
-    | '/contact'
-    | '/floor-diagnostic'
-    | '/gallery'
-    | '/hardwood-flooring'
-    | '/hub'
-    | '/installation'
-    | '/partner-program'
-    | '/quiz'
-    | '/realtors'
-    | '/referral-program'
-    | '/refinishing'
-    | '/review-request'
-    | '/sanding-and-refinish'
-    | '/schedule-estimate'
-    | '/sitemap.xml'
-    | '/stain-gallery'
-    | '/staircase'
-    | '/thank-you'
-    | '/vinyl-plank-flooring'
-    | '/wow-pack'
-  id:
-    | '__root__'
-    | '/'
-    | '/$'
-    | '/about'
-    | '/base-boards'
-    | '/builder-offer'
-    | '/builders'
-    | '/campaign'
-    | '/contact'
-    | '/floor-diagnostic'
-    | '/gallery'
-    | '/hardwood-flooring'
-    | '/hub'
-    | '/installation'
-    | '/partner-program'
-    | '/quiz'
-    | '/realtors'
-    | '/referral-program'
-    | '/refinishing'
-    | '/review-request'
-    | '/sanding-and-refinish'
-    | '/schedule-estimate'
-    | '/sitemap.xml'
-    | '/stain-gallery'
-    | '/staircase'
-    | '/thank-you'
-    | '/vinyl-plank-flooring'
-    | '/wow-pack'
+  to: '/' | '/$' | '/sitemap.xml'
+  id: '__root__' | '/' | '/$' | '/sitemap.xml'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SplatRoute: typeof SplatRoute
-  AboutRoute: typeof AboutRoute
-  BaseBoardsRoute: typeof BaseBoardsRoute
-  BuilderOfferRoute: typeof BuilderOfferRoute
-  BuildersRoute: typeof BuildersRoute
-  CampaignRoute: typeof CampaignRoute
-  ContactRoute: typeof ContactRoute
-  FloorDiagnosticRoute: typeof FloorDiagnosticRoute
-  GalleryRoute: typeof GalleryRoute
-  HardwoodFlooringRoute: typeof HardwoodFlooringRoute
-  HubRoute: typeof HubRoute
-  InstallationRoute: typeof InstallationRoute
-  PartnerProgramRoute: typeof PartnerProgramRoute
-  QuizRoute: typeof QuizRoute
-  RealtorsRoute: typeof RealtorsRoute
-  ReferralProgramRoute: typeof ReferralProgramRoute
-  RefinishingRoute: typeof RefinishingRoute
-  ReviewRequestRoute: typeof ReviewRequestRoute
-  SandingAndRefinishRoute: typeof SandingAndRefinishRoute
-  ScheduleEstimateRoute: typeof ScheduleEstimateRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
-  StainGalleryRoute: typeof StainGalleryRoute
-  StaircaseRoute: typeof StaircaseRoute
-  ThankYouRoute: typeof ThankYouRoute
-  VinylPlankFlooringRoute: typeof VinylPlankFlooringRoute
-  WowPackRoute: typeof WowPackRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/wow-pack': {
-      id: '/wow-pack'
-      path: '/wow-pack'
-      fullPath: '/wow-pack'
-      preLoaderRoute: typeof WowPackRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/vinyl-plank-flooring': {
-      id: '/vinyl-plank-flooring'
-      path: '/vinyl-plank-flooring'
-      fullPath: '/vinyl-plank-flooring'
-      preLoaderRoute: typeof VinylPlankFlooringRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/thank-you': {
-      id: '/thank-you'
-      path: '/thank-you'
-      fullPath: '/thank-you'
-      preLoaderRoute: typeof ThankYouRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/staircase': {
-      id: '/staircase'
-      path: '/staircase'
-      fullPath: '/staircase'
-      preLoaderRoute: typeof StaircaseRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/stain-gallery': {
-      id: '/stain-gallery'
-      path: '/stain-gallery'
-      fullPath: '/stain-gallery'
-      preLoaderRoute: typeof StainGalleryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/schedule-estimate': {
-      id: '/schedule-estimate'
-      path: '/schedule-estimate'
-      fullPath: '/schedule-estimate'
-      preLoaderRoute: typeof ScheduleEstimateRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sanding-and-refinish': {
-      id: '/sanding-and-refinish'
-      path: '/sanding-and-refinish'
-      fullPath: '/sanding-and-refinish'
-      preLoaderRoute: typeof SandingAndRefinishRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/review-request': {
-      id: '/review-request'
-      path: '/review-request'
-      fullPath: '/review-request'
-      preLoaderRoute: typeof ReviewRequestRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/refinishing': {
-      id: '/refinishing'
-      path: '/refinishing'
-      fullPath: '/refinishing'
-      preLoaderRoute: typeof RefinishingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/referral-program': {
-      id: '/referral-program'
-      path: '/referral-program'
-      fullPath: '/referral-program'
-      preLoaderRoute: typeof ReferralProgramRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/realtors': {
-      id: '/realtors'
-      path: '/realtors'
-      fullPath: '/realtors'
-      preLoaderRoute: typeof RealtorsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/quiz': {
-      id: '/quiz'
-      path: '/quiz'
-      fullPath: '/quiz'
-      preLoaderRoute: typeof QuizRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/partner-program': {
-      id: '/partner-program'
-      path: '/partner-program'
-      fullPath: '/partner-program'
-      preLoaderRoute: typeof PartnerProgramRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/installation': {
-      id: '/installation'
-      path: '/installation'
-      fullPath: '/installation'
-      preLoaderRoute: typeof InstallationRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/hub': {
-      id: '/hub'
-      path: '/hub'
-      fullPath: '/hub'
-      preLoaderRoute: typeof HubRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/hardwood-flooring': {
-      id: '/hardwood-flooring'
-      path: '/hardwood-flooring'
-      fullPath: '/hardwood-flooring'
-      preLoaderRoute: typeof HardwoodFlooringRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/gallery': {
-      id: '/gallery'
-      path: '/gallery'
-      fullPath: '/gallery'
-      preLoaderRoute: typeof GalleryRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/floor-diagnostic': {
-      id: '/floor-diagnostic'
-      path: '/floor-diagnostic'
-      fullPath: '/floor-diagnostic'
-      preLoaderRoute: typeof FloorDiagnosticRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/campaign': {
-      id: '/campaign'
-      path: '/campaign'
-      fullPath: '/campaign'
-      preLoaderRoute: typeof CampaignRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/builders': {
-      id: '/builders'
-      path: '/builders'
-      fullPath: '/builders'
-      preLoaderRoute: typeof BuildersRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/builder-offer': {
-      id: '/builder-offer'
-      path: '/builder-offer'
-      fullPath: '/builder-offer'
-      preLoaderRoute: typeof BuilderOfferRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/base-boards': {
-      id: '/base-boards'
-      path: '/base-boards'
-      fullPath: '/base-boards'
-      preLoaderRoute: typeof BaseBoardsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$': {
@@ -578,32 +88,18 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SplatRoute: SplatRoute,
-  AboutRoute: AboutRoute,
-  BaseBoardsRoute: BaseBoardsRoute,
-  BuilderOfferRoute: BuilderOfferRoute,
-  BuildersRoute: BuildersRoute,
-  CampaignRoute: CampaignRoute,
-  ContactRoute: ContactRoute,
-  FloorDiagnosticRoute: FloorDiagnosticRoute,
-  GalleryRoute: GalleryRoute,
-  HardwoodFlooringRoute: HardwoodFlooringRoute,
-  HubRoute: HubRoute,
-  InstallationRoute: InstallationRoute,
-  PartnerProgramRoute: PartnerProgramRoute,
-  QuizRoute: QuizRoute,
-  RealtorsRoute: RealtorsRoute,
-  ReferralProgramRoute: ReferralProgramRoute,
-  RefinishingRoute: RefinishingRoute,
-  ReviewRequestRoute: ReviewRequestRoute,
-  SandingAndRefinishRoute: SandingAndRefinishRoute,
-  ScheduleEstimateRoute: ScheduleEstimateRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
-  StainGalleryRoute: StainGalleryRoute,
-  StaircaseRoute: StaircaseRoute,
-  ThankYouRoute: ThankYouRoute,
-  VinylPlankFlooringRoute: VinylPlankFlooringRoute,
-  WowPackRoute: WowPackRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
