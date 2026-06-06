@@ -187,7 +187,7 @@ const SandingRefinish = () => {
             {processSteps.map((step, index) => (
               <Card 
                 key={index} 
-                ref={(el) => stepRefs.current[index] = el}
+                ref={(el) => { stepRefs.current[index] = el; }}
                 className={`bg-white/95 backdrop-blur-sm border-gold/20 text-center group transition-smooth ${isMobile && activeStepIndex === index ? 'shadow-gold -translate-y-2' : 'hover:shadow-gold hover:-translate-y-2'}`}
               >
                 <CardContent className="p-8">
