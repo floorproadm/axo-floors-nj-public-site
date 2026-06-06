@@ -190,7 +190,7 @@ const VinylPlankFlooring = () => {
               {features.map((feature, index) => (
                 <Card 
                   key={index} 
-                  ref={(el) => { featureRefs.current[index] = el; }}
+                  ref={(el) => featureRefs.current[index] = el}
                   className={`group transition-smooth ${isMobile && activeFeatureIndex === index ? 'shadow-gold -translate-y-2' : 'hover:shadow-gold hover:-translate-y-2'}`}
                 >
                   <CardContent className="p-6 text-center">
@@ -227,7 +227,7 @@ const VinylPlankFlooring = () => {
             {roomApplications.map((app, index) => (
               <Card 
                 key={index} 
-                ref={(el) => { roomRefs.current[index] = el; }}
+                ref={(el) => roomRefs.current[index] = el}
                 className={`group transition-smooth ${isMobile && activeRoomIndex === index ? 'shadow-gold -translate-y-2' : 'hover:shadow-gold hover:-translate-y-2'}`}
               >
                 <CardContent className="p-6">
