@@ -16,6 +16,7 @@ import { Route as RefinishingRouteImport } from './routes/refinishing'
 import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as InstallationRouteImport } from './routes/installation'
 import { Route as HardwoodFlooringRouteImport } from './routes/hardwood-flooring'
+import { Route as FloorDiagnosticRouteImport } from './routes/floor-diagnostic'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as IndexRouteImport } from './routes/index'
 
@@ -54,6 +55,11 @@ const HardwoodFlooringRoute = HardwoodFlooringRouteImport.update({
   path: '/hardwood-flooring',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FloorDiagnosticRoute = FloorDiagnosticRouteImport.update({
+  id: '/floor-diagnostic',
+  path: '/floor-diagnostic',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -68,6 +74,7 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
+  '/floor-diagnostic': typeof FloorDiagnosticRoute
   '/hardwood-flooring': typeof HardwoodFlooringRoute
   '/installation': typeof InstallationRoute
   '/quiz': typeof QuizRoute
@@ -79,6 +86,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
+  '/floor-diagnostic': typeof FloorDiagnosticRoute
   '/hardwood-flooring': typeof HardwoodFlooringRoute
   '/installation': typeof InstallationRoute
   '/quiz': typeof QuizRoute
@@ -91,6 +99,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
+  '/floor-diagnostic': typeof FloorDiagnosticRoute
   '/hardwood-flooring': typeof HardwoodFlooringRoute
   '/installation': typeof InstallationRoute
   '/quiz': typeof QuizRoute
@@ -104,6 +113,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/contact'
+    | '/floor-diagnostic'
     | '/hardwood-flooring'
     | '/installation'
     | '/quiz'
@@ -115,6 +125,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/contact'
+    | '/floor-diagnostic'
     | '/hardwood-flooring'
     | '/installation'
     | '/quiz'
@@ -126,6 +137,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/contact'
+    | '/floor-diagnostic'
     | '/hardwood-flooring'
     | '/installation'
     | '/quiz'
@@ -138,6 +150,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ContactRoute: typeof ContactRoute
+  FloorDiagnosticRoute: typeof FloorDiagnosticRoute
   HardwoodFlooringRoute: typeof HardwoodFlooringRoute
   InstallationRoute: typeof InstallationRoute
   QuizRoute: typeof QuizRoute
@@ -198,6 +211,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HardwoodFlooringRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/floor-diagnostic': {
+      id: '/floor-diagnostic'
+      path: '/floor-diagnostic'
+      fullPath: '/floor-diagnostic'
+      preLoaderRoute: typeof FloorDiagnosticRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -218,6 +238,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ContactRoute: ContactRoute,
+  FloorDiagnosticRoute: FloorDiagnosticRoute,
   HardwoodFlooringRoute: HardwoodFlooringRoute,
   InstallationRoute: InstallationRoute,
   QuizRoute: QuizRoute,
