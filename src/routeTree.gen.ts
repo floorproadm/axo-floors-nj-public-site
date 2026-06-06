@@ -14,6 +14,7 @@ import { Route as VinylPlankFlooringRouteImport } from './routes/vinyl-plank-flo
 import { Route as ThankYouRouteImport } from './routes/thank-you'
 import { Route as StaircaseRouteImport } from './routes/staircase'
 import { Route as StainGalleryRouteImport } from './routes/stain-gallery'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ScheduleEstimateRouteImport } from './routes/schedule-estimate'
 import { Route as SandingAndRefinishRouteImport } from './routes/sanding-and-refinish'
 import { Route as ReviewRequestRouteImport } from './routes/review-request'
@@ -59,6 +60,11 @@ const StaircaseRoute = StaircaseRouteImport.update({
 const StainGalleryRoute = StainGalleryRouteImport.update({
   id: '/stain-gallery',
   path: '/stain-gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ScheduleEstimateRoute = ScheduleEstimateRouteImport.update({
@@ -189,6 +195,7 @@ export interface FileRoutesByFullPath {
   '/review-request': typeof ReviewRequestRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/schedule-estimate': typeof ScheduleEstimateRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stain-gallery': typeof StainGalleryRoute
   '/staircase': typeof StaircaseRoute
   '/thank-you': typeof ThankYouRoute
@@ -217,6 +224,7 @@ export interface FileRoutesByTo {
   '/review-request': typeof ReviewRequestRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/schedule-estimate': typeof ScheduleEstimateRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stain-gallery': typeof StainGalleryRoute
   '/staircase': typeof StaircaseRoute
   '/thank-you': typeof ThankYouRoute
@@ -246,6 +254,7 @@ export interface FileRoutesById {
   '/review-request': typeof ReviewRequestRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/schedule-estimate': typeof ScheduleEstimateRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stain-gallery': typeof StainGalleryRoute
   '/staircase': typeof StaircaseRoute
   '/thank-you': typeof ThankYouRoute
@@ -276,6 +285,7 @@ export interface FileRouteTypes {
     | '/review-request'
     | '/sanding-and-refinish'
     | '/schedule-estimate'
+    | '/sitemap.xml'
     | '/stain-gallery'
     | '/staircase'
     | '/thank-you'
@@ -304,6 +314,7 @@ export interface FileRouteTypes {
     | '/review-request'
     | '/sanding-and-refinish'
     | '/schedule-estimate'
+    | '/sitemap.xml'
     | '/stain-gallery'
     | '/staircase'
     | '/thank-you'
@@ -332,6 +343,7 @@ export interface FileRouteTypes {
     | '/review-request'
     | '/sanding-and-refinish'
     | '/schedule-estimate'
+    | '/sitemap.xml'
     | '/stain-gallery'
     | '/staircase'
     | '/thank-you'
@@ -361,6 +373,7 @@ export interface RootRouteChildren {
   ReviewRequestRoute: typeof ReviewRequestRoute
   SandingAndRefinishRoute: typeof SandingAndRefinishRoute
   ScheduleEstimateRoute: typeof ScheduleEstimateRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StainGalleryRoute: typeof StainGalleryRoute
   StaircaseRoute: typeof StaircaseRoute
   ThankYouRoute: typeof ThankYouRoute
@@ -403,6 +416,13 @@ declare module '@tanstack/react-router' {
       path: '/stain-gallery'
       fullPath: '/stain-gallery'
       preLoaderRoute: typeof StainGalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/schedule-estimate': {
@@ -577,6 +597,7 @@ const rootRouteChildren: RootRouteChildren = {
   ReviewRequestRoute: ReviewRequestRoute,
   SandingAndRefinishRoute: SandingAndRefinishRoute,
   ScheduleEstimateRoute: ScheduleEstimateRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   StainGalleryRoute: StainGalleryRoute,
   StaircaseRoute: StaircaseRoute,
   ThankYouRoute: ThankYouRoute,
