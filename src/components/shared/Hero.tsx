@@ -1,12 +1,11 @@
-import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
-import { Phone, ArrowRight, Star } from "lucide-react";
-import { AXO_PHONE_TEL } from "@/lib/constants";
+import { Link } from "react-router-dom";
+import { ArrowRight, Star } from "lucide-react";
 
 interface HeroProps {
   title: string;
-  subtitle?: string;
-  description?: string;
+  subtitle: string;
+  description: string;
   image: string;
   ctaPrimary?: string;
   ctaSecondary?: string;
@@ -16,72 +15,87 @@ interface HeroProps {
   showReviews?: boolean;
 }
 
-export default function Hero({
-  title,
-  subtitle,
-  description,
-  image,
-  ctaPrimary = "Get Free Quote",
+const Hero = ({ 
+  title, 
+  subtitle, 
+  description, 
+  image, 
+  ctaPrimary = "Get Free Quote", 
   ctaSecondary = "Call Now",
   ctaPrimaryHref = "/quiz",
-  ctaSecondaryHref = AXO_PHONE_TEL,
+  ctaSecondaryHref = "tel:(732) 351-8653",
   trustLine,
-  showReviews,
-}: HeroProps) {
+  showReviews = true 
+}: HeroProps) => {
+  const isSecondaryTel = ctaSecondaryHref.startsWith("tel:");
+  const isSecondaryExternal = /^https?:\/\//.test(ctaSecondaryHref);
+  const isPrimaryTel = ctaPrimaryHref.startsWith("tel:");
+  const isPrimaryExternal = /^https?:\/\//.test(ctaPrimaryHref);
   return (
-    <section className="relative isolate overflow-hidden">
-      <div
-        className="absolute inset-0 -z-10 bg-cover bg-center"
-        style={{ backgroundImage: `url(${image})` }}
-        aria-hidden
-      />
-      <div className="absolute inset-0 -z-10 hero-gradient" aria-hidden />
+    <section className="relative min-h-[60vh] sm:min-h-[70vh] flex items-center overflow-hidden">
+      {/* Background Image with Overlay */}
+      <div className="absolute inset-0">
+        <img 
+          src={image} 
+          alt="AXO Floors Premium Service" 
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 hero-gradient"></div>
+      </div>
 
-      <div className="container mx-auto px-4 py-20 sm:py-28 lg:py-36 text-white">
-        <div className="max-w-3xl">
-          {subtitle && (
-            <p className="inline-flex items-center gap-2 rounded-full border border-[var(--gold-accent)]/40 bg-[var(--gold-accent)]/10 px-3 py-1 text-xs font-semibold tracking-wide uppercase text-[var(--gold-accent)]">
-              {subtitle}
-            </p>
-          )}
-          <h1 className="mt-4 font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-tight">
+      {/* Content */}
+      <div className="relative z-10 container mx-auto px-4 py-12 sm:py-20">
+        <div className="max-w-4xl mx-auto text-center text-white">
+          {/* Subtitle */}
+          <p className="text-base sm:text-lg md:text-xl font-medium text-gold mb-3 sm:mb-4 font-heading">
+            {subtitle}
+          </p>
+
+          {/* Main Title */}
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold font-heading mb-4 sm:mb-6 leading-tight px-2">
             {title}
           </h1>
-          {description && (
-            <p className="mt-5 text-lg text-white/85 max-w-2xl leading-relaxed">
-              {description}
-            </p>
-          )}
 
-          {showReviews && (
-            <div className="mt-6 flex items-center gap-2 text-sm text-white/85">
-              <div className="flex">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="h-4 w-4 fill-[var(--gold-accent)] text-[var(--gold-accent)]" />
-                ))}
-              </div>
-              <span>500+ Homes Transformed • 10+ Years Experience</span>
-            </div>
-          )}
+          {/* Description */}
+          <p className="text-base sm:text-lg md:text-xl text-white/90 mb-6 sm:mb-8 max-w-3xl mx-auto leading-relaxed px-2">
+            {description}
+          </p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-3">
-            <Button asChild size="lg" className="gold-gradient text-navy font-semibold shadow-gold hover:opacity-95">
-              {ctaPrimaryHref.startsWith("/") ? (
-                <Link to={ctaPrimaryHref}>{ctaPrimary} <ArrowRight className="ml-1 h-4 w-4" /></Link>
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4 sm:px-0">
+            <Button asChild className="gold-gradient hover:scale-105 transition-bounce text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-5 h-auto min-h-[48px] text-black font-semibold">
+              {isPrimaryTel || isPrimaryExternal ? (
+                <a href={ctaPrimaryHref} className="flex items-center justify-center gap-2 text-black">
+                  {ctaPrimary}
+                </a>
               ) : (
-                <a href={ctaPrimaryHref}>{ctaPrimary} <ArrowRight className="ml-1 h-4 w-4" /></a>
+                <Link to={ctaPrimaryHref} className="flex items-center justify-center gap-2 text-black">
+                  {ctaPrimary}
+                </Link>
               )}
             </Button>
-            <Button asChild size="lg" variant="outline" className="bg-white/5 border-white/30 text-white hover:bg-white/15">
-              <a href={ctaSecondaryHref}><Phone className="mr-2 h-4 w-4" />{ctaSecondary}</a>
+            <Button variant="outline" asChild className="border-white text-black bg-white hover:bg-white hover:text-black text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-5 h-auto min-h-[48px] font-semibold">
+              {isSecondaryTel || isSecondaryExternal ? (
+                <a href={ctaSecondaryHref} className="flex items-center justify-center gap-2 text-black">
+                  {ctaSecondary}
+                </a>
+              ) : (
+                <Link to={ctaSecondaryHref} className="flex items-center justify-center gap-2 text-black">
+                  {ctaSecondary}
+                </Link>
+              )}
             </Button>
           </div>
 
           {trustLine && (
-            <p className="mt-6 text-xs uppercase tracking-wider text-white/70">{trustLine}</p>
+            <p className="mt-6 sm:mt-8 text-xs sm:text-sm text-white/80 font-medium tracking-wide px-2">
+              {trustLine}
+            </p>
           )}
         </div>
       </div>
     </section>
   );
-}
+};
+
+export default Hero;

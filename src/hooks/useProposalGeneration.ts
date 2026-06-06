@@ -1,0 +1,364 @@
+import { useState, useCallback } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { ProposalTier, ProposalData, ProposalValidation, TierValidation } from '@/types/proposal';
+import { AXO_ORG_ID } from '@/lib/constants';
+
+/**
+ * TIER DEFINITIONS
+ * Good / Better / Best with margin multipliers
+ * Margins are calculated from base cost, all must exceed minimum
+ */
+export const TIER_TEMPLATES: Omit<ProposalTier, 'price' | 'margin_percent'>[] = [
+  {
+    id: 'good',
+    name: 'Good',
+    short_description: 'Essential refinishing with standard finish',
+    features: [
+      'Sanding & preparation',
+      'Standard polyurethane finish',
+      '1 coat stain (if selected)',
+      '2 coats finish',
+      'Basic cleanup',
+    ],
+  },
+  {
+    id: 'better',
+    name: 'Better',
+    short_description: 'Enhanced refinishing with premium finish',
+    features: [
+      'Everything in Good',
+      'Premium polyurethane finish',
+      '2 coats stain (deeper color)',
+      '3 coats finish',
+      'Edge detail work',
+      'Thorough cleanup',
+    ],
+  },
+  {
+    id: 'best',
+    name: 'Best',
+    short_description: 'Complete refinishing with top-tier materials',
+    features: [
+      'Everything in Better',
+      'Commercial-grade finish',
+      'Custom stain matching',
+      '4 coats finish',
+      'Baseboard touch-up',
+      'Furniture moving assistance',
+      'Premium cleanup',
+    ],
+  },
+];
+
+/**
+ * Default margin targets per tier
+ * These are TARGETS - actual margins must be >= company minimum
+ */
+export const DEFAULT_TIER_MARGINS = {
+  good: 30,
+  better: 38,
+  best: 45,
+};
+
+interface FetchOptions {
+  mode?: 'tiers' | 'direct';
+  flatPrice?: number; // required when mode='direct'
+  referringPartnerId?: string | null;
+  clientNote?: string | null;
+  readOnly?: boolean; // when true, never insert — return existing or null
+}
+
+
+interface UseProposalGenerationReturn {
+  generateTiers: (baseCost: number, minMargin: number) => ProposalTier[];
+  validateAllTiers: (tiers: ProposalTier[], minMargin: number) => ProposalValidation;
+  fetchProjectData: (projectId: string, options?: FetchOptions) => Promise<ProposalData | null>;
+  isLoading: boolean;
+  error: string | null;
+}
+
+export function useProposalGeneration(): UseProposalGenerationReturn {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  /**
+   * Generate tier prices from base cost
+   * Formula: price = baseCost / (1 - margin/100)
+   * All margins are clamped to minimum
+   */
+  const generateTiers = useCallback((baseCost: number, minMargin: number): ProposalTier[] => {
+    return TIER_TEMPLATES.map((template) => {
+      const targetMargin = Math.max(DEFAULT_TIER_MARGINS[template.id], minMargin);
+      const price = baseCost / (1 - targetMargin / 100);
+      return {
+        ...template,
+        price: Math.ceil(price),
+        margin_percent: targetMargin,
+      };
+    });
+  }, []);
+
+  /**
+   * Validate all tiers against minimum margin
+   * BLOCKING: Any tier below minimum = proposal blocked
+   */
+  const validateAllTiers = useCallback((tiers: ProposalTier[], minMargin: number): ProposalValidation => {
+    const tierValidations: TierValidation[] = tiers.map((tier) => {
+      const isValid = tier.margin_percent >= minMargin;
+      return {
+        tier_id: tier.id,
+        is_valid: isValid,
+        margin_percent: tier.margin_percent,
+        error_message: isValid
+          ? null
+          : `BLOCKED: ${tier.name} tier margin ${tier.margin_percent}% < minimum ${minMargin}%`,
+      };
+    });
+
+    const blockedTiers = tierValidations
+      .filter((v) => !v.is_valid)
+      .map((v) => v.tier_id);
+
+    return {
+      all_valid: blockedTiers.length === 0,
+      min_margin: minMargin,
+      tier_validations: tierValidations,
+      blocked_tiers: blockedTiers,
+    };
+  }, []);
+
+  /**
+   * Fetch all data needed for proposal generation
+   * Now also persists the proposal to the database
+   */
+  const fetchProjectData = useCallback(async (
+    projectId: string,
+    options: FetchOptions = {}
+  ): Promise<ProposalData | null> => {
+    setIsLoading(true);
+    setError(null);
+    const mode: 'tiers' | 'direct' = options.mode ?? 'tiers';
+
+    try {
+      // Fetch project details
+      const { data: project, error: projectError } = await supabase
+        .from('projects')
+        .select('*')
+        .eq('id', projectId)
+        .single();
+
+      if (projectError) throw new Error('Project not found: ' + projectError.message);
+
+      // Fetch job costs (optional — proposals work like estimates: user enters items directly)
+      const { data: jobCost } = await supabase
+        .from('job_costs')
+        .select('*')
+        .eq('project_id', projectId)
+        .maybeSingle();
+
+      // Fetch company settings for minimum margin
+      const { data: settings } = await supabase
+        .from('company_settings')
+        .select('default_margin_min_percent')
+        .limit(1)
+        .single();
+
+      const minMargin = settings?.default_margin_min_percent ?? 30;
+      const baseCost = jobCost?.total_cost ?? 0;
+
+      const validUntil = new Date();
+      validUntil.setDate(validUntil.getDate() + 30);
+
+      // ───────── REUSE EXISTING PROPOSAL ─────────
+      // Never insert a new row if a non-terminal proposal already exists for this project.
+      // Terminal states (accepted/rejected/expired) are intentional — a brand new proposal is fine.
+      const { data: existing } = await supabase
+        .from('proposals')
+        .select('*')
+        .eq('project_id', projectId)
+        .in('status', ['draft', 'sent', 'viewed'])
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (existing) {
+        const isTiers = !!(existing as any).use_tiers;
+        const resolvedMode: 'tiers' | 'direct' = isTiers ? 'tiers' : 'direct';
+        const flatPrice = Number((existing as any).flat_price ?? 0);
+        const flatMargin = flatPrice > 0
+          ? Math.round(((flatPrice - baseCost) / flatPrice) * 100)
+          : 0;
+        const reusedTiers: ProposalTier[] = isTiers
+          ? TIER_TEMPLATES.map((t) => ({
+              ...t,
+              price: Number((existing as any)[`${t.id}_price`] ?? 0),
+              margin_percent: Number((existing as any)[`margin_${t.id}`] ?? 0),
+            }))
+          : [];
+        return {
+          project_id: projectId,
+          proposal_id: (existing as any).id,
+          proposal_number: (existing as any).proposal_number,
+          proposal_status: (existing as any).status,
+          customer_name: project.customer_name,
+          customer_email: project.customer_email,
+          customer_phone: project.customer_phone,
+          address: [project.address, project.city, project.zip_code].filter(Boolean).join(', '),
+          project_type: project.project_type,
+          square_footage: project.square_footage ?? 0,
+          mode: resolvedMode,
+          tiers: reusedTiers,
+          flat_price: flatPrice,
+          flat_margin_percent: flatMargin,
+          line_items: [],
+          created_at: (existing as any).created_at,
+          valid_until: (existing as any).valid_until,
+          base_cost: baseCost,
+          _isExisting: true,
+        };
+      }
+
+      // readOnly callers (e.g. auto-load on mount) must never trigger an INSERT.
+      if (options.readOnly) return null;
+
+
+
+
+      // ───────── DIRECT MODE ─────────
+      if (mode === 'direct') {
+        // Price starts at 0 — it is derived from line items the user adds in the editor.
+        const flatPrice = options.flatPrice ?? 0;
+        const flatMargin = flatPrice > 0 ? Math.round(((flatPrice - baseCost) / flatPrice) * 100) : 0;
+
+        // Fetch line items (best-effort) so we can show the breakdown
+        const { data: items } = jobCost
+          ? await supabase
+              .from('job_cost_items')
+              .select('description, category, amount')
+              .eq('job_cost_id', jobCost.id)
+          : { data: [] as { description: string | null; category: string; amount: number }[] };
+
+        const { data: savedProposal, error: saveError } = await supabase
+          .from('proposals')
+          .insert({
+            project_id: projectId,
+            customer_id: project.customer_id ?? null,
+            property_id: (project as any).property_id ?? null,
+            referring_partner_id: options.referringPartnerId ?? null,
+            use_tiers: false,
+            flat_price: flatPrice,
+            // tier columns are NOT NULL, fill with flat values to satisfy schema
+            good_price: flatPrice,
+            better_price: flatPrice,
+            best_price: flatPrice,
+            margin_good: flatMargin,
+            margin_better: flatMargin,
+            margin_best: flatMargin,
+            valid_until: validUntil.toISOString().slice(0, 10),
+            status: 'draft',
+            proposal_number: `PROP-${Date.now().toString(36).toUpperCase()}`,
+            organization_id: AXO_ORG_ID,
+            client_note: options.clientNote || null,
+          } as any)
+          .select()
+          .single();
+
+        if (saveError) throw new Error('Failed to save proposal: ' + saveError.message);
+
+        return {
+          project_id: projectId,
+          proposal_id: savedProposal.id,
+          proposal_number: savedProposal.proposal_number,
+          proposal_status: savedProposal.status,
+          customer_name: project.customer_name,
+          customer_email: project.customer_email,
+          customer_phone: project.customer_phone,
+          address: [project.address, project.city, project.zip_code].filter(Boolean).join(', '),
+          project_type: project.project_type,
+          square_footage: project.square_footage ?? 0,
+          mode: 'direct',
+          tiers: [],
+          flat_price: flatPrice,
+          flat_margin_percent: flatMargin,
+          line_items: (items ?? []).map(i => ({
+            description: i.description || i.category,
+            category: i.category,
+            amount: Number(i.amount),
+          })),
+          created_at: savedProposal.created_at,
+          valid_until: savedProposal.valid_until,
+          base_cost: baseCost,
+        };
+      }
+
+      // ───────── TIERS MODE (existing flow) ─────────
+      const tiers = generateTiers(baseCost, minMargin);
+      const validation = validateAllTiers(tiers, minMargin);
+
+      if (!validation.all_valid) {
+        throw new Error('BLOCKED: Some tiers below minimum margin. Adjust costs.');
+      }
+
+      const goodTier = tiers.find(t => t.id === 'good')!;
+      const betterTier = tiers.find(t => t.id === 'better')!;
+      const bestTier = tiers.find(t => t.id === 'best')!;
+
+      const { data: savedProposal, error: saveError } = await supabase
+        .from('proposals')
+        .insert({
+          project_id: projectId,
+          customer_id: project.customer_id ?? null,
+          property_id: (project as any).property_id ?? null,
+          referring_partner_id: options.referringPartnerId ?? null,
+          use_tiers: true,
+          good_price: goodTier.price,
+          better_price: betterTier.price,
+          best_price: bestTier.price,
+          margin_good: goodTier.margin_percent,
+          margin_better: betterTier.margin_percent,
+          margin_best: bestTier.margin_percent,
+          valid_until: validUntil.toISOString().slice(0, 10),
+          status: 'draft',
+          proposal_number: `PROP-${Date.now().toString(36).toUpperCase()}`,
+          organization_id: AXO_ORG_ID,
+          client_note: options.clientNote || null,
+        } as any)
+        .select()
+        .single();
+
+      if (saveError) throw new Error('Failed to save proposal: ' + saveError.message);
+
+      return {
+        project_id: projectId,
+        proposal_id: savedProposal.id,
+        proposal_number: savedProposal.proposal_number,
+        proposal_status: savedProposal.status,
+        customer_name: project.customer_name,
+        customer_email: project.customer_email,
+        customer_phone: project.customer_phone,
+        address: [project.address, project.city, project.zip_code].filter(Boolean).join(', '),
+        project_type: project.project_type,
+        square_footage: project.square_footage ?? 0,
+        mode: 'tiers',
+        tiers,
+        created_at: savedProposal.created_at,
+        valid_until: savedProposal.valid_until,
+        base_cost: baseCost,
+      };
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Unknown error';
+      setError(message);
+      return null;
+    } finally {
+      setIsLoading(false);
+    }
+  }, [generateTiers, validateAllTiers]);
+
+  return {
+    generateTiers,
+    validateAllTiers,
+    fetchProjectData,
+    isLoading,
+    error,
+  };
+}

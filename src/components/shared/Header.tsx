@@ -1,125 +1,148 @@
-import { Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, Phone, ChevronDown, Facebook, Instagram, X } from "lucide-react";
+import axoLogo from "@/assets/axo-logo-official.png";
+import { AppSidebar } from "./AppSidebar";
 import { useState } from "react";
-import { AXO_PHONE_DISPLAY, AXO_FACEBOOK, AXO_INSTAGRAM } from "@/lib/constants";
 
-const services = [
-  { label: "Hardwood Flooring", to: "/installation" },
-  { label: "Sanding & Refinish", to: "/refinishing" },
-  { label: "Vinyl Plank Flooring", to: "/vinyl-plank-flooring" },
-  { label: "Staircase", to: "/staircase" },
-  { label: "Base Boards", to: "/base-boards" },
-] as const;
+const Header = () => {
+  const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-export default function Header() {
-  const [open, setOpen] = useState(false);
-  const [servicesOpen, setServicesOpen] = useState(false);
+  const navigation = [
+    { name: "Services", href: "#", hasDropdown: true },
+    { name: "Smart Estimate", href: "/quiz" },
+    { name: "Gallery", href: "/gallery" },
+    { name: "Contact", href: "/contact" },
+  ];
+
+  const services = [
+    { name: "Hardwood Flooring", href: "/hardwood-flooring" },
+    { name: "Sanding & Refinish", href: "/sanding-and-refinish" },
+    { name: "Vinyl Plank Flooring", href: "/vinyl-plank-flooring" },
+    { name: "Staircase", href: "/staircase" },
+    { name: "Base Boards", href: "/base-boards" },
+  ];
 
   return (
-    <header className="sticky top-0 z-50 w-full">
-      {/* Top bar */}
-      <div className="navy-gradient text-white text-sm">
-        <div className="container mx-auto flex items-center justify-between px-4 py-2">
-          <a
-            href={`sms:${AXO_PHONE_DISPLAY}?body=Hi! Interested in flooring quote from your website`}
-            className="inline-flex items-center gap-2 hover:text-[var(--gold-accent)] transition-smooth"
-          >
-            <Phone className="h-3.5 w-3.5" />
-            <span>{AXO_PHONE_DISPLAY}</span>
+    <>
+      {/* Top Contact Bar */}
+      <div className="bg-gold text-black py-3 px-4">
+        <div className="container mx-auto flex justify-between items-center">
+          <a href="sms:(732) 351-8653?body=Hi! Interested in flooring quote from your website" className="flex items-center gap-2 hover:opacity-80 transition-smooth font-semibold">
+            <Phone className="h-4 w-4" />
+            (732) 351-8653
           </a>
-          <div className="hidden sm:flex items-center gap-3">
-            <a href={AXO_FACEBOOK} target="_blank" rel="noreferrer" aria-label="Facebook">
-              <Facebook className="h-4 w-4 hover:text-[var(--gold-accent)]" />
+          <div className="flex items-center gap-2">
+            <a 
+              href="https://www.facebook.com/profile.php?id=61562322947267&sk=about" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-8 h-8 bg-black text-gold flex items-center justify-center rounded hover:bg-black/80 transition-smooth"
+            >
+              <Facebook className="w-4 h-4" />
             </a>
-            <a href={AXO_INSTAGRAM} target="_blank" rel="noreferrer" aria-label="Instagram">
-              <Instagram className="h-4 w-4 hover:text-[var(--gold-accent)]" />
+            <a 
+              href="https://instagram.com/axofloors" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-8 h-8 bg-black text-gold flex items-center justify-center rounded hover:bg-black/80 transition-smooth"
+            >
+              <Instagram className="w-4 h-4" />
             </a>
           </div>
         </div>
       </div>
 
-      {/* Main nav */}
-      <div className="bg-background/95 backdrop-blur border-b border-border">
-        <div className="container mx-auto flex items-center justify-between px-4 py-3">
-          <Link to="/" className="flex items-baseline gap-1 font-heading">
-            <span className="text-2xl font-extrabold tracking-tight text-navy">
-              •AXO•
-            </span>
-            <span className="text-xs font-bold tracking-[0.2em] text-grey">FLOORS</span>
-          </Link>
+      {/* Main Header */}
+      <header className="bg-black border-b border-white/10 shadow-elegant sticky top-0 z-[100] w-full">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <Link to="/" className="flex items-center">
+              <img 
+                src={axoLogo} 
+                alt="AXO Floors" 
+                className="h-10 w-auto"
+              />
+            </Link>
 
-          <nav className="hidden lg:flex items-center gap-7 text-sm font-medium">
-            <div
-              className="relative"
-              onMouseEnter={() => setServicesOpen(true)}
-              onMouseLeave={() => setServicesOpen(false)}
-            >
-              <button className="inline-flex items-center gap-1 hover:text-[var(--gold-warm)] transition-smooth">
-                Services <ChevronDown className="h-3.5 w-3.5" />
-              </button>
-              {servicesOpen && (
-                <div className="absolute left-0 top-full pt-2 w-56">
-                  <div className="bg-popover border border-border rounded-md shadow-elegant p-2">
-                    {services.map((s) => (
-                      <Link
-                        key={s.to}
-                        to={s.to}
-                        className="block px-3 py-2 rounded hover:bg-secondary text-sm"
-                      >
-                        {s.label}
-                      </Link>
-                    ))}
-                  </div>
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:flex items-center">
+              {navigation.map((item, index) => (
+                <div key={item.name} className="flex items-center">
+                  {item.hasDropdown ? (
+                    <div 
+                      className="relative"
+                      onMouseEnter={() => setIsServicesOpen(true)}
+                      onMouseLeave={() => setIsServicesOpen(false)}
+                    >
+                      <button className="flex items-center gap-1 text-white hover:text-gold font-medium transition-smooth">
+                        {item.name}
+                        <ChevronDown className="h-4 w-4" />
+                      </button>
+                      {isServicesOpen && (
+                        <div className="absolute top-full left-0 mt-2 w-48 bg-black border border-white/10 rounded-lg shadow-elegant z-50">
+                          <div className="py-2">
+                            {services.map((service) => (
+                              <Link
+                                key={service.name}
+                                to={service.href}
+                                className="block px-4 py-2 text-white hover:text-gold hover:bg-white/5 transition-smooth text-sm"
+                              >
+                                {service.name}
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <Link
+                      to={item.href}
+                      className="text-white hover:text-gold font-medium transition-smooth"
+                    >
+                      {item.name}
+                    </Link>
+                  )}
+                  {index < navigation.length - 1 && (
+                    <span className="text-gold mx-4">|</span>
+                  )}
                 </div>
-              )}
-            </div>
-            <Link to="/quiz" className="hover:text-[var(--gold-warm)]">Smart Estimate</Link>
-            <Link to="/gallery" className="hover:text-[var(--gold-warm)]">Gallery</Link>
-            <Link to="/about" className="hover:text-[var(--gold-warm)]">About</Link>
-            <Link to="/contact" className="hover:text-[var(--gold-warm)]">Contact</Link>
-          </nav>
+              ))}
+              
+              {/* Fixed CTA Button */}
+              <Button asChild className="ml-6 gold-gradient text-black font-semibold hover:scale-105 transition-bounce">
+                <Link to="/quiz" className="flex items-center gap-2">
+                  Smart Estimate
+                </Link>
+              </Button>
+            </nav>
 
-          <div className="flex items-center gap-2">
-            <Button asChild className="hidden sm:inline-flex gold-gradient text-navy font-semibold hover:opacity-90">
-              <Link to="/quiz">Smart Estimate</Link>
-            </Button>
-            <button
-              onClick={() => setOpen((o) => !o)}
-              className="lg:hidden p-2 -mr-2"
-              aria-label="Toggle menu"
+            {/* Mobile Menu Trigger */}
+            <button 
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="lg:hidden text-white hover:text-gold transition-smooth p-2"
             >
-              {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              <Menu className="h-6 w-6" />
             </button>
           </div>
         </div>
+      </header>
 
-        {open && (
-          <div className="lg:hidden border-t border-border bg-background">
-            <div className="container mx-auto px-4 py-4 space-y-1">
-              <p className="text-xs uppercase tracking-wider text-muted-foreground pt-1 pb-2">Services</p>
-              {services.map((s) => (
-                <Link
-                  key={s.to}
-                  to={s.to}
-                  onClick={() => setOpen(false)}
-                  className="block py-2 text-sm"
-                >
-                  {s.label}
-                </Link>
-              ))}
-              <div className="h-px bg-border my-2" />
-              <Link to="/quiz" onClick={() => setOpen(false)} className="block py-2">Smart Estimate</Link>
-              <Link to="/gallery" onClick={() => setOpen(false)} className="block py-2">Gallery</Link>
-              <Link to="/about" onClick={() => setOpen(false)} className="block py-2">About</Link>
-              <Link to="/contact" onClick={() => setOpen(false)} className="block py-2">Contact</Link>
-              <Button asChild className="w-full mt-2 gold-gradient text-navy font-semibold">
-                <Link to="/quiz" onClick={() => setOpen(false)}>Smart Estimate</Link>
-              </Button>
-            </div>
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div 
+          className="fixed inset-0 z-[9999] bg-black/80 lg:hidden backdrop-blur-sm" 
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
+          <div className="fixed right-0 top-0 h-full animate-in slide-in-from-right duration-300" onClick={(e) => e.stopPropagation()}>
+            <AppSidebar onClose={() => setIsMobileMenuOpen(false)} />
           </div>
-        )}
-      </div>
-    </header>
+        </div>
+      )}
+    </>
   );
-}
+};
+
+export default Header;
