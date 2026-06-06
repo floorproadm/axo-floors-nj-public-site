@@ -20,6 +20,7 @@ import { Route as InstallationRouteImport } from './routes/installation'
 import { Route as HardwoodFlooringRouteImport } from './routes/hardwood-flooring'
 import { Route as FloorDiagnosticRouteImport } from './routes/floor-diagnostic'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as BaseBoardsRouteImport } from './routes/base-boards'
 import { Route as IndexRouteImport } from './routes/index'
 
 const VinylPlankFlooringRoute = VinylPlankFlooringRouteImport.update({
@@ -77,6 +78,11 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BaseBoardsRoute = BaseBoardsRouteImport.update({
+  id: '/base-boards',
+  path: '/base-boards',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -85,6 +91,7 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/base-boards': typeof BaseBoardsRoute
   '/contact': typeof ContactRoute
   '/floor-diagnostic': typeof FloorDiagnosticRoute
   '/hardwood-flooring': typeof HardwoodFlooringRoute
@@ -99,6 +106,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/base-boards': typeof BaseBoardsRoute
   '/contact': typeof ContactRoute
   '/floor-diagnostic': typeof FloorDiagnosticRoute
   '/hardwood-flooring': typeof HardwoodFlooringRoute
@@ -114,6 +122,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/base-boards': typeof BaseBoardsRoute
   '/contact': typeof ContactRoute
   '/floor-diagnostic': typeof FloorDiagnosticRoute
   '/hardwood-flooring': typeof HardwoodFlooringRoute
@@ -130,6 +139,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/base-boards'
     | '/contact'
     | '/floor-diagnostic'
     | '/hardwood-flooring'
@@ -144,6 +154,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/base-boards'
     | '/contact'
     | '/floor-diagnostic'
     | '/hardwood-flooring'
@@ -158,6 +169,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/base-boards'
     | '/contact'
     | '/floor-diagnostic'
     | '/hardwood-flooring'
@@ -173,6 +185,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BaseBoardsRoute: typeof BaseBoardsRoute
   ContactRoute: typeof ContactRoute
   FloorDiagnosticRoute: typeof FloorDiagnosticRoute
   HardwoodFlooringRoute: typeof HardwoodFlooringRoute
@@ -265,6 +278,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/base-boards': {
+      id: '/base-boards'
+      path: '/base-boards'
+      fullPath: '/base-boards'
+      preLoaderRoute: typeof BaseBoardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -277,6 +297,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BaseBoardsRoute: BaseBoardsRoute,
   ContactRoute: ContactRoute,
   FloorDiagnosticRoute: FloorDiagnosticRoute,
   HardwoodFlooringRoute: HardwoodFlooringRoute,
