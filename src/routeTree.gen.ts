@@ -16,6 +16,7 @@ import { Route as StainGalleryRouteImport } from './routes/stain-gallery'
 import { Route as ScheduleEstimateRouteImport } from './routes/schedule-estimate'
 import { Route as SandingAndRefinishRouteImport } from './routes/sanding-and-refinish'
 import { Route as RefinishingRouteImport } from './routes/refinishing'
+import { Route as ReferralProgramRouteImport } from './routes/referral-program'
 import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as InstallationRouteImport } from './routes/installation'
 import { Route as HardwoodFlooringRouteImport } from './routes/hardwood-flooring'
@@ -60,6 +61,11 @@ const SandingAndRefinishRoute = SandingAndRefinishRouteImport.update({
 const RefinishingRoute = RefinishingRouteImport.update({
   id: '/refinishing',
   path: '/refinishing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReferralProgramRoute = ReferralProgramRouteImport.update({
+  id: '/referral-program',
+  path: '/referral-program',
   getParentRoute: () => rootRouteImport,
 } as any)
 const QuizRoute = QuizRouteImport.update({
@@ -124,6 +130,7 @@ export interface FileRoutesByFullPath {
   '/hardwood-flooring': typeof HardwoodFlooringRoute
   '/installation': typeof InstallationRoute
   '/quiz': typeof QuizRoute
+  '/referral-program': typeof ReferralProgramRoute
   '/refinishing': typeof RefinishingRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/schedule-estimate': typeof ScheduleEstimateRoute
@@ -143,6 +150,7 @@ export interface FileRoutesByTo {
   '/hardwood-flooring': typeof HardwoodFlooringRoute
   '/installation': typeof InstallationRoute
   '/quiz': typeof QuizRoute
+  '/referral-program': typeof ReferralProgramRoute
   '/refinishing': typeof RefinishingRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/schedule-estimate': typeof ScheduleEstimateRoute
@@ -163,6 +171,7 @@ export interface FileRoutesById {
   '/hardwood-flooring': typeof HardwoodFlooringRoute
   '/installation': typeof InstallationRoute
   '/quiz': typeof QuizRoute
+  '/referral-program': typeof ReferralProgramRoute
   '/refinishing': typeof RefinishingRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/schedule-estimate': typeof ScheduleEstimateRoute
@@ -184,6 +193,7 @@ export interface FileRouteTypes {
     | '/hardwood-flooring'
     | '/installation'
     | '/quiz'
+    | '/referral-program'
     | '/refinishing'
     | '/sanding-and-refinish'
     | '/schedule-estimate'
@@ -203,6 +213,7 @@ export interface FileRouteTypes {
     | '/hardwood-flooring'
     | '/installation'
     | '/quiz'
+    | '/referral-program'
     | '/refinishing'
     | '/sanding-and-refinish'
     | '/schedule-estimate'
@@ -222,6 +233,7 @@ export interface FileRouteTypes {
     | '/hardwood-flooring'
     | '/installation'
     | '/quiz'
+    | '/referral-program'
     | '/refinishing'
     | '/sanding-and-refinish'
     | '/schedule-estimate'
@@ -242,6 +254,7 @@ export interface RootRouteChildren {
   HardwoodFlooringRoute: typeof HardwoodFlooringRoute
   InstallationRoute: typeof InstallationRoute
   QuizRoute: typeof QuizRoute
+  ReferralProgramRoute: typeof ReferralProgramRoute
   RefinishingRoute: typeof RefinishingRoute
   SandingAndRefinishRoute: typeof SandingAndRefinishRoute
   ScheduleEstimateRoute: typeof ScheduleEstimateRoute
@@ -300,6 +313,13 @@ declare module '@tanstack/react-router' {
       path: '/refinishing'
       fullPath: '/refinishing'
       preLoaderRoute: typeof RefinishingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/referral-program': {
+      id: '/referral-program'
+      path: '/referral-program'
+      fullPath: '/referral-program'
+      preLoaderRoute: typeof ReferralProgramRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/quiz': {
@@ -386,6 +406,7 @@ const rootRouteChildren: RootRouteChildren = {
   HardwoodFlooringRoute: HardwoodFlooringRoute,
   InstallationRoute: InstallationRoute,
   QuizRoute: QuizRoute,
+  ReferralProgramRoute: ReferralProgramRoute,
   RefinishingRoute: RefinishingRoute,
   SandingAndRefinishRoute: SandingAndRefinishRoute,
   ScheduleEstimateRoute: ScheduleEstimateRoute,
