@@ -77,21 +77,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "AXO Floors NJ — Hardwood Installation & Refinishing" },
+      { name: "description", content: "Expert hardwood flooring services in New Jersey. Installation, refinishing, and restoration. Licensed & insured. Call (732) 351-8653." },
+      { name: "author", content: "AXO Floors" },
+      { property: "og:site_name", content: "AXO Floors NJ" },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
-    ],
+    links: [{ rel: "stylesheet", href: appCss }],
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -113,6 +106,8 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+import { Toaster } from "@/components/ui/sonner";
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
@@ -120,6 +115,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <Toaster richColors position="top-center" />
     </QueryClientProvider>
   );
 }
