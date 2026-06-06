@@ -1,4 +1,3 @@
-// @ts-nocheck
 import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
 import Hero from "@/components/shared/Hero";
@@ -180,7 +179,7 @@ const HardwoodFlooring = () => {
             {woodTypes.map((wood, index) => (
               <Card 
                 key={index} 
-                ref={(el) => woodRefs.current[index] = el}
+                ref={(el) => { woodRefs.current[index] = el; }}
                 className={`group transition-smooth ${isMobile && activeWoodIndex === index ? 'shadow-gold -translate-y-2' : 'hover:shadow-gold hover:-translate-y-2'}`}
               >
                 <CardContent className="p-6">
