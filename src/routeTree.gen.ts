@@ -22,6 +22,7 @@ import { Route as HardwoodFlooringRouteImport } from './routes/hardwood-flooring
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as FloorDiagnosticRouteImport } from './routes/floor-diagnostic'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CampaignRouteImport } from './routes/campaign'
 import { Route as BaseBoardsRouteImport } from './routes/base-boards'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -91,6 +92,11 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CampaignRoute = CampaignRouteImport.update({
+  id: '/campaign',
+  path: '/campaign',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BaseBoardsRoute = BaseBoardsRouteImport.update({
   id: '/base-boards',
   path: '/base-boards',
@@ -111,6 +117,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/base-boards': typeof BaseBoardsRoute
+  '/campaign': typeof CampaignRoute
   '/contact': typeof ContactRoute
   '/floor-diagnostic': typeof FloorDiagnosticRoute
   '/gallery': typeof GalleryRoute
@@ -129,6 +136,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/base-boards': typeof BaseBoardsRoute
+  '/campaign': typeof CampaignRoute
   '/contact': typeof ContactRoute
   '/floor-diagnostic': typeof FloorDiagnosticRoute
   '/gallery': typeof GalleryRoute
@@ -148,6 +156,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/base-boards': typeof BaseBoardsRoute
+  '/campaign': typeof CampaignRoute
   '/contact': typeof ContactRoute
   '/floor-diagnostic': typeof FloorDiagnosticRoute
   '/gallery': typeof GalleryRoute
@@ -168,6 +177,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/base-boards'
+    | '/campaign'
     | '/contact'
     | '/floor-diagnostic'
     | '/gallery'
@@ -186,6 +196,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/base-boards'
+    | '/campaign'
     | '/contact'
     | '/floor-diagnostic'
     | '/gallery'
@@ -204,6 +215,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/base-boards'
+    | '/campaign'
     | '/contact'
     | '/floor-diagnostic'
     | '/gallery'
@@ -223,6 +235,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   BaseBoardsRoute: typeof BaseBoardsRoute
+  CampaignRoute: typeof CampaignRoute
   ContactRoute: typeof ContactRoute
   FloorDiagnosticRoute: typeof FloorDiagnosticRoute
   GalleryRoute: typeof GalleryRoute
@@ -331,6 +344,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/campaign': {
+      id: '/campaign'
+      path: '/campaign'
+      fullPath: '/campaign'
+      preLoaderRoute: typeof CampaignRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/base-boards': {
       id: '/base-boards'
       path: '/base-boards'
@@ -359,6 +379,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   BaseBoardsRoute: BaseBoardsRoute,
+  CampaignRoute: CampaignRoute,
   ContactRoute: ContactRoute,
   FloorDiagnosticRoute: FloorDiagnosticRoute,
   GalleryRoute: GalleryRoute,
