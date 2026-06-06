@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as VinylPlankFlooringRouteImport } from './routes/vinyl-plank-flooring'
 import { Route as ThankYouRouteImport } from './routes/thank-you'
 import { Route as StaircaseRouteImport } from './routes/staircase'
+import { Route as StainGalleryRouteImport } from './routes/stain-gallery'
 import { Route as ScheduleEstimateRouteImport } from './routes/schedule-estimate'
 import { Route as SandingAndRefinishRouteImport } from './routes/sanding-and-refinish'
 import { Route as RefinishingRouteImport } from './routes/refinishing'
@@ -37,6 +38,11 @@ const ThankYouRoute = ThankYouRouteImport.update({
 const StaircaseRoute = StaircaseRouteImport.update({
   id: '/staircase',
   path: '/staircase',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StainGalleryRoute = StainGalleryRouteImport.update({
+  id: '/stain-gallery',
+  path: '/stain-gallery',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ScheduleEstimateRoute = ScheduleEstimateRouteImport.update({
@@ -107,6 +113,7 @@ export interface FileRoutesByFullPath {
   '/refinishing': typeof RefinishingRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/schedule-estimate': typeof ScheduleEstimateRoute
+  '/stain-gallery': typeof StainGalleryRoute
   '/staircase': typeof StaircaseRoute
   '/thank-you': typeof ThankYouRoute
   '/vinyl-plank-flooring': typeof VinylPlankFlooringRoute
@@ -123,6 +130,7 @@ export interface FileRoutesByTo {
   '/refinishing': typeof RefinishingRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/schedule-estimate': typeof ScheduleEstimateRoute
+  '/stain-gallery': typeof StainGalleryRoute
   '/staircase': typeof StaircaseRoute
   '/thank-you': typeof ThankYouRoute
   '/vinyl-plank-flooring': typeof VinylPlankFlooringRoute
@@ -140,6 +148,7 @@ export interface FileRoutesById {
   '/refinishing': typeof RefinishingRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/schedule-estimate': typeof ScheduleEstimateRoute
+  '/stain-gallery': typeof StainGalleryRoute
   '/staircase': typeof StaircaseRoute
   '/thank-you': typeof ThankYouRoute
   '/vinyl-plank-flooring': typeof VinylPlankFlooringRoute
@@ -158,6 +167,7 @@ export interface FileRouteTypes {
     | '/refinishing'
     | '/sanding-and-refinish'
     | '/schedule-estimate'
+    | '/stain-gallery'
     | '/staircase'
     | '/thank-you'
     | '/vinyl-plank-flooring'
@@ -174,6 +184,7 @@ export interface FileRouteTypes {
     | '/refinishing'
     | '/sanding-and-refinish'
     | '/schedule-estimate'
+    | '/stain-gallery'
     | '/staircase'
     | '/thank-you'
     | '/vinyl-plank-flooring'
@@ -190,6 +201,7 @@ export interface FileRouteTypes {
     | '/refinishing'
     | '/sanding-and-refinish'
     | '/schedule-estimate'
+    | '/stain-gallery'
     | '/staircase'
     | '/thank-you'
     | '/vinyl-plank-flooring'
@@ -207,6 +219,7 @@ export interface RootRouteChildren {
   RefinishingRoute: typeof RefinishingRoute
   SandingAndRefinishRoute: typeof SandingAndRefinishRoute
   ScheduleEstimateRoute: typeof ScheduleEstimateRoute
+  StainGalleryRoute: typeof StainGalleryRoute
   StaircaseRoute: typeof StaircaseRoute
   ThankYouRoute: typeof ThankYouRoute
   VinylPlankFlooringRoute: typeof VinylPlankFlooringRoute
@@ -233,6 +246,13 @@ declare module '@tanstack/react-router' {
       path: '/staircase'
       fullPath: '/staircase'
       preLoaderRoute: typeof StaircaseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stain-gallery': {
+      id: '/stain-gallery'
+      path: '/stain-gallery'
+      fullPath: '/stain-gallery'
+      preLoaderRoute: typeof StainGalleryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/schedule-estimate': {
@@ -327,6 +347,7 @@ const rootRouteChildren: RootRouteChildren = {
   RefinishingRoute: RefinishingRoute,
   SandingAndRefinishRoute: SandingAndRefinishRoute,
   ScheduleEstimateRoute: ScheduleEstimateRoute,
+  StainGalleryRoute: StainGalleryRoute,
   StaircaseRoute: StaircaseRoute,
   ThankYouRoute: ThankYouRoute,
   VinylPlankFlooringRoute: VinylPlankFlooringRoute,
