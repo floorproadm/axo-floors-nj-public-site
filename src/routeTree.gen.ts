@@ -23,6 +23,7 @@ import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as FloorDiagnosticRouteImport } from './routes/floor-diagnostic'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BaseBoardsRouteImport } from './routes/base-boards'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 
 const VinylPlankFlooringRoute = VinylPlankFlooringRouteImport.update({
@@ -95,6 +96,11 @@ const BaseBoardsRoute = BaseBoardsRouteImport.update({
   path: '/base-boards',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -103,6 +109,7 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/base-boards': typeof BaseBoardsRoute
   '/contact': typeof ContactRoute
   '/floor-diagnostic': typeof FloorDiagnosticRoute
@@ -120,6 +127,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/base-boards': typeof BaseBoardsRoute
   '/contact': typeof ContactRoute
   '/floor-diagnostic': typeof FloorDiagnosticRoute
@@ -138,6 +146,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/base-boards': typeof BaseBoardsRoute
   '/contact': typeof ContactRoute
   '/floor-diagnostic': typeof FloorDiagnosticRoute
@@ -157,6 +166,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
     | '/base-boards'
     | '/contact'
     | '/floor-diagnostic'
@@ -174,6 +184,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
     | '/base-boards'
     | '/contact'
     | '/floor-diagnostic'
@@ -191,6 +202,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/about'
     | '/base-boards'
     | '/contact'
     | '/floor-diagnostic'
@@ -209,6 +221,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
   BaseBoardsRoute: typeof BaseBoardsRoute
   ContactRoute: typeof ContactRoute
   FloorDiagnosticRoute: typeof FloorDiagnosticRoute
@@ -325,6 +338,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BaseBoardsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -337,6 +357,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
   BaseBoardsRoute: BaseBoardsRoute,
   ContactRoute: ContactRoute,
   FloorDiagnosticRoute: FloorDiagnosticRoute,
