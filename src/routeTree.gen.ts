@@ -23,6 +23,7 @@ import { Route as RealtorsRouteImport } from './routes/realtors'
 import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as PartnerProgramRouteImport } from './routes/partner-program'
 import { Route as InstallationRouteImport } from './routes/installation'
+import { Route as HubRouteImport } from './routes/hub'
 import { Route as HardwoodFlooringRouteImport } from './routes/hardwood-flooring'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as FloorDiagnosticRouteImport } from './routes/floor-diagnostic'
@@ -105,6 +106,11 @@ const InstallationRoute = InstallationRouteImport.update({
   path: '/installation',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HubRoute = HubRouteImport.update({
+  id: '/hub',
+  path: '/hub',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HardwoodFlooringRoute = HardwoodFlooringRouteImport.update({
   id: '/hardwood-flooring',
   path: '/hardwood-flooring',
@@ -173,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/floor-diagnostic': typeof FloorDiagnosticRoute
   '/gallery': typeof GalleryRoute
   '/hardwood-flooring': typeof HardwoodFlooringRoute
+  '/hub': typeof HubRoute
   '/installation': typeof InstallationRoute
   '/partner-program': typeof PartnerProgramRoute
   '/quiz': typeof QuizRoute
@@ -200,6 +207,7 @@ export interface FileRoutesByTo {
   '/floor-diagnostic': typeof FloorDiagnosticRoute
   '/gallery': typeof GalleryRoute
   '/hardwood-flooring': typeof HardwoodFlooringRoute
+  '/hub': typeof HubRoute
   '/installation': typeof InstallationRoute
   '/partner-program': typeof PartnerProgramRoute
   '/quiz': typeof QuizRoute
@@ -228,6 +236,7 @@ export interface FileRoutesById {
   '/floor-diagnostic': typeof FloorDiagnosticRoute
   '/gallery': typeof GalleryRoute
   '/hardwood-flooring': typeof HardwoodFlooringRoute
+  '/hub': typeof HubRoute
   '/installation': typeof InstallationRoute
   '/partner-program': typeof PartnerProgramRoute
   '/quiz': typeof QuizRoute
@@ -257,6 +266,7 @@ export interface FileRouteTypes {
     | '/floor-diagnostic'
     | '/gallery'
     | '/hardwood-flooring'
+    | '/hub'
     | '/installation'
     | '/partner-program'
     | '/quiz'
@@ -284,6 +294,7 @@ export interface FileRouteTypes {
     | '/floor-diagnostic'
     | '/gallery'
     | '/hardwood-flooring'
+    | '/hub'
     | '/installation'
     | '/partner-program'
     | '/quiz'
@@ -311,6 +322,7 @@ export interface FileRouteTypes {
     | '/floor-diagnostic'
     | '/gallery'
     | '/hardwood-flooring'
+    | '/hub'
     | '/installation'
     | '/partner-program'
     | '/quiz'
@@ -339,6 +351,7 @@ export interface RootRouteChildren {
   FloorDiagnosticRoute: typeof FloorDiagnosticRoute
   GalleryRoute: typeof GalleryRoute
   HardwoodFlooringRoute: typeof HardwoodFlooringRoute
+  HubRoute: typeof HubRoute
   InstallationRoute: typeof InstallationRoute
   PartnerProgramRoute: typeof PartnerProgramRoute
   QuizRoute: typeof QuizRoute
@@ -455,6 +468,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InstallationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/hub': {
+      id: '/hub'
+      path: '/hub'
+      fullPath: '/hub'
+      preLoaderRoute: typeof HubRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/hardwood-flooring': {
       id: '/hardwood-flooring'
       path: '/hardwood-flooring'
@@ -547,6 +567,7 @@ const rootRouteChildren: RootRouteChildren = {
   FloorDiagnosticRoute: FloorDiagnosticRoute,
   GalleryRoute: GalleryRoute,
   HardwoodFlooringRoute: HardwoodFlooringRoute,
+  HubRoute: HubRoute,
   InstallationRoute: InstallationRoute,
   PartnerProgramRoute: PartnerProgramRoute,
   QuizRoute: QuizRoute,
