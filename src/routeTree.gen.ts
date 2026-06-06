@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VinylPlankFlooringRouteImport } from './routes/vinyl-plank-flooring'
 import { Route as ThankYouRouteImport } from './routes/thank-you'
+import { Route as StaircaseRouteImport } from './routes/staircase'
 import { Route as ScheduleEstimateRouteImport } from './routes/schedule-estimate'
 import { Route as SandingAndRefinishRouteImport } from './routes/sanding-and-refinish'
 import { Route as RefinishingRouteImport } from './routes/refinishing'
@@ -29,6 +30,11 @@ const VinylPlankFlooringRoute = VinylPlankFlooringRouteImport.update({
 const ThankYouRoute = ThankYouRouteImport.update({
   id: '/thank-you',
   path: '/thank-you',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StaircaseRoute = StaircaseRouteImport.update({
+  id: '/staircase',
+  path: '/staircase',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ScheduleEstimateRoute = ScheduleEstimateRouteImport.update({
@@ -87,6 +93,7 @@ export interface FileRoutesByFullPath {
   '/refinishing': typeof RefinishingRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/schedule-estimate': typeof ScheduleEstimateRoute
+  '/staircase': typeof StaircaseRoute
   '/thank-you': typeof ThankYouRoute
   '/vinyl-plank-flooring': typeof VinylPlankFlooringRoute
 }
@@ -100,6 +107,7 @@ export interface FileRoutesByTo {
   '/refinishing': typeof RefinishingRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/schedule-estimate': typeof ScheduleEstimateRoute
+  '/staircase': typeof StaircaseRoute
   '/thank-you': typeof ThankYouRoute
   '/vinyl-plank-flooring': typeof VinylPlankFlooringRoute
 }
@@ -114,6 +122,7 @@ export interface FileRoutesById {
   '/refinishing': typeof RefinishingRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/schedule-estimate': typeof ScheduleEstimateRoute
+  '/staircase': typeof StaircaseRoute
   '/thank-you': typeof ThankYouRoute
   '/vinyl-plank-flooring': typeof VinylPlankFlooringRoute
 }
@@ -129,6 +138,7 @@ export interface FileRouteTypes {
     | '/refinishing'
     | '/sanding-and-refinish'
     | '/schedule-estimate'
+    | '/staircase'
     | '/thank-you'
     | '/vinyl-plank-flooring'
   fileRoutesByTo: FileRoutesByTo
@@ -142,6 +152,7 @@ export interface FileRouteTypes {
     | '/refinishing'
     | '/sanding-and-refinish'
     | '/schedule-estimate'
+    | '/staircase'
     | '/thank-you'
     | '/vinyl-plank-flooring'
   id:
@@ -155,6 +166,7 @@ export interface FileRouteTypes {
     | '/refinishing'
     | '/sanding-and-refinish'
     | '/schedule-estimate'
+    | '/staircase'
     | '/thank-you'
     | '/vinyl-plank-flooring'
   fileRoutesById: FileRoutesById
@@ -169,6 +181,7 @@ export interface RootRouteChildren {
   RefinishingRoute: typeof RefinishingRoute
   SandingAndRefinishRoute: typeof SandingAndRefinishRoute
   ScheduleEstimateRoute: typeof ScheduleEstimateRoute
+  StaircaseRoute: typeof StaircaseRoute
   ThankYouRoute: typeof ThankYouRoute
   VinylPlankFlooringRoute: typeof VinylPlankFlooringRoute
 }
@@ -187,6 +200,13 @@ declare module '@tanstack/react-router' {
       path: '/thank-you'
       fullPath: '/thank-you'
       preLoaderRoute: typeof ThankYouRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/staircase': {
+      id: '/staircase'
+      path: '/staircase'
+      fullPath: '/staircase'
+      preLoaderRoute: typeof StaircaseRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/schedule-estimate': {
@@ -265,6 +285,7 @@ const rootRouteChildren: RootRouteChildren = {
   RefinishingRoute: RefinishingRoute,
   SandingAndRefinishRoute: SandingAndRefinishRoute,
   ScheduleEstimateRoute: ScheduleEstimateRoute,
+  StaircaseRoute: StaircaseRoute,
   ThankYouRoute: ThankYouRoute,
   VinylPlankFlooringRoute: VinylPlankFlooringRoute,
 }
