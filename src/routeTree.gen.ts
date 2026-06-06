@@ -9,11 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ThankYouRouteImport } from './routes/thank-you'
 import { Route as RefinishingRouteImport } from './routes/refinishing'
 import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as InstallationRouteImport } from './routes/installation'
 import { Route as IndexRouteImport } from './routes/index'
 
+const ThankYouRoute = ThankYouRouteImport.update({
+  id: '/thank-you',
+  path: '/thank-you',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RefinishingRoute = RefinishingRouteImport.update({
   id: '/refinishing',
   path: '/refinishing',
@@ -40,12 +46,14 @@ export interface FileRoutesByFullPath {
   '/installation': typeof InstallationRoute
   '/quiz': typeof QuizRoute
   '/refinishing': typeof RefinishingRoute
+  '/thank-you': typeof ThankYouRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/installation': typeof InstallationRoute
   '/quiz': typeof QuizRoute
   '/refinishing': typeof RefinishingRoute
+  '/thank-you': typeof ThankYouRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,20 @@ export interface FileRoutesById {
   '/installation': typeof InstallationRoute
   '/quiz': typeof QuizRoute
   '/refinishing': typeof RefinishingRoute
+  '/thank-you': typeof ThankYouRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/installation' | '/quiz' | '/refinishing'
+  fullPaths: '/' | '/installation' | '/quiz' | '/refinishing' | '/thank-you'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/installation' | '/quiz' | '/refinishing'
-  id: '__root__' | '/' | '/installation' | '/quiz' | '/refinishing'
+  to: '/' | '/installation' | '/quiz' | '/refinishing' | '/thank-you'
+  id:
+    | '__root__'
+    | '/'
+    | '/installation'
+    | '/quiz'
+    | '/refinishing'
+    | '/thank-you'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,10 +82,18 @@ export interface RootRouteChildren {
   InstallationRoute: typeof InstallationRoute
   QuizRoute: typeof QuizRoute
   RefinishingRoute: typeof RefinishingRoute
+  ThankYouRoute: typeof ThankYouRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/thank-you': {
+      id: '/thank-you'
+      path: '/thank-you'
+      fullPath: '/thank-you'
+      preLoaderRoute: typeof ThankYouRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/refinishing': {
       id: '/refinishing'
       path: '/refinishing'
@@ -107,6 +130,7 @@ const rootRouteChildren: RootRouteChildren = {
   InstallationRoute: InstallationRoute,
   QuizRoute: QuizRoute,
   RefinishingRoute: RefinishingRoute,
+  ThankYouRoute: ThankYouRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
