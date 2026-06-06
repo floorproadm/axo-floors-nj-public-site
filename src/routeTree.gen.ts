@@ -9,9 +9,15 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RefinishingRouteImport } from './routes/refinishing'
 import { Route as InstallationRouteImport } from './routes/installation'
 import { Route as IndexRouteImport } from './routes/index'
 
+const RefinishingRoute = RefinishingRouteImport.update({
+  id: '/refinishing',
+  path: '/refinishing',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InstallationRoute = InstallationRouteImport.update({
   id: '/installation',
   path: '/installation',
@@ -26,31 +32,42 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/installation': typeof InstallationRoute
+  '/refinishing': typeof RefinishingRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/installation': typeof InstallationRoute
+  '/refinishing': typeof RefinishingRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/installation': typeof InstallationRoute
+  '/refinishing': typeof RefinishingRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/installation'
+  fullPaths: '/' | '/installation' | '/refinishing'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/installation'
-  id: '__root__' | '/' | '/installation'
+  to: '/' | '/installation' | '/refinishing'
+  id: '__root__' | '/' | '/installation' | '/refinishing'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   InstallationRoute: typeof InstallationRoute
+  RefinishingRoute: typeof RefinishingRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/refinishing': {
+      id: '/refinishing'
+      path: '/refinishing'
+      fullPath: '/refinishing'
+      preLoaderRoute: typeof RefinishingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/installation': {
       id: '/installation'
       path: '/installation'
@@ -71,6 +88,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   InstallationRoute: InstallationRoute,
+  RefinishingRoute: RefinishingRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
