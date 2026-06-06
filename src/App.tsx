@@ -34,6 +34,7 @@ import Auth from "./pages/Auth";
 import Campaign from "./pages/Campaign";
 
 import WowPack from "./pages/WowPack";
+import AxoMasterSystem from "./pages/AxoMasterSystem";
 import ReviewRequest from "./pages/ReviewRequest";
 import NotFound from "./pages/NotFound";
 import SharedPost from "./pages/SharedPost";
