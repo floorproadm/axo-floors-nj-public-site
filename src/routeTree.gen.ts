@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ThankYouRouteImport } from './routes/thank-you'
 import { Route as ScheduleEstimateRouteImport } from './routes/schedule-estimate'
+import { Route as SandingAndRefinishRouteImport } from './routes/sanding-and-refinish'
 import { Route as RefinishingRouteImport } from './routes/refinishing'
 import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as InstallationRouteImport } from './routes/installation'
@@ -26,6 +27,11 @@ const ThankYouRoute = ThankYouRouteImport.update({
 const ScheduleEstimateRoute = ScheduleEstimateRouteImport.update({
   id: '/schedule-estimate',
   path: '/schedule-estimate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SandingAndRefinishRoute = SandingAndRefinishRouteImport.update({
+  id: '/sanding-and-refinish',
+  path: '/sanding-and-refinish',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RefinishingRoute = RefinishingRouteImport.update({
@@ -66,6 +72,7 @@ export interface FileRoutesByFullPath {
   '/installation': typeof InstallationRoute
   '/quiz': typeof QuizRoute
   '/refinishing': typeof RefinishingRoute
+  '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/schedule-estimate': typeof ScheduleEstimateRoute
   '/thank-you': typeof ThankYouRoute
 }
@@ -76,6 +83,7 @@ export interface FileRoutesByTo {
   '/installation': typeof InstallationRoute
   '/quiz': typeof QuizRoute
   '/refinishing': typeof RefinishingRoute
+  '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/schedule-estimate': typeof ScheduleEstimateRoute
   '/thank-you': typeof ThankYouRoute
 }
@@ -87,6 +95,7 @@ export interface FileRoutesById {
   '/installation': typeof InstallationRoute
   '/quiz': typeof QuizRoute
   '/refinishing': typeof RefinishingRoute
+  '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/schedule-estimate': typeof ScheduleEstimateRoute
   '/thank-you': typeof ThankYouRoute
 }
@@ -99,6 +108,7 @@ export interface FileRouteTypes {
     | '/installation'
     | '/quiz'
     | '/refinishing'
+    | '/sanding-and-refinish'
     | '/schedule-estimate'
     | '/thank-you'
   fileRoutesByTo: FileRoutesByTo
@@ -109,6 +119,7 @@ export interface FileRouteTypes {
     | '/installation'
     | '/quiz'
     | '/refinishing'
+    | '/sanding-and-refinish'
     | '/schedule-estimate'
     | '/thank-you'
   id:
@@ -119,6 +130,7 @@ export interface FileRouteTypes {
     | '/installation'
     | '/quiz'
     | '/refinishing'
+    | '/sanding-and-refinish'
     | '/schedule-estimate'
     | '/thank-you'
   fileRoutesById: FileRoutesById
@@ -130,6 +142,7 @@ export interface RootRouteChildren {
   InstallationRoute: typeof InstallationRoute
   QuizRoute: typeof QuizRoute
   RefinishingRoute: typeof RefinishingRoute
+  SandingAndRefinishRoute: typeof SandingAndRefinishRoute
   ScheduleEstimateRoute: typeof ScheduleEstimateRoute
   ThankYouRoute: typeof ThankYouRoute
 }
@@ -148,6 +161,13 @@ declare module '@tanstack/react-router' {
       path: '/schedule-estimate'
       fullPath: '/schedule-estimate'
       preLoaderRoute: typeof ScheduleEstimateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sanding-and-refinish': {
+      id: '/sanding-and-refinish'
+      path: '/sanding-and-refinish'
+      fullPath: '/sanding-and-refinish'
+      preLoaderRoute: typeof SandingAndRefinishRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/refinishing': {
@@ -202,6 +222,7 @@ const rootRouteChildren: RootRouteChildren = {
   InstallationRoute: InstallationRoute,
   QuizRoute: QuizRoute,
   RefinishingRoute: RefinishingRoute,
+  SandingAndRefinishRoute: SandingAndRefinishRoute,
   ScheduleEstimateRoute: ScheduleEstimateRoute,
   ThankYouRoute: ThankYouRoute,
 }
