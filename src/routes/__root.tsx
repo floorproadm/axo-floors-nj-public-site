@@ -6,8 +6,16 @@ import {
 } from "@tanstack/react-router";
 import type { QueryClient } from "@tanstack/react-query";
 import type { ReactNode } from "react";
+import { BrowserRouter, MemoryRouter } from "react-router-dom";
 
 import appCss from "../styles.css?url";
+
+const RouterProvider = ({ children }: { children: ReactNode }) => {
+  if (typeof window === "undefined") {
+    return <MemoryRouter>{children}</MemoryRouter>;
+  }
+  return <BrowserRouter>{children}</BrowserRouter>;
+};
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
@@ -55,11 +63,23 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
   }),
   shellComponent: RootShell,
-  component: () => <Outlet />,
-  notFoundComponent: () => <Outlet />,
+  component: () => (
+    <RouterProvider>
+      <Outlet />
+    </RouterProvider>
+  ),
+  notFoundComponent: () => (
+    <RouterProvider>
+      <Outlet />
+    </RouterProvider>
+  ),
   errorComponent: ({ error }) => {
     console.error(error);
-    return <Outlet />;
+    return (
+      <RouterProvider>
+        <Outlet />
+      </RouterProvider>
+    );
   },
 });
 
