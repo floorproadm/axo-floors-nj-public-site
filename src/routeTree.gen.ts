@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as RefinishingRouteImport } from './routes/refinishing'
+import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as InstallationRouteImport } from './routes/installation'
 import { Route as IndexRouteImport } from './routes/index'
 
 const RefinishingRoute = RefinishingRouteImport.update({
   id: '/refinishing',
   path: '/refinishing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuizRoute = QuizRouteImport.update({
+  id: '/quiz',
+  path: '/quiz',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InstallationRoute = InstallationRouteImport.update({
@@ -32,30 +38,34 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/installation': typeof InstallationRoute
+  '/quiz': typeof QuizRoute
   '/refinishing': typeof RefinishingRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/installation': typeof InstallationRoute
+  '/quiz': typeof QuizRoute
   '/refinishing': typeof RefinishingRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/installation': typeof InstallationRoute
+  '/quiz': typeof QuizRoute
   '/refinishing': typeof RefinishingRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/installation' | '/refinishing'
+  fullPaths: '/' | '/installation' | '/quiz' | '/refinishing'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/installation' | '/refinishing'
-  id: '__root__' | '/' | '/installation' | '/refinishing'
+  to: '/' | '/installation' | '/quiz' | '/refinishing'
+  id: '__root__' | '/' | '/installation' | '/quiz' | '/refinishing'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   InstallationRoute: typeof InstallationRoute
+  QuizRoute: typeof QuizRoute
   RefinishingRoute: typeof RefinishingRoute
 }
 
@@ -66,6 +76,13 @@ declare module '@tanstack/react-router' {
       path: '/refinishing'
       fullPath: '/refinishing'
       preLoaderRoute: typeof RefinishingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quiz': {
+      id: '/quiz'
+      path: '/quiz'
+      fullPath: '/quiz'
+      preLoaderRoute: typeof QuizRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/installation': {
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   InstallationRoute: InstallationRoute,
+  QuizRoute: QuizRoute,
   RefinishingRoute: RefinishingRoute,
 }
 export const routeTree = rootRouteImport
