@@ -17,6 +17,7 @@ import { Route as ScheduleEstimateRouteImport } from './routes/schedule-estimate
 import { Route as SandingAndRefinishRouteImport } from './routes/sanding-and-refinish'
 import { Route as RefinishingRouteImport } from './routes/refinishing'
 import { Route as ReferralProgramRouteImport } from './routes/referral-program'
+import { Route as RealtorsRouteImport } from './routes/realtors'
 import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as InstallationRouteImport } from './routes/installation'
 import { Route as HardwoodFlooringRouteImport } from './routes/hardwood-flooring'
@@ -67,6 +68,11 @@ const RefinishingRoute = RefinishingRouteImport.update({
 const ReferralProgramRoute = ReferralProgramRouteImport.update({
   id: '/referral-program',
   path: '/referral-program',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RealtorsRoute = RealtorsRouteImport.update({
+  id: '/realtors',
+  path: '/realtors',
   getParentRoute: () => rootRouteImport,
 } as any)
 const QuizRoute = QuizRouteImport.update({
@@ -137,6 +143,7 @@ export interface FileRoutesByFullPath {
   '/hardwood-flooring': typeof HardwoodFlooringRoute
   '/installation': typeof InstallationRoute
   '/quiz': typeof QuizRoute
+  '/realtors': typeof RealtorsRoute
   '/referral-program': typeof ReferralProgramRoute
   '/refinishing': typeof RefinishingRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
@@ -158,6 +165,7 @@ export interface FileRoutesByTo {
   '/hardwood-flooring': typeof HardwoodFlooringRoute
   '/installation': typeof InstallationRoute
   '/quiz': typeof QuizRoute
+  '/realtors': typeof RealtorsRoute
   '/referral-program': typeof ReferralProgramRoute
   '/refinishing': typeof RefinishingRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
@@ -180,6 +188,7 @@ export interface FileRoutesById {
   '/hardwood-flooring': typeof HardwoodFlooringRoute
   '/installation': typeof InstallationRoute
   '/quiz': typeof QuizRoute
+  '/realtors': typeof RealtorsRoute
   '/referral-program': typeof ReferralProgramRoute
   '/refinishing': typeof RefinishingRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
@@ -203,6 +212,7 @@ export interface FileRouteTypes {
     | '/hardwood-flooring'
     | '/installation'
     | '/quiz'
+    | '/realtors'
     | '/referral-program'
     | '/refinishing'
     | '/sanding-and-refinish'
@@ -224,6 +234,7 @@ export interface FileRouteTypes {
     | '/hardwood-flooring'
     | '/installation'
     | '/quiz'
+    | '/realtors'
     | '/referral-program'
     | '/refinishing'
     | '/sanding-and-refinish'
@@ -245,6 +256,7 @@ export interface FileRouteTypes {
     | '/hardwood-flooring'
     | '/installation'
     | '/quiz'
+    | '/realtors'
     | '/referral-program'
     | '/refinishing'
     | '/sanding-and-refinish'
@@ -267,6 +279,7 @@ export interface RootRouteChildren {
   HardwoodFlooringRoute: typeof HardwoodFlooringRoute
   InstallationRoute: typeof InstallationRoute
   QuizRoute: typeof QuizRoute
+  RealtorsRoute: typeof RealtorsRoute
   ReferralProgramRoute: typeof ReferralProgramRoute
   RefinishingRoute: typeof RefinishingRoute
   SandingAndRefinishRoute: typeof SandingAndRefinishRoute
@@ -333,6 +346,13 @@ declare module '@tanstack/react-router' {
       path: '/referral-program'
       fullPath: '/referral-program'
       preLoaderRoute: typeof ReferralProgramRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/realtors': {
+      id: '/realtors'
+      path: '/realtors'
+      fullPath: '/realtors'
+      preLoaderRoute: typeof RealtorsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/quiz': {
@@ -427,6 +447,7 @@ const rootRouteChildren: RootRouteChildren = {
   HardwoodFlooringRoute: HardwoodFlooringRoute,
   InstallationRoute: InstallationRoute,
   QuizRoute: QuizRoute,
+  RealtorsRoute: RealtorsRoute,
   ReferralProgramRoute: ReferralProgramRoute,
   RefinishingRoute: RefinishingRoute,
   SandingAndRefinishRoute: SandingAndRefinishRoute,
