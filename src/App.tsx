@@ -32,7 +32,7 @@ import Realtors from "./pages/Realtors";
 import ShareBeforeAfter from "./pages/ShareBeforeAfter";
 import Auth from "./pages/Auth";
 import Campaign from "./pages/Campaign";
-import AxoMasterSystem from "./pages/AxoMasterSystem";
+
 import WowPack from "./pages/WowPack";
 import ReviewRequest from "./pages/ReviewRequest";
 import NotFound from "./pages/NotFound";
@@ -84,7 +84,7 @@ const App = () => {
                   <Route path="/builder-offer" element={<BuilderPartnerships />} />
                   <Route path="/partner-program" element={<PartnerProgram />} />
                   <Route path="/floor-diagnostic" element={<Navigate to="/quiz" replace />} />
-                  <Route path="/axo-master-system" element={<AxoMasterSystem />} />
+                  
                   <Route path="/wow-pack" element={<WowPack />} />
                   <Route path="/review-request" element={<ReviewRequest />} />
                   <Route path="/shared/:token" element={<SharedPost />} />
