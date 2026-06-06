@@ -1,0 +1,297 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Roboto:wght@300;400;500;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* AXO Floors Design System - Premium flooring brand identity */
+
+@layer base {
+  html, body, #root {
+    height: 100%;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    min-width: 320px;
+  }
+  :root {
+    /* AXO Floors Brand Colors - Melhor contraste */
+    --navy-primary: 210 85% 15%; /* #0B1426 - Navy mais escuro para melhor contraste */
+    --navy-dark: 210 85% 10%; /* Navy ainda mais escuro */
+    --gold-accent: 45 100% 50%; /* #FFCC00 - Gold mais vibrante */
+    --gold-warm: 42 95% 45%; /* Gold mais escuro para texto */
+    --grey-secondary: 210 15% 25%; /* #3A4049 - Texto secundário mais legível */
+    --grey-light: 210 20% 98%; /* #F8F9FA - Fundo mais suave */
+    --white-pure: 0 0% 100%; /* Pure white */
+    
+    /* Design System Mapping */
+    --background: var(--white-pure);
+    --foreground: var(--navy-primary);
+
+    --card: var(--white-pure);
+    --card-foreground: var(--navy-primary);
+
+    --popover: var(--white-pure);
+    --popover-foreground: var(--navy-primary);
+
+    --primary: var(--navy-primary);
+    --primary-foreground: var(--white-pure);
+
+    --secondary: var(--grey-light);
+    --secondary-foreground: var(--navy-primary);
+
+    --muted: 210 20% 96%; /* Muted mais contrastante */
+    --muted-foreground: var(--grey-secondary);
+
+    --accent: var(--gold-accent);
+    --accent-foreground: var(--navy-primary);
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: var(--white-pure);
+
+    --border: 210 20% 88%; /* Border mais visível */
+    --input: 210 20% 94%; /* Input com melhor contraste */
+    --ring: var(--gold-accent);
+
+    --radius: 0.75rem;
+
+    /* AXO Floors Gradients */
+    --gradient-navy: linear-gradient(135deg, hsl(var(--navy-primary)), hsl(var(--navy-dark)));
+    --gradient-gold: linear-gradient(135deg, hsl(var(--gold-accent)), hsl(var(--gold-warm)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--navy-dark) / 0.95), hsl(var(--navy-primary) / 0.9));
+    
+    /* Admin State Colors - Sistema de Sinais Visuais */
+    --state-blocked: 0 72% 45%; /* Vermelho escuro - ação impossível */
+    --state-blocked-bg: 0 72% 95%;
+    --state-risk: 38 92% 50%; /* Âmbar - ação atrasada */
+    --state-risk-bg: 38 92% 95%;
+    --state-success: 142 71% 45%; /* Verde - condição satisfeita */
+    --state-success-bg: 142 71% 95%;
+    --state-neutral: 215 20% 65%; /* Cinza azulado - aguardando */
+    --state-neutral-bg: 215 20% 97%;
+    --state-terminal: 0 0% 35%; /* Cinza escuro - finalizado */
+    --state-terminal-bg: 0 0% 95%;
+    
+    /* Shadows */
+    --shadow-elegant: 0 10px 30px -5px hsl(var(--navy-primary) / 0.15);
+    --shadow-gold: 0 8px 25px -5px hsl(var(--gold-accent) / 0.4);
+    
+    /* Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: var(--navy-primary);
+    --foreground: var(--white-pure);
+
+    --card: var(--navy-primary);
+    --card-foreground: var(--white-pure);
+
+    --popover: var(--navy-primary);
+    --popover-foreground: var(--white-pure);
+
+    --primary: var(--gold-accent);
+    --primary-foreground: var(--navy-primary);
+
+    --secondary: var(--navy-dark);
+    --secondary-foreground: var(--white-pure);
+
+    --muted: var(--navy-dark);
+    --muted-foreground: var(--grey-light);
+
+    --accent: var(--gold-accent);
+    --accent-foreground: var(--navy-primary);
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: var(--white-pure);
+
+    --border: var(--navy-dark);
+    --input: var(--navy-dark);
+    --ring: var(--gold-accent);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body;
+    min-width: 320px; /* Ensure minimum width */
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+  
+  /* Scrollbar Hide Utility for Mobile */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer components {
+  /* AXO Floors Custom Components */
+  .hero-gradient {
+    background: var(--gradient-hero);
+  }
+  
+  .gold-gradient {
+    background: var(--gradient-gold);
+  }
+  
+  .navy-gradient {
+    background: var(--gradient-navy);
+  }
+  
+  .admin-gradient {
+    background: linear-gradient(135deg, hsl(var(--navy-primary)), hsl(var(--navy-dark)));
+  }
+  
+  .dashboard-metric {
+    @apply text-3xl font-bold tracking-tight;
+  }
+  
+  .shadow-elegant {
+    box-shadow: var(--shadow-elegant);
+  }
+  
+  .shadow-gold {
+    box-shadow: var(--shadow-gold);
+  }
+  
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+  
+  .transition-bounce {
+    transition: var(--transition-bounce);
+  }
+  
+  .text-gradient-gold {
+    background: var(--gradient-gold);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  /* Mobile-First Utilities */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+  
+  .btn-mobile {
+    @apply min-h-[48px] px-4 sm:px-6 py-3 text-sm sm:text-base;
+  }
+  
+  /* Text Utilities for Mobile-First */
+  .text-mobile-xs {
+    @apply text-xs sm:text-sm;
+  }
+  
+  .text-mobile-sm {
+    @apply text-sm sm:text-base;
+  }
+  
+  .text-mobile-base {
+    @apply text-base sm:text-lg;
+  }
+  
+  .text-mobile-lg {
+    @apply text-lg sm:text-xl;
+  }
+  
+  .text-mobile-xl {
+    @apply text-xl sm:text-2xl;
+  }
+  
+  .text-mobile-2xl {
+    @apply text-2xl sm:text-3xl md:text-4xl;
+  }
+  
+  .text-mobile-3xl {
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl;
+  }
+  
+  /* Mobile-First Spacing */
+  .spacing-mobile-sm {
+    @apply py-8 sm:py-12 lg:py-16;
+  }
+  
+  .spacing-mobile-md {
+    @apply py-12 sm:py-16 lg:py-20;
+  }
+  
+  .spacing-mobile-lg {
+    @apply py-16 sm:py-20 lg:py-24;
+  }
+}
+
+/* Slow GIF Animation */
+.slow-gif {
+  animation: slow-motion 40s linear infinite;
+}
+
+@keyframes slow-motion {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+/* Mobile-first utilities */
+@media (max-width: 640px) {
+  .mobile-no-scroll {
+    overflow-x: hidden;
+  }
+  
+  .mobile-touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .mobile-text-readable {
+    font-size: 16px !important;
+  }
+}
+
+/* Improve mobile select dropdowns */
+@media (max-width: 640px) {
+  [data-radix-select-content] {
+    max-height: 50vh !important;
+  }
+}
+
+/* Better mobile dialog handling */
+@media (max-width: 640px) {
+  [data-radix-dialog-content] {
+    margin: 8px !important;
+    max-height: calc(100vh - 32px) !important;
+    width: calc(100vw - 16px) !important;
+  }
+}

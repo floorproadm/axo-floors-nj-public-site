@@ -1,67 +1,98 @@
-import { Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { Phone, Mail, Facebook, Instagram } from "lucide-react";
-import {
-  AXO_PHONE_DISPLAY,
-  AXO_PHONE_TEL,
-  AXO_EMAIL,
-  AXO_FACEBOOK,
-  AXO_INSTAGRAM,
-} from "@/lib/constants";
-
-export default function Footer() {
-  return (
-    <footer className="navy-gradient text-white mt-auto">
-      <div className="container mx-auto px-4 py-12 grid gap-10 md:grid-cols-4">
-        <div className="md:col-span-2">
-          <div className="flex items-baseline gap-1 font-heading">
-            <span className="text-2xl font-extrabold tracking-tight text-gradient-gold">•AXO•</span>
-            <span className="text-xs font-bold tracking-[0.25em]">FLOORS</span>
-          </div>
-          <p className="mt-3 text-sm text-white/70 max-w-md">
-            We bring your vision to life. Hardwood installation, refinishing, and restoration across NJ, NY & PA.
+const Footer = () => {
+  const navigationLinks = [{
+    name: "Services",
+    href: "#"
+  }, {
+    name: "Contact",
+    href: "/contact"
+  }, {
+    name: "About",
+    href: "/about"
+  }, {
+    name: "Gallery",
+    href: "/gallery"
+  }];
+  return <footer className="bg-black text-white">
+      {/* Inspirational Section */}
+      <div className="bg-black py-8 sm:py-12">
+        <div className="container mx-auto px-4 text-center">
+          <div className="h-1 w-16 bg-gold mx-auto mb-6"></div>
+          <p className="text-lg sm:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
+            Your satisfaction is our priority. Custom solutions and seamless service make your dream home a reality.
           </p>
-          <div className="mt-5 flex items-center gap-3">
-            <a href={AXO_FACEBOOK} target="_blank" rel="noreferrer" aria-label="Facebook" className="hover:text-[var(--gold-accent)]">
-              <Facebook className="h-5 w-5" />
+        </div>
+      </div>
+
+      {/* Main Footer Content */}
+      <div className="bg-black border-t border-white/10">
+        <div className="container mx-auto px-4 py-8 sm:py-12">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+            {/* Company Logo & Tagline */}
+            <div className="text-center lg:text-left">
+              <div className="text-3xl sm:text-4xl font-heading font-bold text-white mb-2">
+                <span className="text-gold">•</span>AXO<span className="text-gold">•</span>
+                <div className="text-sm font-medium tracking-[0.2em] text-white">FLOORS</div>
+              </div>
+              <p className="text-white/80 text-sm mt-4">
+                We bring your vision to life
+              </p>
+            </div>
+
+            {/* Navigation Links */}
+            <div className="text-center lg:text-left">
+              <h3 className="text-lg font-heading font-semibold text-white mb-4">Useful Links</h3>
+              <ul className="space-y-2">
+                {navigationLinks.map(link => <li key={link.name}>
+                    <Link to={link.href} className="text-white/80 hover:text-gold transition-smooth text-sm block">
+                      {link.name}
+                    </Link>
+                  </li>)}
+              </ul>
+            </div>
+
+            {/* Contact Info */}
+            <div className="text-center lg:text-left">
+              <h3 className="text-lg font-heading font-semibold text-white mb-4">Useful Links</h3>
+              <div className="space-y-3">
+                <a href="tel:(732) 351-8653" className="flex items-center justify-center lg:justify-start gap-2 text-gold hover:text-white transition-smooth text-sm">
+                  <Phone className="w-4 h-4" />
+                  (732) 351-8653
+                </a>
+                <a href="mailto:axofloorsnj@gmail.com" className="flex items-center justify-center lg:justify-start gap-2 text-gold hover:text-white transition-smooth text-sm">
+                  <Mail className="w-4 h-4 flex-shrink-0" />
+                  axofloorsnj@gmail.com
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Social Media Icons */}
+          <div className="flex justify-center gap-4 mt-8 pt-6 border-t border-white/10">
+            <a href="#" className="w-10 h-10 bg-gold text-black flex items-center justify-center rounded-sm hover:bg-gold/80 transition-smooth">
+              <Facebook className="w-5 h-5" />
             </a>
-            <a href={AXO_INSTAGRAM} target="_blank" rel="noreferrer" aria-label="Instagram" className="hover:text-[var(--gold-accent)]">
-              <Instagram className="h-5 w-5" />
+            <a href="#" className="w-10 h-10 bg-gold text-black flex items-center justify-center rounded-sm hover:bg-gold/80 transition-smooth">
+              <Instagram className="w-5 h-5" />
+            </a>
+            <a href="tel:(732) 351-8653" className="w-10 h-10 bg-gold text-black flex items-center justify-center rounded-sm hover:bg-gold/80 transition-smooth">
+              <Phone className="w-5 h-5" />
             </a>
           </div>
-        </div>
 
-        <div>
-          <h4 className="font-heading text-sm uppercase tracking-wider text-[var(--gold-accent)] mb-3">Explore</h4>
-          <ul className="space-y-2 text-sm text-white/80">
-            <li><Link to="/" className="hover:text-white">Services</Link></li>
-            <li><Link to="/gallery" className="hover:text-white">Gallery</Link></li>
-            <li><Link to="/about" className="hover:text-white">About</Link></li>
-            <li><Link to="/contact" className="hover:text-white">Contact</Link></li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 className="font-heading text-sm uppercase tracking-wider text-[var(--gold-accent)] mb-3">Contact</h4>
-          <ul className="space-y-2 text-sm text-white/80">
-            <li>
-              <a href={AXO_PHONE_TEL} className="inline-flex items-center gap-2 hover:text-white">
-                <Phone className="h-4 w-4" /> {AXO_PHONE_DISPLAY}
-              </a>
-            </li>
-            <li>
-              <a href={`mailto:${AXO_EMAIL}`} className="inline-flex items-center gap-2 hover:text-white">
-                <Mail className="h-4 w-4" /> {AXO_EMAIL}
-              </a>
-            </li>
-          </ul>
+          {/* Copyright */}
+          <div className="text-center mt-6 pt-4 border-t border-white/10">
+            <p className="text-white/60 text-sm">
+              2024 | All Rights Reserved - Axo Floors LLC
+              <span className="mx-2">•</span>
+              <Link to="/auth" className="text-white/40 hover:text-gold transition-smooth text-xs">
+                Admin
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
-      <div className="border-t border-white/10">
-        <div className="container mx-auto px-4 py-4 text-xs text-white/60 flex justify-between">
-          <span>© 2025 AXO Floors. All rights reserved.</span>
-          <span>NJ • NY • PA</span>
-        </div>
-      </div>
-    </footer>
-  );
-}
+    </footer>;
+};
+export default Footer;

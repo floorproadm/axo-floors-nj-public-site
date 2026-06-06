@@ -1,95 +1,66 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
-  Link,
   createRootRouteWithContext,
-  useRouter,
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import type { QueryClient } from "@tanstack/react-query";
+import type { ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
-
-function NotFoundComponent() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
-        </p>
-        <div className="mt-6">
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Go home
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
-  console.error(error);
-  const router = useRouter();
-  useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
-  }, [error]);
-
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
-        </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
-        </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
-          <button
-            onClick={() => {
-              router.invalidate();
-              reset();
-            }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Try again
-          </button>
-          <a
-            href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-          >
-            Go home
-          </a>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "AXO Floors NJ — Hardwood Installation & Refinishing" },
-      { name: "description", content: "Expert hardwood flooring services in New Jersey. Installation, refinishing, and restoration. Licensed & insured. Call (732) 351-8653." },
-      { name: "author", content: "AXO Floors" },
-      { property: "og:site_name", content: "AXO Floors NJ" },
+      { name: "viewport", content: "width=device-width, initial-scale=1.0" },
+      { title: "AXO Floors - Professional Hardwood Flooring Refinishing & Installation" },
+      { name: "description", content: "Expert hardwood flooring services in New Jersey. Professional installation, refinishing, and restoration. Free estimates, licensed & insured. Call (732) 351-8653" },
+      { name: "keywords", content: "hardwood flooring NJ, floor refinishing New Jersey, flooring installation, wood floor restoration, AXO Floors, Newark flooring, Jersey City floors" },
+      { name: "author", content: "AXO Floors NJ" },
+      { name: "robots", content: "index, follow" },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "AXO Floors NJ" },
+      { property: "og:locale", content: "en_US" },
+      { property: "og:title", content: "AXO Floors - Professional Hardwood Flooring Refinishing & Installation" },
+      { property: "og:description", content: "Expert hardwood flooring services in New Jersey. Professional installation, refinishing, and restoration. Free estimates, licensed & insured. Call (732) 351-8653" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "AXO Floors NJ - Professional Hardwood Flooring Services" },
+      { name: "twitter:description", content: "Expert hardwood flooring installation & refinishing in New Jersey. Licensed, insured, free estimates." },
     ],
-    links: [{ rel: "stylesheet", href: appCss }],
+    links: [
+      { rel: "icon", href: "/favicon.png", type: "image/png" },
+      { rel: "stylesheet", href: appCss },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          name: "AXO Floors NJ",
+          image: "https://axofloorsnj.com/logo.png",
+          description:
+            "Professional hardwood flooring installation, refinishing, and restoration services in New Jersey",
+          address: { "@type": "PostalAddress", addressRegion: "NJ", addressCountry: "US" },
+          telephone: "(732) 351-8653",
+          email: "axofloorsnj@gmail.com",
+          url: "https://axofloorsnj.com",
+          priceRange: "$$",
+          serviceArea: { "@type": "State", name: "New Jersey" },
+          aggregateRating: { "@type": "AggregateRating", ratingValue: "4.9", reviewCount: "47" },
+          openingHours: "Mo-Sa 08:00-18:00",
+        }),
+      },
+    ],
   }),
   shellComponent: RootShell,
-  component: RootComponent,
-  notFoundComponent: NotFoundComponent,
-  errorComponent: ErrorComponent,
+  component: () => <Outlet />,
+  notFoundComponent: () => <Outlet />,
+  errorComponent: ({ error }) => {
+    console.error(error);
+    return <Outlet />;
+  },
 });
 
 function RootShell({ children }: { children: ReactNode }) {
@@ -103,19 +74,5 @@ function RootShell({ children }: { children: ReactNode }) {
         <Scripts />
       </body>
     </html>
-  );
-}
-
-import { Toaster } from "@/components/ui/sonner";
-
-function RootComponent() {
-  const { queryClient } = Route.useRouteContext();
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
-      <Toaster richColors position="top-center" />
-    </QueryClientProvider>
   );
 }

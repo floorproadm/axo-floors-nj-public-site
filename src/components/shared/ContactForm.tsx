@@ -1,170 +1,401 @@
-import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
-import { AXO_ORG_ID, AXO_EMAIL, AXO_PHONE_E164 } from "@/lib/constants";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Send, Loader2 } from "lucide-react";
-import { toast } from "sonner";
+import { useState } from 'react';
+import { AXO_ORG_ID } from '@/lib/constants';
+import { supabase } from '@/integrations/supabase/client';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
+import { useToast } from '@/hooks/use-toast';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Phone, Mail, Send, AlertCircle } from 'lucide-react';
+import { getReferralCodeFromURL, buildReferralNotes } from '@/utils/referral';
+import { 
+  validateForm, 
+  sanitizeInput, 
+  checkRateLimit, 
+  getClientIdentifier,
+  formatPhoneNumber,
+  useFieldValidation 
+} from '@/utils/validation';
 
-const SERVICES = [
-  "Hardwood Floor Refinishing",
-  "Hardwood Floor Installation",
-  "Vinyl Plank Flooring",
-  "Staircase Renovation",
-  "Floor Repair",
-  "Baseboards & Trim",
-  "Other",
-];
-
-const NJ_CITIES = [
-  "Newark", "Jersey City", "Paterson", "Elizabeth", "Edison", "Woodbridge",
-  "Lakewood", "Toms River", "Hamilton", "Trenton", "Clifton", "Camden",
-  "Brick", "Cherry Hill", "Passaic", "Union City", "Bayonne", "East Orange",
-  "Vineland", "New Brunswick", "Wayne", "Irvington", "Paramus", "Hoboken",
-];
-
-function readCookie(name: string): string | null {
-  if (typeof document === "undefined") return null;
-  const m = document.cookie.match(new RegExp("(^| )" + name + "=([^;]+)"));
-  return m ? decodeURIComponent(m[2]) : null;
-}
-
-export default function ContactForm() {
-  const [loading, setLoading] = useState(false);
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    city: "",
-    service: "",
-    message: "",
+const ContactForm = () => {
+  const { toast } = useToast();
+  const { validateField } = useFieldValidation();
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    services: [] as string[],
+    budget: '',
+    room_size: '',
+    city: '',
+    zip_code: '',
+    message: '',
+    priority: 'medium'
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const update = (k: keyof typeof form) => (v: string) =>
-    setForm((f) => ({ ...f, [k]: v }));
+  const serviceOptions = [
+    'Hardwood Flooring Installation',
+    'Sanding & Finish',
+    'Vinyl Plank Flooring',
+    'Staircase Refinishing',
+    'Baseboards Installation',
+    'Floor Repairs',
+    'Custom Staining'
+  ];
 
-  async function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!form.name || !form.email || !form.phone) {
-      toast.error("Please fill in name, email and phone.");
-      return;
+  const handleServiceChange = (service: string, checked: boolean) => {
+    setFormData(prev => ({
+      ...prev,
+      services: checked 
+        ? [...prev.services, service]
+        : prev.services.filter(s => s !== service)
+    }));
+  };
+
+  const handleFieldChange = (field: string, value: string, rules: string[] = []) => {
+    const sanitizedValue = sanitizeInput(value);
+    
+    setFormData(prev => ({ ...prev, [field]: sanitizedValue }));
+    
+    // Clear previous error
+    if (formErrors[field]) {
+      setFormErrors(prev => ({ ...prev, [field]: '' }));
     }
-    setLoading(true);
+    
+    // Validate field if it has rules
+    if (rules.length > 0) {
+      const error = validateField(sanitizedValue, rules);
+      if (error) {
+        setFormErrors(prev => ({ ...prev, [field]: error }));
+      }
+    }
+  };
 
-    const fbp = readCookie("_fbp");
-    const fbclid = typeof window !== "undefined"
-      ? new URLSearchParams(window.location.search).get("fbclid")
-      : null;
+  // Helper function to get Facebook pixel data
+  const getFacebookPixelData = () => {
+    try {
+      // Get Facebook Click ID from URL parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      const fbc = urlParams.get('fbclid') ? `fb.1.${Date.now()}.${urlParams.get('fbclid')}` : undefined;
+      
+      // Get Facebook Browser ID from cookie
+      const cookies = document.cookie.split(';');
+      const fbpCookie = cookies.find(cookie => cookie.trim().startsWith('_fbp='));
+      const fbp = fbpCookie ? fbpCookie.split('=')[1] : undefined;
+      
+      return { fbc, fbp };
+    } catch (error) {
+      console.error('Error getting Facebook pixel data:', error);
+      return { fbc: undefined, fbp: undefined };
+    }
+  };
+
+  // Helper function to send Facebook conversion
+  const sendFacebookConversion = async (leadData: any) => {
+    try {
+      const { fbc, fbp } = getFacebookPixelData();
+      
+      const eventData = {
+        event_name: 'Lead',
+        email: leadData.email,
+        phone: leadData.phone,
+        first_name: leadData.name.split(' ')[0],
+        last_name: leadData.name.split(' ').slice(1).join(' '),
+        source_url: window.location.href,
+        value: leadData.budget ? parseInt(leadData.budget) : 0,
+        service: leadData.services.join(', '),
+        fbc,
+        fbp,
+        custom_data: {
+          lead_source: 'contact',
+          services: leadData.services,
+          city: leadData.city,
+          zip_code: leadData.zip_code
+        }
+      };
+
+      const { error } = await supabase.functions.invoke('facebook-conversions', {
+        body: { eventData }
+      });
+
+      if (error) {
+        console.error('Facebook conversion error:', error);
+      } else {
+        console.log('Facebook conversion sent successfully');
+      }
+    } catch (error) {
+      console.error('Error sending Facebook conversion:', error);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
 
     try {
-      const { data: lead, error } = await supabase
-        .from("leads")
-        .insert({
-          name: form.name,
-          email: form.email,
-          phone: form.phone,
-          city: form.city || null,
-          services: form.service ? [form.service] : null,
-          message: form.message || null,
-          lead_source: "contact",
-          status: "cold_lead",
-          priority: "medium",
+      const refCode = getReferralCodeFromURL();
+      // Insert into leads table
+      const { error } = await supabase
+        .from('leads')
+        .insert([{
+          name: formData.name,
+          email: formData.email || null,
+          phone: formData.phone,
+          lead_source: refCode ? 'referral' : 'contact',
+          status: 'cold_lead',
+          priority: formData.priority,
+          services: formData.services,
+          budget: formData.budget ? parseInt(formData.budget) : null,
+          room_size: formData.room_size || null,
+          city: formData.city || null,
+          zip_code: formData.zip_code || null,
+          message: formData.message || null,
+          notes: refCode ? buildReferralNotes(null, refCode) : null,
           organization_id: AXO_ORG_ID,
-        })
-        .select("id")
-        .single();
+        }]);
 
       if (error) throw error;
 
-      // Fire-and-forget edge functions
-      void supabase.functions.invoke("send-to-notion", {
-        body: { lead_id: lead?.id, ...form },
-      });
-      void supabase.functions.invoke("facebook-conversions", {
-        body: {
-          event_name: "Lead",
-          email: form.email,
-          phone: form.phone,
-          name: form.name,
-          city: form.city,
-          fbp,
-          fbclid,
-        },
-      });
-      void supabase.functions.invoke("send-notifications", {
-        body: {
-          lead_id: lead?.id,
-          adminEmail: AXO_EMAIL,
-          adminPhone: AXO_PHONE_E164,
-          ...form,
-        },
+      // Send to Notion
+      try {
+        await supabase.functions.invoke('send-to-notion', {
+          body: {
+            name: formData.name,
+            email: formData.email || 'no-email@provided.com',
+            phone: formData.phone,
+            source: 'contact',
+            services: formData.services,
+            budget: formData.budget ? parseInt(formData.budget) : null,
+            room_size: formData.room_size,
+            city: formData.city,
+            zip_code: formData.zip_code,
+            priority: formData.priority || 'medium',
+            status: 'cold_lead',
+            message: formData.message,
+            notes: `Contact form submission - Services: ${formData.services.join(', ')}`
+          }
+        });
+        console.log('Contact form lead sent to Notion successfully');
+      } catch (notionError) {
+        console.error('Error sending contact form lead to Notion:', notionError);
+        // Não falhar o processo todo por erro do Notion
+      }
+
+      // Send Facebook conversion event
+      await sendFacebookConversion(formData);
+
+      toast({
+        title: "Message sent successfully!",
+        description: "We'll contact you within 24 hours to discuss your flooring project."
       });
 
-      toast.success("Thanks! We'll be in touch within 24 hours.");
-      setForm({ name: "", email: "", phone: "", city: "", service: "", message: "" });
-    } catch (err) {
-      console.error(err);
-      toast.error("Something went wrong. Please call (732) 351-8653.");
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        services: [],
+        budget: '',
+        room_size: '',
+        city: '',
+        zip_code: '',
+        message: '',
+        priority: 'medium'
+      });
+
+    } catch (error) {
+      console.error('Error submitting contact form:', error);
+      toast({
+        title: "Error sending message",
+        description: "Please try again or call us directly.",
+        variant: "destructive"
+      });
     } finally {
-      setLoading(false);
+      setIsSubmitting(false);
     }
-  }
+  };
 
   return (
-    <Card className="shadow-elegant">
+    <Card className="w-full max-w-2xl mx-auto">
       <CardHeader>
-        <CardTitle className="font-heading text-2xl">Get Your Free Estimate</CardTitle>
-        <p className="text-sm text-muted-foreground">A senior estimator replies within 24 hours.</p>
+        <CardTitle className="flex items-center gap-2">
+          <Mail className="w-5 h-5" />
+          Get Your Free Estimate
+        </CardTitle>
+        <p className="text-grey">Tell us about your flooring project and we'll provide a detailed quote.</p>
       </CardHeader>
       <CardContent>
-        <form onSubmit={onSubmit} className="space-y-4">
-          <div className="grid sm:grid-cols-2 gap-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <Label htmlFor="name">Name *</Label>
-              <Input id="name" value={form.name} onChange={(e) => update("name")(e.target.value)} required />
+              <Label htmlFor="name">Full Name *</Label>
+              <Input
+                id="name"
+                value={formData.name}
+                onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                required
+                placeholder="Your full name"
+              />
             </div>
             <div>
-              <Label htmlFor="phone">Phone *</Label>
-              <Input id="phone" type="tel" value={form.phone} onChange={(e) => update("phone")(e.target.value)} required />
+              <Label htmlFor="phone">Phone Number *</Label>
+              <Input
+                id="phone"
+                type="tel"
+                value={formData.phone}
+                onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+                required
+                placeholder="(555) 123-4567"
+              />
             </div>
           </div>
+
           <div>
-            <Label htmlFor="email">Email *</Label>
-            <Input id="email" type="email" value={form.email} onChange={(e) => update("email")(e.target.value)} required />
+            <Label htmlFor="email">Email Address</Label>
+            <Input
+              id="email"
+              type="email"
+              value={formData.email}
+              onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+              placeholder="your.email@example.com"
+            />
           </div>
-          <div className="grid sm:grid-cols-2 gap-4">
+
+          {/* Location */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <Label>City</Label>
-              <Select value={form.city} onValueChange={update("city")}>
-                <SelectTrigger><SelectValue placeholder="Select city" /></SelectTrigger>
-                <SelectContent>
-                  {NJ_CITIES.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+              <Label htmlFor="city">City</Label>
+              <Input
+                id="city"
+                value={formData.city}
+                onChange={(e) => setFormData(prev => ({ ...prev, city: e.target.value }))}
+                placeholder="Your city"
+              />
+            </div>
+            <div>
+              <Label htmlFor="zip_code">ZIP Code</Label>
+              <Input
+                id="zip_code"
+                value={formData.zip_code}
+                onChange={(e) => setFormData(prev => ({ ...prev, zip_code: e.target.value }))}
+                placeholder="07001"
+              />
+            </div>
+          </div>
+
+          {/* Services */}
+          <div>
+            <Label className="text-base font-medium">Services Needed</Label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
+              {serviceOptions.map((service) => (
+                <div key={service} className="flex items-center space-x-2">
+                  <Checkbox
+                    id={service}
+                    checked={formData.services.includes(service)}
+                    onCheckedChange={(checked) => handleServiceChange(service, checked as boolean)}
+                  />
+                  <Label htmlFor={service} className="text-sm font-normal cursor-pointer">
+                    {service}
+                  </Label>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Project Details */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="room_size">Approximate Square Footage</Label>
+              <Input
+                id="room_size"
+                value={formData.room_size}
+                onChange={(e) => setFormData(prev => ({ ...prev, room_size: e.target.value }))}
+                placeholder="e.g., 800 sq ft"
+              />
+            </div>
+            <div>
+              <Label htmlFor="budget">Budget Range</Label>
+              <Select value={formData.budget} onValueChange={(value) => setFormData(prev => ({ ...prev, budget: value }))}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select budget range" />
+                </SelectTrigger>
+                <SelectContent className="bg-white z-50">
+                  <SelectItem value="2500">Under $2,500</SelectItem>
+                  <SelectItem value="5000">$2,500 - $5,000</SelectItem>
+                  <SelectItem value="10000">$5,000 - $10,000</SelectItem>
+                  <SelectItem value="15000">$10,000 - $15,000</SelectItem>
+                  <SelectItem value="20000">$15,000 - $20,000</SelectItem>
+                  <SelectItem value="25000">$20,000+</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-            <div>
-              <Label>Service</Label>
-              <Select value={form.service} onValueChange={update("service")}>
-                <SelectTrigger><SelectValue placeholder="Select service" /></SelectTrigger>
-                <SelectContent>
-                  {SERVICES.map((s) => <SelectItem key={s} value={s}>{s}</SelectItem>)}
-                </SelectContent>
-              </Select>
+          </div>
+
+          {/* Priority */}
+          <div>
+            <Label htmlFor="priority">Project Urgency</Label>
+            <Select value={formData.priority} onValueChange={(value) => setFormData(prev => ({ ...prev, priority: value }))}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select urgency" />
+              </SelectTrigger>
+              <SelectContent className="bg-white z-50">
+                <SelectItem value="low">Not urgent - planning ahead</SelectItem>
+                <SelectItem value="medium">Moderate - within 2-3 months</SelectItem>
+                <SelectItem value="high">Urgent - ASAP</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Message */}
+          <div>
+            <Label htmlFor="message">Additional Details</Label>
+            <Textarea
+              id="message"
+              value={formData.message}
+              onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
+              placeholder="Tell us more about your project, any specific requirements, timeline, or questions you have..."
+              className="min-h-[100px] resize-none"
+            />
+          </div>
+
+          {/* Submit Button */}
+          <div className="flex flex-col sm:flex-row gap-4 items-center pt-4">
+            <Button 
+              type="submit" 
+              disabled={isSubmitting} 
+              className="gold-gradient text-black w-full sm:w-auto min-w-[200px]"
+              size="lg"
+            >
+              {isSubmitting ? (
+                "Sending..."
+              ) : (
+                <>
+                  <Send className="w-4 h-4 mr-2" />
+                  Get Free Estimate
+                </>
+              )}
+            </Button>
+            
+            <div className="text-center sm:text-left">
+              <p className="text-sm text-grey">
+                Or call us directly at{' '}
+                <a href="tel:+1-973-727-3545" className="text-gold font-medium hover:underline">
+                  <Phone className="w-3 h-3 inline mr-1" />
+                  (973) 727-3545
+                </a>
+              </p>
             </div>
           </div>
-          <div>
-            <Label htmlFor="message">Tell us about your project</Label>
-            <Textarea id="message" rows={4} value={form.message} onChange={(e) => update("message")(e.target.value)} />
-          </div>
-          <Button type="submit" disabled={loading} size="lg" className="w-full gold-gradient text-navy font-semibold">
-            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <><Send className="mr-2 h-4 w-4" /> Send My Request</>}
-          </Button>
         </form>
       </CardContent>
     </Card>
   );
-}
+};
+
+export default ContactForm;

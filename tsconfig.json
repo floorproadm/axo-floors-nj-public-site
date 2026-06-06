@@ -16,10 +16,12 @@
     /* Linting */
     "skipLibCheck": true,
     "strict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true,
+    "noFallthroughCasesInSwitch": false,
+    "noUncheckedSideEffectImports": false,
     "paths": {
       "@/*": ["./src/*"]
     }
