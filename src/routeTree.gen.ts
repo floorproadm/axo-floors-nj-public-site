@@ -16,6 +16,7 @@ import { Route as StaircaseRouteImport } from './routes/staircase'
 import { Route as StainGalleryRouteImport } from './routes/stain-gallery'
 import { Route as ScheduleEstimateRouteImport } from './routes/schedule-estimate'
 import { Route as SandingAndRefinishRouteImport } from './routes/sanding-and-refinish'
+import { Route as ReviewRequestRouteImport } from './routes/review-request'
 import { Route as RefinishingRouteImport } from './routes/refinishing'
 import { Route as ReferralProgramRouteImport } from './routes/referral-program'
 import { Route as RealtorsRouteImport } from './routes/realtors'
@@ -67,6 +68,11 @@ const ScheduleEstimateRoute = ScheduleEstimateRouteImport.update({
 const SandingAndRefinishRoute = SandingAndRefinishRouteImport.update({
   id: '/sanding-and-refinish',
   path: '/sanding-and-refinish',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReviewRequestRoute = ReviewRequestRouteImport.update({
+  id: '/review-request',
+  path: '/review-request',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RefinishingRoute = RefinishingRouteImport.update({
@@ -173,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/realtors': typeof RealtorsRoute
   '/referral-program': typeof ReferralProgramRoute
   '/refinishing': typeof RefinishingRoute
+  '/review-request': typeof ReviewRequestRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/schedule-estimate': typeof ScheduleEstimateRoute
   '/stain-gallery': typeof StainGalleryRoute
@@ -199,6 +206,7 @@ export interface FileRoutesByTo {
   '/realtors': typeof RealtorsRoute
   '/referral-program': typeof ReferralProgramRoute
   '/refinishing': typeof RefinishingRoute
+  '/review-request': typeof ReviewRequestRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/schedule-estimate': typeof ScheduleEstimateRoute
   '/stain-gallery': typeof StainGalleryRoute
@@ -226,6 +234,7 @@ export interface FileRoutesById {
   '/realtors': typeof RealtorsRoute
   '/referral-program': typeof ReferralProgramRoute
   '/refinishing': typeof RefinishingRoute
+  '/review-request': typeof ReviewRequestRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/schedule-estimate': typeof ScheduleEstimateRoute
   '/stain-gallery': typeof StainGalleryRoute
@@ -254,6 +263,7 @@ export interface FileRouteTypes {
     | '/realtors'
     | '/referral-program'
     | '/refinishing'
+    | '/review-request'
     | '/sanding-and-refinish'
     | '/schedule-estimate'
     | '/stain-gallery'
@@ -280,6 +290,7 @@ export interface FileRouteTypes {
     | '/realtors'
     | '/referral-program'
     | '/refinishing'
+    | '/review-request'
     | '/sanding-and-refinish'
     | '/schedule-estimate'
     | '/stain-gallery'
@@ -306,6 +317,7 @@ export interface FileRouteTypes {
     | '/realtors'
     | '/referral-program'
     | '/refinishing'
+    | '/review-request'
     | '/sanding-and-refinish'
     | '/schedule-estimate'
     | '/stain-gallery'
@@ -333,6 +345,7 @@ export interface RootRouteChildren {
   RealtorsRoute: typeof RealtorsRoute
   ReferralProgramRoute: typeof ReferralProgramRoute
   RefinishingRoute: typeof RefinishingRoute
+  ReviewRequestRoute: typeof ReviewRequestRoute
   SandingAndRefinishRoute: typeof SandingAndRefinishRoute
   ScheduleEstimateRoute: typeof ScheduleEstimateRoute
   StainGalleryRoute: typeof StainGalleryRoute
@@ -391,6 +404,13 @@ declare module '@tanstack/react-router' {
       path: '/sanding-and-refinish'
       fullPath: '/sanding-and-refinish'
       preLoaderRoute: typeof SandingAndRefinishRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/review-request': {
+      id: '/review-request'
+      path: '/review-request'
+      fullPath: '/review-request'
+      preLoaderRoute: typeof ReviewRequestRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/refinishing': {
@@ -533,6 +553,7 @@ const rootRouteChildren: RootRouteChildren = {
   RealtorsRoute: RealtorsRoute,
   ReferralProgramRoute: ReferralProgramRoute,
   RefinishingRoute: RefinishingRoute,
+  ReviewRequestRoute: ReviewRequestRoute,
   SandingAndRefinishRoute: SandingAndRefinishRoute,
   ScheduleEstimateRoute: ScheduleEstimateRoute,
   StainGalleryRoute: StainGalleryRoute,
