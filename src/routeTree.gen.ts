@@ -24,6 +24,7 @@ import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as FloorDiagnosticRouteImport } from './routes/floor-diagnostic'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CampaignRouteImport } from './routes/campaign'
+import { Route as BuildersRouteImport } from './routes/builders'
 import { Route as BaseBoardsRouteImport } from './routes/base-boards'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -103,6 +104,11 @@ const CampaignRoute = CampaignRouteImport.update({
   path: '/campaign',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BuildersRoute = BuildersRouteImport.update({
+  id: '/builders',
+  path: '/builders',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BaseBoardsRoute = BaseBoardsRouteImport.update({
   id: '/base-boards',
   path: '/base-boards',
@@ -123,6 +129,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/base-boards': typeof BaseBoardsRoute
+  '/builders': typeof BuildersRoute
   '/campaign': typeof CampaignRoute
   '/contact': typeof ContactRoute
   '/floor-diagnostic': typeof FloorDiagnosticRoute
@@ -143,6 +150,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/base-boards': typeof BaseBoardsRoute
+  '/builders': typeof BuildersRoute
   '/campaign': typeof CampaignRoute
   '/contact': typeof ContactRoute
   '/floor-diagnostic': typeof FloorDiagnosticRoute
@@ -164,6 +172,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/base-boards': typeof BaseBoardsRoute
+  '/builders': typeof BuildersRoute
   '/campaign': typeof CampaignRoute
   '/contact': typeof ContactRoute
   '/floor-diagnostic': typeof FloorDiagnosticRoute
@@ -186,6 +195,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/base-boards'
+    | '/builders'
     | '/campaign'
     | '/contact'
     | '/floor-diagnostic'
@@ -206,6 +216,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/base-boards'
+    | '/builders'
     | '/campaign'
     | '/contact'
     | '/floor-diagnostic'
@@ -226,6 +237,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/base-boards'
+    | '/builders'
     | '/campaign'
     | '/contact'
     | '/floor-diagnostic'
@@ -247,6 +259,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   BaseBoardsRoute: typeof BaseBoardsRoute
+  BuildersRoute: typeof BuildersRoute
   CampaignRoute: typeof CampaignRoute
   ContactRoute: typeof ContactRoute
   FloorDiagnosticRoute: typeof FloorDiagnosticRoute
@@ -371,6 +384,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CampaignRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/builders': {
+      id: '/builders'
+      path: '/builders'
+      fullPath: '/builders'
+      preLoaderRoute: typeof BuildersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/base-boards': {
       id: '/base-boards'
       path: '/base-boards'
@@ -399,6 +419,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   BaseBoardsRoute: BaseBoardsRoute,
+  BuildersRoute: BuildersRoute,
   CampaignRoute: CampaignRoute,
   ContactRoute: ContactRoute,
   FloorDiagnosticRoute: FloorDiagnosticRoute,
