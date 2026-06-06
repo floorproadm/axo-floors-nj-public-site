@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WowPackRouteImport } from './routes/wow-pack'
 import { Route as VinylPlankFlooringRouteImport } from './routes/vinyl-plank-flooring'
 import { Route as ThankYouRouteImport } from './routes/thank-you'
 import { Route as StaircaseRouteImport } from './routes/staircase'
@@ -33,6 +34,11 @@ import { Route as AxoMasterSystemRouteImport } from './routes/axo-master-system'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 
+const WowPackRoute = WowPackRouteImport.update({
+  id: '/wow-pack',
+  path: '/wow-pack',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const VinylPlankFlooringRoute = VinylPlankFlooringRouteImport.update({
   id: '/vinyl-plank-flooring',
   path: '/vinyl-plank-flooring',
@@ -173,6 +179,7 @@ export interface FileRoutesByFullPath {
   '/staircase': typeof StaircaseRoute
   '/thank-you': typeof ThankYouRoute
   '/vinyl-plank-flooring': typeof VinylPlankFlooringRoute
+  '/wow-pack': typeof WowPackRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -198,6 +205,7 @@ export interface FileRoutesByTo {
   '/staircase': typeof StaircaseRoute
   '/thank-you': typeof ThankYouRoute
   '/vinyl-plank-flooring': typeof VinylPlankFlooringRoute
+  '/wow-pack': typeof WowPackRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -224,6 +232,7 @@ export interface FileRoutesById {
   '/staircase': typeof StaircaseRoute
   '/thank-you': typeof ThankYouRoute
   '/vinyl-plank-flooring': typeof VinylPlankFlooringRoute
+  '/wow-pack': typeof WowPackRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -251,6 +260,7 @@ export interface FileRouteTypes {
     | '/staircase'
     | '/thank-you'
     | '/vinyl-plank-flooring'
+    | '/wow-pack'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -276,6 +286,7 @@ export interface FileRouteTypes {
     | '/staircase'
     | '/thank-you'
     | '/vinyl-plank-flooring'
+    | '/wow-pack'
   id:
     | '__root__'
     | '/'
@@ -301,6 +312,7 @@ export interface FileRouteTypes {
     | '/staircase'
     | '/thank-you'
     | '/vinyl-plank-flooring'
+    | '/wow-pack'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -327,10 +339,18 @@ export interface RootRouteChildren {
   StaircaseRoute: typeof StaircaseRoute
   ThankYouRoute: typeof ThankYouRoute
   VinylPlankFlooringRoute: typeof VinylPlankFlooringRoute
+  WowPackRoute: typeof WowPackRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/wow-pack': {
+      id: '/wow-pack'
+      path: '/wow-pack'
+      fullPath: '/wow-pack'
+      preLoaderRoute: typeof WowPackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/vinyl-plank-flooring': {
       id: '/vinyl-plank-flooring'
       path: '/vinyl-plank-flooring'
@@ -519,6 +539,7 @@ const rootRouteChildren: RootRouteChildren = {
   StaircaseRoute: StaircaseRoute,
   ThankYouRoute: ThankYouRoute,
   VinylPlankFlooringRoute: VinylPlankFlooringRoute,
+  WowPackRoute: WowPackRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
