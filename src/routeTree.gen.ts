@@ -19,6 +19,7 @@ import { Route as RefinishingRouteImport } from './routes/refinishing'
 import { Route as ReferralProgramRouteImport } from './routes/referral-program'
 import { Route as RealtorsRouteImport } from './routes/realtors'
 import { Route as QuizRouteImport } from './routes/quiz'
+import { Route as PartnerProgramRouteImport } from './routes/partner-program'
 import { Route as InstallationRouteImport } from './routes/installation'
 import { Route as HardwoodFlooringRouteImport } from './routes/hardwood-flooring'
 import { Route as GalleryRouteImport } from './routes/gallery'
@@ -79,6 +80,11 @@ const RealtorsRoute = RealtorsRouteImport.update({
 const QuizRoute = QuizRouteImport.update({
   id: '/quiz',
   path: '/quiz',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartnerProgramRoute = PartnerProgramRouteImport.update({
+  id: '/partner-program',
+  path: '/partner-program',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InstallationRoute = InstallationRouteImport.update({
@@ -149,6 +155,7 @@ export interface FileRoutesByFullPath {
   '/gallery': typeof GalleryRoute
   '/hardwood-flooring': typeof HardwoodFlooringRoute
   '/installation': typeof InstallationRoute
+  '/partner-program': typeof PartnerProgramRoute
   '/quiz': typeof QuizRoute
   '/realtors': typeof RealtorsRoute
   '/referral-program': typeof ReferralProgramRoute
@@ -172,6 +179,7 @@ export interface FileRoutesByTo {
   '/gallery': typeof GalleryRoute
   '/hardwood-flooring': typeof HardwoodFlooringRoute
   '/installation': typeof InstallationRoute
+  '/partner-program': typeof PartnerProgramRoute
   '/quiz': typeof QuizRoute
   '/realtors': typeof RealtorsRoute
   '/referral-program': typeof ReferralProgramRoute
@@ -196,6 +204,7 @@ export interface FileRoutesById {
   '/gallery': typeof GalleryRoute
   '/hardwood-flooring': typeof HardwoodFlooringRoute
   '/installation': typeof InstallationRoute
+  '/partner-program': typeof PartnerProgramRoute
   '/quiz': typeof QuizRoute
   '/realtors': typeof RealtorsRoute
   '/referral-program': typeof ReferralProgramRoute
@@ -221,6 +230,7 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/hardwood-flooring'
     | '/installation'
+    | '/partner-program'
     | '/quiz'
     | '/realtors'
     | '/referral-program'
@@ -244,6 +254,7 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/hardwood-flooring'
     | '/installation'
+    | '/partner-program'
     | '/quiz'
     | '/realtors'
     | '/referral-program'
@@ -267,6 +278,7 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/hardwood-flooring'
     | '/installation'
+    | '/partner-program'
     | '/quiz'
     | '/realtors'
     | '/referral-program'
@@ -291,6 +303,7 @@ export interface RootRouteChildren {
   GalleryRoute: typeof GalleryRoute
   HardwoodFlooringRoute: typeof HardwoodFlooringRoute
   InstallationRoute: typeof InstallationRoute
+  PartnerProgramRoute: typeof PartnerProgramRoute
   QuizRoute: typeof QuizRoute
   RealtorsRoute: typeof RealtorsRoute
   ReferralProgramRoute: typeof ReferralProgramRoute
@@ -373,6 +386,13 @@ declare module '@tanstack/react-router' {
       path: '/quiz'
       fullPath: '/quiz'
       preLoaderRoute: typeof QuizRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/partner-program': {
+      id: '/partner-program'
+      path: '/partner-program'
+      fullPath: '/partner-program'
+      preLoaderRoute: typeof PartnerProgramRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/installation': {
@@ -467,6 +487,7 @@ const rootRouteChildren: RootRouteChildren = {
   GalleryRoute: GalleryRoute,
   HardwoodFlooringRoute: HardwoodFlooringRoute,
   InstallationRoute: InstallationRoute,
+  PartnerProgramRoute: PartnerProgramRoute,
   QuizRoute: QuizRoute,
   RealtorsRoute: RealtorsRoute,
   ReferralProgramRoute: ReferralProgramRoute,
