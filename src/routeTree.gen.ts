@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ThankYouRouteImport } from './routes/thank-you'
+import { Route as ScheduleEstimateRouteImport } from './routes/schedule-estimate'
 import { Route as RefinishingRouteImport } from './routes/refinishing'
 import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as InstallationRouteImport } from './routes/installation'
@@ -19,6 +20,11 @@ import { Route as IndexRouteImport } from './routes/index'
 const ThankYouRoute = ThankYouRouteImport.update({
   id: '/thank-you',
   path: '/thank-you',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ScheduleEstimateRoute = ScheduleEstimateRouteImport.update({
+  id: '/schedule-estimate',
+  path: '/schedule-estimate',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RefinishingRoute = RefinishingRouteImport.update({
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/installation': typeof InstallationRoute
   '/quiz': typeof QuizRoute
   '/refinishing': typeof RefinishingRoute
+  '/schedule-estimate': typeof ScheduleEstimateRoute
   '/thank-you': typeof ThankYouRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/installation': typeof InstallationRoute
   '/quiz': typeof QuizRoute
   '/refinishing': typeof RefinishingRoute
+  '/schedule-estimate': typeof ScheduleEstimateRoute
   '/thank-you': typeof ThankYouRoute
 }
 export interface FileRoutesById {
@@ -70,6 +78,7 @@ export interface FileRoutesById {
   '/installation': typeof InstallationRoute
   '/quiz': typeof QuizRoute
   '/refinishing': typeof RefinishingRoute
+  '/schedule-estimate': typeof ScheduleEstimateRoute
   '/thank-you': typeof ThankYouRoute
 }
 export interface FileRouteTypes {
@@ -80,6 +89,7 @@ export interface FileRouteTypes {
     | '/installation'
     | '/quiz'
     | '/refinishing'
+    | '/schedule-estimate'
     | '/thank-you'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -88,6 +98,7 @@ export interface FileRouteTypes {
     | '/installation'
     | '/quiz'
     | '/refinishing'
+    | '/schedule-estimate'
     | '/thank-you'
   id:
     | '__root__'
@@ -96,6 +107,7 @@ export interface FileRouteTypes {
     | '/installation'
     | '/quiz'
     | '/refinishing'
+    | '/schedule-estimate'
     | '/thank-you'
   fileRoutesById: FileRoutesById
 }
@@ -105,6 +117,7 @@ export interface RootRouteChildren {
   InstallationRoute: typeof InstallationRoute
   QuizRoute: typeof QuizRoute
   RefinishingRoute: typeof RefinishingRoute
+  ScheduleEstimateRoute: typeof ScheduleEstimateRoute
   ThankYouRoute: typeof ThankYouRoute
 }
 
@@ -115,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/thank-you'
       fullPath: '/thank-you'
       preLoaderRoute: typeof ThankYouRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/schedule-estimate': {
+      id: '/schedule-estimate'
+      path: '/schedule-estimate'
+      fullPath: '/schedule-estimate'
+      preLoaderRoute: typeof ScheduleEstimateRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/refinishing': {
@@ -161,6 +181,7 @@ const rootRouteChildren: RootRouteChildren = {
   InstallationRoute: InstallationRoute,
   QuizRoute: QuizRoute,
   RefinishingRoute: RefinishingRoute,
+  ScheduleEstimateRoute: ScheduleEstimateRoute,
   ThankYouRoute: ThankYouRoute,
 }
 export const routeTree = rootRouteImport
