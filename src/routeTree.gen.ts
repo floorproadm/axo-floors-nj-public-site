@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as VinylPlankFlooringRouteImport } from './routes/vinyl-plank-flooring'
 import { Route as ThankYouRouteImport } from './routes/thank-you'
 import { Route as ScheduleEstimateRouteImport } from './routes/schedule-estimate'
 import { Route as SandingAndRefinishRouteImport } from './routes/sanding-and-refinish'
@@ -20,6 +21,11 @@ import { Route as FloorDiagnosticRouteImport } from './routes/floor-diagnostic'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as IndexRouteImport } from './routes/index'
 
+const VinylPlankFlooringRoute = VinylPlankFlooringRouteImport.update({
+  id: '/vinyl-plank-flooring',
+  path: '/vinyl-plank-flooring',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ThankYouRoute = ThankYouRouteImport.update({
   id: '/thank-you',
   path: '/thank-you',
@@ -82,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/schedule-estimate': typeof ScheduleEstimateRoute
   '/thank-you': typeof ThankYouRoute
+  '/vinyl-plank-flooring': typeof VinylPlankFlooringRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -94,6 +101,7 @@ export interface FileRoutesByTo {
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/schedule-estimate': typeof ScheduleEstimateRoute
   '/thank-you': typeof ThankYouRoute
+  '/vinyl-plank-flooring': typeof VinylPlankFlooringRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -107,6 +115,7 @@ export interface FileRoutesById {
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/schedule-estimate': typeof ScheduleEstimateRoute
   '/thank-you': typeof ThankYouRoute
+  '/vinyl-plank-flooring': typeof VinylPlankFlooringRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -121,6 +130,7 @@ export interface FileRouteTypes {
     | '/sanding-and-refinish'
     | '/schedule-estimate'
     | '/thank-you'
+    | '/vinyl-plank-flooring'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -133,6 +143,7 @@ export interface FileRouteTypes {
     | '/sanding-and-refinish'
     | '/schedule-estimate'
     | '/thank-you'
+    | '/vinyl-plank-flooring'
   id:
     | '__root__'
     | '/'
@@ -145,6 +156,7 @@ export interface FileRouteTypes {
     | '/sanding-and-refinish'
     | '/schedule-estimate'
     | '/thank-you'
+    | '/vinyl-plank-flooring'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -158,10 +170,18 @@ export interface RootRouteChildren {
   SandingAndRefinishRoute: typeof SandingAndRefinishRoute
   ScheduleEstimateRoute: typeof ScheduleEstimateRoute
   ThankYouRoute: typeof ThankYouRoute
+  VinylPlankFlooringRoute: typeof VinylPlankFlooringRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/vinyl-plank-flooring': {
+      id: '/vinyl-plank-flooring'
+      path: '/vinyl-plank-flooring'
+      fullPath: '/vinyl-plank-flooring'
+      preLoaderRoute: typeof VinylPlankFlooringRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/thank-you': {
       id: '/thank-you'
       path: '/thank-you'
@@ -246,6 +266,7 @@ const rootRouteChildren: RootRouteChildren = {
   SandingAndRefinishRoute: SandingAndRefinishRoute,
   ScheduleEstimateRoute: ScheduleEstimateRoute,
   ThankYouRoute: ThankYouRoute,
+  VinylPlankFlooringRoute: VinylPlankFlooringRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
