@@ -13,6 +13,7 @@ import { Route as ThankYouRouteImport } from './routes/thank-you'
 import { Route as RefinishingRouteImport } from './routes/refinishing'
 import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as InstallationRouteImport } from './routes/installation'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as IndexRouteImport } from './routes/index'
 
 const ThankYouRoute = ThankYouRouteImport.update({
@@ -35,6 +36,11 @@ const InstallationRoute = InstallationRouteImport.update({
   path: '/installation',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -43,6 +49,7 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
   '/installation': typeof InstallationRoute
   '/quiz': typeof QuizRoute
   '/refinishing': typeof RefinishingRoute
@@ -50,6 +57,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
   '/installation': typeof InstallationRoute
   '/quiz': typeof QuizRoute
   '/refinishing': typeof RefinishingRoute
@@ -58,6 +66,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
   '/installation': typeof InstallationRoute
   '/quiz': typeof QuizRoute
   '/refinishing': typeof RefinishingRoute
@@ -65,12 +74,25 @@ export interface FileRoutesById {
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/installation' | '/quiz' | '/refinishing' | '/thank-you'
+  fullPaths:
+    | '/'
+    | '/contact'
+    | '/installation'
+    | '/quiz'
+    | '/refinishing'
+    | '/thank-you'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/installation' | '/quiz' | '/refinishing' | '/thank-you'
+  to:
+    | '/'
+    | '/contact'
+    | '/installation'
+    | '/quiz'
+    | '/refinishing'
+    | '/thank-you'
   id:
     | '__root__'
     | '/'
+    | '/contact'
     | '/installation'
     | '/quiz'
     | '/refinishing'
@@ -79,6 +101,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ContactRoute: typeof ContactRoute
   InstallationRoute: typeof InstallationRoute
   QuizRoute: typeof QuizRoute
   RefinishingRoute: typeof RefinishingRoute
@@ -115,6 +138,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InstallationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -127,6 +157,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ContactRoute: ContactRoute,
   InstallationRoute: InstallationRoute,
   QuizRoute: QuizRoute,
   RefinishingRoute: RefinishingRoute,
