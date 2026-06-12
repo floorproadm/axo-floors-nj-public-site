@@ -24,7 +24,8 @@ import HeaderSSR from "./HeaderSSR";
 import FooterSSR from "./FooterSSR";
 import { AXO_PHONE_DISPLAY, AXO_PHONE_TEL } from "@/lib/constants";
 import { njLocations, type NJLocation } from "@/data/njLocations";
-import defaultHeroImage from "@/assets/hardwood-hero.jpg";
+import defaultHeroAsset from "@/assets/axo-hardwood-foyer-staircase.jpg.asset.json";
+const defaultHeroImage = defaultHeroAsset.url;
 import teamPhoto from "@/assets/team-photo.jpg";
 import ba1 from "@/assets/before-after/before-after-1.png";
 import ba2 from "@/assets/before-after/before-after-2.png";
@@ -166,7 +167,7 @@ const CityPageSSR = ({ location }: Props) => {
             </div>
             <div className="relative order-first lg:order-last">
               <div className="relative rounded-2xl overflow-hidden shadow-elegant border-4 border-gold/20 aspect-[4/3] lg:aspect-[5/4]">
-                <img src={heroSrc} alt="Refinished hardwood floor by AXO Floors" width={1200} height={900} className="w-full h-full object-cover" />
+                <img src={heroSrc} alt="Refinished red oak hardwood foyer and staircase by AXO Floors NJ" width={1200} height={900} className="w-full h-full object-cover" />
               </div>
             </div>
           </div>
