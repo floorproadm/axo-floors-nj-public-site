@@ -97,7 +97,8 @@ const App = () => {
                   <Route path="/portal/:token" element={<PublicPortal />} />
                   <Route path="/hub" element={<Links />} />
                   <Route path="/auth" element={<Auth />} />
-                  {/* Programmatic local SEO — NJ service area routes intentionally not registered yet (Phase 1: data only) */}
+                  {/* Programmatic local SEO — Phase 2 pilot: single dynamic route, gated by `published` in the dataset */}
+                  <Route path="/service-areas/new-jersey/:slug" element={<CityLocationPage />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </ErrorBoundary>
