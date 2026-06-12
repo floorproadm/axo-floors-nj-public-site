@@ -249,21 +249,22 @@ const CityPageSSR = ({ location }: Props) => {
 
         {/* Project proof */}
         <section className="container mx-auto px-4 py-14 md:py-20">
-          <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
-            <div className="max-w-2xl">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-heading text-navy mb-3">
-                Recent AXO Floors Transformations
-              </h2>
-              <p className="text-grey leading-relaxed">
-                A selection of real refinishing and installation projects completed by AXO Floors. Browse the full set in our gallery.
-              </p>
-            </div>
-            <SafeLink to="/gallery" className="inline-flex items-center text-sm font-semibold text-navy hover:text-gold transition-smooth">
-              View full gallery <ChevronRight className="ml-0.5 h-4 w-4" />
-            </SafeLink>
+          <div className="max-w-2xl mb-8">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-heading text-navy mb-3">
+              Recent AXO Floors Transformations
+            </h2>
+            <p className="text-grey leading-relaxed">
+              A selection of real refinishing and installation projects completed by AXO Floors. Browse the full set in our gallery.
+            </p>
           </div>
           <ImageLightbox images={transformationImages} />
-
+          <div className="mt-8 flex justify-center">
+            <Button asChild size="lg" className="bg-gold text-black hover:bg-gold/90 shadow-elegant font-semibold px-8">
+              <SafeLink to="/gallery">
+                View full gallery <ChevronRight className="ml-2 h-5 w-5" />
+              </SafeLink>
+            </Button>
+          </div>
         </section>
 
         {/* Family / craftsmanship */}
