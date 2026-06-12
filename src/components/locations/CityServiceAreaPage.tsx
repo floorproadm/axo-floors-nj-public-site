@@ -102,6 +102,7 @@ const CityServiceAreaPage = ({ location }: Props) => {
         description={location.metaDescription}
         canonical={canonicalUrl}
       />
+      <LocationStructuredData location={location} />
       <Header />
 
       <main className="bg-background">
