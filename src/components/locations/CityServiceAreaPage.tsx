@@ -286,7 +286,7 @@ const CityServiceAreaPage = ({ location }: Props) => {
             <div className="relative order-first lg:order-last">
               <div className="relative rounded-2xl overflow-hidden shadow-elegant border-4 border-gold/20 aspect-[4/3] lg:aspect-[5/4]">
                 <img
-                  src={heroImage}
+                  src={heroSrc}
                   alt="Refinished hardwood floor by AXO Floors"
                   width={1200}
                   height={900}
