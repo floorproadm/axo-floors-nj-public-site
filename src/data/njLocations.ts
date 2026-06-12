@@ -31,6 +31,11 @@ export interface NJLocation {
   localOverview?: string;          // factual city overview copy
   coastalNote?: string;            // optional climate / coastal qualifier
   localFaqs?: { q: string; a: string }[];
+  // ─── Optional hero image (Phase 10.5) ──────────────────────────────
+  // City-specific approved AXO asset URL (imported asset or absolute
+  // path). Falls back to the shared approved hero when undefined. Do
+  // not assign unless the asset is a verified AXO project.
+  heroImage?: string;
 }
 
 export const njLocations: NJLocation[] = [

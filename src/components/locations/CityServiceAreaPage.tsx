@@ -33,7 +33,7 @@ import SEOHead from "@/components/shared/SEOHead";
 import LocationStructuredData from "@/components/locations/LocationStructuredData";
 import { AXO_PHONE_DISPLAY, AXO_PHONE_TEL, PUBLIC_SITE_URL } from "@/lib/constants";
 import { njLocations, type NJLocation } from "@/data/njLocations";
-import heroImage from "@/assets/hardwood-hero.jpg";
+import defaultHeroImage from "@/assets/hardwood-hero.jpg";
 import teamPhoto from "@/assets/team-photo.jpg";
 import ba1 from "@/assets/before-after/before-after-1.png";
 import ba2 from "@/assets/before-after/before-after-2.png";
@@ -213,6 +213,7 @@ const CityServiceAreaPage = ({ location }: Props) => {
     .filter((l): l is NJLocation => !!l && l.published);
 
   const heroDescription = location.heroDescription ?? location.introduction;
+  const heroSrc = location.heroImage ?? defaultHeroImage;
   const localTitle =
     location.localOverviewTitle ?? `Local Flooring Notes for ${location.cityName}`;
   const localBody = location.localOverview ?? location.localFlooringInformation;
@@ -258,7 +259,7 @@ const CityServiceAreaPage = ({ location }: Props) => {
                   {location.cityName}, {location.stateCode} · {location.county} County
                 </span>
               </div>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold font-heading text-navy leading-[1.1] mb-6">
+              <h1 className="text-3xl sm:text-4xl lg:text-[2.75rem] xl:text-5xl font-bold font-heading text-navy leading-[1.1] mb-6 [text-wrap:balance] max-w-[20ch]">
                 {location.h1}
               </h1>
               <p className="text-base sm:text-lg text-grey max-w-xl leading-relaxed mb-8">
@@ -285,7 +286,7 @@ const CityServiceAreaPage = ({ location }: Props) => {
             <div className="relative order-first lg:order-last">
               <div className="relative rounded-2xl overflow-hidden shadow-elegant border-4 border-gold/20 aspect-[4/3] lg:aspect-[5/4]">
                 <img
-                  src={heroImage}
+                  src={heroSrc}
                   alt="Refinished hardwood floor by AXO Floors"
                   width={1200}
                   height={900}
@@ -431,14 +432,14 @@ const CityServiceAreaPage = ({ location }: Props) => {
                   className="w-full h-full object-cover object-top"
                 />
               </div>
-              <div className="min-w-0">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-heading mb-5">
+              <div className="min-w-0 max-w-prose">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-heading mb-5 [text-wrap:balance]">
                   A Flooring Company Built from the <span className="text-gold">Jobsite Up</span>
                 </h2>
-                <p className="text-white/85 leading-relaxed mb-4">
+                <p className="text-base sm:text-lg text-white/90 leading-[1.75] mb-5">
                   AXO Floors is led by Ademir and his son Eduardo — a father-and-son team that built the company hands-on, one floor at a time. Ademir leads with more than 15 years of sanding, refinishing, and installation experience. Eduardo guides homeowners through stain colors, finish systems, and project decisions so the result lines up with what they actually want.
                 </p>
-                <p className="text-white/85 leading-relaxed mb-6">
+                <p className="text-base sm:text-lg text-white/90 leading-[1.75] mb-7">
                   Because the owners are on the work, decisions about preparation, repair, stain, and finish are made by people who do the work — not handed off. That is the difference our clients describe most often.
                 </p>
                 <Button asChild variant="outline" className="border-gold text-gold hover:bg-gold hover:text-black">
