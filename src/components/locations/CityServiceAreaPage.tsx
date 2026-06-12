@@ -11,6 +11,7 @@ import {
 import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
 import SEOHead from "@/components/shared/SEOHead";
+import LocationStructuredData from "@/components/locations/LocationStructuredData";
 import { AXO_PHONE_DISPLAY, AXO_PHONE_TEL, PUBLIC_SITE_URL } from "@/lib/constants";
 import { njLocations, type NJLocation } from "@/data/njLocations";
 
