@@ -133,21 +133,7 @@ const CityPageSSR = ({ location }: Props) => {
       <HeaderSSR />
 
       <main className="bg-background">
-        <nav aria-label="Breadcrumb" className="container mx-auto px-4 pt-6 text-sm">
-          <ol className="flex flex-wrap items-center gap-1.5 text-grey">
-            <li><SafeLink to="/" className="hover:text-navy transition-smooth">Home</SafeLink></li>
-            <li aria-hidden="true"><ChevronRight className="h-3.5 w-3.5" /></li>
-            <li>
-              <SafeLink to="/service-areas/new-jersey" className="hover:text-navy transition-smooth">
-                New Jersey Service Areas
-              </SafeLink>
-            </li>
-            <li aria-hidden="true"><ChevronRight className="h-3.5 w-3.5" /></li>
-            <li className="text-navy font-medium" aria-current="page">
-              {location.cityName}, {location.stateCode}
-            </li>
-          </ol>
-        </nav>
+        {/* Visible breadcrumb removed for cleaner UI; BreadcrumbList JSON-LD remains for SEO */}
 
         {/* Hero */}
         <section className="container mx-auto px-4 pt-8 pb-12 md:pt-12 md:pb-16">
