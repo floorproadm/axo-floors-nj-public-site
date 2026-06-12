@@ -93,7 +93,7 @@ export const njLocations: NJLocation[] = [
       { q: "Can I stay in the home during the project?", a: "Many homeowners stay in part of the home. Living arrangements are discussed during the estimate based on layout and finish system." },
     ],
     published: true,
-    indexable: false,
+    indexable: true,
   },
   {
     cityName: "Oakhurst",
@@ -127,7 +127,7 @@ export const njLocations: NJLocation[] = [
       { q: "Do you handle stairs in the same project?", a: "Yes. Stair refinishing and carpeted-stair conversion can be coordinated with the rest of the floor." },
     ],
     published: true,
-    indexable: false,
+    indexable: true,
   },
   {
     cityName: "Oceanport",
