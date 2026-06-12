@@ -7,26 +7,30 @@ interface SEOHeadProps {
   keywords?: string;
   canonical?: string;
   image?: string;
+  robots?: string;
 }
 
-const SEOHead = ({ 
+const SEOHead = ({
   title = "AXO Floors NJ - Professional Hardwood Flooring Installation & Refinishing",
   description = "Expert hardwood flooring services in New Jersey. Professional installation, refinishing, and restoration. Free estimates, licensed & insured. Call (732) 351-8653",
   keywords = "hardwood flooring NJ, floor refinishing New Jersey, flooring installation, wood floor restoration, AXO Floors",
   canonical,
-  image = "https://axofloorsnj.com/og-image.jpg"
+  image = "https://axofloorsnj.com/og-image.jpg",
+  robots = "index, follow",
 }: SEOHeadProps) => {
   const location = useLocation();
   const currentUrl = `https://axofloorsnj.com${location.pathname}`;
   const canonicalUrl = canonical || currentUrl;
 
   useEffect(() => {
-    // Update title
     document.title = title;
 
-    // Update meta tags
     const updateMeta = (name: string, content: string) => {
-      let meta = document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement;
+      const existing = document.querySelectorAll(`meta[name="${name}"]`);
+      existing.forEach((el, idx) => {
+        if (idx > 0) el.remove();
+      });
+      let meta = existing[0] as HTMLMetaElement | undefined;
       if (!meta) {
         meta = document.createElement('meta');
         meta.setAttribute('name', name);
@@ -36,7 +40,11 @@ const SEOHead = ({
     };
 
     const updateProperty = (property: string, content: string) => {
-      let meta = document.querySelector(`meta[property="${property}"]`) as HTMLMetaElement;
+      const existing = document.querySelectorAll(`meta[property="${property}"]`);
+      existing.forEach((el, idx) => {
+        if (idx > 0) el.remove();
+      });
+      let meta = existing[0] as HTMLMetaElement | undefined;
       if (!meta) {
         meta = document.createElement('meta');
         meta.setAttribute('property', property);
@@ -45,12 +53,10 @@ const SEOHead = ({
       meta.setAttribute('content', content);
     };
 
-    // Basic meta tags
     updateMeta('description', description);
     updateMeta('keywords', keywords);
-    updateMeta('robots', 'index, follow');
+    updateMeta('robots', robots);
 
-    // Open Graph
     updateProperty('og:title', title);
     updateProperty('og:description', description);
     updateProperty('og:url', currentUrl);
@@ -58,22 +64,23 @@ const SEOHead = ({
     updateProperty('og:type', 'website');
     updateProperty('og:site_name', 'AXO Floors NJ');
 
-    // Twitter
-    updateProperty('twitter:card', 'summary_large_image');
-    updateProperty('twitter:title', title);
-    updateProperty('twitter:description', description);
-    updateProperty('twitter:image', image);
+    updateMeta('twitter:card', 'summary_large_image');
+    updateMeta('twitter:title', title);
+    updateMeta('twitter:description', description);
+    updateMeta('twitter:image', image);
 
-    // Canonical URL
-    let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
-    if (!canonical) {
-      canonical = document.createElement('link');
-      canonical.setAttribute('rel', 'canonical');
-      document.head.appendChild(canonical);
+    const existingCanonicals = document.querySelectorAll('link[rel="canonical"]');
+    existingCanonicals.forEach((el, idx) => {
+      if (idx > 0) el.remove();
+    });
+    let canonicalEl = existingCanonicals[0] as HTMLLinkElement | undefined;
+    if (!canonicalEl) {
+      canonicalEl = document.createElement('link');
+      canonicalEl.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonicalEl);
     }
-    canonical.setAttribute('href', canonicalUrl);
-
-  }, [title, description, keywords, currentUrl, canonicalUrl, image]);
+    canonicalEl.setAttribute('href', canonicalUrl);
+  }, [title, description, keywords, currentUrl, canonicalUrl, image, robots]);
 
   return null;
 };
