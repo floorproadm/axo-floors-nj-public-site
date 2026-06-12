@@ -42,7 +42,7 @@ export const njLocations: NJLocation[] = [
       "AXO Floors serves homeowners across Long Branch — from Elberon down to Pleasure Bay — with hardwood installation, sanding, refinishing and staircase work.",
     localFlooringInformation:
       "Long Branch's housing stock ranges from early-1900s shore homes with original red oak strip flooring to modern high-rise condos along Ocean Avenue. Salt air and humidity swings mean shore-area floors typically benefit from hard-wax oils or commercial-grade water-based finishes that handle moisture better than older oil-based polys.",
-    published: false,
+    published: true,
     indexable: false,
   },
   {
