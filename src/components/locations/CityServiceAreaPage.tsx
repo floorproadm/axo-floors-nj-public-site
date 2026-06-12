@@ -213,6 +213,7 @@ const CityServiceAreaPage = ({ location }: Props) => {
     .filter((l): l is NJLocation => !!l && l.published);
 
   const heroDescription = location.heroDescription ?? location.introduction;
+  const heroSrc = location.heroImage ?? defaultHeroImage;
   const localTitle =
     location.localOverviewTitle ?? `Local Flooring Notes for ${location.cityName}`;
   const localBody = location.localOverview ?? location.localFlooringInformation;
