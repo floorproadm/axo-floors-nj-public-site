@@ -204,16 +204,9 @@ const CityServiceAreaPage = ({ location }: Props) => {
   const canonicalUrl = `${PUBLIC_SITE_URL}${path}`;
   const faq = buildFaq(location.cityName, location.localFaqs);
 
-  // Override the default `index, follow` robots meta when this city is not indexable.
-  useEffect(() => {
-    if (location.indexable) return;
-    const meta = document.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
-    const prev = meta?.getAttribute("content") ?? null;
-    if (meta) meta.setAttribute("content", "noindex, follow");
-    return () => {
-      if (meta) meta.setAttribute("content", prev ?? "index, follow");
-    };
-  }, [location.indexable]);
+  const robots = location.indexable ? "index, follow" : "noindex, follow";
+
+
 
   const publishedNearby = location.nearbyCitySlugs
     .map((slug) => njLocations.find((l) => l.slug === slug))
