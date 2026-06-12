@@ -45,8 +45,6 @@ import PublicPortal from "./pages/PublicPortal";
 import Links from "./pages/Links";
 import ReferralAuth from "./pages/ReferralAuth";
 import ResetPassword from "./pages/ResetPassword";
-import NewJerseyHub from "./pages/locations/NewJerseyHub";
-import CityOrCountyPage from "./pages/locations/CityOrCountyPage";
 
 const queryClient = new QueryClient();
 
@@ -98,9 +96,7 @@ const App = () => {
                   <Route path="/portal/:token" element={<PublicPortal />} />
                   <Route path="/hub" element={<Links />} />
                   <Route path="/auth" element={<Auth />} />
-                  {/* Programmatic local SEO — NJ service areas */}
-                  <Route path="/service-areas/new-jersey" element={<NewJerseyHub />} />
-                  <Route path="/service-areas/new-jersey/:slug" element={<CityOrCountyPage />} />
+                  {/* Programmatic local SEO — NJ service area routes intentionally not registered yet (Phase 1: data only) */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </ErrorBoundary>
