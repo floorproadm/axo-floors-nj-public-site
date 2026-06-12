@@ -19,6 +19,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "Expert hardwood flooring services in New Jersey. Professional installation, refinishing, and restoration. Free estimates, licensed & insured. Call (732) 351-8653" },
       { name: "keywords", content: "hardwood flooring NJ, floor refinishing New Jersey, flooring installation, wood floor restoration, AXO Floors, Newark flooring, Jersey City floors" },
       { name: "author", content: "AXO Floors NJ" },
+      { name: "google-site-verification", content: "7HWMnXaq3YOf1whDa2wZWzH8V06rUvgEi2ScW_ObOH0" },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "AXO Floors NJ" },
       { property: "og:locale", content: "en_US" },
