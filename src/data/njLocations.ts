@@ -272,7 +272,7 @@ export const njLocations: NJLocation[] = [
       { q: "Can engineered hardwood be refinished?", a: "Often yes, depending on wear-layer thickness. Thicker wear layers can typically be sanded once or twice; thinner layers may be better suited to a recoat." },
     ],
     published: true,
-    indexable: false,
+    indexable: true,
   },
   {
     cityName: "Rumson",
@@ -382,7 +382,7 @@ export const njLocations: NJLocation[] = [
       { q: "How long does a typical project take?", a: "Duration depends on square footage, repairs, stain selection, and finish curing. We share a realistic timeline after the on-site assessment." },
     ],
     published: true,
-    indexable: false,
+    indexable: true,
   },
   {
     cityName: "Shrewsbury",
