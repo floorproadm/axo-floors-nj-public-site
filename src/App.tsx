@@ -46,6 +46,7 @@ import Links from "./pages/Links";
 import ReferralAuth from "./pages/ReferralAuth";
 import ResetPassword from "./pages/ResetPassword";
 import CityLocationPage from "./pages/locations/CityLocationPage";
+import NewJerseyServiceAreasPage from "./pages/locations/NewJerseyServiceAreasPage";
 
 const queryClient = new QueryClient();
 
