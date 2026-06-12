@@ -99,6 +99,7 @@ const App = () => {
                   <Route path="/hub" element={<Links />} />
                   <Route path="/auth" element={<Auth />} />
                   {/* Programmatic local SEO — Phase 2 pilot: single dynamic route, gated by `published` in the dataset */}
+                  <Route path="/service-areas/new-jersey" element={<NewJerseyServiceAreasPage />} />
                   <Route path="/service-areas/new-jersey/:slug" element={<CityLocationPage />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
