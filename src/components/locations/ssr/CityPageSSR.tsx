@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import SafeLink from "./SafeLink";
 import HeaderSSR from "./HeaderSSR";
 import FooterSSR from "./FooterSSR";
+import ImageLightbox from "./ImageLightbox";
 import { AXO_PHONE_DISPLAY, AXO_PHONE_TEL } from "@/lib/constants";
 import { njLocations, type NJLocation } from "@/data/njLocations";
 import defaultHeroAsset from "@/assets/axo-hardwood-foyer-staircase.jpg.asset.json";
