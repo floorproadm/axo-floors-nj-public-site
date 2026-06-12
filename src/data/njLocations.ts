@@ -23,6 +23,14 @@ export interface NJLocation {
   localFlooringInformation: string; // longer body; housing stock, climate notes
   published: boolean;
   indexable: boolean;
+  // ─── Optional premium-template fields (Phase 6) ────────────────────
+  // City-specific copy used by the upgraded CityServiceAreaPage. Safe
+  // to leave undefined on cities that still ship the seed copy.
+  heroDescription?: string;
+  localOverviewTitle?: string;     // e.g. "Hardwood Flooring Considerations in Long Branch Homes"
+  localOverview?: string;          // factual city overview copy
+  coastalNote?: string;            // optional climate / coastal qualifier
+  localFaqs?: { q: string; a: string }[];
 }
 
 export const njLocations: NJLocation[] = [
@@ -37,11 +45,18 @@ export const njLocations: NJLocation[] = [
     nearbyCitySlugs: ["west-long-branch", "oceanport", "eatontown", "oakhurst", "asbury-park"],
     metaTitle: "Hardwood Flooring in Long Branch, NJ | AXO Floors",
     metaDescription: "Hardwood installation, sanding and refinishing in Long Branch, NJ. Dust-contained service, licensed and insured. Free estimates.",
-    h1: "Hardwood Flooring Services in Long Branch, NJ",
+    h1: "Hardwood Floor Refinishing & Installation in Long Branch, NJ",
     introduction:
-      "AXO Floors serves homeowners across Long Branch — from Elberon down to Pleasure Bay — with hardwood installation, sanding, refinishing and staircase work.",
+      "Restore worn hardwood, repair damaged boards, or install a new floor with a hands-on flooring team focused on careful preparation, precise craftsmanship, and finish recommendations for your home.",
+    heroDescription:
+      "Restore worn hardwood, repair damaged boards, or install a new floor with a hands-on flooring team focused on careful preparation, precise craftsmanship, and finish recommendations for your home.",
+    localOverviewTitle: "Hardwood Flooring Considerations in Long Branch Homes",
+    localOverview:
+      "Long Branch includes older shore properties, renovated single-family homes, and condominiums with different flooring conditions and project requirements. During an estimate, AXO Floors evaluates the existing finish, wood thickness, damaged boards, transitions, previous repairs, subfloor conditions, and indoor moisture before recommending refinishing, repair, or replacement.",
+    coastalNote:
+      "Seasonal indoor humidity and proximity to the coast may affect wood movement, gaps, and finish performance, but the appropriate solution depends on the conditions inside the individual property.",
     localFlooringInformation:
-      "Long Branch's housing stock ranges from early-1900s shore homes with original red oak strip flooring to modern high-rise condos along Ocean Avenue. Salt air and humidity swings mean shore-area floors typically benefit from hard-wax oils or commercial-grade water-based finishes that handle moisture better than older oil-based polys.",
+      "Long Branch includes older shore properties, renovated single-family homes, and condominiums with different flooring conditions and project requirements. During an estimate, AXO Floors evaluates the existing finish, wood thickness, damaged boards, transitions, previous repairs, subfloor conditions, and indoor moisture before recommending refinishing, repair, or replacement.",
     published: true,
     indexable: true,
   },

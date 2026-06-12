@@ -57,7 +57,7 @@ const Footer = () => {
 
             {/* Contact Info */}
             <div className="text-center lg:text-left">
-              <h3 className="text-lg font-heading font-semibold text-white mb-4">Useful Links</h3>
+              <h3 className="text-lg font-heading font-semibold text-white mb-4">Contact AXO Floors</h3>
               <div className="space-y-3">
                 <a href="tel:(732) 351-8653" className="flex items-center justify-center lg:justify-start gap-2 text-gold hover:text-white transition-smooth text-sm">
                   <Phone className="w-4 h-4" />
