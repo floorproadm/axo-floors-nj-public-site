@@ -163,7 +163,7 @@ export const njLocations: NJLocation[] = [
       { q: "Can I stay in the home during the work?", a: "Often yes, depending on the layout and the finish system. Living arrangements are discussed during the estimate." },
     ],
     published: true,
-    indexable: false,
+    indexable: true,
   },
   {
     cityName: "Eatontown",
@@ -197,7 +197,7 @@ export const njLocations: NJLocation[] = [
       { q: "Is sanding completely dust-free?", a: "No process is fully dust-free, but dust-contained sanding captures the large majority of dust at the source." },
     ],
     published: true,
-    indexable: false,
+    indexable: true,
   },
   {
     cityName: "Tinton Falls",
@@ -231,7 +231,7 @@ export const njLocations: NJLocation[] = [
       { q: "Is sanding completely dust-free?", a: "No process is fully dust-free, but dust-contained sanding captures the large majority of dust at the source." },
     ],
     published: true,
-    indexable: false,
+    indexable: true,
   },
   {
     cityName: "Red Bank",
