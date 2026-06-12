@@ -33,7 +33,7 @@ import SEOHead from "@/components/shared/SEOHead";
 import LocationStructuredData from "@/components/locations/LocationStructuredData";
 import { AXO_PHONE_DISPLAY, AXO_PHONE_TEL, PUBLIC_SITE_URL } from "@/lib/constants";
 import { njLocations, type NJLocation } from "@/data/njLocations";
-import heroImage from "@/assets/hardwood-hero.jpg";
+import defaultHeroImage from "@/assets/hardwood-hero.jpg";
 import teamPhoto from "@/assets/team-photo.jpg";
 import ba1 from "@/assets/before-after/before-after-1.png";
 import ba2 from "@/assets/before-after/before-after-2.png";
