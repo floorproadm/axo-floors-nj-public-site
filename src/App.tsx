@@ -46,8 +46,7 @@ import Links from "./pages/Links";
 import ReferralAuth from "./pages/ReferralAuth";
 import ResetPassword from "./pages/ResetPassword";
 import NewJerseyHub from "./pages/locations/NewJerseyHub";
-import CountyHub from "./pages/locations/CountyHub";
-import CityPage from "./pages/locations/CityPage";
+import CityOrCountyPage from "./pages/locations/CityOrCountyPage";
 
 const queryClient = new QueryClient();
 
@@ -101,8 +100,7 @@ const App = () => {
                   <Route path="/auth" element={<Auth />} />
                   {/* Programmatic local SEO — NJ service areas */}
                   <Route path="/service-areas/new-jersey" element={<NewJerseyHub />} />
-                  <Route path="/service-areas/new-jersey/:countyParam(*-county)" element={<CountyHub />} />
-                  <Route path="/service-areas/new-jersey/:citySlug" element={<CityPage />} />
+                  <Route path="/service-areas/new-jersey/:slug" element={<CityOrCountyPage />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </ErrorBoundary>

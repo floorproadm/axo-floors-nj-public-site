@@ -13,12 +13,13 @@ import {
 import { getLocationsByCounty } from "@/data/njLocations";
 
 const CountyHub = () => {
-  const { countyParam } = useParams<{ countyParam: string }>();
+  const { slug, countyParam } = useParams<{ slug?: string; countyParam?: string }>();
+  const raw = slug ?? countyParam ?? "";
   // route param is e.g. "monmouth-county" — strip suffix
-  const countySlug = countyParam?.replace(/-county$/, "") ?? "";
+  const countySlug = raw.replace(/-county$/, "");
   const cities = getLocationsByCounty(countySlug);
 
-  if (!countyParam || !countyParam.endsWith("-county") || cities.length === 0) {
+  if (!raw.endsWith("-county") || cities.length === 0) {
     return <Navigate to="/service-areas/new-jersey" replace />;
   }
 
