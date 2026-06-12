@@ -245,16 +245,33 @@ export const njLocations: NJLocation[] = [
     state: "New Jersey",
     stateCode: "NJ",
     zipCodes: ["07701"],
-    neighborhoods: ["West Side", "East Side", "Riverside Gardens", "Broad Street"],
-    nearbyCitySlugs: ["fair-haven", "little-silver", "shrewsbury", "rumson", "middletown"],
+    neighborhoods: ["West Side", "East Side", "Broad Street corridor", "Riverside area"],
+    nearbyCitySlugs: ["fair-haven", "little-silver", "shrewsbury", "rumson", "tinton-falls"],
     metaTitle: "Hardwood Flooring in Red Bank, NJ | AXO Floors",
-    metaDescription: "Premium hardwood installation and refinishing in Red Bank, NJ. Victorian restorations and modern finishes.",
-    h1: "Hardwood Flooring Services in Red Bank, NJ",
+    metaDescription:
+      "Hardwood refinishing, repairs, and installation for Red Bank, NJ homes. Careful work in occupied properties. Free in-home estimates.",
+    h1: "Hardwood Floor Refinishing & Installation in Red Bank, NJ",
+    heroDescription:
+      "Refinish original hardwood, repair damaged sections, or coordinate stairs and adjoining rooms with a hands-on AXO Floors crew that reviews each home before recommending the right approach.",
     introduction:
-      "Red Bank's historic homes deserve careful craftsmanship. AXO Floors restores original hardwood in Victorian and early-1900s homes throughout the West Side, and installs modern floors in renovated downtown lofts and condos.",
+      "AXO Floors serves Red Bank homeowners with hardwood refinishing, board repair, stair coordination, and new installation — including projects in older homes with altered floor plans, previous coatings, and room-to-room transitions that need evaluation before the right approach is recommended.",
+    localOverviewTitle: "Hardwood Flooring Considerations in Red Bank Homes",
+    localOverview:
+      "Red Bank includes a range of residential properties — older homes, renovated interiors, and units within converted or updated buildings. Many estimates involve evaluating previous coatings, assessing remaining board thickness, planning room-to-room transitions after a renovation, and coordinating stair work with the rest of the floor. Where the home is occupied, we plan staging, containment, and access so the work can proceed with respect for the household's routine.",
     localFlooringInformation:
-      "Many Red Bank homes have original 2¼\" red or white oak — sometimes with intricate borders or parquet medallions in the entry. Period-correct restorations often call for custom stain matching and weave-in board repairs around original detail.",
-    published: false,
+      "Red Bank includes a range of residential properties — older homes, renovated interiors, and units within converted or updated buildings. Many estimates involve evaluating previous coatings, assessing remaining board thickness, planning room-to-room transitions after a renovation, and coordinating stair work with the rest of the floor.",
+    localFaqs: [
+      { q: "Do you provide hardwood estimates in Red Bank, NJ?", a: "Yes. AXO Floors provides free, in-home estimates throughout Red Bank. Call (732) 351-8653 or request one online." },
+      { q: "Can older floors with previous coatings be refinished?", a: "Often yes. We evaluate the existing finish, remaining board thickness, and any earlier repair work in person before recommending a full sand, a recoat, or isolated repair." },
+      { q: "Do you work in homes with altered or renovated floor plans?", a: "Yes. Transitions between original rooms and renovated spaces — different board heights, species, or finishes — are reviewed during the estimate, and we recommend an approach that fits the home." },
+      { q: "How do you work in an occupied property?", a: "We plan staging, dust containment, and access so the work can proceed with respect for the household. Living arrangements and which areas can stay in use are discussed during the estimate." },
+      { q: "Can damaged boards be replaced without redoing the whole floor?", a: "Sometimes. Weave-in repairs are possible when matching material is available; the new boards are blended during sanding and finishing. We confirm the approach on-site." },
+      { q: "Can stairs be coordinated with the first-floor finish?", a: "In most projects the stair finish can be matched, subject to the species and condition of the treads. We confirm what is realistic during the estimate." },
+      { q: "Is sanding completely dust-free?", a: "No process is fully dust-free, but dust-contained sanding equipment captures the large majority of dust at the source." },
+      { q: "How long does a typical project take?", a: "Duration depends on square footage, repairs, stain selection, and the finish system's curing time. We share a realistic timeline after the on-site assessment." },
+      { q: "Can engineered hardwood be refinished?", a: "Often yes, depending on wear-layer thickness. Thicker wear layers can typically be sanded once or twice; thinner layers may be better suited to a recoat." },
+    ],
+    published: true,
     indexable: false,
   },
   {
@@ -264,16 +281,33 @@ export const njLocations: NJLocation[] = [
     state: "New Jersey",
     stateCode: "NJ",
     zipCodes: ["07760"],
-    neighborhoods: ["Rumson Road corridor", "Bingham Avenue", "Sea Bright border"],
+    neighborhoods: ["Rumson Road corridor", "Bingham Avenue area", "River Road corridor"],
     nearbyCitySlugs: ["fair-haven", "little-silver", "red-bank", "oceanport"],
     metaTitle: "Hardwood Flooring in Rumson, NJ | AXO Floors",
-    metaDescription: "High-end hardwood installation and refinishing in Rumson, NJ. Custom stains, wide-plank white oak, staircases.",
-    h1: "Hardwood Flooring Services in Rumson, NJ",
+    metaDescription:
+      "Hardwood installation, refinishing, and repair for Rumson, NJ homes. Custom finish samples and stair coordination. Free in-home estimates.",
+    h1: "Hardwood Floor Refinishing & Installation in Rumson, NJ",
+    heroDescription:
+      "Install new hardwood, refinish existing floors, or plan continuity between main floors, additions, and stairs with a hands-on AXO Floors crew focused on careful evaluation and finish coordination.",
     introduction:
-      "AXO Floors works with Rumson homeowners and builders on high-end hardwood installations and meticulous refinishes — including wide-plank white oak, custom stains and full staircase rebuilds.",
+      "AXO Floors serves Rumson homeowners with hardwood installation, sanding and refinishing, weave-in repairs, and stair work — including projects that involve continuity between main floors, additions, and renovated spaces, where finish samples and stain coordination matter to the final result.",
+    localOverviewTitle: "Hardwood Flooring Considerations in Rumson Homes",
+    localOverview:
+      "Rumson includes a range of residential properties with customized interiors. Estimates here often involve evaluating the existing wood species, prior coatings, and the condition of stairs and adjoining rooms — then planning finish samples and stain coordination so additions, renovated spaces, and original areas read consistently together. Where new flooring meets existing rooms, transition planning is part of the on-site review.",
     localFlooringInformation:
-      "Rumson estates often feature rift-and-quartered white oak in widths from 6\" to 10\", with custom stain blends. Premium finish systems like Bona, Rubio Monocoat and Pallmann are typical, and warm, fumed and natural-matte looks are currently in demand.",
-    published: false,
+      "Rumson includes a range of residential properties with customized interiors. Estimates here often involve evaluating the existing wood species, prior coatings, and the condition of stairs and adjoining rooms — then planning finish samples and stain coordination so additions, renovated spaces, and original areas read consistently together.",
+    localFaqs: [
+      { q: "Do you provide hardwood estimates in Rumson, NJ?", a: "Yes. AXO Floors provides free, in-home estimates throughout Rumson. Call (732) 351-8653 or request one online." },
+      { q: "Can finishes be coordinated between a main floor, an addition, and stairs?", a: "Yes. We review the existing species, stain, and sheen and recommend an approach that keeps adjoining spaces visually consistent. Exact matches are not always possible when older materials are out of production." },
+      { q: "Do you provide stain samples before committing to a color?", a: "Yes. Physical stain samples can be evaluated on your floor; lighting, surrounding rooms, and existing trim all change how the final color reads." },
+      { q: "Can existing wood species be identified before quoting?", a: "We identify the species and the existing finish during the on-site visit and use that to plan sanding, repair, and stain recommendations." },
+      { q: "Can weave-in repairs be blended with the existing floor?", a: "When matching material is available, replacement boards are woven into the existing pattern and blended during sanding and finishing." },
+      { q: "Do you work on stairs and railings in the same project?", a: "Yes. Stair refinishing or carpeted-stair conversion can be scheduled with the rest of the floor work and matched to the first-floor finish where possible." },
+      { q: "What finish systems do you use?", a: "We use both water-based and oil-based systems. The right choice depends on wood species, desired appearance, and household use — reviewed during the estimate." },
+      { q: "Is sanding completely dust-free?", a: "No process is fully dust-free, but dust-contained sanding captures the large majority of dust at the source." },
+      { q: "How long does a typical project take?", a: "Duration depends on square footage, repairs, stain selection, and finish curing. We share a realistic timeline after the on-site assessment." },
+    ],
+    published: true,
     indexable: false,
   },
   {
@@ -283,16 +317,33 @@ export const njLocations: NJLocation[] = [
     state: "New Jersey",
     stateCode: "NJ",
     zipCodes: ["07704"],
-    neighborhoods: ["River Road", "Fair Haven Fields"],
-    nearbyCitySlugs: ["red-bank", "rumson", "little-silver", "middletown"],
+    neighborhoods: ["River Road corridor", "Fair Haven Fields area", "Hance Road area"],
+    nearbyCitySlugs: ["rumson", "red-bank", "little-silver"],
     metaTitle: "Hardwood Flooring in Fair Haven, NJ | AXO Floors",
-    metaDescription: "Hardwood install, sand and refinish in Fair Haven, NJ. Family-owned, licensed and insured. Free estimates.",
-    h1: "Hardwood Flooring Services in Fair Haven, NJ",
+    metaDescription:
+      "Hardwood refinishing, weave-in repairs, and installation for Fair Haven, NJ single-family homes. Free in-home estimates.",
+    h1: "Hardwood Floor Refinishing & Installation in Fair Haven, NJ",
+    heroDescription:
+      "Refinish original floors, blend weave-in repairs after renovation work, or coordinate stairs and adjoining rooms with a hands-on AXO Floors crew that reviews each home before recommending the right approach.",
     introduction:
-      "AXO Floors serves Fair Haven families with hardwood installations, refinishing and staircase work — handling everything from older River Road homes to recent renovations near Fair Haven Fields.",
+      "AXO Floors serves Fair Haven single-family homes with hardwood refinishing, weave-in board repairs after renovation work, stair coordination, and new installation — including projects that involve matching flooring between adjoining rooms and coordinating stairs with first-floor hardwood.",
+    localOverviewTitle: "Hardwood Flooring Considerations in Fair Haven Homes",
+    localOverview:
+      "Fair Haven is primarily a single-family residential community with a mix of older and remodeled homes. Many estimates here involve refinishing existing floors, weave-in repairs after renovation work, matching flooring between adjoining rooms, and coordinating stairs with first-floor hardwood. The right approach is confirmed on-site after evaluating the existing finish, board condition, and transitions between rooms.",
     localFlooringInformation:
-      "Fair Haven's mature housing stock means many homes have original oak that has been refinished a few times already. Measuring remaining board thickness before sanding is important; a recoat is often a safer option than a full sand on thin boards.",
-    published: false,
+      "Fair Haven is primarily a single-family residential community with a mix of older and remodeled homes. Many estimates here involve refinishing existing floors, weave-in repairs after renovation work, matching flooring between adjoining rooms, and coordinating stairs with first-floor hardwood.",
+    localFaqs: [
+      { q: "Do you provide hardwood estimates in Fair Haven, NJ?", a: "Yes. AXO Floors provides free, in-home estimates throughout Fair Haven. Call (732) 351-8653 or request one online." },
+      { q: "Can floors damaged or removed during a renovation be repaired?", a: "Often yes. Weave-in board replacement is common after wall removals or layout changes; the new boards are blended with the existing floor during sanding and finishing." },
+      { q: "Can flooring be matched between two adjoining rooms?", a: "We compare species, board width, stain, and sheen and recommend the closest reasonable match. An exact match is not always possible when older materials are out of production." },
+      { q: "Can stairs be refinished to match the first floor?", a: "In most projects the stair finish can be matched, subject to species and condition of the treads. We confirm what is realistic on-site." },
+      { q: "How do you decide between refinishing and replacement?", a: "Refinishing depends on remaining board thickness and the condition of the existing finish. Replacement is recommended only when refinishing is no longer appropriate — both are evaluated in person." },
+      { q: "Is sanding completely dust-free?", a: "No process is fully dust-free, but dust-contained sanding captures the large majority of dust at the source." },
+      { q: "Can engineered hardwood be refinished?", a: "Often yes, depending on wear-layer thickness. Thicker wear layers can typically be sanded once or twice; thinner layers may be better suited to a recoat." },
+      { q: "How long does a typical project take?", a: "Duration depends on square footage, repairs, stain selection, and finish curing. We share a realistic timeline after the on-site assessment." },
+      { q: "What is the difference between water-based and oil-based finishes?", a: "Water-based finishes tend to be lower-odor and faster to cure; oil-based finishes have a warmer amber tone and a different cure profile. The right choice depends on the project." },
+    ],
+    published: true,
     indexable: false,
   },
   {
@@ -302,16 +353,35 @@ export const njLocations: NJLocation[] = [
     state: "New Jersey",
     stateCode: "NJ",
     zipCodes: ["07739"],
-    neighborhoods: ["Markham Place", "Parker Avenue", "Borough Center"],
+    neighborhoods: ["Markham Place area", "Parker Avenue corridor", "Borough Center"],
     nearbyCitySlugs: ["red-bank", "shrewsbury", "fair-haven", "oceanport"],
     metaTitle: "Hardwood Flooring in Little Silver, NJ | AXO Floors",
-    metaDescription: "Hardwood install, refinishing and stair work in Little Silver, NJ. Free in-home estimates.",
-    h1: "Hardwood Flooring Services in Little Silver, NJ",
+    metaDescription:
+      "Hardwood refinishing, repairs, and installation for Little Silver, NJ homes. Continuity between rooms and stairs. Free in-home estimates.",
+    h1: "Hardwood Floor Refinishing & Installation in Little Silver, NJ",
+    heroDescription:
+      "Refinish existing hardwood, plan continuity between rooms and stairs, or evaluate replacement on isolated areas with a hands-on AXO Floors crew that reviews each property before recommending the right approach.",
     introduction:
-      "Little Silver homeowners turn to AXO Floors for hardwood installations, sand-and-refinish, and staircase work — done cleanly with respect for the home and schedule.",
+      "AXO Floors serves Little Silver single-family homes with hardwood refinishing, isolated board repairs, replacement evaluation, and new installation — including projects that involve transitions between original and newer flooring and continuity between living spaces, hallways, and stairs.",
+    localOverviewTitle: "Hardwood Flooring Considerations in Little Silver Homes",
+    localOverview:
+      "Little Silver is a mostly single-family residential community with varied property types. Many estimates involve evaluating transitions between original and newer flooring, deciding between refinishing and isolated replacement, and planning continuity between living spaces, hallways, and stairs. The right approach is confirmed on-site after evaluating board condition, existing finish, and adjoining rooms.",
+    coastalNote:
+      "Seasonal indoor humidity can be a consideration in some Little Silver homes, but the appropriate response depends on the conditions inside each individual property — not every home has the same exposure.",
     localFlooringInformation:
-      "Little Silver's classic colonials and capes typically have 2¼\" or 3¼\" oak strip flooring. Modern low-VOC water-based finishes cure faster and harder than older oil-based finishes and work well in these homes.",
-    published: false,
+      "Little Silver is a mostly single-family residential community with varied property types. Many estimates involve evaluating transitions between original and newer flooring, deciding between refinishing and isolated replacement, and planning continuity between living spaces, hallways, and stairs.",
+    localFaqs: [
+      { q: "Do you provide hardwood estimates in Little Silver, NJ?", a: "Yes. AXO Floors provides free, in-home estimates throughout Little Silver. Call (732) 351-8653 or request one online." },
+      { q: "Can older floors be refinished or do they need replacement?", a: "Refinishing depends on remaining board thickness and the condition of the existing finish. Replacement is recommended only when refinishing is no longer appropriate — both are evaluated in person." },
+      { q: "How are transitions between original and newer flooring handled?", a: "Transitions are reviewed during the estimate — including differences in board height, species, and finish between rooms — and we recommend an approach that fits the home." },
+      { q: "Can continuity be planned between living spaces, hallways, and stairs?", a: "Yes. We evaluate board direction, species, stain, and stair condition during the estimate and recommend an approach that keeps adjacent spaces visually consistent." },
+      { q: "Does indoor humidity affect floor performance?", a: "It can, in some homes. Seasonal indoor humidity may influence wood movement and gaps, but the appropriate response depends on each property's HVAC, subfloor, and existing conditions." },
+      { q: "Can damaged boards be replaced in only one room?", a: "Yes, when matching material is available. Isolated weave-in repairs are blended during sanding and finishing; we confirm the approach on-site." },
+      { q: "Is sanding completely dust-free?", a: "No process is fully dust-free, but dust-contained sanding captures the large majority of dust at the source." },
+      { q: "What finish systems do you use?", a: "We use both water-based and oil-based systems. The right choice depends on wood species, desired appearance, and household use." },
+      { q: "How long does a typical project take?", a: "Duration depends on square footage, repairs, stain selection, and finish curing. We share a realistic timeline after the on-site assessment." },
+    ],
+    published: true,
     indexable: false,
   },
   {
@@ -321,16 +391,33 @@ export const njLocations: NJLocation[] = [
     state: "New Jersey",
     stateCode: "NJ",
     zipCodes: ["07702"],
-    neighborhoods: ["Broad Street", "Sycamore Avenue", "Shrewsbury Township border"],
+    neighborhoods: ["Broad Street corridor", "Sycamore Avenue area", "Borough Center"],
     nearbyCitySlugs: ["red-bank", "tinton-falls", "little-silver", "eatontown"],
     metaTitle: "Hardwood Flooring in Shrewsbury, NJ | AXO Floors",
-    metaDescription: "Hardwood install, sand and refinish and stairs in Shrewsbury, NJ. Licensed and insured. Free estimates.",
-    h1: "Hardwood Flooring Services in Shrewsbury, NJ",
+    metaDescription:
+      "Hardwood refinishing, repairs, installation, and stair work for Shrewsbury Borough, NJ homes. Free in-home estimates.",
+    h1: "Hardwood Floor Refinishing & Installation in Shrewsbury, NJ",
+    heroDescription:
+      "Refinish existing hardwood, repair damaged sections, or install new flooring with a hands-on AXO Floors crew that reviews subfloor, board condition, and previous coatings before recommending the right approach.",
     introduction:
-      "AXO Floors serves Shrewsbury Borough with hardwood installations, refinishing, repairs and staircase work — clean process, clear pricing.",
+      "AXO Floors serves Shrewsbury Borough homeowners with hardwood refinishing, board repair, new installation, and stair work — including projects that involve evaluating the subfloor, board condition, and previous coatings, and planning work around adjacent rooms and existing trim. (Shrewsbury Borough is a separate municipality from Shrewsbury Township.)",
+    localOverviewTitle: "Hardwood Flooring Considerations in Shrewsbury Borough Homes",
+    localOverview:
+      "Shrewsbury Borough includes established homes, renovated interiors, and properties where flooring transitions to adjacent rooms and existing trim need to be planned carefully. Many estimates here involve reviewing the subfloor, the condition of existing boards, and previous coatings before recommending refinishing, isolated repair, new installation, or stair work. Shrewsbury Borough is a separate municipality from Shrewsbury Township, and ZIP code 07702 refers to the borough.",
     localFlooringInformation:
-      "Shrewsbury blends historic colonials with newer construction along Sycamore Avenue, requiring both restoration of original heart-pine and oak and installation of newer wide-plank engineered systems.",
-    published: false,
+      "Shrewsbury Borough includes established homes, renovated interiors, and properties where flooring transitions to adjacent rooms and existing trim need to be planned carefully. Many estimates here involve reviewing the subfloor, the condition of existing boards, and previous coatings before recommending refinishing, isolated repair, new installation, or stair work.",
+    localFaqs: [
+      { q: "Do you provide hardwood estimates in Shrewsbury, NJ?", a: "Yes. AXO Floors provides free, in-home estimates throughout Shrewsbury Borough. Call (732) 351-8653 or request one online." },
+      { q: "Do you serve Shrewsbury Borough and Shrewsbury Township?", a: "Our service-area page is focused on Shrewsbury Borough (ZIP 07702). Properties outside the borough are reviewed case by case during scheduling." },
+      { q: "Do you evaluate the subfloor before installation?", a: "Yes. Subfloor evaluation and preparation are part of the installation process. The scope is confirmed after reviewing the existing subfloor on-site." },
+      { q: "Can previous coatings be sanded off and refinished?", a: "Often yes, depending on the coating type, remaining board thickness, and floor condition. We evaluate the existing finish in person before recommending an approach." },
+      { q: "Can hardwood and stairs be coordinated in one project?", a: "Yes. Stair refinishing or carpeted-stair conversion can be scheduled with the rest of the floor work and matched to the first-floor finish where possible." },
+      { q: "How do you work around adjacent rooms and existing trim?", a: "We plan containment, baseboard protection, and access during the estimate so the work can proceed with respect for existing trim and adjoining rooms." },
+      { q: "Is sanding completely dust-free?", a: "No process is fully dust-free, but dust-contained sanding captures the large majority of dust at the source." },
+      { q: "How long does a typical project take?", a: "Duration depends on square footage, repairs, stain selection, and finish curing. We share a realistic timeline after the on-site assessment." },
+      { q: "Can engineered hardwood be refinished?", a: "Often yes, depending on wear-layer thickness. Thicker wear layers can typically be sanded once or twice; thinner layers may be better suited to a recoat." },
+    ],
+    published: true,
     indexable: false,
   },
   {
