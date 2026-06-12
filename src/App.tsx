@@ -45,6 +45,7 @@ import PublicPortal from "./pages/PublicPortal";
 import Links from "./pages/Links";
 import ReferralAuth from "./pages/ReferralAuth";
 import ResetPassword from "./pages/ResetPassword";
+import CityLocationPage from "./pages/locations/CityLocationPage";
 
 const queryClient = new QueryClient();
 
