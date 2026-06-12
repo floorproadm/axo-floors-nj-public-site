@@ -11,6 +11,7 @@ import {
 import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
 import SEOHead from "@/components/shared/SEOHead";
+import LocationStructuredData from "@/components/locations/LocationStructuredData";
 import { AXO_PHONE_DISPLAY, AXO_PHONE_TEL, PUBLIC_SITE_URL } from "@/lib/constants";
 import { njLocations, type NJLocation } from "@/data/njLocations";
 
@@ -101,6 +102,7 @@ const CityServiceAreaPage = ({ location }: Props) => {
         description={location.metaDescription}
         canonical={canonicalUrl}
       />
+      <LocationStructuredData location={location} />
       <Header />
 
       <main className="bg-background">
@@ -110,9 +112,9 @@ const CityServiceAreaPage = ({ location }: Props) => {
             <li>
               <Link to="/" className="hover:text-navy transition-smooth">Home</Link>
             </li>
-            <li><ChevronRight className="h-3.5 w-3.5" /></li>
+            <li aria-hidden="true"><ChevronRight className="h-3.5 w-3.5" /></li>
             <li>Service Areas</li>
-            <li><ChevronRight className="h-3.5 w-3.5" /></li>
+            <li aria-hidden="true"><ChevronRight className="h-3.5 w-3.5" /></li>
             <li className="text-navy font-medium" aria-current="page">
               {location.cityName}, {location.stateCode}
             </li>
