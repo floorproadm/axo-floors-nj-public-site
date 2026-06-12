@@ -74,20 +74,16 @@ const CityServiceAreaPage = ({ location }: Props) => {
   const canonicalUrl = `${PUBLIC_SITE_URL}${path}`;
   const faq = buildFaq(location.cityName);
 
-  // Robots meta: indexable === false → noindex, follow.
-  // When `indexable` is later flipped to true on a city, this auto-switches.
+  // When a city is not indexable, override SEOHead's default `index, follow`
+  // with `noindex, follow`. When indexable, do nothing so the default applies —
+  // we never want to ship a noindex directive for an indexable page.
   useEffect(() => {
-    const robotsContent = location.indexable ? "index, follow" : "noindex, follow";
-    let meta = document.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
-    if (!meta) {
-      meta = document.createElement("meta");
-      meta.setAttribute("name", "robots");
-      document.head.appendChild(meta);
-    }
-    meta.setAttribute("content", robotsContent);
+    if (location.indexable) return;
+    const meta = document.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
+    const prev = meta?.getAttribute("content") ?? null;
+    if (meta) meta.setAttribute("content", "noindex, follow");
     return () => {
-      // Restore site default on unmount so other routes are not affected.
-      if (meta) meta.setAttribute("content", "index, follow");
+      if (meta) meta.setAttribute("content", prev ?? "index, follow");
     };
   }, [location.indexable]);
 
