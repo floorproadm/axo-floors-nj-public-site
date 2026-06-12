@@ -113,7 +113,11 @@ const CityServiceAreaPage = ({ location }: Props) => {
               <Link to="/" className="hover:text-navy transition-smooth">Home</Link>
             </li>
             <li aria-hidden="true"><ChevronRight className="h-3.5 w-3.5" /></li>
-            <li>Service Areas</li>
+            <li>
+              <Link to="/service-areas/new-jersey" className="hover:text-navy transition-smooth">
+                New Jersey Service Areas
+              </Link>
+            </li>
             <li aria-hidden="true"><ChevronRight className="h-3.5 w-3.5" /></li>
             <li className="text-navy font-medium" aria-current="page">
               {location.cityName}, {location.stateCode}
