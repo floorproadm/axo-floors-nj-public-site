@@ -223,6 +223,7 @@ const CityServiceAreaPage = ({ location }: Props) => {
         title={location.metaTitle}
         description={location.metaDescription}
         canonical={canonicalUrl}
+        robots={robots}
       />
       <LocationStructuredData location={location} />
       <Header />
