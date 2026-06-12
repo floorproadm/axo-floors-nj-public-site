@@ -44,6 +44,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "LocalBusiness",
+          "@id": "https://axofloorsnj.com",
           name: "AXO Floors NJ",
           image: "https://axofloorsnj.com/logo.png",
           description:
