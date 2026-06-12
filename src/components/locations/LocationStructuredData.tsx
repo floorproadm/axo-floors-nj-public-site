@@ -36,10 +36,10 @@ const LocationStructuredData = ({ location }: Props) => {
           item: `${PUBLIC_SITE_URL}/`,
         },
         {
-          // No `item` field on purpose — the NJ hub route does not exist yet.
           "@type": "ListItem",
           position: 2,
-          name: "Service Areas",
+          name: "New Jersey Service Areas",
+          item: `${PUBLIC_SITE_URL}/service-areas/new-jersey`,
         },
         {
           "@type": "ListItem",
