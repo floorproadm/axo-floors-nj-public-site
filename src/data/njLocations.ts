@@ -393,7 +393,7 @@ export const njLocations: NJLocation[] = [
     stateCode: "NJ",
     zipCodes: ["07728"],
     neighborhoods: ["Freehold Borough", "Freehold Township", "Downtown Main Street"],
-    nearbyCitySlugs: ["colts-neck", "manalapan", "howell"],
+    nearbyCitySlugs: ["colts-neck"],
     metaTitle: "Hardwood Flooring in Freehold, NJ | AXO Floors",
     metaDescription: "Hardwood installation, sanding, refinishing and stairs in Freehold, NJ. Licensed and insured. Free estimates.",
     h1: "Hardwood Flooring Services in Freehold, NJ",
