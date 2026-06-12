@@ -432,14 +432,14 @@ const CityServiceAreaPage = ({ location }: Props) => {
                   className="w-full h-full object-cover object-top"
                 />
               </div>
-              <div className="min-w-0">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-heading mb-5">
+              <div className="min-w-0 max-w-prose">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-heading mb-5 [text-wrap:balance]">
                   A Flooring Company Built from the <span className="text-gold">Jobsite Up</span>
                 </h2>
-                <p className="text-white/85 leading-relaxed mb-4">
+                <p className="text-base sm:text-lg text-white/90 leading-[1.75] mb-5">
                   AXO Floors is led by Ademir and his son Eduardo — a father-and-son team that built the company hands-on, one floor at a time. Ademir leads with more than 15 years of sanding, refinishing, and installation experience. Eduardo guides homeowners through stain colors, finish systems, and project decisions so the result lines up with what they actually want.
                 </p>
-                <p className="text-white/85 leading-relaxed mb-6">
+                <p className="text-base sm:text-lg text-white/90 leading-[1.75] mb-7">
                   Because the owners are on the work, decisions about preparation, repair, stain, and finish are made by people who do the work — not handed off. That is the difference our clients describe most often.
                 </p>
                 <Button asChild variant="outline" className="border-gold text-gold hover:bg-gold hover:text-black">
