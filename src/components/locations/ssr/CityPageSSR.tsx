@@ -261,13 +261,8 @@ const CityPageSSR = ({ location }: Props) => {
               View full gallery <ChevronRight className="ml-0.5 h-4 w-4" />
             </SafeLink>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-            {transformationImages.map((img, i) => (
-              <div key={i} className="relative overflow-hidden rounded-xl aspect-[4/3] bg-grey-light">
-                <img src={img.src} alt={img.alt} loading="lazy" width={800} height={600} className="w-full h-full object-cover hover:scale-105 transition-transform duration-500" />
-              </div>
-            ))}
-          </div>
+          <ImageLightbox images={transformationImages} />
+
         </section>
 
         {/* Family / craftsmanship */}
