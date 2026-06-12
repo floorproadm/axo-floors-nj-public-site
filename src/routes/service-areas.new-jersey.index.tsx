@@ -1,6 +1,6 @@
-import { createFileRoute, ClientOnly } from "@tanstack/react-router";
-import App from "../App";
+import { createFileRoute } from "@tanstack/react-router";
 import { PUBLIC_SITE_URL } from "@/lib/constants";
+import HubPageSSR from "@/components/locations/ssr/HubPageSSR";
 
 const url = `${PUBLIC_SITE_URL}/service-areas/new-jersey`;
 const title = "New Jersey Hardwood Flooring Service Areas | AXO Floors";
@@ -20,13 +20,6 @@ export const Route = createFileRoute("/service-areas/new-jersey/")({
     ],
     links: [{ rel: "canonical", href: url }],
   }),
-  component: HubShell,
+  component: HubPageSSR,
 });
 
-function HubShell() {
-  return (
-    <ClientOnly fallback={<div style={{ minHeight: "100vh" }} />}>
-      <App />
-    </ClientOnly>
-  );
-}

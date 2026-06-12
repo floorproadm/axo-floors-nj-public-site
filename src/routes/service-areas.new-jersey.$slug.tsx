@@ -1,11 +1,9 @@
-import {
-  createFileRoute,
-  ClientOnly,
-  notFound,
-} from "@tanstack/react-router";
-import App from "../App";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 import { getLocationBySlug } from "@/data/njLocations";
 import { PUBLIC_SITE_URL } from "@/lib/constants";
+import CityPageSSR from "@/components/locations/ssr/CityPageSSR";
+import NotFoundShell from "@/components/locations/ssr/NotFoundShell";
+
 
 /**
  * SSR-enabled city route. Owns the HTTP status code and the initial
@@ -107,14 +105,12 @@ export const Route = createFileRoute("/service-areas/new-jersey/$slug")({
       ],
     };
   },
-  component: CityShell,
-  notFoundComponent: CityShell,
+  component: CityComponent,
+  notFoundComponent: NotFoundShell,
 });
 
-function CityShell() {
-  return (
-    <ClientOnly fallback={<div style={{ minHeight: "100vh" }} />}>
-      <App />
-    </ClientOnly>
-  );
+function CityComponent() {
+  const { loc } = Route.useLoaderData();
+  return <CityPageSSR location={loc} />;
 }
+
