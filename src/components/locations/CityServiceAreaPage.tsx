@@ -259,7 +259,7 @@ const CityServiceAreaPage = ({ location }: Props) => {
                   {location.cityName}, {location.stateCode} · {location.county} County
                 </span>
               </div>
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold font-heading text-navy leading-[1.1] mb-6">
+              <h1 className="text-3xl sm:text-4xl lg:text-[2.75rem] xl:text-5xl font-bold font-heading text-navy leading-[1.1] mb-6 [text-wrap:balance] max-w-[20ch]">
                 {location.h1}
               </h1>
               <p className="text-base sm:text-lg text-grey max-w-xl leading-relaxed mb-8">
