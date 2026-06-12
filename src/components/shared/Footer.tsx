@@ -13,6 +13,9 @@ const Footer = () => {
   }, {
     name: "Gallery",
     href: "/gallery"
+  }, {
+    name: "New Jersey Service Areas",
+    href: "/service-areas/new-jersey"
   }];
   return <footer className="bg-black text-white">
       {/* Inspirational Section */}
