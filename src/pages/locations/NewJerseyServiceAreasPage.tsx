@@ -82,7 +82,7 @@ const NewJerseyServiceAreasPage = () => {
                 <Calendar className="mr-2 h-5 w-5" /> Schedule Free Estimate
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline">
+            <Button asChild size="lg" variant="outline" className="border-navy text-navy hover:bg-navy hover:text-white">
               <a href={`tel:${AXO_PHONE_TEL}`}>
                 <Phone className="mr-2 h-5 w-5" /> {AXO_PHONE_DISPLAY}
               </a>
