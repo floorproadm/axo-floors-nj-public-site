@@ -6,17 +6,16 @@ import NotFoundShell from "@/components/locations/ssr/NotFoundShell";
 
 
 /**
- * SSR-enabled city route. Owns the HTTP status code and the initial
- * <head> for /service-areas/new-jersey/:slug:
- *   - Unknown or unpublished slug -> throws notFound() -> server responds 404
- *   - Published slug -> server responds 200 with city-specific title,
- *     description, canonical, robots (driven by `indexable`), Open Graph
- *     URL and JSON-LD (BreadcrumbList + Service).
- *
- * The visible page is still rendered by the existing React-Router SPA
- * (CityServiceAreaPage) after hydration via <App />. SEOHead client-side
- * updates remain a no-op overwrite of the same values.
+ * SSR city route. Owns the HTTP status code, initial <head>, and the
+ * full server-rendered body for /service-areas/new-jersey/:slug:
+ *   - Unknown or unpublished slug -> throws notFound() -> server responds
+ *     404 with NotFoundShell.
+ *   - Published slug -> server responds 200 with the full CityPageSSR
+ *     markup (Header, hero, services, local content, FAQ, nearby links,
+ *     CTA, Footer) plus city-specific metadata, canonical, robots,
+ *     and JSON-LD (BreadcrumbList + Service).
  */
+
 export const Route = createFileRoute("/service-areas/new-jersey/$slug")({
   loader: ({ params }) => {
     const loc = getLocationBySlug(params.slug);
