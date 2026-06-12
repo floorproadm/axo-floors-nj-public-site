@@ -124,15 +124,17 @@ const NewJerseyServiceAreasPage = () => {
           {published.length === 0 ? (
             <p className="text-grey">Location pages are being added. Call {AXO_PHONE_DISPLAY} to confirm availability in your area.</p>
           ) : (
-            <ul className="flex flex-wrap gap-3">
+            <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               {published.map((c) => (
                 <li key={c.slug}>
                   <Link
                     to={`/service-areas/new-jersey/${c.slug}`}
-                    className="inline-flex items-center px-4 py-2 rounded-lg border border-grey-light text-navy font-medium hover:border-gold hover:bg-grey-light/30 transition-smooth"
+                    className="flex items-center justify-between gap-3 rounded-lg border border-grey-light bg-card px-4 py-3 text-navy font-medium hover:border-gold hover:bg-grey-light/30 transition-smooth"
                   >
-                    {c.cityName}, {c.stateCode}
-                    <ChevronRight className="ml-1 h-4 w-4" />
+                    <span className="truncate">
+                      {c.cityName}, {c.stateCode}
+                    </span>
+                    <ChevronRight className="h-4 w-4 shrink-0 text-gold" />
                   </Link>
                 </li>
               ))}
