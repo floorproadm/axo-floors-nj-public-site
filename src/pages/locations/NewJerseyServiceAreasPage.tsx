@@ -21,19 +21,9 @@ const services = [
 const NewJerseyServiceAreasPage = () => {
   const published = getPublishedLocations();
 
-  // Robots: noindex, follow during controlled QA phase.
-  useEffect(() => {
-    let meta = document.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
-    if (!meta) {
-      meta = document.createElement("meta");
-      meta.setAttribute("name", "robots");
-      document.head.appendChild(meta);
-    }
-    meta.setAttribute("content", "noindex, follow");
-    return () => {
-      if (meta) meta.setAttribute("content", "index, follow");
-    };
-  }, []);
+  // Hub is indexable — rely on SEOHead's default `index, follow`.
+  // Intentionally no robots-meta override here so the page is never
+  // delivered as noindex (initial HTML or post-hydration).
 
   // BreadcrumbList JSON-LD for the hub.
   useEffect(() => {
