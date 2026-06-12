@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ServiceAreasNewJerseyIndexRouteImport } from './routes/service-areas.new-jersey.index'
+import { Route as ServiceAreasNewJerseySlugRouteImport } from './routes/service-areas.new-jersey.$slug'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -28,35 +30,71 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServiceAreasNewJerseyIndexRoute =
+  ServiceAreasNewJerseyIndexRouteImport.update({
+    id: '/service-areas/new-jersey/',
+    path: '/service-areas/new-jersey/',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ServiceAreasNewJerseySlugRoute =
+  ServiceAreasNewJerseySlugRouteImport.update({
+    id: '/service-areas/new-jersey/$slug',
+    path: '/service-areas/new-jersey/$slug',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/service-areas/new-jersey/$slug': typeof ServiceAreasNewJerseySlugRoute
+  '/service-areas/new-jersey/': typeof ServiceAreasNewJerseyIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/service-areas/new-jersey/$slug': typeof ServiceAreasNewJerseySlugRoute
+  '/service-areas/new-jersey': typeof ServiceAreasNewJerseyIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/service-areas/new-jersey/$slug': typeof ServiceAreasNewJerseySlugRoute
+  '/service-areas/new-jersey/': typeof ServiceAreasNewJerseyIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/$' | '/sitemap.xml'
+  fullPaths:
+    | '/'
+    | '/$'
+    | '/sitemap.xml'
+    | '/service-areas/new-jersey/$slug'
+    | '/service-areas/new-jersey/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/$' | '/sitemap.xml'
-  id: '__root__' | '/' | '/$' | '/sitemap.xml'
+  to:
+    | '/'
+    | '/$'
+    | '/sitemap.xml'
+    | '/service-areas/new-jersey/$slug'
+    | '/service-areas/new-jersey'
+  id:
+    | '__root__'
+    | '/'
+    | '/$'
+    | '/sitemap.xml'
+    | '/service-areas/new-jersey/$slug'
+    | '/service-areas/new-jersey/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SplatRoute: typeof SplatRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  ServiceAreasNewJerseySlugRoute: typeof ServiceAreasNewJerseySlugRoute
+  ServiceAreasNewJerseyIndexRoute: typeof ServiceAreasNewJerseyIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +120,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/service-areas/new-jersey/': {
+      id: '/service-areas/new-jersey/'
+      path: '/service-areas/new-jersey'
+      fullPath: '/service-areas/new-jersey/'
+      preLoaderRoute: typeof ServiceAreasNewJerseyIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/service-areas/new-jersey/$slug': {
+      id: '/service-areas/new-jersey/$slug'
+      path: '/service-areas/new-jersey/$slug'
+      fullPath: '/service-areas/new-jersey/$slug'
+      preLoaderRoute: typeof ServiceAreasNewJerseySlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,7 +141,19 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SplatRoute: SplatRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  ServiceAreasNewJerseySlugRoute: ServiceAreasNewJerseySlugRoute,
+  ServiceAreasNewJerseyIndexRoute: ServiceAreasNewJerseyIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
