@@ -247,35 +247,6 @@ const Gallery = () => {
     <div className="min-h-screen">
       <Header />
       
-      {/* Hero Section */}
-      <section className="py-20 navy-gradient text-white">
-        <div className="container mx-auto px-4 text-center">
-
-
-          <h1 className="text-3xl md:text-5xl font-bold font-heading mb-6 leading-tight max-w-4xl mx-auto">
-            See What Your Floors Could Look Like
-            <span className="block bg-gradient-to-r from-gold via-yellow-300 to-gold bg-clip-text text-transparent mt-2">
-              In Just Days, Not Weeks
-            </span>
-          </h1>
-
-          <p className="text-xl text-white/80 max-w-3xl mx-auto mb-8">
-            Every photo on this page is a real home we've worked in. No stock images. No staged renders. Just hardwood floors, refinished and installed by AXO Floors.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild className="gold-gradient hover:scale-105 transition-bounce text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-5 h-auto min-h-[48px] text-black font-semibold">
-              <Link to="/contact" className="flex items-center justify-center gap-2 text-black">
-                Get My Free Estimate
-                <ArrowRight className="w-5 h-5 text-black" />
-              </Link>
-            </Button>
-            <Button variant="outline" asChild className="text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-5 h-auto min-h-[48px] font-semibold border-white text-black bg-white hover:bg-white hover:text-black">
-              <a href="tel:(732) 351-8653">Call (732) 351-8653</a>
-            </Button>
-          </div>
-        </div>
-      </section>
 
 
 
