@@ -253,12 +253,26 @@ const Gallery = () => {
       {/* Gallery Intro + Folders */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold font-heading text-navy mb-4">
-              Browse Real <span className="text-gradient-gold">Transformations</span>
+          <div className="text-center max-w-3xl mx-auto mb-14">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/10 border border-gold/30 mb-5">
+              <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
+              <span className="text-xs font-semibold tracking-[0.18em] uppercase text-gold">
+                Project Gallery
+              </span>
+            </div>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-heading text-navy mb-5 leading-[1.05] tracking-tight">
+              Browse Real
+              <br className="hidden sm:block" />{" "}
+              <span className="text-gradient-gold italic">Transformations</span>
             </h2>
-            <p className="text-grey leading-relaxed">
-              Albums organized by project type — refinishing, installations, staircases, and more. Click any album to see the full set of photos.
+            <div className="flex items-center justify-center gap-3 mb-5">
+              <span className="h-px w-10 bg-gold/40" />
+              <span className="w-1.5 h-1.5 rounded-full bg-gold/60" />
+              <span className="h-px w-10 bg-gold/40" />
+            </div>
+            <p className="text-grey leading-relaxed text-base md:text-lg">
+              Albums organized by project type — refinishing, installations, staircases, and more.
+              <span className="block mt-1 text-navy/70 font-medium">Tap any album to explore the full set.</span>
             </p>
           </div>
           {isLoading ? (
