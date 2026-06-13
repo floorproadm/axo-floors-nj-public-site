@@ -251,7 +251,7 @@ const Gallery = () => {
 
 
       {/* Gallery Intro + Folders */}
-      <section className="py-20 bg-background">
+      <section className="pt-6 pb-16 md:py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-14">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/10 border border-gold/30 mb-5">
