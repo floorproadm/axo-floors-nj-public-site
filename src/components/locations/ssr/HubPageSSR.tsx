@@ -192,7 +192,7 @@ const HubPageSSR = () => {
                   <Calendar className="mr-2 h-5 w-5" /> Schedule Free Estimate
                 </a>
               </Button>
-              <Button asChild size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10">
+              <Button asChild size="lg" variant="outline" className="border-white/40 text-white bg-transparent hover:bg-white hover:text-navy">
                 <a href={`tel:${AXO_PHONE_TEL}`}>
                   <Phone className="mr-2 h-5 w-5" /> {AXO_PHONE_DISPLAY}
                 </a>
