@@ -55,29 +55,44 @@ const HubPageSSR = () => {
         </nav>
 
         <section className="container mx-auto px-4 py-10 md:py-14">
-          <div className="flex items-center gap-2 text-gold mb-3">
-            <MapPin className="h-4 w-4" />
-            <span className="text-xs sm:text-sm font-semibold uppercase tracking-wide">New Jersey</span>
-          </div>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-heading text-navy mb-5 leading-tight">
-            Hardwood Flooring Services Across New Jersey
-          </h1>
-          <p className="text-base sm:text-lg text-grey max-w-3xl leading-relaxed mb-7">
-            AXO Floors provides hardwood floor installation, refinishing, repairs, and stairs and railings work
-            in selected New Jersey service areas. Each project starts with a free in-home estimate so we can
-            review the existing floors and recommend the right approach.
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <Button asChild size="lg" className="bg-navy text-white hover:bg-navy/90">
-              <a href="/schedule-estimate">
-                <Calendar className="mr-2 h-5 w-5" /> Schedule Free Estimate
-              </a>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="border-navy text-navy hover:bg-navy hover:text-white">
-              <a href={`tel:${AXO_PHONE_TEL}`}>
-                <Phone className="mr-2 h-5 w-5" /> {AXO_PHONE_DISPLAY}
-              </a>
-            </Button>
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+            <div className="min-w-0">
+              <div className="flex items-center gap-2 text-gold mb-3">
+                <MapPin className="h-4 w-4" />
+                <span className="text-xs sm:text-sm font-semibold uppercase tracking-wide">New Jersey</span>
+              </div>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-heading text-navy mb-5 leading-tight">
+                Hardwood Flooring Services Across New Jersey
+              </h1>
+              <p className="text-base sm:text-lg text-grey max-w-3xl leading-relaxed mb-7">
+                AXO Floors provides hardwood floor installation, refinishing, repairs, and stairs and railings work
+                in selected New Jersey service areas. Each project starts with a free in-home estimate so we can
+                review the existing floors and recommend the right approach.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <Button asChild size="lg" className="bg-navy text-white hover:bg-navy/90 shadow-elegant">
+                  <a href="/schedule-estimate">
+                    <Calendar className="mr-2 h-5 w-5" /> Schedule Free Estimate
+                  </a>
+                </Button>
+                <Button asChild size="lg" variant="outline" className="border-navy text-navy hover:bg-navy hover:text-white">
+                  <a href={`tel:${AXO_PHONE_TEL}`}>
+                    <Phone className="mr-2 h-5 w-5" /> {AXO_PHONE_DISPLAY}
+                  </a>
+                </Button>
+              </div>
+            </div>
+            <div className="relative order-first lg:order-last">
+              <div className="relative rounded-2xl overflow-hidden shadow-elegant border-4 border-gold/20 aspect-[4/3] lg:aspect-[5/4]">
+                <img
+                  src={heroImage}
+                  alt="Refinished red oak hardwood foyer and staircase by AXO Floors NJ"
+                  width={1200}
+                  height={900}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
           </div>
         </section>
 
