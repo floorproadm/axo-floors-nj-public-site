@@ -115,6 +115,25 @@ const HubPageSSR = () => {
         </section>
 
         <section className="container mx-auto px-4 py-10 md:py-14 border-t border-grey-light">
+          <div className="max-w-2xl mb-8">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-heading text-navy mb-3">
+              Recent AXO Floors Transformations
+            </h2>
+            <p className="text-grey leading-relaxed">
+              A selection of real refinishing and installation projects completed across New Jersey. Browse the full set in our gallery.
+            </p>
+          </div>
+          <ImageLightbox images={transformationImages} />
+          <div className="mt-8 flex justify-center">
+            <Button asChild size="lg" className="bg-gold text-black hover:bg-gold/90 shadow-elegant font-semibold px-8">
+              <SafeLink to="/gallery">
+                View full gallery <ChevronRight className="ml-2 h-5 w-5" />
+              </SafeLink>
+            </Button>
+          </div>
+        </section>
+
+        <section className="container mx-auto px-4 py-10 md:py-14 border-t border-grey-light">
           <h2 className="text-2xl sm:text-3xl font-bold font-heading text-navy mb-3">
             New Jersey Locations We Serve
           </h2>
