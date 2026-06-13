@@ -3,8 +3,27 @@ import { Button } from "@/components/ui/button";
 import SafeLink from "./SafeLink";
 import HeaderSSR from "./HeaderSSR";
 import FooterSSR from "./FooterSSR";
+import ImageLightbox from "./ImageLightbox";
 import { AXO_PHONE_DISPLAY, AXO_PHONE_TEL } from "@/lib/constants";
 import { getPublishedLocations } from "@/data/njLocations";
+import heroAsset from "@/assets/axo-hardwood-foyer-staircase.jpg.asset.json";
+import ba1 from "@/assets/before-after/before-after-1.png";
+import ba2 from "@/assets/before-after/before-after-2.png";
+import ba3 from "@/assets/before-after/before-after-3.png";
+import ba4 from "@/assets/before-after/before-after-4.png";
+import ba5 from "@/assets/before-after/before-after-5.png";
+import ba6 from "@/assets/before-after/before-after-6.png";
+
+const heroImage = heroAsset.url;
+
+const transformationImages = [
+  { src: ba1, alt: "AXO Floors hardwood refinishing transformation — before and after" },
+  { src: ba2, alt: "Restored red oak hardwood floor by AXO Floors" },
+  { src: ba3, alt: "Sand-and-refinish project completed by AXO Floors" },
+  { src: ba4, alt: "Hardwood floor restoration — AXO Floors craftsmanship" },
+  { src: ba5, alt: "Refinished hardwood with modern stain by AXO Floors" },
+  { src: ba6, alt: "Wide-plank hardwood installation by AXO Floors" },
+];
 
 /**
  * SSR-renderable NJ service-area hub. Same visual contract as
@@ -36,29 +55,44 @@ const HubPageSSR = () => {
         </nav>
 
         <section className="container mx-auto px-4 py-10 md:py-14">
-          <div className="flex items-center gap-2 text-gold mb-3">
-            <MapPin className="h-4 w-4" />
-            <span className="text-xs sm:text-sm font-semibold uppercase tracking-wide">New Jersey</span>
-          </div>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-heading text-navy mb-5 leading-tight">
-            Hardwood Flooring Services Across New Jersey
-          </h1>
-          <p className="text-base sm:text-lg text-grey max-w-3xl leading-relaxed mb-7">
-            AXO Floors provides hardwood floor installation, refinishing, repairs, and stairs and railings work
-            in selected New Jersey service areas. Each project starts with a free in-home estimate so we can
-            review the existing floors and recommend the right approach.
-          </p>
-          <div className="flex flex-wrap gap-3">
-            <Button asChild size="lg" className="bg-navy text-white hover:bg-navy/90">
-              <a href="/schedule-estimate">
-                <Calendar className="mr-2 h-5 w-5" /> Schedule Free Estimate
-              </a>
-            </Button>
-            <Button asChild size="lg" variant="outline" className="border-navy text-navy hover:bg-navy hover:text-white">
-              <a href={`tel:${AXO_PHONE_TEL}`}>
-                <Phone className="mr-2 h-5 w-5" /> {AXO_PHONE_DISPLAY}
-              </a>
-            </Button>
+          <div className="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+            <div className="min-w-0">
+              <div className="flex items-center gap-2 text-gold mb-3">
+                <MapPin className="h-4 w-4" />
+                <span className="text-xs sm:text-sm font-semibold uppercase tracking-wide">New Jersey</span>
+              </div>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-heading text-navy mb-5 leading-tight">
+                Hardwood Flooring Services Across New Jersey
+              </h1>
+              <p className="text-base sm:text-lg text-grey max-w-3xl leading-relaxed mb-7">
+                AXO Floors provides hardwood floor installation, refinishing, repairs, and stairs and railings work
+                in selected New Jersey service areas. Each project starts with a free in-home estimate so we can
+                review the existing floors and recommend the right approach.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <Button asChild size="lg" className="bg-navy text-white hover:bg-navy/90 shadow-elegant">
+                  <a href="/schedule-estimate">
+                    <Calendar className="mr-2 h-5 w-5" /> Schedule Free Estimate
+                  </a>
+                </Button>
+                <Button asChild size="lg" variant="outline" className="border-navy text-navy hover:bg-navy hover:text-white">
+                  <a href={`tel:${AXO_PHONE_TEL}`}>
+                    <Phone className="mr-2 h-5 w-5" /> {AXO_PHONE_DISPLAY}
+                  </a>
+                </Button>
+              </div>
+            </div>
+            <div className="relative order-first lg:order-last">
+              <div className="relative rounded-2xl overflow-hidden shadow-elegant border-4 border-gold/20 aspect-[4/3] lg:aspect-[5/4]">
+                <img
+                  src={heroImage}
+                  alt="Refinished red oak hardwood foyer and staircase by AXO Floors NJ"
+                  width={1200}
+                  height={900}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
           </div>
         </section>
 
@@ -77,6 +111,25 @@ const HubPageSSR = () => {
                 </span>
               </SafeLink>
             ))}
+          </div>
+        </section>
+
+        <section className="container mx-auto px-4 py-10 md:py-14 border-t border-grey-light">
+          <div className="max-w-2xl mb-8">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-heading text-navy mb-3">
+              Recent AXO Floors Transformations
+            </h2>
+            <p className="text-grey leading-relaxed">
+              A selection of real refinishing and installation projects completed across New Jersey. Browse the full set in our gallery.
+            </p>
+          </div>
+          <ImageLightbox images={transformationImages} />
+          <div className="mt-8 flex justify-center">
+            <Button asChild size="lg" className="bg-gold text-black hover:bg-gold/90 shadow-elegant font-semibold px-8">
+              <SafeLink to="/gallery">
+                View full gallery <ChevronRight className="ml-2 h-5 w-5" />
+              </SafeLink>
+            </Button>
           </div>
         </section>
 
