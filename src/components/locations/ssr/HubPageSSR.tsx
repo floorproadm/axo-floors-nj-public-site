@@ -3,8 +3,27 @@ import { Button } from "@/components/ui/button";
 import SafeLink from "./SafeLink";
 import HeaderSSR from "./HeaderSSR";
 import FooterSSR from "./FooterSSR";
+import ImageLightbox from "./ImageLightbox";
 import { AXO_PHONE_DISPLAY, AXO_PHONE_TEL } from "@/lib/constants";
 import { getPublishedLocations } from "@/data/njLocations";
+import heroAsset from "@/assets/axo-hardwood-foyer-staircase.jpg.asset.json";
+import ba1 from "@/assets/before-after/before-after-1.png";
+import ba2 from "@/assets/before-after/before-after-2.png";
+import ba3 from "@/assets/before-after/before-after-3.png";
+import ba4 from "@/assets/before-after/before-after-4.png";
+import ba5 from "@/assets/before-after/before-after-5.png";
+import ba6 from "@/assets/before-after/before-after-6.png";
+
+const heroImage = heroAsset.url;
+
+const transformationImages = [
+  { src: ba1, alt: "AXO Floors hardwood refinishing transformation — before and after" },
+  { src: ba2, alt: "Restored red oak hardwood floor by AXO Floors" },
+  { src: ba3, alt: "Sand-and-refinish project completed by AXO Floors" },
+  { src: ba4, alt: "Hardwood floor restoration — AXO Floors craftsmanship" },
+  { src: ba5, alt: "Refinished hardwood with modern stain by AXO Floors" },
+  { src: ba6, alt: "Wide-plank hardwood installation by AXO Floors" },
+];
 
 /**
  * SSR-renderable NJ service-area hub. Same visual contract as
