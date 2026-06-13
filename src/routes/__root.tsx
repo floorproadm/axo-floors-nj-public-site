@@ -28,8 +28,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "AXO Floors - Professional Hardwood Flooring Refinishing & Installation" },
       { name: "twitter:description", content: "Expert hardwood flooring services in New Jersey. Professional installation, refinishing, and restoration. Free estimates, licensed & insured. Call (732) 351-8653" },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a52bb45c-31b9-4eaf-a70a-456535fa24f5/id-preview-0565359f--c137fb77-3417-4cb2-a730-37b10e153e82.lovable.app-1780772191393.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/a52bb45c-31b9-4eaf-a70a-456535fa24f5/id-preview-0565359f--c137fb77-3417-4cb2-a730-37b10e153e82.lovable.app-1780772191393.png" },
+      { property: "og:image", content: "https://axofloorsnj.com/favicon.png" },
+      { name: "twitter:image", content: "https://axofloorsnj.com/favicon.png" },
     ],
     links: [
       { rel: "icon", href: "/favicon.png", type: "image/png" },
