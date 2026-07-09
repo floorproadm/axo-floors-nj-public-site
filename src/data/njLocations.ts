@@ -308,7 +308,7 @@ export const njLocations: NJLocation[] = [
       { q: "How long does a typical project take?", a: "Duration depends on square footage, repairs, stain selection, and finish curing. We share a realistic timeline after the on-site assessment." },
     ],
     published: true,
-    indexable: false,
+    indexable: true,
   },
   {
     cityName: "Fair Haven",
@@ -344,7 +344,7 @@ export const njLocations: NJLocation[] = [
       { q: "What is the difference between water-based and oil-based finishes?", a: "Water-based finishes tend to be lower-odor and faster to cure; oil-based finishes have a warmer amber tone and a different cure profile. The right choice depends on the project." },
     ],
     published: true,
-    indexable: false,
+    indexable: true,
   },
   {
     cityName: "Little Silver",
@@ -418,7 +418,7 @@ export const njLocations: NJLocation[] = [
       { q: "Can engineered hardwood be refinished?", a: "Often yes, depending on wear-layer thickness. Thicker wear layers can typically be sanded once or twice; thinner layers may be better suited to a recoat." },
     ],
     published: true,
-    indexable: false,
+    indexable: true,
   },
   {
     cityName: "Middletown",
@@ -436,8 +436,8 @@ export const njLocations: NJLocation[] = [
       "AXO Floors covers all of Middletown Township — Lincroft, Navesink, Belford, Leonardo and the River Plaza area — with hardwood installation, sanding, refinishing and staircase work.",
     localFlooringInformation:
       "Middletown spans a wide variety of housing: shore-area capes in Belford and Port Monmouth, mid-century ranches in Lincroft, and larger colonials in Navesink. Each subfloor type calls for a slightly different install system, from glue-down engineered to nail-down 3/4\" solid.",
-    published: false,
-    indexable: false,
+    published: true,
+    indexable: true,
   },
   {
     cityName: "Holmdel",
@@ -455,8 +455,8 @@ export const njLocations: NJLocation[] = [
       "AXO Floors serves Holmdel with premium hardwood installation, sanding and refinishing — from estate-style colonials to renovated mid-century homes near Holmdel Village.",
     localFlooringInformation:
       "Holmdel's larger homes commonly use wide-plank white oak with rift-and-quartered grain, finished with hard-wax oil or commercial-grade water-based topcoats. Custom stain matching across great rooms, hallways and stairs is a frequent ask.",
-    published: false,
-    indexable: false,
+    published: true,
+    indexable: true,
   },
   {
     cityName: "Colts Neck",
@@ -474,8 +474,8 @@ export const njLocations: NJLocation[] = [
       "AXO Floors works on Colts Neck estates and equestrian properties — custom hardwood installations, full-home refinishing, and staircase rebuilds.",
     localFlooringInformation:
       "Colts Neck homes typically run large, with great rooms and second floors that benefit from continuous wide-plank installations. Engineered hardwood over radiant heat is a common requirement, and we plan board acclimation and expansion carefully on these jobs.",
-    published: false,
-    indexable: false,
+    published: true,
+    indexable: true,
   },
   {
     cityName: "Freehold",
@@ -493,8 +493,8 @@ export const njLocations: NJLocation[] = [
       "AXO Floors serves Freehold Borough and Freehold Township with hardwood installation, sanding, refinishing, and staircase work — from historic downtown homes to newer subdivisions.",
     localFlooringInformation:
       "Freehold's older downtown homes often have original heart-pine or oak that benefits from gentle sanding and historically appropriate finishes. Newer Freehold Township homes typically have pre-finished or site-finished oak that responds well to modern water-based topcoats.",
-    published: false,
-    indexable: false,
+    published: true,
+    indexable: true,
   },
   {
     cityName: "Asbury Park",
@@ -512,8 +512,8 @@ export const njLocations: NJLocation[] = [
       "AXO Floors restores hardwood in Asbury Park's historic shore homes and installs new floors in renovated downtown lofts and condos near the boardwalk.",
     localFlooringInformation:
       "Asbury Park's housing mix — Victorians on the West Side, mid-century bungalows, and converted downtown buildings — calls for both careful restoration of original oak and pine and modern engineered installs over leveled subfloors. Shore humidity is a constant consideration in finish selection.",
-    published: false,
-    indexable: false,
+    published: true,
+    indexable: true,
   },
   {
     cityName: "Belmar",
@@ -531,8 +531,8 @@ export const njLocations: NJLocation[] = [
       "AXO Floors serves Belmar — from year-round homes north of Main Street to summer rentals near the boardwalk — with hardwood installation, sand-and-refinish and stair work.",
     localFlooringInformation:
       "Belmar's shore environment puts hardwood through humidity swings and heavy seasonal foot traffic. Moisture-tolerant finishes and well-acclimated boards are important for floors that hold up year-round near the ocean.",
-    published: false,
-    indexable: false,
+    published: true,
+    indexable: true,
   },
   {
     cityName: "Manasquan",
@@ -550,8 +550,8 @@ export const njLocations: NJLocation[] = [
       "AXO Floors works throughout Manasquan — beachfront homes, rentals and year-round residences — with full-service hardwood installation, refinishing and repairs.",
     localFlooringInformation:
       "Manasquan's beach-block homes often face salt air and sand-tracked foot traffic. White oak with hard-wax oil or commercial water-based finishes is a strong choice; tighter board widths help reduce seasonal gapping in unheated shore homes.",
-    published: false,
-    indexable: false,
+    published: true,
+    indexable: true,
   },
   {
     cityName: "Point Pleasant",
@@ -569,8 +569,8 @@ export const njLocations: NJLocation[] = [
       "AXO Floors serves Point Pleasant Borough and Point Pleasant Beach with hardwood installation, sand-and-refinish, and staircase work — built for shore-area conditions.",
     localFlooringInformation:
       "Point Pleasant's mix of year-round homes and summer rentals means floors see large humidity swings between seasons. Pre-finished engineered hardwood and moisture-tolerant site finishes both have a role here, depending on subfloor type and HVAC setup.",
-    published: false,
-    indexable: false,
+    published: true,
+    indexable: true,
   },
   {
     cityName: "Toms River",
@@ -588,8 +588,8 @@ export const njLocations: NJLocation[] = [
       "AXO Floors covers all of Toms River — from downtown and Silverton to Holiday City and Pleasant Plains — with hardwood installation, refinishing, stairs and repairs.",
     localFlooringInformation:
       "Toms River's housing ranges from waterfront homes that need humidity-tolerant systems to active-adult communities with engineered hardwood that benefits from recoats rather than full sandings. Wear-layer assessment guides whether to refinish or replace.",
-    published: false,
-    indexable: false,
+    published: true,
+    indexable: true,
   },
 ];
 
