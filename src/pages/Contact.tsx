@@ -293,6 +293,7 @@ const Contact = () => {
             </div>
 
             {/* Alternative Contact Methods */}
+            <div className="space-y-6">
               <Card className="bg-navy text-white">
                 <CardContent className="p-6 space-y-4">
                   <h4 className="text-lg font-heading font-semibold text-gold">
