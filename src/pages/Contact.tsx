@@ -292,23 +292,8 @@ const Contact = () => {
               </Card>
             </div>
 
-            {/* Benefits Sidebar */}
+            {/* Alternative Contact Methods */}
             <div className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-xl font-heading font-bold text-navy">
-                    Why Choose Axo Floors?
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {benefits.map((benefit, index) => <div key={index} className="flex items-start gap-3">
-                      <Check className="w-5 h-5 text-gold mt-0.5 flex-shrink-0" />
-                      <span className="text-grey text-sm">{benefit}</span>
-                    </div>)}
-                </CardContent>
-              </Card>
-
-              {/* Alternative Contact Methods */}
               <Card className="bg-navy text-white">
                 <CardContent className="p-6 space-y-4">
                   <h4 className="text-lg font-heading font-semibold text-gold">
