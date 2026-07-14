@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import { Card } from '@/components/ui/card';
 import { recalcTotals, type EstimateLineItem } from '@/hooks/useEstimates';
 import { formatPhoneInput } from '@/utils/validation';
+import { sanitizeNotesHtml } from '@/lib/sanitizeNotesHtml';
 
 const fmtMoney = (v: number) =>
   `$${Number(v || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
