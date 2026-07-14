@@ -208,7 +208,10 @@ export const EstimatePrintable = forwardRef<HTMLDivElement, Props>(function Esti
               <p className="text-[10.5px] uppercase tracking-widest text-muted-foreground mb-1">
                 Notes
               </p>
-              <p className="whitespace-pre-wrap">{data.notes}</p>
+              <div
+                className="rich-notes-content text-sm [&_h3]:font-bold [&_h3]:text-base [&_h3]:mt-2 [&_h3]:mb-1 [&_h4]:font-bold [&_h4]:text-[15px] [&_h4]:mt-2 [&_h4]:mb-1 [&_p]:my-1 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:my-0.5 [&_a]:text-primary [&_a]:underline [&_a]:break-words [&_strong]:font-semibold"
+                dangerouslySetInnerHTML={{ __html: sanitizeNotesHtml(data.notes) }}
+              />
             </div>
           )}
 
