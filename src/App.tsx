@@ -42,6 +42,8 @@ import PublicInvoice from "./pages/PublicInvoice";
 import PublicProposal from "./pages/PublicProposal";
 import PublicDepositInvoice from "./pages/PublicDepositInvoice";
 import PublicPortal from "./pages/PublicPortal";
+import PublicEstimate from "./pages/PublicEstimate";
+import PublicMeasurement from "./pages/PublicMeasurement";
 import Links from "./pages/Links";
 import ReferralAuth from "./pages/ReferralAuth";
 import ResetPassword from "./pages/ResetPassword";
@@ -96,6 +98,8 @@ const App = () => {
                   <Route path="/proposal/:token" element={<PublicProposal />} />
                   <Route path="/proposal/:token/invoice" element={<PublicDepositInvoice />} />
                   <Route path="/portal/:token" element={<PublicPortal />} />
+                  <Route path="/estimate/:token" element={<PublicEstimate />} />
+                  <Route path="/m/:token" element={<PublicMeasurement />} />
                   <Route path="/hub" element={<Links />} />
                   <Route path="/auth" element={<Auth />} />
                   {/* Programmatic local SEO — Phase 2 pilot: single dynamic route, gated by `published` in the dataset */}
