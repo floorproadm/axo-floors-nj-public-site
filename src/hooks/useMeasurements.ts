@@ -9,7 +9,7 @@ export interface MeasurementArea {
   area_sqft: number;
   linear_ft: number;
   dimensions: string | null;
-  area_type: 'floor' | 'staircase' | 'baseboard' | 'handrail' | 'other';
+  area_type: 'floor' | 'staircase' | 'baseboard' | 'handrail' | 'posts' | 'section' | 'other';
   notes: string | null;
   display_order: number;
   created_at: string;
@@ -18,6 +18,7 @@ export interface MeasurementArea {
 export interface ProjectMeasurement {
   id: string;
   project_id: string;
+  label?: string | null;
   status: 'scheduled' | 'active' | 'completed';
   measurement_date: string | null;
   measured_by: string | null;
@@ -238,4 +239,16 @@ export function useDeleteArea() {
       qc.invalidateQueries({ queryKey: ['measurements'] });
     },
   });
+}
+
+/**
+ * Parse a measurement_date string as a local Date at midnight, ignoring the
+ * UTC timezone that Postgres appends. Prevents the "1 day earlier" bug in
+ * timezones west of UTC.
+ */
+export function parseMeasurementDate(iso: string | null | undefined): Date | null {
+  if (!iso) return null;
+  const day = iso.slice(0, 10);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) return null;
+  return new Date(day + 'T00:00:00');
 }
