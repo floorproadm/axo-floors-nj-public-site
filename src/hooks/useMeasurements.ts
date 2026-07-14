@@ -240,3 +240,15 @@ export function useDeleteArea() {
     },
   });
 }
+
+/**
+ * Parse a measurement_date string as a local Date at midnight, ignoring the
+ * UTC timezone that Postgres appends. Prevents the "1 day earlier" bug in
+ * timezones west of UTC.
+ */
+export function parseMeasurementDate(iso: string | null | undefined): Date | null {
+  if (!iso) return null;
+  const day = iso.slice(0, 10);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(day)) return null;
+  return new Date(day + 'T00:00:00');
+}
