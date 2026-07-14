@@ -62,6 +62,18 @@ export const formatPhoneNumber = (phone: string): string => {
   return phone; // Return original if doesn't match expected formats
 };
 
+// Turns "7323518653" into "(732) 351-8653" as the user types.
+// Accepts optional leading 1 (country code) and caps at 10 significant digits.
+export const formatPhoneInput = (raw: string): string => {
+  if (!raw) return '';
+  let digits = raw.replace(/\D/g, '');
+  if (digits.length === 11 && digits.startsWith('1')) digits = digits.slice(1);
+  digits = digits.slice(0, 10);
+  if (digits.length < 4) return digits;
+  if (digits.length < 7) return `(${digits.slice(0, 3)}) ${digits.slice(3)}`;
+  return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`;
+};
+
 // Sanitize text input to prevent XSS
 export const sanitizeInput = (input: string): string => {
   if (typeof input !== 'string') return '';

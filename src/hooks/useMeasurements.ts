@@ -9,7 +9,7 @@ export interface MeasurementArea {
   area_sqft: number;
   linear_ft: number;
   dimensions: string | null;
-  area_type: 'floor' | 'staircase' | 'baseboard' | 'handrail' | 'other';
+  area_type: 'floor' | 'staircase' | 'baseboard' | 'handrail' | 'posts' | 'section' | 'other';
   notes: string | null;
   display_order: number;
   created_at: string;
@@ -18,6 +18,7 @@ export interface MeasurementArea {
 export interface ProjectMeasurement {
   id: string;
   project_id: string;
+  label?: string | null;
   status: 'scheduled' | 'active' | 'completed';
   measurement_date: string | null;
   measured_by: string | null;
