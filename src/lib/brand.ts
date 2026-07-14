@@ -1,4 +1,3 @@
-import type { CompanySettings } from '@/hooks/useCompanySettings';
 import { resolveLogoUrl } from '@/hooks/useCompanySettings';
 
 export function safeBrandPrimary(color?: string | null, fallback = '#0066FF'): string {
@@ -16,14 +15,15 @@ export function safeBrandPrimary(color?: string | null, fallback = '#0066FF'): s
   return hex;
 }
 
+interface BrandLogoSettings {
+  email_logo_url?: string | null;
+  logo_url?: string | null;
+  proposal_logo_light_url?: string | null;
+  proposal_logo_dark_url?: string | null;
+}
+
 export async function resolveBrandLogo(
-  settings:
-    | Pick<
-        CompanySettings,
-        'email_logo_url' | 'logo_url' | 'proposal_logo_light_url' | 'proposal_logo_dark_url'
-      >
-    | null
-    | undefined,
+  settings: BrandLogoSettings | null | undefined,
   variant: 'light' | 'dark' = 'light',
 ): Promise<string> {
   if (!settings) return '';
