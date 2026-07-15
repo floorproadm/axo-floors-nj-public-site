@@ -1,21 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { format } from "date-fns";
-import { Loader2, FileText, CheckCircle, Clock, AlertTriangle, XCircle } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Loader2, FileText, Download, Phone, MessageSquare } from "lucide-react";
+import { toast } from "sonner";
+import { exportElementToPdf } from "@/lib/estimatePdf";
+import { resolveBrandLogo, safeBrandPrimary } from "@/lib/brand";
+import { InvoicePrintable } from "@/components/admin/invoices/InvoicePrintable";
 
 const ACCEPTED_METHODS = ["Check", "ACH / Wire", "Cash", "Zelle"];
-
-const fmt = (v: number) =>
-  `$${Number(v).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-
-const statusStyle: Record<string, { label: string; bg: string; text: string; icon: any }> = {
-  draft:     { label: "Draft",     bg: "bg-muted",        text: "text-muted-foreground", icon: FileText },
-  sent:      { label: "Sent",      bg: "bg-blue-100",     text: "text-blue-700",         icon: Clock },
-  paid:      { label: "Paid",      bg: "bg-green-100",    text: "text-green-700",        icon: CheckCircle },
-  overdue:   { label: "Overdue",   bg: "bg-red-100",      text: "text-red-700",          icon: AlertTriangle },
-  cancelled: { label: "Cancelled", bg: "bg-muted",        text: "text-muted-foreground", icon: XCircle },
-};
 
 export default function PublicInvoice() {
   const { token } = useParams<{ token: string }>();
@@ -25,29 +19,44 @@ export default function PublicInvoice() {
   const [property, setProperty] = useState<any>(null);
   const [customer, setCustomer] = useState<any>(null);
   const [project, setProject] = useState<any>(null);
+  const [company, setCompany] = useState<any>(null);
+  const [resolvedLogo, setResolvedLogo] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [downloading, setDownloading] = useState(false);
+
+  const visibleRef = useRef<HTMLDivElement>(null);
+  const printableRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!token) return;
     (async () => {
       try {
-        const { data, error: rpcErr } = await supabase.rpc("public_get_invoice_bundle" as any, { p_token: token });
-        if (rpcErr) { setError(rpcErr.message); setLoading(false); return; }
-        if (!data) { setError("Invoice not found"); setLoading(false); return; }
+        const { data: bundle, error: bundleErr } = await supabase.rpc(
+          "public_get_invoice_bundle" as any,
+          { p_token: token },
+        );
+        if (bundleErr) throw bundleErr;
+        if (!bundle) {
+          setError("Invoice not found");
+          setLoading(false);
+          return;
+        }
+        const b: any = bundle;
+        if (!b.invoice) {
+          setError("Invoice not found");
+          setLoading(false);
+          return;
+        }
+        setInvoice(b.invoice);
+        setItems(b.items || []);
+        setPhases(b.schedule || []);
+        setProperty(b.property || null);
+        setCustomer(b.customer || null);
+        setProject(b.project || null);
+        setCompany(b.company || null);
 
-        const bundle = data as any;
-        const inv = bundle.invoice;
-        if (!inv) { setError("Invoice not found"); setLoading(false); return; }
-
-        setInvoice(inv);
-        setItems(bundle.items || []);
-        setPhases(bundle.schedule || []);
-        setProperty(bundle.property || null);
-        setCustomer(bundle.customer || null);
-        setProject(bundle.project || null);
-
-        if (!inv.viewed_at) {
+        if (!b.invoice.viewed_at) {
           await supabase.rpc("public_mark_invoice_viewed" as any, { p_token: token });
         }
       } catch (e: any) {
@@ -58,179 +67,175 @@ export default function PublicInvoice() {
     })();
   }, [token]);
 
+  useEffect(() => {
+    if (!company) return;
+    let active = true;
+    (async () => {
+      const url = await resolveBrandLogo(
+        {
+          logo_url: company.logo_url ?? null,
+          email_logo_url: company.email_logo_url ?? null,
+          proposal_logo_light_url: company.proposal_logo_light_url ?? null,
+          proposal_logo_dark_url: company.proposal_logo_dark_url ?? null,
+        } as any,
+        "dark",
+      );
+      if (active) setResolvedLogo(url);
+    })();
+    return () => {
+      active = false;
+    };
+  }, [company]);
+
+  const handleDownload = async () => {
+    const target = printableRef.current || visibleRef.current;
+    if (!target || !invoice) return;
+    setDownloading(true);
+    try {
+      await exportElementToPdf(target, `${invoice.invoice_number || "invoice"}.pdf`);
+    } catch (e: any) {
+      toast.error(e?.message ?? "Failed to generate PDF");
+    } finally {
+      setDownloading(false);
+    }
+  };
+
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <Loader2 className="w-8 h-8 animate-spin text-slate-400" />
+      <div className="min-h-screen flex items-center justify-center bg-muted/20">
+        <Loader2 className="w-8 h-8 animate-spin text-muted-foreground" />
       </div>
     );
   }
 
   if (error || !invoice) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <div className="text-center">
-          <FileText className="w-12 h-12 mx-auto text-slate-300 mb-3" />
-          <p className="text-lg font-semibold text-slate-700">Invoice Not Found</p>
-          <p className="text-sm text-slate-500 mt-1">This link may have expired or is invalid.</p>
+      <div className="min-h-screen flex items-center justify-center bg-muted/20 p-6 text-center">
+        <div>
+          <FileText className="w-12 h-12 mx-auto mb-3 opacity-40" />
+          <h1 className="text-xl font-bold">Invoice not found</h1>
+          <p className="text-muted-foreground text-sm mt-1">
+            This link may be invalid or expired.
+          </p>
         </div>
       </div>
     );
   }
 
-  const subtotal = items.reduce((s: number, i: any) => s + (Number(i.quantity) * Number(i.unit_price)), 0);
-  const taxAmount = Number(invoice.tax_amount) || 0;
-  const discountAmount = Number(invoice.discount_amount) || 0;
-  const depositAmount = Number(invoice.deposit_amount) || 0;
-  const total = Number(invoice.total_amount) || subtotal + taxAmount - discountAmount;
-  const balanceDue = total - depositAmount;
-  const hasDetail = items.some((i: any) => i.detail);
-  const sc = statusStyle[invoice.status] || statusStyle.draft;
-  const StatusIcon = sc.icon;
-  const acceptedMethods: string[] =
-    Array.isArray(invoice.accepted_payment_methods) && invoice.accepted_payment_methods.length > 0
-      ? invoice.accepted_payment_methods
-      : ACCEPTED_METHODS;
-  const showSchedule = invoice.show_payment_schedule !== false;
+  const propAddr = property
+    ? [property.address_line1, property.city, property.state, property.zip].filter(Boolean).join(", ")
+    : "";
+  const address = propAddr || project?.address || customer?.address || undefined;
+
+  const printableData = {
+    invoiceNumber: invoice.invoice_number,
+    status: invoice.status,
+    createdAt: new Date(invoice.created_at),
+    dueDate: new Date(invoice.due_date),
+    clientName: project?.customer_name || customer?.name || customer?.full_name || "—",
+    clientEmail: customer?.email || project?.customer_email || undefined,
+    clientPhone: customer?.phone || project?.customer_phone || undefined,
+    address,
+    projectType: project?.project_type || undefined,
+    unitIdentifier: property?.unit_identifier || undefined,
+    residentName: property?.resident_name || undefined,
+    items,
+    taxAmount: Number(invoice.tax_amount) || 0,
+    discountAmount: Number(invoice.discount_amount) || 0,
+    depositAmount: Number(invoice.deposit_amount) || 0,
+    totalAmount: Number(invoice.total_amount) || 0,
+    phases: invoice.show_payment_schedule !== false ? phases : [],
+    notes: invoice.notes || undefined,
+    acceptedMethods:
+      (Array.isArray(invoice.accepted_payment_methods) && invoice.accepted_payment_methods.length > 0
+        ? invoice.accepted_payment_methods
+        : ACCEPTED_METHODS) as string[],
+  };
+
+  const brandingProps = {
+    brandName: company?.trade_name || company?.company_name || "FloorPro",
+    brandTagline: company?.tagline || "Professional Flooring Services",
+    brandPhone: company?.phone || "",
+    brandPrimary: safeBrandPrimary(company?.primary_color),
+    brandSecondary: company?.secondary_color || "#1e3a5f",
+    brandAccent: "#fcba03",
+    logoUrl: resolvedLogo,
+  };
+
+  const statusColor =
+    invoice.status === "paid"
+      ? "bg-emerald-500/10 text-emerald-600"
+      : invoice.status === "overdue"
+        ? "bg-destructive/10 text-destructive"
+        : invoice.status === "sent"
+          ? "bg-blue-500/10 text-blue-600"
+          : "bg-muted text-muted-foreground";
 
   return (
-    <div className="min-h-screen bg-slate-50 py-6 px-4">
-      <div className="max-w-[760px] mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
-        {/* Header */}
-        <div className="bg-[#0f172a] text-white px-8 py-7 flex justify-between items-center">
-          <div>
-            <h1 className="text-2xl font-extrabold tracking-tight">
-              AXO <span className="text-amber-500">Floors</span> NJ
-            </h1>
-            <p className="text-[10px] text-slate-400 uppercase tracking-[2px] mt-0.5">
-              Hardwood · Refinishing · Installation
-            </p>
-          </div>
-          <div className="text-right">
-            <p className="text-base font-bold">{invoice.invoice_number}</p>
-            <div className={`inline-flex items-center gap-1 mt-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${sc.bg} ${sc.text}`}>
-              <StatusIcon className="w-3 h-3" />
-              {sc.label}
-            </div>
-          </div>
+    <div className="min-h-screen bg-muted/20 py-6 px-4">
+      <div className="max-w-3xl mx-auto space-y-4">
+        <div className="flex justify-end">
+          <Badge className={statusColor}>{invoice.status}</Badge>
         </div>
 
-        {/* Bill-to strip */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 px-8 py-5 bg-slate-50 border-b border-slate-200">
-          <div>
-            <p className="text-[9px] uppercase tracking-[1.5px] text-slate-400 mb-0.5">Bill To</p>
-            <p className="text-sm font-semibold text-slate-800">{project?.customer_name || customer?.name || "—"}</p>
-            {(property?.unit_identifier || property?.resident_name) && (
-              <p className="text-xs text-slate-600 mt-0.5">
-                {property?.unit_identifier}
-                {property?.unit_identifier && property?.resident_name ? " · " : ""}
-                {property?.resident_name}
-              </p>
+        <InvoicePrintable ref={visibleRef} data={printableData} branding={brandingProps} />
+
+        <div className="pt-2 space-y-2">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <Button
+              variant="outline"
+              onClick={handleDownload}
+              disabled={downloading}
+              className="w-full"
+            >
+              {downloading ? (
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              ) : (
+                <Download className="w-4 h-4 mr-2" />
+              )}
+              Download PDF
+            </Button>
+            {brandingProps.brandPhone && (
+              <Button asChild variant="outline" className="w-full">
+                <a href={`tel:${brandingProps.brandPhone.replace(/[^\d+]/g, "")}`}>
+                  <Phone className="w-4 h-4 mr-2" />
+                  Call
+                </a>
+              </Button>
             )}
-            {customer?.email && <p className="text-xs text-slate-500 mt-0.5">{customer.email}</p>}
-            {customer?.phone && <p className="text-xs text-slate-500">{customer.phone}</p>}
-          </div>
-          <div>
-            <p className="text-[9px] uppercase tracking-[1.5px] text-slate-400 mb-0.5">Project</p>
-            <p className="text-sm font-semibold text-slate-800">{project?.project_type || "—"}</p>
-            {(() => {
-              const propAddr = property
-                ? [property.address_line1, property.city, property.state, property.zip].filter(Boolean).join(", ")
-                : "";
-              const addr = propAddr || project?.address;
-              return addr ? <p className="text-xs text-slate-500 mt-0.5">{addr}</p> : null;
-            })()}
-          </div>
-          <div>
-            <p className="text-[9px] uppercase tracking-[1.5px] text-slate-400 mb-0.5">Invoice Date</p>
-            <p className="text-sm font-semibold text-slate-800">{format(new Date(invoice.created_at), "MMMM d, yyyy")}</p>
-            <p className="text-[9px] uppercase tracking-[1.5px] text-slate-400 mb-0.5 mt-2">Due Date</p>
-            <p className="text-sm font-semibold text-slate-800">{format(new Date(invoice.due_date), "MMMM d, yyyy")}</p>
-          </div>
-        </div>
-
-        {/* Content */}
-        <div className="px-8 py-6 space-y-6">
-          {/* Items table */}
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b-2 border-slate-200">
-                <th className="text-left text-[9px] uppercase tracking-[1px] text-slate-500 pb-2">Description</th>
-                {hasDetail && <th className="text-left text-[9px] uppercase tracking-[1px] text-slate-500 pb-2">Detail</th>}
-                <th className="text-right text-[9px] uppercase tracking-[1px] text-slate-500 pb-2 w-12">Qty</th>
-                <th className="text-right text-[9px] uppercase tracking-[1px] text-slate-500 pb-2 w-20">Unit Price</th>
-                <th className="text-right text-[9px] uppercase tracking-[1px] text-slate-500 pb-2 w-24">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              {items.map((item: any) => (
-                <tr key={item.id} className="border-b border-slate-100">
-                  <td className="py-2.5">{item.description}</td>
-                  {hasDetail && <td className="py-2.5 text-xs text-slate-500 italic">{item.detail || ""}</td>}
-                  <td className="py-2.5 text-right">{item.quantity}</td>
-                  <td className="py-2.5 text-right">{fmt(Number(item.unit_price))}</td>
-                  <td className="py-2.5 text-right font-semibold">{fmt(Number(item.quantity) * Number(item.unit_price))}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          {/* Totals */}
-          <div className="ml-auto w-64 bg-slate-50 rounded-lg p-4 border border-slate-200 space-y-1">
-            <div className="flex justify-between text-sm text-slate-600"><span>Subtotal</span><span>{fmt(subtotal)}</span></div>
-            {taxAmount > 0 && <div className="flex justify-between text-sm text-slate-600"><span>Tax</span><span>{fmt(taxAmount)}</span></div>}
-            {discountAmount > 0 && <div className="flex justify-between text-sm text-slate-600"><span>Discount</span><span>-{fmt(discountAmount)}</span></div>}
-            <div className="flex justify-between text-lg font-extrabold text-slate-900 pt-2 border-t border-slate-300">
-              <span>Total</span><span>{fmt(total)}</span>
-            </div>
-            {depositAmount > 0 && (
-              <>
-                <div className="flex justify-between text-sm text-green-600"><span>Deposit Paid</span><span>-{fmt(depositAmount)}</span></div>
-                <div className="flex justify-between text-base font-extrabold text-slate-900"><span>Balance Due</span><span>{fmt(balanceDue)}</span></div>
-              </>
+            {brandingProps.brandPhone && (
+              <Button asChild variant="outline" className="w-full">
+                <a href={`sms:${brandingProps.brandPhone.replace(/[^\d+]/g, "")}`}>
+                  <MessageSquare className="w-4 h-4 mr-2" />
+                  Text
+                </a>
+              </Button>
             )}
           </div>
-
-          {/* Payment Schedule */}
-          {showSchedule && phases.length > 0 && (
-            <div>
-              <h4 className="text-[10px] uppercase tracking-[1px] text-slate-500 mb-2 font-semibold">Payment Schedule</h4>
-              <div className={`grid gap-3`} style={{ gridTemplateColumns: `repeat(${phases.length}, 1fr)` }}>
-                {phases.map((p: any) => (
-                  <div key={p.id} className="border border-slate-200 rounded-lg p-3 text-center">
-                    <p className="text-[10px] uppercase tracking-[1px] text-slate-500">{p.phase_label}</p>
-                    <p className="text-xl font-extrabold text-slate-900 mt-1">{p.percentage}%</p>
-                    <p className="text-xs text-slate-500">{fmt(total * p.percentage / 100)}</p>
-                    <p className="text-[10px] text-slate-400 mt-1">{p.timing}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Accepted Methods */}
-          <div>
-            <h4 className="text-[10px] uppercase tracking-[1px] text-slate-500 mb-2 font-semibold">Accepted Payment Methods</h4>
-            <div className="flex gap-2 flex-wrap">
-              {acceptedMethods.map(m => (
-                <span key={m} className="px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 border border-slate-200">{m}</span>
-              ))}
-            </div>
-          </div>
-
-          {/* Notes */}
-          {invoice.notes && (
-            <div className="bg-amber-50 border border-amber-200 rounded-lg p-3.5 text-sm text-amber-800">
-              <strong>Notes:</strong> {invoice.notes}
-            </div>
-          )}
         </div>
 
-        {/* Footer */}
-        <div className="text-center py-5 border-t border-slate-200 text-[10px] text-slate-400 space-y-0.5">
-          <p>AXO Floors NJ · (732) 351-8653 · axofloorsnj.com · NJ Licensed & Insured</p>
-          <p>13A License # 13VH13302100</p>
-        </div>
+        <p className="text-center text-xs text-muted-foreground mt-2">
+          Questions? Reply to the email or text we sent you and we'll help right away.
+        </p>
+      </div>
+
+      <div
+        aria-hidden
+        style={{
+          position: "fixed",
+          left: -100000,
+          top: 0,
+          width: 800,
+          pointerEvents: "none",
+          opacity: 0,
+        }}
+      >
+        <InvoicePrintable
+          ref={printableRef}
+          printMode
+          data={printableData}
+          branding={brandingProps}
+        />
       </div>
     </div>
   );
