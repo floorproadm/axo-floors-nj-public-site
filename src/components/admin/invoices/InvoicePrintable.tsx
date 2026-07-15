@@ -176,8 +176,37 @@ export const InvoicePrintable = forwardRef<HTMLDivElement, Props>(function Invoi
           </div>
         )}
 
-        <div className="px-10 pt-6 pb-6 space-y-6">
-          <div>
+        <div className={printMode ? 'px-10 pt-6 pb-6 space-y-6' : 'px-4 sm:px-10 pt-5 sm:pt-6 pb-6 space-y-6'}>
+          {!printMode && (
+            <div className="sm:hidden space-y-3">
+              {data.items.length === 0 ? (
+                <p className="text-sm text-muted-foreground text-center py-6">No line items</p>
+              ) : (
+                data.items.map((it, i) => (
+                  <div key={it.id || i} className="rounded-lg border border-border/60 bg-white p-3 text-sm">
+                    <p className="font-semibold leading-snug">{it.description}</p>
+                    {it.detail && <p className="mt-1 text-xs text-muted-foreground italic">{it.detail}</p>}
+                    <div className="mt-3 grid grid-cols-3 gap-2 border-t border-border/50 pt-3">
+                      <div className="min-w-0">
+                        <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Qty</p>
+                        <p className="tabular-nums font-medium leading-tight">{it.quantity}</p>
+                      </div>
+                      <div className="min-w-0 text-right">
+                        <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Unit</p>
+                        <p className="tabular-nums font-medium leading-tight whitespace-nowrap">{fmtMoney(Number(it.unit_price))}</p>
+                      </div>
+                      <div className="min-w-0 text-right">
+                        <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Total</p>
+                        <p className="tabular-nums font-bold leading-tight whitespace-nowrap">{fmtMoney(Number(it.quantity) * Number(it.unit_price))}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
+          )}
+
+          <div className={printMode ? '' : 'hidden sm:block'}>
             <div className="grid grid-cols-12 text-[10.5px] uppercase tracking-widest text-muted-foreground pb-2 border-b border-border/60">
               <div className={hasDetail ? 'col-span-5' : 'col-span-7'}>Description</div>
               {hasDetail && <div className="col-span-2">Detail</div>}
@@ -213,6 +242,7 @@ export const InvoicePrintable = forwardRef<HTMLDivElement, Props>(function Invoi
               ))
             )}
           </div>
+
 
           <div data-pdf-row className="flex justify-end">
             <div className="w-full max-w-xs space-y-1 text-sm">
