@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { Badge } from "@/components/ui/badge";
 import { format } from "date-fns";
 import { Loader2, FileText, CheckCircle, Clock, AlertTriangle, XCircle } from "lucide-react";
 
@@ -24,6 +23,8 @@ export default function PublicInvoice() {
   const [items, setItems] = useState<any[]>([]);
   const [phases, setPhases] = useState<any[]>([]);
   const [property, setProperty] = useState<any>(null);
+  const [customer, setCustomer] = useState<any>(null);
+  const [project, setProject] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -31,30 +32,24 @@ export default function PublicInvoice() {
     if (!token) return;
     (async () => {
       try {
-        const { data: inv, error: invErr } = await supabase
-          .from("invoices")
-          .select("*, projects(customer_name, project_type, address), customers(full_name, email, phone)")
-          .eq("share_token", token)
-          .maybeSingle();
-        if (invErr) throw invErr;
+        const { data, error: rpcErr } = await supabase.rpc("public_get_invoice_bundle" as any, { p_token: token });
+        if (rpcErr) { setError(rpcErr.message); setLoading(false); return; }
+        if (!data) { setError("Invoice not found"); setLoading(false); return; }
+
+        const bundle = data as any;
+        const inv = bundle.invoice;
         if (!inv) { setError("Invoice not found"); setLoading(false); return; }
+
         setInvoice(inv);
+        setItems(bundle.items || []);
+        setPhases(bundle.schedule || []);
+        setProperty(bundle.property || null);
+        setCustomer(bundle.customer || null);
+        setProject(bundle.project || null);
 
-        // Mark as viewed
         if (!inv.viewed_at) {
-          await supabase.from("invoices").update({ viewed_at: new Date().toISOString() } as any).eq("share_token", token);
+          await supabase.rpc("public_mark_invoice_viewed" as any, { p_token: token });
         }
-
-        const [itemsRes, phasesRes, propertyRes] = await Promise.all([
-          supabase.from("invoice_items").select("*").eq("invoice_id", inv.id).order("created_at"),
-          supabase.from("invoice_payment_schedule").select("*").eq("invoice_id", inv.id).order("phase_order"),
-          (inv as any).property_id
-            ? supabase.from("customer_properties").select("*").eq("id", (inv as any).property_id).maybeSingle()
-            : Promise.resolve({ data: null }),
-        ]);
-        setItems(itemsRes.data || []);
-        setPhases(phasesRes.data || []);
-        setProperty(propertyRes.data);
       } catch (e: any) {
         setError(e.message || "Failed to load invoice");
       } finally {
@@ -92,6 +87,11 @@ export default function PublicInvoice() {
   const hasDetail = items.some((i: any) => i.detail);
   const sc = statusStyle[invoice.status] || statusStyle.draft;
   const StatusIcon = sc.icon;
+  const acceptedMethods: string[] =
+    Array.isArray(invoice.accepted_payment_methods) && invoice.accepted_payment_methods.length > 0
+      ? invoice.accepted_payment_methods
+      : ACCEPTED_METHODS;
+  const showSchedule = invoice.show_payment_schedule !== false;
 
   return (
     <div className="min-h-screen bg-slate-50 py-6 px-4">
@@ -119,7 +119,7 @@ export default function PublicInvoice() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 px-8 py-5 bg-slate-50 border-b border-slate-200">
           <div>
             <p className="text-[9px] uppercase tracking-[1.5px] text-slate-400 mb-0.5">Bill To</p>
-            <p className="text-sm font-semibold text-slate-800">{invoice.projects?.customer_name || "—"}</p>
+            <p className="text-sm font-semibold text-slate-800">{project?.customer_name || customer?.name || "—"}</p>
             {(property?.unit_identifier || property?.resident_name) && (
               <p className="text-xs text-slate-600 mt-0.5">
                 {property?.unit_identifier}
@@ -127,17 +127,17 @@ export default function PublicInvoice() {
                 {property?.resident_name}
               </p>
             )}
-            {invoice.customers?.email && <p className="text-xs text-slate-500 mt-0.5">{invoice.customers.email}</p>}
-            {invoice.customers?.phone && <p className="text-xs text-slate-500">{invoice.customers.phone}</p>}
+            {customer?.email && <p className="text-xs text-slate-500 mt-0.5">{customer.email}</p>}
+            {customer?.phone && <p className="text-xs text-slate-500">{customer.phone}</p>}
           </div>
           <div>
             <p className="text-[9px] uppercase tracking-[1.5px] text-slate-400 mb-0.5">Project</p>
-            <p className="text-sm font-semibold text-slate-800">{invoice.projects?.project_type || "—"}</p>
+            <p className="text-sm font-semibold text-slate-800">{project?.project_type || "—"}</p>
             {(() => {
               const propAddr = property
                 ? [property.address_line1, property.city, property.state, property.zip].filter(Boolean).join(", ")
                 : "";
-              const addr = propAddr || invoice.projects?.address;
+              const addr = propAddr || project?.address;
               return addr ? <p className="text-xs text-slate-500 mt-0.5">{addr}</p> : null;
             })()}
           </div>
@@ -192,7 +192,7 @@ export default function PublicInvoice() {
           </div>
 
           {/* Payment Schedule */}
-          {phases.length > 0 && (
+          {showSchedule && phases.length > 0 && (
             <div>
               <h4 className="text-[10px] uppercase tracking-[1px] text-slate-500 mb-2 font-semibold">Payment Schedule</h4>
               <div className={`grid gap-3`} style={{ gridTemplateColumns: `repeat(${phases.length}, 1fr)` }}>
@@ -212,7 +212,7 @@ export default function PublicInvoice() {
           <div>
             <h4 className="text-[10px] uppercase tracking-[1px] text-slate-500 mb-2 font-semibold">Accepted Payment Methods</h4>
             <div className="flex gap-2 flex-wrap">
-              {ACCEPTED_METHODS.map(m => (
+              {acceptedMethods.map(m => (
                 <span key={m} className="px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 border border-slate-200">{m}</span>
               ))}
             </div>
