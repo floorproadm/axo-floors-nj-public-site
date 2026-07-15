@@ -245,7 +245,7 @@ export const InvoicePrintable = forwardRef<HTMLDivElement, Props>(function Invoi
 
 
           <div data-pdf-row className="flex justify-end">
-            <div className="w-full sm:max-w-xs space-y-1 text-sm">
+            <div className="w-full rounded-lg border border-border/60 bg-white p-3 space-y-1 text-sm sm:max-w-xs sm:rounded-none sm:border-0 sm:bg-transparent sm:p-0">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Subtotal</span>
                 <span className="tabular-nums">{fmtMoney(subtotal)}</span>
