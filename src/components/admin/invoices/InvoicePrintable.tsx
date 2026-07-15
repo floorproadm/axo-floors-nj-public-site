@@ -128,7 +128,7 @@ export const InvoicePrintable = forwardRef<HTMLDivElement, Props>(function Invoi
           >
             Bill To
           </h2>
-          <div className="grid grid-cols-2 gap-4 text-sm">
+          <div className="grid grid-cols-2 gap-4 text-sm rounded-lg border border-border/60 bg-white p-3 sm:rounded-none sm:border-0 sm:bg-transparent sm:p-0">
             <div>
               <p className="text-xs text-muted-foreground">Client</p>
               <p className="font-semibold">{data.clientName || '—'}</p>
