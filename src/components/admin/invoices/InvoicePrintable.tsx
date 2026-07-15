@@ -163,7 +163,7 @@ export const InvoicePrintable = forwardRef<HTMLDivElement, Props>(function Invoi
         </div>
 
         {data.notes && (
-          <div className="px-10 pt-6">
+          <div className="px-4 sm:px-10 pt-6">
             <div
               className="rounded-lg px-4 py-3 text-sm invoice-notes-html [&_h3]:font-bold [&_h3]:text-[15px] [&_h3]:mt-1 [&_h3]:mb-1 [&_h4]:font-bold [&_h4]:text-[15px] [&_h4]:mt-1 [&_h4]:mb-1 [&_p]:my-1 [&_strong]:font-bold [&_b]:font-bold [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:my-0.5 [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-2"
               style={{
@@ -245,7 +245,7 @@ export const InvoicePrintable = forwardRef<HTMLDivElement, Props>(function Invoi
 
 
           <div data-pdf-row className="flex justify-end">
-            <div className="w-full max-w-xs space-y-1 text-sm">
+            <div className="w-full sm:max-w-xs space-y-1 text-sm">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Subtotal</span>
                 <span className="tabular-nums">{fmtMoney(subtotal)}</span>
