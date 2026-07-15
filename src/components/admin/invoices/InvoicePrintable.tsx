@@ -121,14 +121,14 @@ export const InvoicePrintable = forwardRef<HTMLDivElement, Props>(function Invoi
 
         <div className="h-[3px] w-full" style={{ backgroundColor: brandPrimary }} />
 
-        <div className="px-10 pt-8">
+        <div className="px-4 sm:px-10 pt-6 sm:pt-8">
           <h2
             className="text-lg font-semibold pb-2 mb-4 border-b-2"
             style={{ fontFamily: 'Montserrat, sans-serif', borderColor: brandPrimary }}
           >
             Bill To
           </h2>
-          <div className="grid grid-cols-2 gap-4 text-sm">
+          <div className="grid grid-cols-2 gap-4 text-sm rounded-lg border border-border/60 bg-white p-3 sm:rounded-none sm:border-0 sm:bg-transparent sm:p-0">
             <div>
               <p className="text-xs text-muted-foreground">Client</p>
               <p className="font-semibold">{data.clientName || '—'}</p>
