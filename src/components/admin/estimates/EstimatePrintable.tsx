@@ -33,15 +33,25 @@ export interface EstimatePrintableBranding {
   logoUrl?: string;
 }
 
+export interface EstimatePrintableSignature {
+  svg: string | null | undefined;
+  name: string | null | undefined;
+  email?: string | null;
+  signedAt: Date | null;
+  ip?: string | null;
+  termsVersion?: string | null;
+}
+
 interface Props {
   data: EstimatePrintableData;
   branding: EstimatePrintableBranding;
   showPreviewBadge?: boolean;
   printMode?: boolean;
+  signature?: EstimatePrintableSignature;
 }
 
 export const EstimatePrintable = forwardRef<HTMLDivElement, Props>(function EstimatePrintable(
-  { data, branding, showPreviewBadge, printMode },
+  { data, branding, showPreviewBadge, printMode, signature },
   ref,
 ) {
   const {
@@ -157,7 +167,11 @@ export const EstimatePrintable = forwardRef<HTMLDivElement, Props>(function Esti
               <p className="text-sm text-muted-foreground text-center py-6">No line items</p>
             ) : (
               cleanItems.map((it, i) => (
-                <div key={i} className="grid grid-cols-12 py-3 border-b border-border/40 text-sm">
+                <div
+                  key={i}
+                  data-pdf-row
+                  className="grid grid-cols-12 py-3 border-b border-border/40 text-sm"
+                >
                   <div className="col-span-7">
                     <p className="font-medium">{it.description}</p>
                     {it.unit_price ? (
@@ -175,7 +189,7 @@ export const EstimatePrintable = forwardRef<HTMLDivElement, Props>(function Esti
             )}
           </div>
 
-          <div className="flex justify-end">
+          <div data-pdf-row className="flex justify-end">
             <div className="w-full max-w-xs space-y-1 text-sm">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Subtotal</span>
@@ -204,18 +218,76 @@ export const EstimatePrintable = forwardRef<HTMLDivElement, Props>(function Esti
           </div>
 
           {data.notes && (
-            <div className="bg-muted/40 rounded-md p-3 text-sm">
+            <div data-pdf-row data-pdf-section className="bg-muted/40 rounded-md p-3 text-sm">
               <p className="text-[10.5px] uppercase tracking-widest text-muted-foreground mb-1">
                 Notes
               </p>
               <div
-                className="rich-notes-content text-sm [&_h3]:font-bold [&_h3]:text-base [&_h3]:mt-2 [&_h3]:mb-1 [&_h4]:font-bold [&_h4]:text-[15px] [&_h4]:mt-2 [&_h4]:mb-1 [&_p]:my-1 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:my-0.5 [&_a]:text-primary [&_a]:underline [&_a]:break-words [&_strong]:font-semibold"
-                dangerouslySetInnerHTML={{ __html: sanitizeNotesHtml(data.notes) }}
+                className="estimate-notes-html text-sm whitespace-pre-wrap [&_h3]:font-bold [&_h3]:text-[15px] [&_h3]:mt-1 [&_h3]:mb-1 [&_h4]:font-bold [&_h4]:text-[15px] [&_h4]:mt-1 [&_h4]:mb-1 [&_p]:my-1 [&_strong]:font-bold [&_b]:font-bold [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:my-0.5 [&_a]:font-medium [&_a]:underline [&_a]:underline-offset-2 [&_a]:text-primary"
+                dangerouslySetInnerHTML={{
+                  __html: sanitizeNotesHtml(String(data.notes)),
+                }}
               />
             </div>
           )}
 
+          {signature?.svg && (
+            <div
+              data-pdf-row
+              data-pdf-section
+              className="rounded-xl border-2 p-5 text-sm relative overflow-hidden"
+              style={{ borderColor: '#059669', backgroundColor: '#ecfdf5' }}
+            >
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 flex items-center justify-center"
+                style={{ opacity: 0.08 }}
+              >
+                <span
+                  className="text-6xl font-black tracking-widest"
+                  style={{ color: '#059669', transform: 'rotate(-18deg)' }}
+                >
+                  SIGNED
+                </span>
+              </div>
+              <p
+                className="text-[10.5px] uppercase tracking-widest mb-2 font-semibold"
+                style={{ color: '#047857' }}
+              >
+                Customer Approval
+              </p>
+              <div
+                className="bg-white rounded-md border border-emerald-200 p-3 max-w-md"
+                dangerouslySetInnerHTML={{ __html: signature.svg }}
+              />
+              <div className="mt-3 space-y-0.5 text-[12px] text-foreground/80">
+                <p style={{ fontFamily: 'cursive', fontSize: 18, color: '#065f46' }}>
+                  {signature.name}
+                </p>
+                {signature.signedAt && (
+                  <p>
+                    Signed electronically on{' '}
+                    <span className="font-medium">
+                      {format(signature.signedAt, 'MMM dd, yyyy')} at{' '}
+                      {format(signature.signedAt, 'h:mm a')}
+                    </span>
+                  </p>
+                )}
+                {signature.email && <p>Email: {signature.email}</p>}
+                {signature.ip && <p>IP: {signature.ip} · Verified via E-Sign</p>}
+                {signature.termsVersion && (
+                  <p className="text-muted-foreground">Terms version accepted: v{signature.termsVersion}</p>
+                )}
+              </div>
+              <p className="mt-3 text-[10px] text-muted-foreground leading-snug">
+                This document was signed electronically in compliance with the U.S. ESIGN Act (15 U.S.C. §7001) and UETA.
+              </p>
+            </div>
+          )}
+
           <div
+            data-pdf-row
+            data-pdf-section
             className="rounded-xl px-6 py-6 text-center"
             style={{ backgroundColor: brandSecondary, color: '#ffffff' }}
           >
