@@ -86,7 +86,9 @@ export default function GetStarted() {
     setData((d) => ({ ...d, [key]: value }));
   }, []);
 
-  const isConsultation = data.service === "consultation";
+  const isConsultation =
+    data.services.length === 1 && data.services[0] === "consultation";
+
 
   // ── Reusable field renderers ─────────────────────────────
   const textStep = (
