@@ -339,7 +339,7 @@ export default function GetStarted() {
       list.push(
         radioStep("currentFloor", gsCopy.qual.currentFloor.label, CURRENT_FLOOR_OPTIONS, gsCopy.qual.currentFloor.error),
       );
-      if (data.service === "refinishing") {
+      if (data.services.includes("refinishing")) {
         list.push(
           radioStep("condition", gsCopy.qual.condition.label, CONDITION_OPTIONS, gsCopy.qual.condition.error),
         );
