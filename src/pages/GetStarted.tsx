@@ -45,7 +45,7 @@ interface Step {
   id: StepId;
   title: string;
   helper?: string;
-  render: () => JSX.Element;
+  render: () => React.ReactElement;
   validate?: () => string | null;
 }
 
