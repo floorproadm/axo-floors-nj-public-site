@@ -223,9 +223,47 @@ export default function GetStarted() {
     list.push(
       radioStep("leadSource", gsCopy.attribution.label, ATTRIBUTION_OPTIONS, gsCopy.attribution.error),
     );
-    list.push(radioStep("service", gsCopy.service.label, SERVICE_OPTIONS, gsCopy.service.error));
+    list.push({
+      id: "services",
+      title: gsCopy.service.label,
+      helper: gsCopy.service.helper,
+      render: () => (
+        <div className="space-y-3">
+          {SERVICE_OPTIONS.map((opt) => {
+            const active = data.services.includes(opt.value);
+            return (
+              <label
+                key={opt.value}
+                className={`flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition-colors ${
+                  active ? "border-accent bg-accent/10 shadow-sm" : "border-border hover:bg-muted/50"
+                }`}
+              >
+                <Checkbox
+                  checked={active}
+                  onCheckedChange={(checked) =>
+                    set(
+                      "services",
+                      checked
+                        ? [...data.services, opt.value]
+                        : data.services.filter((s) => s !== opt.value),
+                    )
+                  }
+                  className="mt-1"
+                />
+                <span>
+                  <span className="block font-medium leading-snug">{opt.label}</span>
+                  {opt.hint && <span className="block text-sm text-muted-foreground">{opt.hint}</span>}
+                </span>
+              </label>
+            );
+          })}
+        </div>
+      ),
+      validate: () => (data.services.length ? null : gsCopy.service.error),
+    });
 
-    if (data.service === "consultation") {
+    if (isConsultation) {
+
       list.push(
         radioStep("consultType", gsCopy.consult.type.label, CONSULT_TYPE_OPTIONS, gsCopy.consult.type.error),
       );
