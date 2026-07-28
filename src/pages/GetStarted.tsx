@@ -548,11 +548,13 @@ export default function GetStarted() {
         if (data.currentFloor) details.push(`Current floors: ${data.currentFloor}`);
         if (data.condition) details.push(`Condition: ${data.condition}`);
         if (data.areas.length) details.push(`Areas: ${data.areas.join(", ")}`);
-        if (data.stairsCount)
-          details.push(
-            `Stairs: ${STAIRS_COUNT_OPTIONS.find((o) => o.value === data.stairsCount)?.label ?? data.stairsCount}`,
-          );
         details.push(`Square footage: ${data.sqftNotSure ? "Not sure" : `${data.sqft} ft²`}`);
+        if (data.stairsIncluded)
+          details.push(
+            data.stairsIncluded === "yes"
+              ? `Stairs: Yes (${STAIRS_COUNT_OPTIONS.find((o) => o.value === data.stairsCount)?.label ?? data.stairsCount})`
+              : "Stairs: No",
+          );
         if (data.propertyType) details.push(`Property type: ${data.propertyType}`);
         if (data.furnished) details.push(`Furnished: ${data.furnished}`);
         if (data.homeAge) details.push(`Home age: ${data.homeAge}`);
