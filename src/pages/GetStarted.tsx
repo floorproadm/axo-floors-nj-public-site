@@ -86,7 +86,9 @@ export default function GetStarted() {
     setData((d) => ({ ...d, [key]: value }));
   }, []);
 
-  const isConsultation = data.service === "consultation";
+  const isConsultation =
+    data.services.length === 1 && data.services[0] === "consultation";
+
 
   // ── Reusable field renderers ─────────────────────────────
   const textStep = (
@@ -221,9 +223,47 @@ export default function GetStarted() {
     list.push(
       radioStep("leadSource", gsCopy.attribution.label, ATTRIBUTION_OPTIONS, gsCopy.attribution.error),
     );
-    list.push(radioStep("service", gsCopy.service.label, SERVICE_OPTIONS, gsCopy.service.error));
+    list.push({
+      id: "services",
+      title: gsCopy.service.label,
+      helper: gsCopy.service.helper,
+      render: () => (
+        <div className="space-y-3">
+          {SERVICE_OPTIONS.map((opt) => {
+            const active = data.services.includes(opt.value);
+            return (
+              <label
+                key={opt.value}
+                className={`flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition-colors ${
+                  active ? "border-accent bg-accent/10 shadow-sm" : "border-border hover:bg-muted/50"
+                }`}
+              >
+                <Checkbox
+                  checked={active}
+                  onCheckedChange={(checked) =>
+                    set(
+                      "services",
+                      checked
+                        ? [...data.services, opt.value]
+                        : data.services.filter((s) => s !== opt.value),
+                    )
+                  }
+                  className="mt-1"
+                />
+                <span>
+                  <span className="block font-medium leading-snug">{opt.label}</span>
+                  {opt.hint && <span className="block text-sm text-muted-foreground">{opt.hint}</span>}
+                </span>
+              </label>
+            );
+          })}
+        </div>
+      ),
+      validate: () => (data.services.length ? null : gsCopy.service.error),
+    });
 
-    if (data.service === "consultation") {
+    if (isConsultation) {
+
       list.push(
         radioStep("consultType", gsCopy.consult.type.label, CONSULT_TYPE_OPTIONS, gsCopy.consult.type.error),
       );
@@ -259,7 +299,7 @@ export default function GetStarted() {
           />
         ),
       });
-    } else if (data.service) {
+    } else if (data.services.length > 0) {
       list.push({
         id: "wishlist",
         title: gsCopy.qual.wishlist.label,
@@ -299,7 +339,7 @@ export default function GetStarted() {
       list.push(
         radioStep("currentFloor", gsCopy.qual.currentFloor.label, CURRENT_FLOOR_OPTIONS, gsCopy.qual.currentFloor.error),
       );
-      if (data.service === "refinishing") {
+      if (data.services.includes("refinishing")) {
         list.push(
           radioStep("condition", gsCopy.qual.condition.label, CONDITION_OPTIONS, gsCopy.qual.condition.error),
         );
@@ -433,8 +473,11 @@ export default function GetStarted() {
     if (submitting) return;
     setSubmitting(true);
     try {
-      const serviceLabel = SERVICE_OPTIONS.find((s) => s.value === data.service)?.label ?? data.service;
-      const details: string[] = [`Service: ${serviceLabel}`];
+      const serviceLabels = data.services.map(
+        (v) => SERVICE_OPTIONS.find((s) => s.value === v)?.label ?? v,
+      );
+      const details: string[] = [`Services: ${serviceLabels.join(", ")}`];
+
       if (isConsultation) {
         const ct = CONSULT_TYPE_OPTIONS.find((c) => c.value === data.consultType)?.label;
         if (ct) details.push(`Consultation type: ${ct}`);
@@ -467,7 +510,7 @@ export default function GetStarted() {
           city: data.city || null,
           zip_code: data.zip || null,
           lead_source: data.leadSource || "Website — Get Started",
-          services: [serviceLabel],
+          services: serviceLabels,
           budget: isConsultation ? null : data.budget,
           room_size: data.sqftNotSure ? "Not sure" : data.sqft || null,
           message: isConsultation ? data.consultTopics : data.wishlist,
