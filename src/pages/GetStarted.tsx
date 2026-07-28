@@ -510,7 +510,7 @@ export default function GetStarted() {
           city: data.city || null,
           zip_code: data.zip || null,
           lead_source: data.leadSource || "Website — Get Started",
-          services: [serviceLabel],
+          services: serviceLabels,
           budget: isConsultation ? null : data.budget,
           room_size: data.sqftNotSure ? "Not sure" : data.sqft || null,
           message: isConsultation ? data.consultTopics : data.wishlist,
