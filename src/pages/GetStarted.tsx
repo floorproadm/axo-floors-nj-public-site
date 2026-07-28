@@ -362,44 +362,17 @@ export default function GetStarted() {
                 >
                   <Checkbox
                     checked={active}
-                    onCheckedChange={(checked) => {
-                      const next = checked ? [...data.areas, area] : data.areas.filter((a) => a !== area);
-                      set("areas", next);
-                      if (area === "Stairs" && !checked) set("stairsCount", "");
-                    }}
+                    onCheckedChange={(checked) =>
+                      set("areas", checked ? [...data.areas, area] : data.areas.filter((a) => a !== area))
+                    }
                   />
                   <span className="font-medium">{area}</span>
                 </label>
               );
             })}
-            {data.areas.includes("Stairs") && (
-              <div className="animate-in fade-in slide-in-from-top-2 space-y-3 rounded-xl border border-accent/40 bg-accent/5 p-4 duration-300">
-                <p className="font-heading font-semibold">{gsCopy.qual.areas.stairsLabel}</p>
-                <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                  {STAIRS_COUNT_OPTIONS.map((opt) => (
-                    <button
-                      key={opt.value}
-                      type="button"
-                      onClick={() => set("stairsCount", opt.value)}
-                      className={`rounded-lg border px-3 py-3 text-sm font-medium transition-colors ${
-                        data.stairsCount === opt.value
-                          ? "border-accent bg-accent/15 shadow-sm"
-                          : "border-border hover:bg-muted/50"
-                      }`}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         ),
-        validate: () => {
-          if (!data.areas.length) return gsCopy.qual.areas.error;
-          if (data.areas.includes("Stairs") && !data.stairsCount) return gsCopy.qual.areas.stairsError;
-          return null;
-        },
+        validate: () => (data.areas.length ? null : gsCopy.qual.areas.error),
       });
       list.push({
         id: "sqft",
