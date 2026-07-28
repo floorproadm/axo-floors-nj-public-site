@@ -50,7 +50,7 @@ interface Step {
 }
 
 const amberBtn =
-  "bg-[hsl(var(--axo-amber))] text-[hsl(var(--axo-amber-foreground))] hover:bg-[hsl(var(--axo-amber))]/90 font-semibold";
+  "bg-[hsl(var(--accent))] text-[hsl(var(--accent-foreground))] hover:bg-[hsl(var(--accent))]/90 font-semibold";
 
 export default function GetStarted() {
   const navigate = useNavigate();
@@ -132,7 +132,7 @@ export default function GetStarted() {
               key={value}
               htmlFor={`${String(key)}-${value}`}
               className={`flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition-colors ${
-                active ? "border-[hsl(var(--axo-amber))] bg-[hsl(var(--axo-amber))]/10" : "border-border hover:bg-muted/50"
+                active ? "border-[hsl(var(--accent))] bg-[hsl(var(--accent))]/10" : "border-border hover:bg-muted/50"
               }`}
             >
               <RadioGroupItem id={`${String(key)}-${value}`} value={value} className="mt-1" />
@@ -232,7 +232,7 @@ export default function GetStarted() {
         render: () => (
           <div className="rounded-2xl border border-border bg-card p-5 sm:p-6">
             <div className="flex items-center gap-4">
-              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-[hsl(var(--axo-amber))]/20 text-lg font-bold text-[hsl(var(--axo-amber-foreground))]">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-[hsl(var(--accent))]/20 text-lg font-bold text-[hsl(var(--accent-foreground))]">
                 AXO
               </div>
               <div>
@@ -280,7 +280,7 @@ export default function GetStarted() {
         helper: gsCopy.qual.budget.helper,
         render: () => (
           <div className="space-y-6">
-            <p className="text-4xl font-bold text-[hsl(var(--axo-amber))]">{formatBudget(data.budget)}</p>
+            <p className="text-4xl font-bold text-[hsl(var(--accent))]">{formatBudget(data.budget)}</p>
             <Slider
               value={[data.budget]}
               min={2000}
@@ -315,7 +315,7 @@ export default function GetStarted() {
                 <label
                   key={area}
                   className={`flex cursor-pointer items-center gap-3 rounded-xl border p-4 transition-colors ${
-                    active ? "border-[hsl(var(--axo-amber))] bg-[hsl(var(--axo-amber))]/10" : "border-border hover:bg-muted/50"
+                    active ? "border-[hsl(var(--accent))] bg-[hsl(var(--accent))]/10" : "border-border hover:bg-muted/50"
                   }`}
                 >
                   <Checkbox
@@ -518,7 +518,7 @@ export default function GetStarted() {
       {/* Progress bar */}
       <div className="h-1 w-full bg-muted">
         <div
-          className="h-full bg-[hsl(var(--axo-amber))] transition-all duration-300"
+          className="h-full bg-[hsl(var(--accent))] transition-all duration-300"
           style={{ width: `${progress}%` }}
         />
       </div>
