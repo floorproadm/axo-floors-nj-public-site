@@ -77,10 +77,17 @@ export function loadDraft(): { data: GetStartedData; step: number } | null {
     if (!raw) return null;
     const parsed = JSON.parse(raw);
     if (!parsed || typeof parsed !== "object") return null;
+    const draftData = parsed.data ?? {};
+    // Migrate old single-service drafts to the new multi-select array
+    if (typeof draftData.service === "string" && draftData.service) {
+      draftData.services = [draftData.service];
+      delete draftData.service;
+    }
     return {
-      data: { ...emptyData, ...(parsed.data ?? {}) },
+      data: { ...emptyData, ...draftData },
       step: typeof parsed.step === "number" ? parsed.step : 0,
     };
+
   } catch {
     return null;
   }
