@@ -20,6 +20,7 @@ export interface GetStartedData {
   currentFloor: string;
   condition: string;
   areas: string[];
+  stairsCount: string;
   sqft: string;
   sqftNotSure: boolean;
   propertyType: string;
@@ -63,6 +64,7 @@ export const emptyData: GetStartedData = {
   currentFloor: "",
   condition: "",
   areas: [],
+  stairsCount: "",
   sqft: "",
   sqftNotSure: false,
   propertyType: "",

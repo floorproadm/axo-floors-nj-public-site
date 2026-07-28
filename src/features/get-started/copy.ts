@@ -43,7 +43,13 @@ export const gsCopy = {
     budget: { label: "What's your estimated budget?", helper: "Drag to set a rough range — this just helps us plan." },
     currentFloor: { label: "What's currently on the floors?", error: "Please pick one option." },
     condition: { label: "What condition are your hardwood floors in?", error: "Please pick one option." },
-    areas: { label: "Which areas are included?", helper: "Select all that apply.", error: "Please select at least one area." },
+    areas: {
+      label: "Which areas are included?",
+      helper: "Select all that apply.",
+      error: "Please select at least one area.",
+      stairsLabel: "How many steps?",
+      stairsError: "Please select how many steps.",
+    },
     sqft: { label: "Approximate square footage of the project area?", notSure: "Not sure", error: "Please enter a square footage or check \"Not sure\"." },
     propertyType: { label: "What type of property is this?", error: "Please pick one option." },
     furnished: { label: "Will the space be furnished during the project?", error: "Please pick one option." },
@@ -137,3 +143,11 @@ export const FURNISHED_OPTIONS = [
 ] as const;
 
 export const HOME_AGE_OPTIONS = ["Under 10 years", "10–30 years", "30–60 years", "60+ years", "Not sure"] as const;
+
+export const STAIRS_COUNT_OPTIONS = [
+  { value: "1-5", label: "1 – 5 steps" },
+  { value: "6-10", label: "6 – 10 steps" },
+  { value: "11-15", label: "11 – 15 steps" },
+  { value: "16-20", label: "16 – 20 steps" },
+  { value: "20-plus", label: "20+ steps" },
+] as const;
