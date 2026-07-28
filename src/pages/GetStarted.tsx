@@ -536,12 +536,15 @@ export default function GetStarted() {
         (v) => SERVICE_OPTIONS.find((s) => s.value === v)?.label ?? v,
       );
       const lines: string[] = [];
+      // Markers: "## Title" starts a section, "- Label: value" is a row.
+      // Mobile-friendly plain text; the notification template renders each
+      // "##" block as a collapsible <details> section.
       const section = (title: string, rows: [string, string | null | undefined][]) => {
         const filled = rows.filter(([, v]) => v !== null && v !== undefined && String(v).trim() !== "");
         if (!filled.length) return;
         if (lines.length) lines.push("");
-        lines.push(`━━ ${title.toUpperCase()} ━━`);
-        filled.forEach(([k, v]) => lines.push(`• ${k}: ${v}`));
+        lines.push(`## ${title}`);
+        filled.forEach(([k, v]) => lines.push(`- ${k}: ${v}`));
       };
 
       section("Contact", [
