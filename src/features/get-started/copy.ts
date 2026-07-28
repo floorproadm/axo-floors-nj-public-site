@@ -28,7 +28,7 @@ export const gsCopy = {
     },
   },
   attribution: { label: "How did you find us?", error: "Please pick one option." },
-  service: { label: "What can we help you with?", error: "Please pick one option." },
+  service: { label: "What can we help you with?", helper: "Select all that apply.", error: "Please select at least one option." },
   consult: {
     type: { label: "What type of consultation works best for you?", error: "Please pick one option." },
     introTitle: "Meet your consultant",
