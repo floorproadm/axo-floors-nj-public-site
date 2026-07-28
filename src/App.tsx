@@ -24,6 +24,7 @@ import StainGallery from "./pages/StainGallery";
 import BuilderPartnerships from "./pages/BuilderPartnerships";
 import PartnerProgram from "./pages/PartnerProgram";
 import Quiz from "./pages/Quiz";
+import GetStarted from "./pages/GetStarted";
 import ThankYou from "./pages/ThankYou";
 import ScheduleEstimate from "./pages/ScheduleEstimate";
 import ReferralProgram from "./pages/ReferralProgram";
