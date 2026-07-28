@@ -299,7 +299,7 @@ export default function GetStarted() {
           />
         ),
       });
-    } else if (data.service) {
+    } else if (data.services.length > 0) {
       list.push({
         id: "wishlist",
         title: gsCopy.qual.wishlist.label,
