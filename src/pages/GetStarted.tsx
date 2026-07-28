@@ -405,10 +405,68 @@ export default function GetStarted() {
               />
               <span>{gsCopy.qual.sqft.notSure}</span>
             </label>
+
+            <div className="space-y-3 pt-2">
+              <p className="font-heading font-semibold">{gsCopy.qual.stairs.label}</p>
+              <div className="grid grid-cols-2 gap-3">
+                {[
+                  { value: "yes", label: "Yes" },
+                  { value: "no", label: "No" },
+                ].map((opt) => (
+                  <button
+                    key={opt.value}
+                    type="button"
+                    onClick={() => {
+                      setError(null);
+                      setData((d) => ({
+                        ...d,
+                        stairsIncluded: opt.value,
+                        stairsCount: opt.value === "no" ? "" : d.stairsCount,
+                      }));
+                    }}
+                    className={`rounded-xl border px-4 py-4 font-medium transition-colors ${
+                      data.stairsIncluded === opt.value
+                        ? "border-accent bg-accent/10 shadow-sm"
+                        : "border-border hover:bg-muted/50"
+                    }`}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+              {data.stairsIncluded === "yes" && (
+                <div className="animate-in fade-in slide-in-from-top-2 space-y-3 rounded-xl border border-accent/40 bg-accent/5 p-4 duration-300">
+                  <p className="font-heading font-semibold">{gsCopy.qual.stairs.countLabel}</p>
+                  <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                    {STAIRS_COUNT_OPTIONS.map((opt) => (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        onClick={() => {
+                          setError(null);
+                          set("stairsCount", opt.value);
+                        }}
+                        className={`rounded-lg border px-3 py-3 text-sm font-medium transition-colors ${
+                          data.stairsCount === opt.value
+                            ? "border-accent bg-accent/15 shadow-sm"
+                            : "border-border hover:bg-muted/50"
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         ),
-        validate: () =>
-          data.sqftNotSure || Number(data.sqft) > 0 ? null : gsCopy.qual.sqft.error,
+        validate: () => {
+          if (!data.sqftNotSure && !(Number(data.sqft) > 0)) return gsCopy.qual.sqft.error;
+          if (!data.stairsIncluded) return gsCopy.qual.stairs.error;
+          if (data.stairsIncluded === "yes" && !data.stairsCount) return gsCopy.qual.stairs.countError;
+          return null;
+        },
       });
       list.push(
         radioStep("propertyType", gsCopy.qual.propertyType.label, PROPERTY_TYPE_OPTIONS, gsCopy.qual.propertyType.error),
