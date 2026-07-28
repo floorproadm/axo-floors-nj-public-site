@@ -535,35 +535,66 @@ export default function GetStarted() {
       const serviceLabels = data.services.map(
         (v) => SERVICE_OPTIONS.find((s) => s.value === v)?.label ?? v,
       );
-      const details: string[] = [`Services: ${serviceLabels.join(", ")}`];
+      const lines: string[] = [];
+      const section = (title: string, rows: [string, string | null | undefined][]) => {
+        const filled = rows.filter(([, v]) => v !== null && v !== undefined && String(v).trim() !== "");
+        if (!filled.length) return;
+        if (lines.length) lines.push("");
+        lines.push(`━━ ${title.toUpperCase()} ━━`);
+        filled.forEach(([k, v]) => lines.push(`• ${k}: ${v}`));
+      };
+
+      section("Contact", [
+        ["Name", `${data.firstName.trim()} ${data.lastName.trim()}`.trim()],
+        ["Phone", data.phone],
+        ["Email", data.email.trim()],
+        ["Address", data.address],
+        ["City", data.city],
+        ["ZIP", data.zip],
+      ]);
+
+      section("Request", [
+        ["Services", serviceLabels.join(", ")],
+        ["How they found us", data.leadSource],
+      ]);
 
       if (isConsultation) {
-        const ct = CONSULT_TYPE_OPTIONS.find((c) => c.value === data.consultType)?.label;
-        if (ct) details.push(`Consultation type: ${ct}`);
-        if (data.consultTopics) details.push(`Topics to cover: ${data.consultTopics}`);
+        section("Consultation", [
+          ["Type", CONSULT_TYPE_OPTIONS.find((c) => c.value === data.consultType)?.label],
+          ["Topics to cover", data.consultTopics],
+        ]);
       } else {
-        if (data.wishlist) details.push(`Dream floors: ${data.wishlist}`);
-        if (data.timeline) details.push(`Timeline: ${data.timeline}`);
-        details.push(`Budget: ${formatBudget(data.budget)}`);
-        if (data.currentFloor) details.push(`Current floors: ${data.currentFloor}`);
-        if (data.condition) details.push(`Condition: ${data.condition}`);
-        if (data.areas.length) details.push(`Areas: ${data.areas.join(", ")}`);
-        details.push(`Square footage: ${data.sqftNotSure ? "Not sure" : `${data.sqft} ft²`}`);
-        if (data.stairsIncluded)
-          details.push(
+        section("Project", [
+          ["Dream floors", data.wishlist],
+          ["Timeline", data.timeline],
+          ["Budget", formatBudget(data.budget)],
+          ["Current floors", data.currentFloor],
+          ["Condition", data.condition],
+          ["Areas", data.areas.join(", ")],
+          ["Square footage", data.sqftNotSure ? "Not sure" : data.sqft ? `${data.sqft} ft²` : ""],
+          [
+            "Stairs",
             data.stairsIncluded === "yes"
-              ? `Stairs: Yes (${STAIRS_COUNT_OPTIONS.find((o) => o.value === data.stairsCount)?.label ?? data.stairsCount})`
-              : "Stairs: No",
-          );
-        if (data.propertyType) details.push(`Property type: ${data.propertyType}`);
-        if (data.furnished) details.push(`Furnished: ${data.furnished}`);
-        if (data.homeAge) details.push(`Home age: ${data.homeAge}`);
+              ? `Yes — ${STAIRS_COUNT_OPTIONS.find((o) => o.value === data.stairsCount)?.label ?? data.stairsCount}`
+              : data.stairsIncluded === "no"
+                ? "No"
+                : "",
+          ],
+        ]);
+        section("Property", [
+          ["Property type", data.propertyType],
+          ["Furnished", data.furnished],
+          ["Home age", data.homeAge],
+        ]);
       }
+
       const utm = utmRef.current || {};
-      const utmLines = Object.entries(utm)
-        .filter(([, v]) => Boolean(v))
-        .map(([k, v]) => `${k}=${v}`);
-      if (utmLines.length) details.push(`Attribution: ${utmLines.join(" | ")}`);
+      section(
+        "Attribution",
+        Object.entries(utm)
+          .filter(([, v]) => Boolean(v))
+          .map(([k, v]) => [k, String(v)] as [string, string]),
+      );
 
       const { error: insertError } = await supabase.from("leads").insert([
         {
@@ -579,7 +610,7 @@ export default function GetStarted() {
           budget: isConsultation ? null : data.budget,
           room_size: data.sqftNotSure ? "Not sure" : data.sqft || null,
           message: isConsultation ? data.consultTopics : data.wishlist,
-          notes: details.join("\n"),
+          notes: lines.join("\n"),
           status: "new_lead",
           priority: "high",
           contact_type: "web_form",
