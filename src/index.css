@@ -24,6 +24,8 @@
     --navy-dark: 210 85% 10%; /* Navy ainda mais escuro */
     --gold-accent: 45 100% 50%; /* #FFCC00 - Gold mais vibrante */
     --gold-warm: 42 95% 45%; /* Gold mais escuro para texto */
+    --axo-amber: 44 74% 56%; /* #E3B23C - Amber CTA (get-started wizard) */
+    --axo-amber-foreground: 210 85% 10%;
     --grey-secondary: 210 15% 25%; /* #3A4049 - Texto secundário mais legível */
     --grey-light: 210 20% 98%; /* #F8F9FA - Fundo mais suave */
     --white-pure: 0 0% 100%; /* Pure white */
@@ -294,4 +296,20 @@
     max-height: calc(100vh - 32px) !important;
     width: calc(100vw - 16px) !important;
   }
+}
+
+/* Get Started wizard — subtle horizontal step transitions */
+@keyframes gs-slide-in-right {
+  from { opacity: 0; transform: translateX(16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes gs-slide-in-left {
+  from { opacity: 0; transform: translateX(-16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.animate-gs-slide-in-right { animation: gs-slide-in-right 180ms ease-out; }
+.animate-gs-slide-in-left { animation: gs-slide-in-left 180ms ease-out; }
+@media (prefers-reduced-motion: reduce) {
+  .animate-gs-slide-in-right,
+  .animate-gs-slide-in-left { animation: none; }
 }
