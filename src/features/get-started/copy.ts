@@ -143,3 +143,11 @@ export const FURNISHED_OPTIONS = [
 ] as const;
 
 export const HOME_AGE_OPTIONS = ["Under 10 years", "10–30 years", "30–60 years", "60+ years", "Not sure"] as const;
+
+export const STAIRS_COUNT_OPTIONS = [
+  { value: "1-5", label: "1 – 5 steps" },
+  { value: "6-10", label: "6 – 10 steps" },
+  { value: "11-15", label: "11 – 15 steps" },
+  { value: "16-20", label: "16 – 20 steps" },
+  { value: "20-plus", label: "20+ steps" },
+] as const;
