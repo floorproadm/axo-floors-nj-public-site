@@ -74,6 +74,7 @@ export default function AddressAutocomplete({ value, placeholder, onChange, onEn
   return (
     <Input
       ref={inputRef}
+      autoFocus
       value={value}
       autoComplete="off"
       inputMode="text"
