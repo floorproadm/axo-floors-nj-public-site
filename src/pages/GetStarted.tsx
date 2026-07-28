@@ -50,7 +50,8 @@ interface Step {
 }
 
 const amberBtn =
-  "bg-[hsl(var(--accent))] text-[hsl(var(--accent-foreground))] hover:bg-[hsl(var(--accent))]/90 font-semibold";
+  "gold-gradient text-accent-foreground shadow-gold transition-smooth hover:opacity-90 font-heading font-semibold tracking-wide";
+
 
 export default function GetStarted() {
   const navigate = useNavigate();
