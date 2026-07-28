@@ -14,6 +14,7 @@ import { AXO_ORG_ID, AXO_PHONE_DISPLAY } from "@/lib/constants";
 import AddressAutocomplete from "@/features/get-started/AddressAutocomplete";
 import {
   AREA_OPTIONS,
+  STAIRS_COUNT_OPTIONS,
   ATTRIBUTION_OPTIONS,
   CONDITION_OPTIONS,
   CONSULT_TYPE_OPTIONS,
