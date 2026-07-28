@@ -473,8 +473,11 @@ export default function GetStarted() {
     if (submitting) return;
     setSubmitting(true);
     try {
-      const serviceLabel = SERVICE_OPTIONS.find((s) => s.value === data.service)?.label ?? data.service;
-      const details: string[] = [`Service: ${serviceLabel}`];
+      const serviceLabels = data.services.map(
+        (v) => SERVICE_OPTIONS.find((s) => s.value === v)?.label ?? v,
+      );
+      const details: string[] = [`Services: ${serviceLabels.join(", ")}`];
+
       if (isConsultation) {
         const ct = CONSULT_TYPE_OPTIONS.find((c) => c.value === data.consultType)?.label;
         if (ct) details.push(`Consultation type: ${ct}`);
