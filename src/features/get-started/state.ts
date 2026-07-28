@@ -8,8 +8,9 @@ export interface GetStartedData {
   city: string;
   zip: string;
   leadSource: string;
-  service: string;
+  services: string[];
   // Branch A
+
   consultType: string;
   consultTopics: string;
   // Branch B
