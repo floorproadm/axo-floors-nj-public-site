@@ -35,7 +35,6 @@ const services = [
   { name: "Hardwood Floor Refinishing", href: "/refinishing", description: "Sanding and refinishing existing hardwood floors using a dust-contained process and modern finishes." },
   { name: "Hardwood Floor Installation", href: "/installation", description: "New solid and engineered hardwood installation, including wide-plank white oak with custom stains." },
   { name: "Floor Repairs", href: "/refinishing", description: "Board replacement, weave-in repairs and recoats where a full sand is not appropriate." },
-  { name: "Stairs and Railings", href: "/staircase", description: "Converting carpeted stairs to hardwood, refinishing existing stairs, and matching first-floor stain." },
 ];
 
 const HubPageSSR = () => {

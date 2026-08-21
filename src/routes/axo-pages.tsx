@@ -12,8 +12,6 @@ function AxoPages() {
     { name: "Installation", path: "/installation" },
     { name: "Refinishing", path: "/refinishing" },
     { name: "Vinyl Plank", path: "/vinyl-plank-flooring" },
-    { name: "Staircase", path: "/staircase" },
-    { name: "Base Boards", path: "/base-boards" },
     { name: "Gallery", path: "/gallery" },
     { name: "Stain Gallery", path: "/stain-gallery" },
     { name: "About", path: "/about" },
@@ -29,7 +27,6 @@ function AxoPages() {
     { name: "Review Req.", path: "/review-request" },
     { name: "Hub (Links)", path: "/hub" },
     { name: "Campaign", path: "/campaign" },
-    { name: "Master Sys.", path: "/axo-master-system" },
   ];
 
   const cityPages = njLocations
