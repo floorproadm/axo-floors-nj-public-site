@@ -61,8 +61,6 @@ const BuilderPartnerships = () => {
     { name: "Custom Staining", desc: "Color consultation, sample boards, formulated per microclimate and lifestyle spec (UV resistance, pet/child-safe).", unit: "per sqft" },
     { name: "Floor Repairs", desc: "Board replacement, crack filling, squeaky floor remediation, water damage spot repair. Matched to existing species.", unit: "per area" },
     { name: "Water Damage Restoration", desc: "Assessment, removal, subfloor treatment, reinstallation. Documented before/after for insurance.", unit: "per sqft" },
-    { name: "Staircase Refinishing", desc: "Treads, risers, handrails. Matched to adjacent floor species and finish. Open and closed stringer.", unit: "per step" },
-    { name: "Baseboard Installation", desc: "Supply and install. Coordinated with floor species and finish for seamless wall transition.", unit: "per linear ft" },
     { name: "Vinyl Plank Flooring", desc: "LVP — floating or glue-down. Below-grade, wet areas, and high-traffic commercial applications.", unit: "per sqft" },
   ];
 

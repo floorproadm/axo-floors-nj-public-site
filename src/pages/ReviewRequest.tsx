@@ -22,7 +22,6 @@ const SERVICE_OPTIONS = [
   { value: "refinishing", label: "Sanding & Refinishing" },
   { value: "installation", label: "Hardwood Installation" },
   { value: "vinyl", label: "Vinyl Plank Flooring" },
-  { value: "staircase", label: "Staircase Refinishing" },
   { value: "repair", label: "Floor Repair" },
 ];
 

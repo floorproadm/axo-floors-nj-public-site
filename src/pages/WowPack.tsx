@@ -48,7 +48,6 @@ const WowPack = () => {
     { location: "Monmouth County — Living Room & Hallway", detail: "800 sqft · Sand + Custom Natural Stain + 3 coats", result: "Home value +$28,000 at resale", beforeLabel: "Worn, grey finish", afterLabel: "Natural Oak stain", beforeGrad: "linear-gradient(135deg, #1a1208, #2a1e10, #1e160a)", afterGrad: "linear-gradient(135deg, #6b4a18, #c9a84c, #8a6020)" },
     { location: "Bergen County — Full First Floor", detail: "1,200 sqft · Water damage restoration + Classic Brown", result: "Listed & sold 12 days after completion", beforeLabel: "Water damage, dark", afterLabel: "Classic Brown finish", beforeGrad: "linear-gradient(135deg, #110d08, #1e160a, #150e06)", afterGrad: "linear-gradient(135deg, #8a4a1a, #c07838, #7a3c12)" },
     { location: "Morris County — Modern Renovation", detail: "920 sqft · Sand + Whitewash + Satin Bona finish", result: "Realtor: \"Best-looking house on the block\"", beforeLabel: "Dull, scratched", afterLabel: "Driftwood Whitewash", beforeGrad: "linear-gradient(135deg, #1a1a14, #262618, #1a1a12)", afterGrad: "linear-gradient(135deg, #c0c0b0, #e0ddd0, #a8a898)" },
-    { location: "Essex County — Staircase + Open Floor", detail: "1,400 sqft · New boards + Espresso + Platinum finish", result: "10-year structural guarantee now active", beforeLabel: "Old, uneven boards", afterLabel: "Espresso Dark", beforeGrad: "linear-gradient(135deg, #0e0e0a, #1a1a14, #0a0a08)", afterGrad: "linear-gradient(135deg, #1e1208, #2e1a0a, #160e06)" },
   ];
 
   const processSteps = [

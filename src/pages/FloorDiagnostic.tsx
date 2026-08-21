@@ -614,7 +614,6 @@ const FloorDiagnostic = () => {
                             { value: "refinish", label: "Sanding & Refinish", desc: "Restore existing hardwood" },
                             { value: "new-installation", label: "New Hardwood Installation", desc: "Install brand-new floors" },
                             { value: "vinyl-plank", label: "Vinyl Plank Flooring", desc: "Waterproof LVP installation" },
-                            { value: "stairs", label: "Staircase Work", desc: "Refinish or rebuild stairs" },
                             { value: "not-sure", label: "Not Sure Yet", desc: "Need professional guidance" }
                           ].map(option => (
                             <button

@@ -43,8 +43,6 @@ const ContactForm = () => {
     'Hardwood Flooring Installation',
     'Sanding & Finish',
     'Vinyl Plank Flooring',
-    'Staircase Refinishing',
-    'Baseboards Installation',
     'Floor Repairs',
     'Custom Staining'
   ];

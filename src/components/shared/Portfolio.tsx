@@ -18,32 +18,20 @@ const portfolioItems = [{
   description: "Waterproof luxury vinyl plank installation"
 }, {
   id: 3,
-  title: "Staircase Renovation",
-  category: "Staircase",
-  image: "/api/placeholder/400/300",
-  description: "Complete staircase refinishing with custom railings"
-}, {
-  id: 4,
   title: "Floor Refinishing Project",
   category: "Refinishing",
   image: "/api/placeholder/400/300",
   description: "Complete hardwood floor restoration and refinishing"
 }, {
-  id: 5,
+  id: 4,
   title: "Commercial Flooring",
   category: "Commercial",
   image: "/api/placeholder/400/300",
   description: "Large-scale commercial flooring installation"
-}, {
-  id: 6,
-  title: "Base Board Installation",
-  category: "Baseboards",
-  image: "/api/placeholder/400/300",
-  description: "Custom baseboard and trim installation"
 }];
 const Portfolio = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const categories = ["All", "Hardwood", "Vinyl", "Staircase", "Refinishing", "Commercial", "Baseboards"];
+  const categories = ["All", "Hardwood", "Vinyl", "Refinishing", "Commercial"];
   const filteredItems = selectedCategory === "All" ? portfolioItems : portfolioItems.filter(item => item.category === selectedCategory);
   return <section className="py-12 sm:py-16 lg:py-20 bg-grey-light">
       <div className="container mx-auto px-4">

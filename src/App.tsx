@@ -15,8 +15,6 @@ import Index from "./pages/Index";
 import Installation from "./pages/Installation";
 import Refinishing from "./pages/Refinishing";
 import VinylPlankFlooring from "./pages/VinylPlankFlooring";
-import Staircase from "./pages/Staircase";
-import BaseBoards from "./pages/BaseBoards";
 import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
@@ -35,7 +33,6 @@ import Auth from "./pages/Auth";
 import Campaign from "./pages/Campaign";
 
 import WowPack from "./pages/WowPack";
-import AxoMasterSystem from "./pages/AxoMasterSystem";
 import ReviewRequest from "./pages/ReviewRequest";
 import NotFound from "./pages/NotFound";
 import SharedPost from "./pages/SharedPost";
@@ -72,8 +69,6 @@ const App = () => {
                   <Route path="/refinishing" element={<Refinishing />} />
                   <Route path="/sanding-and-refinish" element={<Navigate to="/refinishing" replace />} />
                   <Route path="/vinyl-plank-flooring" element={<VinylPlankFlooring />} />
-                  <Route path="/staircase" element={<Staircase />} />
-                  <Route path="/base-boards" element={<BaseBoards />} />
                   <Route path="/gallery" element={<Gallery />} />
                   <Route path="/stain-gallery" element={<StainGallery />} />
                   <Route path="/contact" element={<Contact />} />

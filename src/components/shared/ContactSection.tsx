@@ -187,13 +187,11 @@ const ContactSection = () => {
                       <SelectTrigger className="min-h-[48px] text-base border-2 focus:border-accent transition-colors duration-300">
                         <SelectValue placeholder="Select a service" />
                       </SelectTrigger>
-                      <SelectContent className="bg-card border-accent/20">
-                        <SelectItem value="hardwood_flooring">Hardwood Flooring</SelectItem>
-                        <SelectItem value="sanding_refinishing">Sanding & Finish</SelectItem>
-                        <SelectItem value="vinyl_plank">Vinyl Plank Flooring</SelectItem>
-                        <SelectItem value="staircase">Staircase Services</SelectItem>
-                        <SelectItem value="baseboards">Baseboards</SelectItem>
-                      </SelectContent>
+                        <SelectContent className="bg-card border-accent/20">
+                          <SelectItem value="hardwood_flooring">Hardwood Flooring</SelectItem>
+                          <SelectItem value="sanding_refinishing">Sanding & Finish</SelectItem>
+                          <SelectItem value="vinyl_plank">Vinyl Plank Flooring</SelectItem>
+                        </SelectContent>
                     </Select>
                   </div>
                 </div>

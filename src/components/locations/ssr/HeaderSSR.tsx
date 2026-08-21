@@ -19,8 +19,6 @@ const services = [
   { name: "Hardwood Flooring", href: "/hardwood-flooring" },
   { name: "Sanding & Refinish", href: "/sanding-and-refinish" },
   { name: "Vinyl Plank Flooring", href: "/vinyl-plank-flooring" },
-  { name: "Staircase", href: "/staircase" },
-  { name: "Base Boards", href: "/base-boards" },
 ];
 
 const HeaderSSR = () => {

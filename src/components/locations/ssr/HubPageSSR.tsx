@@ -35,7 +35,6 @@ const services = [
   { name: "Hardwood Floor Refinishing", href: "/refinishing", description: "Sanding and refinishing existing hardwood floors using a dust-contained process and modern finishes." },
   { name: "Hardwood Floor Installation", href: "/installation", description: "New solid and engineered hardwood installation, including wide-plank white oak with custom stains." },
   { name: "Floor Repairs", href: "/refinishing", description: "Board replacement, weave-in repairs and recoats where a full sand is not appropriate." },
-  { name: "Stairs and Railings", href: "/staircase", description: "Converting carpeted stairs to hardwood, refinishing existing stairs, and matching first-floor stain." },
 ];
 
 const HubPageSSR = () => {
@@ -65,7 +64,7 @@ const HubPageSSR = () => {
                 Hardwood Flooring Services Across New Jersey
               </h1>
               <p className="text-base sm:text-lg text-grey max-w-3xl leading-relaxed mb-7">
-                AXO Floors provides hardwood floor installation, refinishing, repairs, and stairs and railings work
+                AXO Floors provides hardwood floor installation, refinishing, and repairs
                 in selected New Jersey service areas. Each project starts with a free in-home estimate so we can
                 review the existing floors and recommend the right approach.
               </p>
@@ -86,7 +85,7 @@ const HubPageSSR = () => {
               <div className="relative rounded-2xl overflow-hidden shadow-elegant border-4 border-gold/20 aspect-[4/3] lg:aspect-[5/4]">
                 <img
                   src={heroImage}
-                  alt="Refinished red oak hardwood foyer and staircase by AXO Floors NJ"
+                  alt="Refinished red oak hardwood foyer by AXO Floors NJ"
                   width={1200}
                   height={900}
                   className="w-full h-full object-cover"
