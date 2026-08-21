@@ -48,7 +48,7 @@ function AxoPages() {
               '''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
                                         
                                             
-                                            nao pedir para text eu pedir foi para em /axo-pages ao clicar na page abrir a page clicada uma tab na sidebar
+                                            nao pedir para atualizar texto // pedir para que na /axo-pages crie uma forma que ao clicar na page abra a page clicada uma tab na sidebar sem sair da /axo-pages
             </h1>
             <p className="whitespace-pre-wrap text-slate-600">Quick access to all project routes and landing pages.</p>
           </div>
