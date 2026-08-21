@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as AxoPagesRouteImport } from './routes/axo-pages'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServiceAreasNewJerseyIndexRouteImport } from './routes/service-areas.new-jersey.index'
@@ -18,6 +19,11 @@ import { Route as ServiceAreasNewJerseySlugRouteImport } from './routes/service-
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AxoPagesRoute = AxoPagesRouteImport.update({
+  id: '/axo-pages',
+  path: '/axo-pages',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SplatRoute = SplatRouteImport.update({
@@ -46,6 +52,7 @@ const ServiceAreasNewJerseySlugRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
+  '/axo-pages': typeof AxoPagesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/service-areas/new-jersey/$slug': typeof ServiceAreasNewJerseySlugRoute
   '/service-areas/new-jersey/': typeof ServiceAreasNewJerseyIndexRoute
@@ -53,6 +60,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
+  '/axo-pages': typeof AxoPagesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/service-areas/new-jersey/$slug': typeof ServiceAreasNewJerseySlugRoute
   '/service-areas/new-jersey': typeof ServiceAreasNewJerseyIndexRoute
@@ -61,6 +69,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
+  '/axo-pages': typeof AxoPagesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/service-areas/new-jersey/$slug': typeof ServiceAreasNewJerseySlugRoute
   '/service-areas/new-jersey/': typeof ServiceAreasNewJerseyIndexRoute
@@ -70,6 +79,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/$'
+    | '/axo-pages'
     | '/sitemap.xml'
     | '/service-areas/new-jersey/$slug'
     | '/service-areas/new-jersey/'
@@ -77,6 +87,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/$'
+    | '/axo-pages'
     | '/sitemap.xml'
     | '/service-areas/new-jersey/$slug'
     | '/service-areas/new-jersey'
@@ -84,6 +95,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/$'
+    | '/axo-pages'
     | '/sitemap.xml'
     | '/service-areas/new-jersey/$slug'
     | '/service-areas/new-jersey/'
@@ -92,6 +104,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SplatRoute: typeof SplatRoute
+  AxoPagesRoute: typeof AxoPagesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ServiceAreasNewJerseySlugRoute: typeof ServiceAreasNewJerseySlugRoute
   ServiceAreasNewJerseyIndexRoute: typeof ServiceAreasNewJerseyIndexRoute
@@ -104,6 +117,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/axo-pages': {
+      id: '/axo-pages'
+      path: '/axo-pages'
+      fullPath: '/axo-pages'
+      preLoaderRoute: typeof AxoPagesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$': {
@@ -140,6 +160,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SplatRoute: SplatRoute,
+  AxoPagesRoute: AxoPagesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ServiceAreasNewJerseySlugRoute: ServiceAreasNewJerseySlugRoute,
   ServiceAreasNewJerseyIndexRoute: ServiceAreasNewJerseyIndexRoute,
