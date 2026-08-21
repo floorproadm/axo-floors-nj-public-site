@@ -30,10 +30,6 @@ export const CHECKLIST_TEMPLATES: Record<string, string[]> = {
     "Medir", "Preparar subfloor", "Instalar vinyl", "Finalizar bordas",
     "Instalar rodapés", "Limpar", "Fotos after",
   ],
-  "Staircase": [
-    "Medir", "Preparar superfície", "Instalar degraus", "Instalar espelhos",
-    "Finalizar", "Limpar", "Fotos after",
-  ],
 };
 
 export function useProjectChecklist(projectId?: string) {
