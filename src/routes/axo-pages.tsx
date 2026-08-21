@@ -44,9 +44,7 @@ function AxoPages() {
             <Layout size={32} />
           </div>
           <div>
-            <h1 className="text-3xl font-bold text-[#001D3D]">
-              {"'''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''\n                                        \n                                            \n                                            Quero criar uma page /axo-pages ela sera uma forma de eu ter facil acesso a todas pages / criadas"}
-            </h1>
+            <h1 className="text-3xl font-bold text-[#001D3D]">AXO Project Pages</h1>
             <p className="whitespace-pre-wrap text-slate-600">Quick access to all project routes and landing pages.</p>
           </div>
         </header>
