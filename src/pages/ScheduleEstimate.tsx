@@ -36,7 +36,6 @@ const TIME_SLOTS = [
 const SERVICE_TYPES = [
   "Refinishing",
   "Installation",
-  "Staircase",
   "Repair",
   "Other",
 ];

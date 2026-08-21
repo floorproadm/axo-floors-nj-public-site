@@ -141,7 +141,7 @@ const Contact = () => {
       setIsSubmitting(false);
     }
   };
-  const services = ["Hardwood Floor Refinishing", "Hardwood Floor Installation", "Vinyl Plank Flooring", "Staircase Renovation", "Floor Repair", "Other"];
+  const services = ["Hardwood Floor Refinishing", "Hardwood Floor Installation", "Vinyl Plank Flooring", "Floor Repair", "Other"];
   const njCities = ["Newark", "Jersey City", "Paterson", "Elizabeth", "Edison", "Woodbridge", "Lakewood", "Toms River", "Hamilton", "Trenton", "Clifton", "Camden", "Brick", "Cherry Hill", "Passaic", "Union City", "Bayonne", "East Orange", "Vineland", "New Brunswick", "Wayne", "Irvington", "Paramus", "Hoboken"];
   const benefits = ["Free in-home consultation & same-day quotes", "Licensed, insured, bonded professionals", "Average project: 3–5 days", "Save up to 40% vs. replacement"];
   const faqs = [{
