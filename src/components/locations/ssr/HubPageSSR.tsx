@@ -85,7 +85,7 @@ const HubPageSSR = () => {
               <div className="relative rounded-2xl overflow-hidden shadow-elegant border-4 border-gold/20 aspect-[4/3] lg:aspect-[5/4]">
                 <img
                   src={heroImage}
-                  alt="Refinished red oak hardwood foyer and staircase by AXO Floors NJ"
+                  alt="Refinished red oak hardwood foyer by AXO Floors NJ"
                   width={1200}
                   height={900}
                   className="w-full h-full object-cover"

@@ -565,7 +565,7 @@ export const njLocations: NJLocation[] = [
     metaDescription: "Hardwood installation, sanding and refinishing in Point Pleasant, NJ. Shore-rated finishes and dust-contained work.",
     h1: "Hardwood Flooring Services in Point Pleasant, NJ",
     introduction:
-      "AXO Floors serves Point Pleasant Borough and Point Pleasant Beach with hardwood installation, sand-and-refinish, and staircase work — built for shore-area conditions.",
+      "AXO Floors serves Point Pleasant Borough and Point Pleasant Beach with hardwood installation and sand-and-refinish — built for shore-area conditions.",
     localFlooringInformation:
       "Point Pleasant's mix of year-round homes and summer rentals means floors see large humidity swings between seasons. Pre-finished engineered hardwood and moisture-tolerant site finishes both have a role here, depending on subfloor type and HVAC setup.",
     published: true,
