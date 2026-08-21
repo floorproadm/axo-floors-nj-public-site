@@ -166,10 +166,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-mobile-3xl font-bold font-heading mb-8">
-              '''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
-                                        
-                                            
-                                            uma duvida sobre o lovable gostaria de saber qual nome desse seleção e por que nao parece todas paginas que temos do projeto aqui no fundo sei que é algo relacionado ao projeto A e esse é O projeto B
+              Your Floors Shouldn't Be Something <span className="text-gradient-gold">You Apologize For</span>
             </h2>
             <div className="space-y-3 text-mobile-base text-muted-foreground leading-relaxed mb-8">
               <p>Scratches that catch the light.</p>
