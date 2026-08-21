@@ -261,9 +261,10 @@ const Gallery = () => {
               </span>
             </div>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-heading text-navy mb-5 leading-[1.05] tracking-tight">
-              Browse Real
-              <br className="hidden sm:block" />{" "}
-              <span className="text-gradient-gold italic">Transformations</span>
+              '''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
+                                        
+                                            
+                                            uma duvida sobre o lovable gostaria de saber qual nome desse seleção e por que nao parece todas paginas que temos do projeto aqui no fundo sei que é algo relacionado ao projeto A e esse é O projeto B
             </h2>
             <div className="flex items-center justify-center gap-3 mb-5">
               <span className="h-px w-10 bg-gold/40" />
