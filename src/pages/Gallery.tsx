@@ -646,7 +646,7 @@ const Gallery = () => {
               },
               {
                 name: "Robert K.",
-                text: "Professional, punctual, and the quality is outstanding. Our new staircase is the centerpiece of our home.",
+                text: "Professional, punctual, and the quality is outstanding. Our refinished hardwood floors are the centerpiece of our home.",
                 rating: 5
               },
               {
