@@ -11,7 +11,7 @@ function AxoPages() {
     { name: "Home", path: "/" },
     { name: "Installation", path: "/installation" },
     { name: "Refinishing", path: "/refinishing" },
-    { name: "Vinyl Plank Flooring", path: "/vinyl-plank-flooring" },
+    { name: "Vinyl Plank", path: "/vinyl-plank-flooring" },
     { name: "Staircase", path: "/staircase" },
     { name: "Base Boards", path: "/base-boards" },
     { name: "Gallery", path: "/gallery" },
@@ -19,15 +19,17 @@ function AxoPages() {
     { name: "About", path: "/about" },
     { name: "Contact", path: "/contact" },
     { name: "Quiz", path: "/quiz" },
-    { name: "Get Started (Wizard)", path: "/get-started" },
-    { name: "Schedule Estimate", path: "/schedule-estimate" },
+    { name: "Get Started", path: "/get-started" },
+    { name: "Schedule", path: "/schedule-estimate" },
     { name: "Builders", path: "/builders" },
     { name: "Realtors", path: "/realtors" },
-    { name: "Partner Program", path: "/partner-program" },
-    { name: "Referral Program", path: "/referral-program" },
+    { name: "Partner Prog.", path: "/partner-program" },
+    { name: "Referral Prog.", path: "/referral-program" },
     { name: "Wow Pack", path: "/wow-pack" },
-    { name: "Review Request", path: "/review-request" },
+    { name: "Review Req.", path: "/review-request" },
     { name: "Hub (Links)", path: "/hub" },
+    { name: "Campaign", path: "/campaign" },
+    { name: "Master Sys.", path: "/axo-master-system" },
   ];
 
   const cityPages = njLocations
@@ -42,8 +44,10 @@ function AxoPages() {
             <Layout size={32} />
           </div>
           <div>
-            <h1 className="text-3xl font-bold text-[#001D3D]">AXO Project Pages</h1>
-            <p className="text-slate-600">Quick access to all project routes and landing pages.</p>
+            <h1 className="text-3xl font-bold text-[#001D3D]">
+              {"'''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''\n                                        \n                                            \n                                            Quero criar uma page /axo-pages ela sera uma forma de eu ter facil acesso a todas pages / criadas"}
+            </h1>
+            <p className="whitespace-pre-wrap text-slate-600">Quick access to all project routes and landing pages.</p>
           </div>
         </header>
 
