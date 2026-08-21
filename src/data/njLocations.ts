@@ -400,19 +400,18 @@ export const njLocations: NJLocation[] = [
     heroDescription:
       "Refinish existing hardwood, repair damaged sections, or install new flooring with a hands-on AXO Floors crew that reviews subfloor, board condition, and previous coatings before recommending the right approach.",
     introduction:
-      "AXO Floors serves Shrewsbury Borough homeowners with hardwood refinishing, board repair, new installation, and stair work — including projects that involve evaluating the subfloor, board condition, and previous coatings, and planning work around adjacent rooms and existing trim. (Shrewsbury Borough is a separate municipality from Shrewsbury Township.)",
+      "AXO Floors serves Shrewsbury Borough homeowners with hardwood refinishing, board repair, and new installation — including projects that involve evaluating the subfloor, board condition, and previous coatings, and planning work around adjacent rooms and existing trim. (Shrewsbury Borough is a separate municipality from Shrewsbury Township.)",
     localOverviewTitle: "Hardwood Flooring Considerations in Shrewsbury Borough Homes",
     localOverview:
-      "Shrewsbury Borough includes established homes, renovated interiors, and properties where flooring transitions to adjacent rooms and existing trim need to be planned carefully. Many estimates here involve reviewing the subfloor, the condition of existing boards, and previous coatings before recommending refinishing, isolated repair, new installation, or stair work. Shrewsbury Borough is a separate municipality from Shrewsbury Township, and ZIP code 07702 refers to the borough.",
+      "Shrewsbury Borough includes established homes, renovated interiors, and properties where flooring transitions to adjacent rooms and existing trim need to be planned carefully. Many estimates here involve reviewing the subfloor, the condition of existing boards, and previous coatings before recommending refinishing, isolated repair, or new installation. Shrewsbury Borough is a separate municipality from Shrewsbury Township, and ZIP code 07702 refers to the borough.",
     localFlooringInformation:
-      "Shrewsbury Borough includes established homes, renovated interiors, and properties where flooring transitions to adjacent rooms and existing trim need to be planned carefully. Many estimates here involve reviewing the subfloor, the condition of existing boards, and previous coatings before recommending refinishing, isolated repair, new installation, or stair work.",
+      "Shrewsbury Borough includes established homes, renovated interiors, and properties where flooring transitions to adjacent rooms and existing trim need to be planned carefully. Many estimates here involve reviewing the subfloor, the condition of existing boards, and previous coatings before recommending refinishing, isolated repair, or new installation.",
     localFaqs: [
       { q: "Do you provide hardwood estimates in Shrewsbury, NJ?", a: "Yes. AXO Floors provides free, in-home estimates throughout Shrewsbury Borough. Call (732) 351-8653 or request one online." },
       { q: "Do you serve Shrewsbury Borough and Shrewsbury Township?", a: "Our service-area page is focused on Shrewsbury Borough (ZIP 07702). Properties outside the borough are reviewed case by case during scheduling." },
       { q: "Do you evaluate the subfloor before installation?", a: "Yes. Subfloor evaluation and preparation are part of the installation process. The scope is confirmed after reviewing the existing subfloor on-site." },
       { q: "Can previous coatings be sanded off and refinished?", a: "Often yes, depending on the coating type, remaining board thickness, and floor condition. We evaluate the existing finish in person before recommending an approach." },
-      { q: "Can hardwood and stairs be coordinated in one project?", a: "Yes. Stair refinishing or carpeted-stair conversion can be scheduled with the rest of the floor work and matched to the first-floor finish where possible." },
-      { q: "How do you work around adjacent rooms and existing trim?", a: "We plan containment, baseboard protection, and access during the estimate so the work can proceed with respect for existing trim and adjoining rooms." },
+      { q: "How do you work around adjacent rooms and existing trim?", a: "We plan containment, trim protection, and access during the estimate so the work can proceed with respect for existing trim and adjoining rooms." },
       { q: "Is sanding completely dust-free?", a: "No process is fully dust-free, but dust-contained sanding captures the large majority of dust at the source." },
       { q: "How long does a typical project take?", a: "Duration depends on square footage, repairs, stain selection, and finish curing. We share a realistic timeline after the on-site assessment." },
       { q: "Can engineered hardwood be refinished?", a: "Often yes, depending on wear-layer thickness. Thicker wear layers can typically be sanded once or twice; thinner layers may be better suited to a recoat." },
@@ -430,10 +429,10 @@ export const njLocations: NJLocation[] = [
     neighborhoods: ["Lincroft", "Belford", "Port Monmouth", "Leonardo", "Navesink", "River Plaza"],
     nearbyCitySlugs: ["red-bank", "holmdel", "fair-haven", "rumson"],
     metaTitle: "Hardwood Flooring in Middletown, NJ | AXO Floors",
-    metaDescription: "Hardwood installation, refinishing, stairs and repairs across Middletown Township, NJ. Free in-home estimates.",
+    metaDescription: "Hardwood installation, refinishing and repairs across Middletown Township, NJ. Free in-home estimates.",
     h1: "Hardwood Flooring Services in Middletown, NJ",
     introduction:
-      "AXO Floors covers all of Middletown Township — Lincroft, Navesink, Belford, Leonardo and the River Plaza area — with hardwood installation, sanding, refinishing and staircase work.",
+      "AXO Floors covers all of Middletown Township — Lincroft, Navesink, Belford, Leonardo and the River Plaza area — with hardwood installation, sanding and refinishing.",
     localFlooringInformation:
       "Middletown spans a wide variety of housing: shore-area capes in Belford and Port Monmouth, mid-century ranches in Lincroft, and larger colonials in Navesink. Each subfloor type calls for a slightly different install system, from glue-down engineered to nail-down 3/4\" solid.",
     published: true,
@@ -449,12 +448,12 @@ export const njLocations: NJLocation[] = [
     neighborhoods: ["Holmdel Village", "Crawfords Corner", "Roberts Road"],
     nearbyCitySlugs: ["middletown", "colts-neck", "red-bank"],
     metaTitle: "Hardwood Flooring in Holmdel, NJ | AXO Floors",
-    metaDescription: "Premium hardwood installation and refinishing in Holmdel, NJ. Wide-plank white oak, custom stains, staircases.",
+    metaDescription: "Premium hardwood installation and refinishing in Holmdel, NJ. Wide-plank white oak, custom stains.",
     h1: "Hardwood Flooring Services in Holmdel, NJ",
     introduction:
       "AXO Floors serves Holmdel with premium hardwood installation, sanding and refinishing — from estate-style colonials to renovated mid-century homes near Holmdel Village.",
     localFlooringInformation:
-      "Holmdel's larger homes commonly use wide-plank white oak with rift-and-quartered grain, finished with hard-wax oil or commercial-grade water-based topcoats. Custom stain matching across great rooms, hallways and stairs is a frequent ask.",
+      "Holmdel's larger homes commonly use wide-plank white oak with rift-and-quartered grain, finished with hard-wax oil or commercial-grade water-based topcoats. Custom stain matching across great rooms and hallways is a frequent ask.",
     published: true,
     indexable: true,
   },
@@ -468,10 +467,10 @@ export const njLocations: NJLocation[] = [
     neighborhoods: ["Bucks Mill Road area", "Heyers Mill", "Phalanx Road corridor"],
     nearbyCitySlugs: ["holmdel", "freehold", "middletown"],
     metaTitle: "Hardwood Flooring in Colts Neck, NJ | AXO Floors",
-    metaDescription: "Custom hardwood installation, refinishing and staircase work in Colts Neck, NJ. Estate homes, wide-plank white oak.",
+    metaDescription: "Custom hardwood installation and refinishing in Colts Neck, NJ. Estate homes, wide-plank white oak.",
     h1: "Hardwood Flooring Services in Colts Neck, NJ",
     introduction:
-      "AXO Floors works on Colts Neck estates and equestrian properties — custom hardwood installations, full-home refinishing, and staircase rebuilds.",
+      "AXO Floors works on Colts Neck estates and equestrian properties — custom hardwood installations and full-home refinishing.",
     localFlooringInformation:
       "Colts Neck homes typically run large, with great rooms and second floors that benefit from continuous wide-plank installations. Engineered hardwood over radiant heat is a common requirement, and we plan board acclimation and expansion carefully on these jobs.",
     published: true,
@@ -487,10 +486,10 @@ export const njLocations: NJLocation[] = [
     neighborhoods: ["Freehold Borough", "Freehold Township", "Downtown Main Street"],
     nearbyCitySlugs: ["colts-neck"],
     metaTitle: "Hardwood Flooring in Freehold, NJ | AXO Floors",
-    metaDescription: "Hardwood installation, sanding, refinishing and stairs in Freehold, NJ. Licensed and insured. Free estimates.",
+    metaDescription: "Hardwood installation, sanding and refinishing in Freehold, NJ. Licensed and insured. Free estimates.",
     h1: "Hardwood Flooring Services in Freehold, NJ",
     introduction:
-      "AXO Floors serves Freehold Borough and Freehold Township with hardwood installation, sanding, refinishing, and staircase work — from historic downtown homes to newer subdivisions.",
+      "AXO Floors serves Freehold Borough and Freehold Township with hardwood installation, sanding and refinishing — from historic downtown homes to newer subdivisions.",
     localFlooringInformation:
       "Freehold's older downtown homes often have original heart-pine or oak that benefits from gentle sanding and historically appropriate finishes. Newer Freehold Township homes typically have pre-finished or site-finished oak that responds well to modern water-based topcoats.",
     published: true,
