@@ -73,7 +73,8 @@ function AxoPages() {
             {cityPages.map((city) => (
               <Link
                 key={city.slug}
-                to={`/service-areas/new-jersey/${city.slug}`}
+                to="/service-areas/new-jersey/$slug"
+                params={{ slug: city.slug }}
                 className="rounded-lg border bg-white p-3 text-sm transition-all hover:border-[#FFD700] hover:shadow-md"
               >
                 <div className="font-medium text-[#001D3D]">{city.cityName}</div>
