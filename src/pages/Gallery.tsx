@@ -91,7 +91,7 @@ const Gallery = () => {
   const [postImageIndex, setPostImageIndex] = useState(0);
   const { toast } = useToast();
 
-  const categories = ["All", "Hardwood Flooring", "Sanding & Refinish", "Before and After", "Vinyl Plank", "Staircase", "Baseboards & Trim"];
+  const categories = ["All", "Hardwood Flooring", "Sanding & Refinish", "Before and After", "Vinyl Plank"];
 
   useEffect(() => {
     fetchFoldersAndProjects();
@@ -271,7 +271,7 @@ const Gallery = () => {
               <span className="h-px w-10 bg-gold/40" />
             </div>
             <p className="text-grey leading-relaxed text-base md:text-lg">
-              Albums organized by project type — refinishing, installations, staircases, and more.
+              Albums organized by project type — refinishing, installations, and more.
               <span className="block mt-1 text-navy/70 font-medium">Tap any album to explore the full set.</span>
             </p>
           </div>

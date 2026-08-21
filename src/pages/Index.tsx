@@ -15,7 +15,6 @@ import homeHero from "@/assets/home-hero.jpg";
 import serviceSanding from "@/assets/service-sanding.jpg";
 import serviceHardwood from "@/assets/service-hardwood.jpg";
 import serviceVinyl from "@/assets/service-vinyl.jpg";
-import serviceStaircase from "@/assets/service-staircase.jpg";
 import { useState, useEffect, useRef } from "react";
 import LeadMagnetGate from "@/components/shared/LeadMagnetGate";
 const Index = () => {
@@ -70,12 +69,6 @@ const Index = () => {
     href: "/vinyl-plank-flooring",
     features: ["100% Waterproof", "Low Maintenance", "Perfect for Any Room"],
     image: serviceVinyl
-  }, {
-    title: "Staircase Renovation",
-    description: "Transform your staircase into a true centerpiece.",
-    href: "/staircase",
-    features: ["Custom Design", "Safety-Focused Installation", "Premium Finishes"],
-    image: serviceStaircase
   }];
   const benefits = [{
     icon: Users,
@@ -195,7 +188,7 @@ const Index = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service, index) => <Card key={index} ref={el => serviceRefs.current[index] = el} className={`group relative overflow-hidden border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm hover:shadow-2xl hover:shadow-accent/20 transition-all duration-500 hover:-translate-y-4 hover:scale-[1.02] ${isMobile && activeServiceIndex === index ? 'shadow-2xl shadow-accent/20 -translate-y-4 scale-[1.02]' : ''}`}>
                 <div className={`absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent transition-opacity duration-500 ${isMobile && activeServiceIndex === index ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`} />
                 

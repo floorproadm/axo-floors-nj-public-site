@@ -64,7 +64,7 @@ const HubPageSSR = () => {
                 Hardwood Flooring Services Across New Jersey
               </h1>
               <p className="text-base sm:text-lg text-grey max-w-3xl leading-relaxed mb-7">
-                AXO Floors provides hardwood floor installation, refinishing, repairs, and stairs and railings work
+                AXO Floors provides hardwood floor installation, refinishing, and repairs
                 in selected New Jersey service areas. Each project starts with a free in-home estimate so we can
                 review the existing floors and recommend the right approach.
               </p>
