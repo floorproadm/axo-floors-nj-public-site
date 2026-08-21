@@ -22,15 +22,13 @@ interface Props {
 
 const UNIT: Record<string, string> = {
   floor: 'sqft',
-  staircase: 'degraus',
-  baseboard: 'linear ft',
   handrail: 'linear ft',
   posts: 'posts',
   other: 'sqft',
 };
 
 function areaValue(a: MeasurementArea): string {
-  if (a.area_type === 'baseboard' || a.area_type === 'handrail') {
+  if (a.area_type === 'handrail') {
     return `${Number(a.linear_ft || 0).toLocaleString()} linear ft`;
   }
   return `${Number(a.area_sqft || 0).toLocaleString()} ${UNIT[a.area_type] || 'sqft'}`;
@@ -60,11 +58,8 @@ export const MeasurementPrintable = forwardRef<HTMLDivElement, Props>(function M
 
   const sumLinear = (type: MeasurementArea['area_type']) =>
     m.areas?.filter((a) => a.area_type === type).reduce((s, a) => s + Number(a.linear_ft || 0), 0) || 0;
-  const stairs =
-    m.areas?.filter((a) => a.area_type === 'staircase').reduce((s, a) => s + Number(a.area_sqft || 0), 0) || 0;
   const posts =
     m.areas?.filter((a) => a.area_type === 'posts').reduce((s, a) => s + Number(a.area_sqft || 0), 0) || 0;
-  const baseboardLf = sumLinear('baseboard');
   const handrailLf = sumLinear('handrail');
 
   const renderAreaRow = (a: MeasurementArea, markPdfRow = true) => (
@@ -181,19 +176,9 @@ export const MeasurementPrintable = forwardRef<HTMLDivElement, Props>(function M
                   <strong className="tabular-nums">{m.total_sqft.toLocaleString()}</strong> sqft
                 </span>
               )}
-              {baseboardLf > 0 && (
-                <span>
-                  <strong className="tabular-nums">{baseboardLf.toLocaleString()}</strong> lf baseboard
-                </span>
-              )}
               {handrailLf > 0 && (
                 <span>
                   <strong className="tabular-nums">{handrailLf.toLocaleString()}</strong> lf handrail
-                </span>
-              )}
-              {stairs > 0 && (
-                <span>
-                  <strong className="tabular-nums">{stairs}</strong> steps
                 </span>
               )}
               {posts > 0 && (

@@ -43,7 +43,6 @@ export const TIER_TEMPLATES: Omit<ProposalTier, 'price' | 'margin_percent'>[] = 
       'Commercial-grade finish',
       'Custom stain matching',
       '4 coats finish',
-      'Baseboard touch-up',
       'Furniture moving assistance',
       'Premium cleanup',
     ],
