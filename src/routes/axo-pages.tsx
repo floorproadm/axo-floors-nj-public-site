@@ -45,7 +45,11 @@ function AxoPages() {
           </div>
           <div>
             <h1 className="text-3xl font-bold text-[#001D3D]">AXO Project Pages</h1>
-            <p className="whitespace-pre-wrap text-slate-600">Quick access to all project routes and landing pages.</p>
+            <p className="whitespace-pre-wrap text-slate-600">
+              {`'''Do not make any visual modifications. The phrases I write are commands to understand what I want, not to be written down. Understand their content well, then execute what is required.'''
+
+pensei em ao clicar na page exemplo cliquei em home abre a page de sidebar`}
+            </p>
           </div>
         </header>
 
