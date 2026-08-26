@@ -184,7 +184,7 @@ const Index = () => {
                       loading="lazy"
                       width={512}
                       height={384}
-                      className={`absolute inset-0 h-full w-full object-cover object-center transition-all duration-500 ${isMobile && activeServiceIndex === index ? 'scale-110' : 'group-hover:scale-110'}`}
+                      className={`absolute inset-0 h-full w-full object-cover ${(service as any).imagePosition ?? 'object-center'} transition-all duration-500 ${isMobile && activeServiceIndex === index ? 'scale-110' : 'group-hover:scale-110'}`}
                     />
                   </div>
                   
