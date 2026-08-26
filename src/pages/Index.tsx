@@ -176,14 +176,14 @@ const Index = () => {
                 <div className={`absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent transition-opacity duration-500 ${isMobile && activeServiceIndex === index ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`} />
                 
                 <CardContent className="relative p-6 text-center h-full flex flex-col">
-                  <div className="relative mb-6 overflow-hidden rounded-xl">
+                  <div className="relative mb-6 overflow-hidden rounded-xl aspect-[4/3]">
                     <img
                       src={service.image}
                       alt={service.title}
                       loading="lazy"
                       width={512}
-                      height={512}
-                      className={`w-full h-60 sm:h-64 lg:h-56 object-cover transition-all duration-500 ${isMobile && activeServiceIndex === index ? 'scale-110' : 'group-hover:scale-110'}`}
+                      height={384}
+                      className={`absolute inset-0 h-full w-full object-cover object-center transition-all duration-500 ${isMobile && activeServiceIndex === index ? 'scale-110' : 'group-hover:scale-110'}`}
                     />
                   </div>
                   
