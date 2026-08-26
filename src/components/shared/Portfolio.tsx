@@ -50,7 +50,7 @@ const Portfolio = () => {
             <img src={axoWorkPhoto} alt="AXO Floors professional working on hardwood floor installation" className="w-full h-full object-cover object-[center_40%]" />
             <div className="absolute inset-0 bg-navy/40 flex items-center justify-center">
               <div className="text-center text-white">
-                <h3 className="text-2xl sm:text-3xl font-bold mb-2">Professional Results</h3>
+                <h3 className="text-2xl sm:text-3xl font-bold mb-2 text-accent">Professional Results</h3>
                 <p className="text-lg">Every project, perfectly executed</p>
               </div>
             </div>
