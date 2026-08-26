@@ -63,7 +63,7 @@ const Index = () => {
     title: "Flooring Installation",
     description: "The right floor. Installed the right way.",
     href: "/hardwood-flooring",
-    features: ["Hardwood", "Vinyl · Laminate", "Custom Patterns"],
+    features: ["Hardwood Flooring", "Vinyl · Laminate", "Custom Patterns"],
     cta: "Explore Flooring",
     image: serviceHardwood
   }, {
