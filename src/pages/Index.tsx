@@ -14,7 +14,7 @@ import { CheckCircle, Star, ArrowRight, Award, Users, Clock, Shield, Sparkles, B
 import homeHero from "@/assets/home-hero.jpg";
 import serviceSandingAsset from "@/assets/service-sanding-crew.jpg.asset.json";
 import serviceHardwood from "@/assets/service-hardwood.jpg";
-import serviceVinyl from "@/assets/service-vinyl.jpg";
+import serviceStaircase from "@/assets/service-staircase.jpg";
 import { useState, useEffect, useRef } from "react";
 import LeadMagnetGate from "@/components/shared/LeadMagnetGate";
 const Index = () => {
@@ -67,12 +67,12 @@ const Index = () => {
     cta: "Explore Flooring",
     image: serviceHardwood
   }, {
-    title: "Vinyl Plank Flooring",
-    description: "Durable, waterproof flooring made for real life.",
-    href: "/vinyl-plank-flooring",
-    features: ["Water resistant", "Easy maintenance", "Fast installation"],
-    cta: "Explore Vinyl",
-    image: serviceVinyl
+    title: "Stairs & Railings",
+    description: "Restore your staircase or transform it completely.",
+    href: "/stairs",
+    features: ["Treads · Refinishing", "Railings", "Balusters"],
+    cta: "Explore Stair Services",
+    image: serviceStaircase
   }];
   const benefits = [{
     icon: Users,

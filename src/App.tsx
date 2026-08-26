@@ -16,6 +16,7 @@ import Index from "./pages/Index";
 import Installation from "./pages/Installation";
 import Refinishing from "./pages/Refinishing";
 import VinylPlankFlooring from "./pages/VinylPlankFlooring";
+import Stairs from "./pages/Stairs";
 import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
@@ -70,6 +71,7 @@ const App = () => {
                   <Route path="/refinishing" element={<Refinishing />} />
                   <Route path="/sanding-and-refinish" element={<Navigate to="/refinishing" replace />} />
                   <Route path="/vinyl-plank-flooring" element={<VinylPlankFlooring />} />
+                  <Route path="/stairs" element={<Stairs />} />
                   <Route path="/gallery" element={<Gallery />} />
                   <Route path="/stain-gallery" element={<StainGallery />} />
                   <Route path="/contact" element={<Contact />} />
