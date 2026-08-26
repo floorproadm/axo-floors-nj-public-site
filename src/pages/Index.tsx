@@ -12,7 +12,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { CheckCircle, Star, ArrowRight, Award, Users, Clock, Shield, Sparkles, BookOpen, Calculator, Palette, Wind, Zap, Home, Trophy, ClipboardList, FileText, Hammer, BadgeCheck } from "lucide-react";
 import homeHero from "@/assets/home-hero.jpg";
-import serviceSanding from "@/assets/service-sanding.jpg";
+import serviceSandingAsset from "@/assets/service-sanding-crew.jpg.asset.json";
 import serviceHardwood from "@/assets/service-hardwood.jpg";
 import serviceVinyl from "@/assets/service-vinyl.jpg";
 import { useState, useEffect, useRef } from "react";
@@ -57,7 +57,7 @@ const Index = () => {
     href: "/sanding-and-refinish",
     features: ["Dustless sanding", "Custom stain options", "Professional finish"],
     cta: "Explore Refinishing",
-    image: serviceSanding
+    image: serviceSandingAsset.url
   }, {
     title: "Hardwood Flooring",
     description: "Premium hardwood installation built to last for decades.",
