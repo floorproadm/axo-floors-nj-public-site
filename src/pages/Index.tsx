@@ -244,37 +244,8 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Differential Section */}
-      <section className="spacing-mobile-md bg-secondary">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12 lg:mb-16">
-            <h2 className="text-mobile-3xl font-bold font-heading mb-6">
-              A Different Kind of <span className="text-gradient-gold">Flooring Experience</span>
-            </h2>
-            <p className="text-mobile-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              Built around how you actually live in your home — not around how easy it is for the contractor.
-            </p>
-          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 max-w-6xl mx-auto">
-            {differentials.map((item, index) => (
-              <Card key={index} className="group text-center hover:shadow-gold transition-all duration-300 border-0 shadow-elegant hover:-translate-y-2 bg-card">
-                <CardContent className="p-6 md:p-8">
-                  <div className="inline-flex items-center justify-center w-14 h-14 md:w-16 md:h-16 bg-accent/10 rounded-2xl mb-4 group-hover:bg-accent group-hover:scale-110 transition-all duration-300">
-                    <item.icon className="w-7 h-7 md:w-8 md:h-8 text-accent group-hover:text-accent-foreground transition-colors duration-300" />
-                  </div>
-                  <h3 className="text-base md:text-lg font-heading font-semibold mb-2 group-hover:text-accent transition-colors duration-300">
-                    {item.title}
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed text-sm">
-                    {item.description}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+
 
       {/* Portfolio Section (Section 5 — Proof) */}
       <Portfolio />
