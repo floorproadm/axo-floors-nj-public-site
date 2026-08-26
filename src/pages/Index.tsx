@@ -144,7 +144,7 @@ const Index = () => {
       <Hero
         title={"Beautiful Floors.\u00a0\nWithout the Dust, Delays, or Guesswork."}
         subtitle="Premium Flooring Solutions in New Jersey"
-        description="Expert hardwood refinishing and installation for homeowners who expect flawless results — without turning their home into a construction site."
+        description="Hardwood refinishing and flooring installation across New Jersey, completed with precision and a process built around your home."
         image={homeHero}
         ctaPrimary="Get My Free Estimate"
         ctaSecondary="View Real Transformations"
