@@ -345,7 +345,9 @@ const Index = () => {
               Ready to Transform Your Floors — <span className="text-gradient-gold">The Right Way?</span>
             </h2>
             <p className="text-mobile-base text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed">
-              Tell us about your project in under 2 minutes. We'll get back to you within 24 hours with a clear, personalized plan.
+              Tell us about your project in under 2 minutes.
+
+We'll review it and get back to you within 24 hours with the next step.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
               <Button asChild size="lg" className="gold-gradient hover:scale-105 transition-bounce text-base sm:text-lg px-8 py-5 h-auto min-h-[52px] text-black font-semibold w-full sm:w-auto">
