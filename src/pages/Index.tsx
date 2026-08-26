@@ -165,7 +165,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 lg:mb-16">
             <h2 className="text-mobile-3xl font-bold font-heading mb-6">
-              What Does Your Floor Need?
+              What Does Your Home Need?
             </h2>
             <p className="text-mobile-base text-muted-foreground max-w-3xl mx-auto leading-relaxed">
               Every service is delivered with the precision and care your home deserves.
