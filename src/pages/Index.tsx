@@ -164,14 +164,15 @@ const Index = () => {
       {/* Services Section */}
       <section className="spacing-mobile-md bg-secondary/30">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12 lg:mb-16">
-            <h2 className="text-mobile-3xl font-bold font-heading mb-6">
+          <div className="text-center mb-10 lg:mb-16">
+            <h2 className="text-mobile-3xl font-bold font-heading mb-4 md:mb-6 [text-wrap:balance] px-2 leading-tight">
               What Does Your Home Need?
             </h2>
-            <p className="text-mobile-base text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            <p className="text-mobile-base text-muted-foreground max-w-3xl mx-auto leading-relaxed [text-wrap:balance] px-2">
               Every service is delivered with the precision and care your home deserves.
             </p>
           </div>
+
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service, index) => <Card key={index} ref={el => serviceRefs.current[index] = el} className={`group relative overflow-hidden border-0 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm hover:shadow-2xl hover:shadow-accent/20 transition-all duration-500 hover:-translate-y-4 hover:scale-[1.02] ${isMobile && activeServiceIndex === index ? 'shadow-2xl shadow-accent/20 -translate-y-4 scale-[1.02]' : ''}`}>
