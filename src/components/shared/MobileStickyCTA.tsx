@@ -35,7 +35,7 @@ const MobileStickyCTA = () => {
   if (!show) return null;
 
   return (
-    <div className="md:hidden fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-navy/95 backdrop-blur supports-[backdrop-filter]:bg-navy/90 pb-[env(safe-area-inset-bottom)]">
+    <div className="md:hidden fixed inset-x-0 bottom-0 z-50 border-t border-white/10 bg-black/95 backdrop-blur supports-[backdrop-filter]:bg-black/90 pb-[env(safe-area-inset-bottom)]">
       <div className="flex items-center gap-2 px-3 py-3">
         <Link
           to="/get-started"
