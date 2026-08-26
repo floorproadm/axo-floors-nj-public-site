@@ -147,7 +147,7 @@ const Index = () => {
         description="Hardwood refinishing and flooring installation across New Jersey, completed with precision and a process built around your home."
         image={homeHero}
         ctaPrimary="Get My Free Estimate"
-        ctaSecondary="View Real Transformations"
+        ctaSecondary="See Our Work"
         ctaPrimaryHref="/quiz"
         ctaSecondaryHref="/gallery"
         trustLine="500+ Homes Transformed • 10+ Years Experience"
