@@ -3,7 +3,16 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight, Eye } from "lucide-react";
-import axoWorkPhoto from "@/assets/axo-work-photo.jpg";
+import ba1 from "@/assets/before-after-1.png.asset.json";
+import ba2 from "@/assets/before-after-2.png.asset.json";
+import ba3 from "@/assets/before-after-3.png.asset.json";
+import ba4 from "@/assets/before-after-4.png.asset.json";
+const beforeAfterPhotos = [
+  { src: ba1.url, alt: "Before and after hardwood floor refinishing in a foyer with staircase" },
+  { src: ba2.url, alt: "Before and after hardwood floor sanding and refinishing in a living room" },
+  { src: ba3.url, alt: "Before and after hardwood floor restoration in a bedroom" },
+  { src: ba4.url, alt: "Before and after hardwood floor refinishing in a kitchen" },
+];
 const portfolioItems = [{
   id: 1,
   title: "Modern Hardwood Installation",
@@ -44,18 +53,20 @@ const Portfolio = () => {
           </p>
         </div>
 
-        {/* Hero Image */}
-        <div className="mb-12 sm:mb-16">
-          <div className="relative h-64 sm:h-80 rounded-xl overflow-hidden">
-            <img src={axoWorkPhoto} alt="AXO Floors professional working on hardwood floor installation" className="w-full h-full object-cover object-[center_40%]" />
-            <div className="absolute inset-0 bg-navy/40 flex items-center justify-center">
-              <div className="text-center text-white">
-                <h3 className="text-2xl sm:text-3xl font-bold mb-2">Professional Results</h3>
-                <p className="text-lg">Every project, perfectly executed</p>
-              </div>
+        {/* Before & After Grid */}
+        <div className="mb-12 sm:mb-16 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+          {beforeAfterPhotos.map((photo, i) => (
+            <div key={i} className="relative rounded-xl overflow-hidden shadow-elegant">
+              <img
+                src={photo.src}
+                alt={photo.alt}
+                loading="lazy"
+                className="w-full h-full object-cover"
+              />
             </div>
-          </div>
+          ))}
         </div>
+
 
         {/* Category Filters */}
         <div className="mb-8 sm:mb-12">
