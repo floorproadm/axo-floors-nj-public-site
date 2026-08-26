@@ -183,7 +183,7 @@ const Index = () => {
                       loading="lazy"
                       width={512}
                       height={512}
-                      className={`w-full h-40 object-cover transition-all duration-500 ${isMobile && activeServiceIndex === index ? 'scale-110' : 'group-hover:scale-110'}`}
+                      className={`w-full h-60 sm:h-64 lg:h-56 object-cover transition-all duration-500 ${isMobile && activeServiceIndex === index ? 'scale-110' : 'group-hover:scale-110'}`}
                     />
                   </div>
                   
