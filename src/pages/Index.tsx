@@ -57,7 +57,8 @@ const Index = () => {
     href: "/sanding-and-refinish",
     features: ["Dustless sanding", "Custom stain options", "Professional finish"],
     cta: "Explore Refinishing",
-    image: serviceSandingAsset.url
+    image: serviceSandingAsset.url,
+    imagePosition: "object-[50%_30%]"
   }, {
     title: "Hardwood Flooring",
     description: "Premium hardwood installation built to last for decades.",
@@ -183,7 +184,7 @@ const Index = () => {
                       loading="lazy"
                       width={512}
                       height={384}
-                      className={`absolute inset-0 h-full w-full object-cover object-center transition-all duration-500 ${isMobile && activeServiceIndex === index ? 'scale-110' : 'group-hover:scale-110'}`}
+                      className={`absolute inset-0 h-full w-full object-cover ${(service as any).imagePosition ?? 'object-center'} transition-all duration-500 ${isMobile && activeServiceIndex === index ? 'scale-110' : 'group-hover:scale-110'}`}
                     />
                   </div>
                   
