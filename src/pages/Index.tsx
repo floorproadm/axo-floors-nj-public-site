@@ -66,9 +66,10 @@ const Index = () => {
     image: serviceHardwood
   }, {
     title: "Vinyl Plank Flooring",
-    description: "The beauty of hardwood with modern durability and water resistance.",
+    description: "Durable, waterproof flooring made for real life.",
     href: "/vinyl-plank-flooring",
-    features: ["100% Waterproof", "Low Maintenance", "Perfect for Any Room"],
+    features: ["Water resistant", "Easy maintenance", "Fast installation"],
+    cta: "Explore Vinyl",
     image: serviceVinyl
   }];
   const benefits = [{
