@@ -70,7 +70,7 @@ const Index = () => {
     title: "Stairs & Railings",
     description: "Restore your staircase or transform it completely.",
     href: "/stairs",
-    features: ["Treads · Refinishing", "Railings", "Balusters"],
+    features: ["S&F or Refinish", "Treads & Risers", "Railings & Balusters"],
     cta: "Explore Stair Services",
     image: serviceStaircase
   }];
