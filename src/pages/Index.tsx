@@ -355,7 +355,7 @@ We'll review it and get back to you within 24 hours with the next step.
                   <ArrowRight className="w-5 h-5 text-black" />
                 </Link>
               </Button>
-              <a href="tel:(732) 351-8653" className="text-sm text-muted-foreground hover:text-accent transition-colors">
+              <a href="tel:(732) 351-8653" className="text-base sm:text-sm py-2 text-muted-foreground hover:text-accent transition-colors">
                 Or Call <span className="font-semibold underline">(732) 351-8653</span>
               </a>
             </div>
