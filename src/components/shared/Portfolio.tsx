@@ -3,6 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight, Eye } from "lucide-react";
+import ImageLightbox from "@/components/locations/ssr/ImageLightbox";
 import ba1 from "@/assets/before-after-1.png.asset.json";
 import ba2 from "@/assets/before-after-2.png.asset.json";
 import ba3 from "@/assets/before-after-3.png.asset.json";
@@ -54,18 +55,14 @@ const Portfolio = () => {
         </div>
 
         {/* Before & After Grid */}
-        <div className="mb-12 sm:mb-16 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-          {beforeAfterPhotos.map((photo, i) => (
-            <div key={i} className="relative rounded-xl overflow-hidden shadow-elegant">
-              <img
-                src={photo.src}
-                alt={photo.alt}
-                loading="lazy"
-                className="w-full h-full object-cover"
-              />
-            </div>
-          ))}
+        <div className="mb-12 sm:mb-16">
+          <ImageLightbox
+            images={beforeAfterPhotos}
+            gridClassName="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6"
+            itemClassName="relative overflow-hidden rounded-xl aspect-[2/1] bg-grey-light cursor-zoom-in shadow-elegant"
+          />
         </div>
+
 
 
         {/* Category Filters */}
