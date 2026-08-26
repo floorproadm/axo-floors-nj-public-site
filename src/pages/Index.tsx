@@ -53,9 +53,10 @@ const Index = () => {
   }, [isMobile]);
   const services = [{
     title: "Sanding & Refinishing",
-    description: "Restore your floors to like-new condition with a dustless, precision process.",
+    description: "Bring worn hardwood back to life without replacing it.",
     href: "/sanding-and-refinish",
-    features: ["Full Restoration", "Dust-Free Sanding", "Fast Turnaround"],
+    features: ["Dustless sanding", "Custom stain options", "Professional finish"],
+    cta: "Explore Refinishing",
     image: serviceSanding
   }, {
     title: "Hardwood Flooring",
