@@ -40,7 +40,7 @@ const Portfolio = () => {
             Real Homes. <span className="text-gradient-gold">Real Transformations.</span>
           </h2>
           <p className="text-base sm:text-lg text-grey max-w-3xl mx-auto leading-relaxed px-2">
-            See how homeowners across New Jersey upgraded their space with AXO Floors.
+            Every floor below started as someone's "we've been meaning to fix that." Browse recent projects from homes across Monmouth County and beyond.
           </p>
         </div>
 
