@@ -60,10 +60,11 @@ const Index = () => {
     image: serviceSandingAsset.url,
     imagePosition: "object-[50%_30%]"
   }, {
-    title: "Hardwood Flooring",
-    description: "Premium hardwood installation built to last for decades.",
+    title: "Flooring Installation",
+    description: "The right floor. Installed the right way.",
     href: "/hardwood-flooring",
-    features: ["High-End Materials", "Expert Craftsmanship", "Lifetime Structural Integrity"],
+    features: ["Hardwood", "Vinyl · Laminate", "Custom Patterns"],
+    cta: "Explore Flooring",
     image: serviceHardwood
   }, {
     title: "Vinyl Plank Flooring",
