@@ -154,27 +154,8 @@ const Index = () => {
         showReviews={true}
       />
 
-      {/* Emotional Hook Section */}
-      <section className="spacing-mobile-md bg-background">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-mobile-3xl font-bold font-heading mb-8">
-              Your Floors Shouldn't Be Something <span className="text-gradient-gold">You Apologize For</span>
-            </h2>
-            <div className="space-y-3 text-mobile-base text-muted-foreground leading-relaxed mb-8">
-              <p>Scratches that catch the light.</p>
-              <p>Stains that never come out.</p>
-              <p>Floors that quietly age your entire home.</p>
-            </div>
-            <p className="text-mobile-base text-foreground leading-relaxed mb-4">
-              Now imagine walking into a space that feels clean, refined, and worth every dollar you invested in it.
-            </p>
-            <p className="text-mobile-base font-semibold text-accent">
-              This is what we do — every single day.
-            </p>
-          </div>
-        </div>
-      </section>
+
+
 
       {/* Services Section */}
       <section className="spacing-mobile-md bg-secondary/30">
