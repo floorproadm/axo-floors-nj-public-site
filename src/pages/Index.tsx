@@ -297,14 +297,15 @@ const Index = () => {
       {/* Testimonials Section */}
       <section className="spacing-mobile-md navy-gradient text-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12 lg:mb-16">
-            <div className="inline-flex items-center gap-1 mb-4">
-              {[...Array(5)].map((_, i) => <Star key={i} className="w-6 h-6 fill-accent text-accent" />)}
+          <div className="text-center mb-10 lg:mb-16">
+            <div className="inline-flex items-center gap-1 mb-3 sm:mb-4">
+              {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 sm:w-6 sm:h-6 fill-accent text-accent" />)}
             </div>
-            <h2 className="text-mobile-3xl font-bold font-heading mb-6">
-              Hear From Our HAPPY CUSTOMERS
+            <h2 className="text-mobile-3xl font-bold font-heading mb-4 sm:mb-6 px-2 [text-wrap:balance] leading-tight">
+              Hear From Our <span className="block sm:inline text-accent">HAPPY CUSTOMERS</span>
             </h2>
           </div>
+
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => <Card key={index} className="bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/15 transition-smooth">
