@@ -218,14 +218,7 @@ const Index = () => {
               </Card>)}
           </div>
 
-          <div className="text-center mt-10 sm:mt-12">
-            <Button asChild variant="outline" className="min-h-[52px] px-8 sm:px-10 py-3 text-base font-semibold">
-              <Link to="/sanding-and-refinish" className="flex items-center justify-center gap-2">
-                Explore Services
-                <ArrowRight className="w-5 h-5" />
-              </Link>
-            </Button>
-          </div>
+
         </div>
       </section>
 
