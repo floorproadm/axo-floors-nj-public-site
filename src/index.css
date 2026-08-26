@@ -313,3 +313,10 @@
   .animate-gs-slide-in-right,
   .animate-gs-slide-in-left { animation: none; }
 }
+
+/* Mobile sticky CTA bar spacing */
+@media (max-width: 767px) {
+  body.has-mobile-sticky-cta {
+    padding-bottom: calc(4.5rem + env(safe-area-inset-bottom));
+  }
+}
