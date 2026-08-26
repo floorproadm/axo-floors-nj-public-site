@@ -142,7 +142,7 @@ const Index = () => {
       
       {/* Hero Section */}
       <Hero
-        title="Restore Your Floors in Days — Without Dust, Delays, or Disruption"
+        title={"Beautiful Floors.\u00a0\nWithout the Dust, Delays, or Guesswork."}
         subtitle="Premium Flooring Solutions in New Jersey"
         description="Expert hardwood refinishing and installation for homeowners who expect flawless results — without turning their home into a construction site."
         image={homeHero}
