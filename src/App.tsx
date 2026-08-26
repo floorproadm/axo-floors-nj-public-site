@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import ScrollToTop from "@/components/shared/ScrollToTop";
+import MobileStickyCTA from "@/components/shared/MobileStickyCTA";
 import SecurityHeaders from "@/components/SecurityHeaders";
 import ErrorBoundary from "@/components/shared/ErrorBoundary";
 import { AuthProvider } from "@/contexts/AuthContext";
@@ -106,6 +107,7 @@ const App = () => {
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </ErrorBoundary>
+              <MobileStickyCTA />
             </BrowserRouter>
           </TooltipProvider>
         </LanguageProvider>
