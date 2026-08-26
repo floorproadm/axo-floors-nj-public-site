@@ -57,7 +57,7 @@ const Index = () => {
     href: "/sanding-and-refinish",
     features: ["Dustless sanding", "Custom stain options", "Professional finish"],
     cta: "Explore Refinishing",
-    image: serviceSanding
+    image: serviceSandingAsset.url
   }, {
     title: "Hardwood Flooring",
     description: "Premium hardwood installation built to last for decades.",
