@@ -167,7 +167,7 @@ const Index = () => {
               What Does Your Floor Need?
             </h2>
             <p className="text-mobile-base text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              From restoration to installation, every service is delivered with the precision and care your home deserves.
+              Every service is delivered with the precision and care your home deserves.
             </p>
           </div>
 
