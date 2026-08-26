@@ -303,9 +303,6 @@ const Index = () => {
             <h2 className="text-mobile-3xl font-bold font-heading mb-6">
               <span className="text-accent">Homeowners</span> Notice the Difference.
             </h2>
-            <p className="text-mobile-base text-white/80 max-w-2xl mx-auto">
-              Real clients. Real results. No shortcuts.
-            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
