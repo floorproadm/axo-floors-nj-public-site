@@ -162,7 +162,7 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 lg:mb-16">
             <h2 className="text-mobile-3xl font-bold font-heading mb-6">
-              Complete Flooring Solutions — <span className="text-gradient-gold">Done Right the First Time</span>
+              What Does Your Floor Need?
             </h2>
             <p className="text-mobile-base text-muted-foreground max-w-3xl mx-auto leading-relaxed">
               From restoration to installation, every service is delivered with the precision and care your home deserves.
