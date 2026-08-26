@@ -146,7 +146,7 @@ const Index = () => {
         subtitle="Premium Flooring Solutions in New Jersey"
         description="Hardwood refinishing and flooring installation across New Jersey, completed with precision and a process built around your home."
         image={homeHero}
-        ctaPrimary="Get My Estimate\n"
+        ctaPrimary="Get My Estimate"
         ctaSecondary="See Our Work"
         ctaPrimaryHref="/quiz"
         ctaSecondaryHref="/gallery"
