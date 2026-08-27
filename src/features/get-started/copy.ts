@@ -106,6 +106,37 @@ export const SERVICE_OPTIONS = [
   { value: "consultation", label: "Expert Consultation", hint: "Wood selection, finishes, project planning" },
 ] as const;
 
+/** Guided service question (adapted from the /quiz step 1). */
+export const SERVICE_TYPE_OPTIONS = [
+  {
+    value: "new-installation",
+    label: "New Installation",
+    hint: "Installing new hardwood or replacing what's there today",
+  },
+  {
+    value: "floor-refinish",
+    label: "Refinishing (Sand & Finish)",
+    hint: "Bring existing hardwood back to life — 99% dustless",
+  },
+  {
+    value: "install-plus-refinish",
+    label: "Installation + Refinishing",
+    hint: "Install new floors and refinish existing areas",
+  },
+  {
+    value: "not-sure",
+    label: "Not sure / I need guidance",
+    hint: "Talk to a specialist first — we'll help you decide",
+  },
+] as const;
+
+export const FINISH_SCOPE_OPTIONS = [
+  { value: "new-floor", label: "On the new floor being installed", hint: "Finish only the floor we install" },
+  { value: "existing", label: "On my existing floors", hint: "Refinish floors already in place" },
+  { value: "both", label: "Both", hint: "New install + refinish existing areas" },
+  { value: "not-sure", label: "Not sure", hint: "We'll inspect and recommend" },
+] as const;
+
 export const CONSULT_TYPE_OPTIONS = [
   { value: "video", label: "Video Call", hint: "Screen-share your inspiration photos" },
   { value: "phone", label: "Phone Call", hint: "Quick and simple" },
