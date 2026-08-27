@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { format, addDays, isWeekend } from "date-fns";
-import { CalendarIcon, Loader2, CheckCircle2, Phone } from "lucide-react";
+import { CalendarIcon, Loader2, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
