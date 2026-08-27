@@ -19,10 +19,12 @@ import {
   CONDITION_OPTIONS,
   CONSULT_TYPE_OPTIONS,
   CURRENT_FLOOR_OPTIONS,
+  FINISH_SCOPE_OPTIONS,
   FURNISHED_OPTIONS,
   HOME_AGE_OPTIONS,
   PROPERTY_TYPE_OPTIONS,
   SERVICE_OPTIONS,
+  SERVICE_TYPE_OPTIONS,
   TIMELINE_OPTIONS,
   gsCopy,
 } from "@/features/get-started/copy";
@@ -36,6 +38,7 @@ import {
   isValidPhone,
   loadDraft,
   saveDraft,
+  servicesFromType,
   type GetStartedData,
   type UtmParams,
 } from "@/features/get-started/state";
