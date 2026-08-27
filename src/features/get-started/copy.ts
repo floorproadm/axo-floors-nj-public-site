@@ -28,13 +28,13 @@ export const gsCopy = {
   },
   attribution: { label: "How did you find us?", error: "Please pick one option." },
   service: {
-    label: "What can we help you with?",
-    helper: "Pick the option that best describes your project — we'll tailor the next questions.",
+    label: "What type of service do you need?",
+    helper: "Choose the option that best describes your project",
     error: "Please pick one option.",
   },
   finishScope: {
-    label: "Where should the sanding & finishing happen?",
-    helper: "This tells us how to scope the job correctly.",
+    label: "Is this finish for new wood we'll install, or for existing floors?",
+    helper: "This decides which checks we need to run",
     error: "Please pick one option.",
   },
   consult: {
@@ -108,31 +108,15 @@ export const SERVICE_OPTIONS = [
 
 /** Guided service question (adapted from the /quiz step 1). */
 export const SERVICE_TYPE_OPTIONS = [
-  {
-    value: "new-installation",
-    label: "New Installation",
-    hint: "Installing new hardwood or replacing what's there today",
-  },
-  {
-    value: "floor-refinish",
-    label: "Refinishing (Sand & Finish)",
-    hint: "Bring existing hardwood back to life — 99% dustless",
-  },
-  {
-    value: "install-plus-refinish",
-    label: "Installation + Refinishing",
-    hint: "Install new floors and refinish existing areas",
-  },
-  {
-    value: "not-sure",
-    label: "Not sure / I need guidance",
-    hint: "Talk to a specialist first — we'll help you decide",
-  },
+  { value: "new-installation", label: "New Installation", hint: "Installing new flooring" },
+  { value: "floor-refinish", label: "Refinishing (Sand & Finish)", hint: "Refinishing existing floors" },
+  { value: "install-plus-refinish", label: "Installation + Refinishing", hint: "Both — install new and refinish" },
+  { value: "not-sure", label: "Not sure / Need guidance", hint: "Talk to an expert first" },
 ] as const;
 
 export const FINISH_SCOPE_OPTIONS = [
-  { value: "new-floor", label: "On the new floor being installed", hint: "Finish only the floor we install" },
-  { value: "existing", label: "On my existing floors", hint: "Refinish floors already in place" },
+  { value: "new-floor", label: "For the new floor being installed", hint: "Finish only the floor we'll install" },
+  { value: "existing", label: "For existing floors", hint: "Refinish floors already in place" },
   { value: "both", label: "Both", hint: "New install + refinish existing areas" },
   { value: "not-sure", label: "Not sure", hint: "We'll inspect and recommend" },
 ] as const;
@@ -200,15 +184,15 @@ export const STAIRS_COUNT_OPTIONS = [
 export const QUIZ_COPY = {
   floorType: { label: "What type of flooring are you interested in?", helper: "This helps us choose the right installation method and prep.", error: "Please select a flooring type." },
   materials: { label: "Do you already have the flooring picked out and on order?", helper: "This affects scheduling, delivery timing, and the install plan.", error: "Please pick an option.", deliveredLabel: "Is the material already delivered on-site?", deliveredError: "Please tell us if the material is already delivered." },
-  location: { label: "Where will this flooring be installed?", helper: "Different locations may require different approaches.", error: "Please select the location type." },
-  subfloorGrade: { label: "Quick technical check", helper: "Two short questions that decide method, prep and warranty.", subfloorLabel: "What's under this floor?", belowGradeLabel: "Is this space below grade (basement)?", error: "Please answer both questions." },
-  condition: { label: "What's the current condition of your floors?", helper: "This helps us determine the best refinishing approach.", error: "Please select the current condition." },
-  wood: { label: "What type of wood flooring do you currently have?", helper: "This helps us choose the right refinishing approach.", error: "Please select your wood type." },
-  living: { label: "Will you be living in the home during the refinishing?", helper: "Affects scheduling, dust control, and finish curing time.", error: "Please answer the question." },
-  area: { label: "What's the approximate area for this project?", helper: "Choose from common sizes or enter a custom amount.", customLabel: "Or enter custom square footage", error: "Please specify the area size." },
-  colorChange: { label: "Are you planning to change the color of your floors?", helper: "This affects the refinishing process and cost.", error: "Please specify color preference." },
-  timeline: { label: "When would you like to start the project?", helper: "This helps us schedule and prepare.", error: "Please select a timeline." },
-  budget: { label: "What's your estimated budget range?", helper: "This helps us recommend the best options for you.", error: "Please select a budget range." },
+  location: { label: "Where will this flooring be installed?", helper: "Different locations may require different approaches", error: "Please select the location type." },
+  subfloorGrade: { label: "Quick technical check", helper: "Two short questions that decide method, prep and warranty", subfloorLabel: "What's under this floor?", belowGradeLabel: "Is this space below grade (basement)?", error: "Please answer both questions." },
+  condition: { label: "What's the current condition of your floors?", helper: "This helps us determine the best refinishing approach", error: "Please select the current condition." },
+  wood: { label: "What type of wood flooring do you currently have?", helper: "This helps us choose the right refinishing approach", error: "Please select your wood type." },
+  living: { label: "Will you be living in the home during the refinishing?", helper: "Affects scheduling, dust control, and finish curing time", error: "Please answer the question." },
+  area: { label: "What's the approximate area for this project?", helper: "Choose from common sizes or enter a custom amount", customLabel: "Or enter custom square footage", error: "Please specify the area size." },
+  colorChange: { label: "Are you planning to change the color of your floors?", helper: "This affects the refinishing process and cost", error: "Please specify color preference." },
+  timeline: { label: "When would you like to start the project?", helper: "This helps us schedule and prepare", error: "Please select a timeline." },
+  budget: { label: "What's your budget range for this project?", helper: "This helps us provide accurate recommendations", error: "Please select a budget range." },
 } as const;
 
 export const FLOOR_TYPE_OPTIONS = [
