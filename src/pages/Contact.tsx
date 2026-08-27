@@ -107,6 +107,21 @@ const Contact = () => {
         throw error;
       }
       console.log('Successfully saved lead:', data);
+
+      // Notify the AXO team via our own site endpoint (Gmail, inbox-safe)
+      void fetch('/api/public/lead-notify', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: leadData.name,
+          email: leadData.email,
+          phone: leadData.phone,
+          city: leadData.city,
+          lead_source: 'contact',
+          services: leadData.services,
+          notes: `## Project\n- Service: ${formData.service || 'Not specified'}\n- Timeline: ${formData.timeline || 'Not specified'}`,
+        }),
+      }).catch(() => {});
       toast({
         title: "Thank you for contacting us!",
         description: "We'll get back to you within 24 hours with your free estimate."
