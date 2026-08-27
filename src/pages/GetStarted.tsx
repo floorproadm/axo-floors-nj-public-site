@@ -586,9 +586,17 @@ export default function GetStarted() {
     if (submitting) return;
     setSubmitting(true);
     try {
-      const serviceLabels = data.services.map(
-        (v) => SERVICE_OPTIONS.find((s) => s.value === v)?.label ?? v,
-      );
+      const labelOf = (
+        options: readonly { value: string; label: string }[],
+        value: string,
+      ) => options.find((o) => o.value === value)?.label ?? "";
+
+      const serviceLabels = [labelOf(SERVICE_TYPE_OPTIONS, data.serviceType) || data.serviceType].filter(Boolean);
+      const budgetNumber =
+        data.budgetRange === "10k-plus" ? 15000 :
+        data.budgetRange === "5k-10k" ? 7500 :
+        data.budgetRange === "2k-5k" ? 3500 :
+        data.budgetRange === "under-2k" ? 2000 : null;
       const lines: string[] = [];
       // Markers: "## Title" starts a section, "- Label: value" is a row.
       // Mobile-friendly plain text; the notification template renders each
@@ -611,39 +619,34 @@ export default function GetStarted() {
       ]);
 
       section("Request", [
-        ["Services", serviceLabels.join(", ")],
+        ["Service", serviceLabels.join(", ")],
+        ["Finish scope", labelOf(FINISH_SCOPE_OPTIONS, data.finishScope)],
         ["How they found us", data.leadSource],
       ]);
 
-      if (isConsultation) {
-        section("Consultation", [
-          ["Type", CONSULT_TYPE_OPTIONS.find((c) => c.value === data.consultType)?.label],
-          ["Topics to cover", data.consultTopics],
-        ]);
-      } else {
-        section("Project", [
-          ["Dream floors", data.wishlist],
-          ["Timeline", data.timeline],
-          ["Budget", formatBudget(data.budget)],
-          ["Current floors", data.currentFloor],
-          ["Condition", data.condition],
-          ["Areas", data.areas.join(", ")],
-          ["Square footage", data.sqftNotSure ? "Not sure" : data.sqft ? `${data.sqft} ft²` : ""],
-          [
-            "Stairs",
-            data.stairsIncluded === "yes"
-              ? `Yes — ${STAIRS_COUNT_OPTIONS.find((o) => o.value === data.stairsCount)?.label ?? data.stairsCount}`
-              : data.stairsIncluded === "no"
-                ? "No"
-                : "",
-          ],
-        ]);
-        section("Property", [
-          ["Property type", data.propertyType],
-          ["Furnished", data.furnished],
-          ["Home age", data.homeAge],
-        ]);
-      }
+      section("Project", [
+        ["Flooring type", labelOf(FLOOR_TYPE_OPTIONS, data.floorType)],
+        ["Materials", labelOf(MATERIALS_OPTIONS, data.materialsStatus)],
+        ["Material delivered", labelOf(MATERIAL_DELIVERED_OPTIONS, data.materialDelivered)],
+        ["Location", labelOf(LOCATION_OPTIONS, data.location)],
+        ["Subfloor", labelOf(SUBFLOOR_OPTIONS, data.subfloor)],
+        ["Below grade", labelOf(BELOW_GRADE_OPTIONS, data.belowGrade)],
+        ["Condition", labelOf(QUIZ_CONDITION_OPTIONS, data.currentCondition)],
+        ["Wood type", labelOf(WOOD_TYPE_OPTIONS, data.woodType)],
+        ["Living in home during work", labelOf(LIVING_OPTIONS, data.livingDuringRefinish)],
+        ["Color change", labelOf(COLOR_CHANGE_OPTIONS, data.colorChange)],
+        ["Square footage", data.sqft ? `${data.sqft} sq ft` : ""],
+        [
+          "Stairs",
+          data.stairsIncluded === "yes"
+            ? `Yes — ${STAIRS_COUNT_OPTIONS.find((o) => o.value === data.stairsCount)?.label ?? data.stairsCount}`
+            : data.stairsIncluded === "no"
+              ? "No"
+              : "",
+        ],
+        ["Timeline", labelOf(QUIZ_TIMELINE_OPTIONS, data.timeline)],
+        ["Budget", labelOf(QUIZ_BUDGET_OPTIONS, data.budgetRange)],
+      ]);
 
       const utm = utmRef.current || {};
       section(
@@ -664,9 +667,9 @@ export default function GetStarted() {
           zip_code: data.zip || null,
           lead_source: data.leadSource || "Website — Get Started",
           services: serviceLabels,
-          budget: isConsultation ? null : data.budget,
-          room_size: data.sqftNotSure ? "Not sure" : data.sqft || null,
-          message: isConsultation ? data.consultTopics : data.wishlist,
+          budget: budgetNumber,
+          room_size: data.sqft || null,
+          message: null,
           notes: lines.join("\n"),
           status: "new_lead",
           priority: "high",
