@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { format, addDays, isWeekend } from "date-fns";
-import { CalendarIcon, Loader2, CheckCircle2, Phone } from "lucide-react";
+import { CalendarIcon, Loader2, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -216,12 +216,6 @@ export default function ScheduleEstimate() {
             <p className="text-slate-600 mt-2 text-sm">
               Pick the window that works. We confirm within 24 hours.
             </p>
-            <a
-              href={`tel:${PHONE}`}
-              className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#0f1b3d] underline"
-            >
-              <Phone className="w-4 h-4" /> Or call (732) 351-8653
-            </a>
           </header>
 
           <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6 space-y-4">
