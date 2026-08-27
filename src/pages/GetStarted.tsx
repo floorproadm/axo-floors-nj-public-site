@@ -231,44 +231,64 @@ export default function GetStarted() {
     list.push(
       radioStep("leadSource", gsCopy.attribution.label, ATTRIBUTION_OPTIONS, gsCopy.attribution.error),
     );
+    const pickServiceType = (value: string, scope?: string) => {
+      setError(null);
+      setData((d) => {
+        const nextScope = value === "install-plus-refinish" ? (scope ?? d.finishScope) : "";
+        return {
+          ...d,
+          serviceType: value,
+          finishScope: nextScope,
+          services: servicesFromType(value, nextScope),
+        };
+      });
+    };
+
+    const cardList = (
+      options: readonly { value: string; label: string; hint?: string }[],
+      selected: string,
+      onPick: (v: string) => void,
+    ) => (
+      <div className="space-y-3">
+        {options.map((opt) => {
+          const active = selected === opt.value;
+          return (
+            <button
+              key={opt.value}
+              type="button"
+              onClick={() => onPick(opt.value)}
+              className={`w-full rounded-xl border p-4 text-left transition-colors ${
+                active ? "border-accent bg-accent/10 shadow-sm" : "border-border hover:bg-muted/50"
+              }`}
+            >
+              <span className="block font-medium leading-snug">{opt.label}</span>
+              {opt.hint && <span className="mt-1 block text-sm text-muted-foreground">{opt.hint}</span>}
+            </button>
+          );
+        })}
+      </div>
+    );
+
     list.push({
-      id: "services",
+      id: "serviceType",
       title: gsCopy.service.label,
       helper: gsCopy.service.helper,
-      render: () => (
-        <div className="space-y-3">
-          {SERVICE_OPTIONS.map((opt) => {
-            const active = data.services.includes(opt.value);
-            return (
-              <label
-                key={opt.value}
-                className={`flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition-colors ${
-                  active ? "border-accent bg-accent/10 shadow-sm" : "border-border hover:bg-muted/50"
-                }`}
-              >
-                <Checkbox
-                  checked={active}
-                  onCheckedChange={(checked) =>
-                    set(
-                      "services",
-                      checked
-                        ? [...data.services, opt.value]
-                        : data.services.filter((s) => s !== opt.value),
-                    )
-                  }
-                  className="mt-1"
-                />
-                <span>
-                  <span className="block font-medium leading-snug">{opt.label}</span>
-                  {opt.hint && <span className="block text-sm text-muted-foreground">{opt.hint}</span>}
-                </span>
-              </label>
-            );
-          })}
-        </div>
-      ),
-      validate: () => (data.services.length ? null : gsCopy.service.error),
+      render: () => cardList(SERVICE_TYPE_OPTIONS, data.serviceType, (v) => pickServiceType(v)),
+      validate: () => (data.serviceType ? null : gsCopy.service.error),
     });
+
+    if (data.serviceType === "install-plus-refinish") {
+      list.push({
+        id: "finishScope",
+        title: gsCopy.finishScope.label,
+        helper: gsCopy.finishScope.helper,
+        render: () =>
+          cardList(FINISH_SCOPE_OPTIONS, data.finishScope, (v) =>
+            pickServiceType("install-plus-refinish", v),
+          ),
+        validate: () => (data.finishScope ? null : gsCopy.finishScope.error),
+      });
+    }
 
     if (isConsultation) {
 
