@@ -15,8 +15,7 @@ export const gsCopy = {
     submitting: "Sending...",
   },
   fields: {
-    firstName: { label: "What's your first name?", placeholder: "First name", error: "Please enter your first name." },
-    lastName: { label: "And your last name?", placeholder: "Last name", error: "Please enter your last name." },
+    name: { label: "What's your Name?", placeholder: "First and last name", error: "Please enter your name." },
     phone: { label: "What's the best phone number to reach you?", placeholder: "(555) 123-4567", error: "Please enter a valid 10-digit US phone number." },
     email: { label: "What's your email address?", placeholder: "you@example.com", error: "Please enter a valid email address." },
     address: {
