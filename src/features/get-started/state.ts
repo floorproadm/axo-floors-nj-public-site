@@ -169,3 +169,21 @@ export function formatBudget(v: number): string {
   }).format(v);
   return v >= 50000 ? `${base}+` : base;
 }
+
+/** Map the guided service question (quiz step 1) to the internal services array. */
+export function servicesFromType(serviceType: string, finishScope: string): string[] {
+  switch (serviceType) {
+    case "new-installation":
+      return ["installation"];
+    case "floor-refinish":
+      return ["refinishing"];
+    case "install-plus-refinish":
+      if (finishScope === "new-floor") return ["installation"];
+      if (finishScope === "existing") return ["refinishing"];
+      return ["installation", "refinishing"];
+    case "not-sure":
+      return ["consultation"];
+    default:
+      return [];
+  }
+}
