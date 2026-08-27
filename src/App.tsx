@@ -26,6 +26,7 @@ import PartnerProgram from "./pages/PartnerProgram";
 import GetStarted from "./pages/GetStarted";
 import ThankYou from "./pages/ThankYou";
 import ScheduleEstimate from "./pages/ScheduleEstimate";
+import Quiz from "./pages/Quiz";
 import ReferralProgram from "./pages/ReferralProgram";
 import Builders from "./pages/Builders";
 import Realtors from "./pages/Realtors";
@@ -76,7 +77,7 @@ const App = () => {
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/campaign" element={<Campaign />} />
-                  <Route path="/quiz" element={<Navigate to="/get-started" replace />} />
+                  <Route path="/quiz" element={<Quiz />} />
                   <Route path="/get-started" element={<GetStarted />} />
 
                   <Route path="/thank-you" element={<ThankYou />} />
