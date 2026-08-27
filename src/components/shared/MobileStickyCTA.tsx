@@ -16,7 +16,7 @@ const CORE_PATHS = [
   "/gallery",
   "/about",
   "/contact",
-  "/schedule-estimate",
+
 ];
 
 const MobileStickyCTA = () => {
