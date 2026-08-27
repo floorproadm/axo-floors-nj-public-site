@@ -16,7 +16,6 @@ function AxoPages() {
     { name: "Stain Gallery", path: "/stain-gallery" },
     { name: "About", path: "/about" },
     { name: "Contact", path: "/contact" },
-    { name: "Quiz", path: "/quiz" },
     { name: "Get Started", path: "/get-started" },
     { name: "Schedule", path: "/schedule-estimate" },
     { name: "Builders", path: "/builders" },

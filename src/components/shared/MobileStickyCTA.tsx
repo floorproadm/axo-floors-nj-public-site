@@ -16,7 +16,7 @@ const CORE_PATHS = [
   "/gallery",
   "/about",
   "/contact",
-  "/quiz",
+  "/get-started",
   "/schedule-estimate",
 ];
 

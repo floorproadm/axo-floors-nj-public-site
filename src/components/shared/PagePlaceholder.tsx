@@ -13,7 +13,7 @@ interface Props {
   note?: string;
 }
 
-export default function PagePlaceholder({ title, description, ctaTo = "/quiz", ctaLabel = "Get Free Estimate", note }: Props) {
+export default function PagePlaceholder({ title, description, ctaTo = "/get-started", ctaLabel = "Get Free Estimate", note }: Props) {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
