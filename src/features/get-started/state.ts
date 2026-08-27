@@ -8,6 +8,10 @@ export interface GetStartedData {
   city: string;
   zip: string;
   leadSource: string;
+  /** Guided step 6: primary service path (quiz-style). */
+  serviceType: string;
+  /** Follow-up when serviceType === "install-plus-refinish". */
+  finishScope: string;
   services: string[];
   // Branch A
 
@@ -55,6 +59,8 @@ export const emptyData: GetStartedData = {
   city: "",
   zip: "",
   leadSource: "",
+  serviceType: "",
+  finishScope: "",
   services: [],
   consultType: "",
 
@@ -162,4 +168,22 @@ export function formatBudget(v: number): string {
     maximumFractionDigits: 0,
   }).format(v);
   return v >= 50000 ? `${base}+` : base;
+}
+
+/** Map the guided service question (quiz step 1) to the internal services array. */
+export function servicesFromType(serviceType: string, finishScope: string): string[] {
+  switch (serviceType) {
+    case "new-installation":
+      return ["installation"];
+    case "floor-refinish":
+      return ["refinishing"];
+    case "install-plus-refinish":
+      if (finishScope === "new-floor") return ["installation"];
+      if (finishScope === "existing") return ["refinishing"];
+      return ["installation", "refinishing"];
+    case "not-sure":
+      return ["consultation"];
+    default:
+      return [];
+  }
 }

@@ -27,7 +27,16 @@ export const gsCopy = {
     },
   },
   attribution: { label: "How did you find us?", error: "Please pick one option." },
-  service: { label: "What can we help you with?", helper: "Select all that apply.", error: "Please select at least one option." },
+  service: {
+    label: "What can we help you with?",
+    helper: "Pick the option that best describes your project — we'll tailor the next questions.",
+    error: "Please pick one option.",
+  },
+  finishScope: {
+    label: "Where should the sanding & finishing happen?",
+    helper: "This tells us how to scope the job correctly.",
+    error: "Please pick one option.",
+  },
   consult: {
     type: { label: "What type of consultation works best for you?", error: "Please pick one option." },
     introTitle: "Meet your consultant",
@@ -95,6 +104,37 @@ export const SERVICE_OPTIONS = [
   { value: "repair", label: "Repair & Restoration", hint: "Water damage, boards, patches" },
   { value: "stairs", label: "Stairs & Custom Work", hint: "Treads, borders, inlays" },
   { value: "consultation", label: "Expert Consultation", hint: "Wood selection, finishes, project planning" },
+] as const;
+
+/** Guided service question (adapted from the /quiz step 1). */
+export const SERVICE_TYPE_OPTIONS = [
+  {
+    value: "new-installation",
+    label: "New Installation",
+    hint: "Installing new hardwood or replacing what's there today",
+  },
+  {
+    value: "floor-refinish",
+    label: "Refinishing (Sand & Finish)",
+    hint: "Bring existing hardwood back to life — 99% dustless",
+  },
+  {
+    value: "install-plus-refinish",
+    label: "Installation + Refinishing",
+    hint: "Install new floors and refinish existing areas",
+  },
+  {
+    value: "not-sure",
+    label: "Not sure / I need guidance",
+    hint: "Talk to a specialist first — we'll help you decide",
+  },
+] as const;
+
+export const FINISH_SCOPE_OPTIONS = [
+  { value: "new-floor", label: "On the new floor being installed", hint: "Finish only the floor we install" },
+  { value: "existing", label: "On my existing floors", hint: "Refinish floors already in place" },
+  { value: "both", label: "Both", hint: "New install + refinish existing areas" },
+  { value: "not-sure", label: "Not sure", hint: "We'll inspect and recommend" },
 ] as const;
 
 export const CONSULT_TYPE_OPTIONS = [
