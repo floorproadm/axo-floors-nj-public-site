@@ -23,7 +23,6 @@ import About from "./pages/About";
 import StainGallery from "./pages/StainGallery";
 import BuilderPartnerships from "./pages/BuilderPartnerships";
 import PartnerProgram from "./pages/PartnerProgram";
-import Quiz from "./pages/Quiz";
 import GetStarted from "./pages/GetStarted";
 import ThankYou from "./pages/ThankYou";
 import ScheduleEstimate from "./pages/ScheduleEstimate";
@@ -77,7 +76,7 @@ const App = () => {
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/campaign" element={<Campaign />} />
-                  <Route path="/quiz" element={<Quiz />} />
+                  <Route path="/quiz" element={<Navigate to="/get-started" replace />} />
                   <Route path="/get-started" element={<GetStarted />} />
 
                   <Route path="/thank-you" element={<ThankYou />} />
@@ -89,7 +88,7 @@ const App = () => {
                   <Route path="/realtors" element={<Realtors />} />
                   <Route path="/builder-offer" element={<BuilderPartnerships />} />
                   <Route path="/partner-program" element={<PartnerProgram />} />
-                  <Route path="/floor-diagnostic" element={<Navigate to="/quiz" replace />} />
+                  <Route path="/floor-diagnostic" element={<Navigate to="/get-started" replace />} />
                   
                   <Route path="/wow-pack" element={<WowPack />} />
                   <Route path="/review-request" element={<ReviewRequest />} />
