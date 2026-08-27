@@ -91,25 +91,6 @@ export default function GetStarted() {
     data.services.length === 1 && data.services[0] === "consultation";
 
 
-  // ── Reusable field renderers ─────────────────────────────
-  const textStep = (
-    key: "firstName" | "lastName",
-    copy: { label: string; placeholder: string; error: string },
-  ): Step => ({
-    id: key,
-    title: copy.label,
-    render: () => (
-      <Input
-        autoFocus
-        value={data[key]}
-        placeholder={copy.placeholder}
-        onChange={(e) => set(key, e.target.value)}
-        className="h-14 text-lg"
-      />
-    ),
-    validate: () => (data[key].trim().length >= 2 ? null : copy.error),
-  });
-
   const radioStep = (
     key: keyof GetStartedData,
     title: string,
@@ -156,8 +137,29 @@ export default function GetStarted() {
   const steps = useMemo<Step[]>(() => {
     const list: Step[] = [];
 
-    list.push(textStep("firstName", gsCopy.fields.firstName));
-    list.push(textStep("lastName", gsCopy.fields.lastName));
+    list.push({
+      id: "name",
+      title: gsCopy.fields.name.label,
+      render: () => (
+        <Input
+          autoFocus
+          value={`${data.firstName}${data.lastName ? ` ${data.lastName}` : ""}`}
+          placeholder={gsCopy.fields.name.placeholder}
+          onChange={(e) => {
+            const raw = e.target.value;
+            const trimmedStart = raw.replace(/^\s+/, "");
+            const parts = trimmedStart.split(" ");
+            const first = parts.shift() ?? "";
+            setError(null);
+            setData((d) => ({ ...d, firstName: first, lastName: parts.join(" ") }));
+          }}
+          className="h-14 text-lg"
+        />
+      ),
+      validate: () =>
+        data.firstName.trim().length >= 2 ? null : gsCopy.fields.name.error,
+    });
+
 
     list.push({
       id: "phone",
