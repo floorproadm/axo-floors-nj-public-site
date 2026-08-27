@@ -609,14 +609,10 @@ export default function GetStarted() {
         filled.forEach(([k, v]) => lines.push(`- ${k}: ${v}`));
       };
 
-      section("Contact", [
-        ["Name", `${data.firstName.trim()} ${data.lastName.trim()}`.trim()],
-        ["Phone", data.phone],
-        ["Email", data.email.trim()],
-        ["Address", data.address],
-        ["City", data.city],
-        ["ZIP", data.zip],
-      ]);
+      // Contact details live in the lead's own fields (name/phone/email/address),
+      // so they are intentionally omitted here to avoid duplication in the email.
+
+
 
       section("Request", [
         ["Service", serviceLabels.join(", ")],
