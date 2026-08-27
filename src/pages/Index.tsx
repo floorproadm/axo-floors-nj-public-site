@@ -73,7 +73,8 @@ const Index = () => {
     href: "/stairs",
     features: ["S&F or Refinish", "Treads & Risers", "Railings & Balusters"],
     cta: "Explore Stair Services",
-    image: serviceStaircase
+    image: stairsRailingsImg.url,
+    imagePosition: "object-[55%_45%]"
   }];
   const benefits = [{
     icon: Users,
