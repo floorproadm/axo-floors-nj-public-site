@@ -656,30 +656,44 @@ export default function GetStarted() {
           .map(([k, v]) => [k, String(v)] as [string, string]),
       );
 
-      const { error: insertError } = await supabase.from("leads").insert([
-        {
-          organization_id: AXO_ORG_ID,
-          name: `${data.firstName.trim()} ${data.lastName.trim()}`.trim(),
-          email: data.email.trim(),
-          phone: data.phone,
-          address: data.address,
-          city: data.city || null,
-          zip_code: data.zip || null,
-          lead_source: data.leadSource || "Website — Get Started",
-          services: serviceLabels,
-          budget: budgetNumber,
-          room_size: data.sqft || null,
-          message: null,
-          notes: lines.join("\n"),
-          status: "new_lead",
-          priority: "high",
-          contact_type: "web_form",
-        } as never,
-      ]);
+      const leadPayload = {
+        organization_id: AXO_ORG_ID,
+        name: `${data.firstName.trim()} ${data.lastName.trim()}`.trim(),
+        email: data.email.trim(),
+        phone: data.phone,
+        address: data.address,
+        city: data.city || null,
+        zip_code: data.zip || null,
+        lead_source: data.leadSource || "Website — Get Started",
+        services: serviceLabels,
+        budget: budgetNumber,
+        room_size: data.sqft || null,
+        message: null,
+        notes: lines.join("\n"),
+        status: "new_lead",
+        priority: "high",
+        contact_type: "web_form",
+      };
+
+      const { error: insertError } = await supabase
+        .from("leads")
+        .insert([leadPayload as never]);
 
       if (insertError) throw insertError;
 
+      // Notify the AXO team (non-blocking)
+      void supabase.functions
+        .invoke("send-notifications", {
+          body: {
+            leadData: leadPayload,
+            adminEmail: "axofloorsnj@gmail.com",
+            adminPhone: "+17323518653",
+          },
+        })
+        .catch(() => {});
+
       clearDraft();
+
       setDone(true);
     } catch (e) {
       console.error("Get Started submit failed:", e);
