@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
+import { MapPin } from "lucide-react";
 
 const GOOGLE_KEY =
   (import.meta as any).env?.VITE_GOOGLE_MAPS_API_KEY ||
@@ -31,14 +32,48 @@ interface Props {
   invalid?: boolean;
 }
 
+interface Suggestion {
+  label: string;
+  city?: string;
+  zip?: string;
+  state?: string;
+}
+
+const ALLOWED_STATES = ["NJ", "NY", "PA", "New Jersey", "New York", "Pennsylvania"];
+
+/** Free OpenStreetMap-based address suggestions (no API key required). */
+async function fetchSuggestions(query: string, signal: AbortSignal): Promise<Suggestion[]> {
+  const url = `https://photon.komoot.io/api/?q=${encodeURIComponent(query)}&limit=6&lang=en&lat=40.3&lon=-74.3`;
+  const res = await fetch(url, { signal });
+  if (!res.ok) return [];
+  const json = await res.json();
+  const feats: any[] = json?.features ?? [];
+  return feats
+    .map((f) => {
+      const p = f.properties ?? {};
+      if (p.countrycode && p.countrycode !== "US") return null;
+      const street = [p.housenumber, p.street || p.name].filter(Boolean).join(" ");
+      const city = p.city || p.town || p.village || p.county || "";
+      const label = [street, city, p.state, p.postcode].filter(Boolean).join(", ");
+      if (!label) return null;
+      return { label, city, zip: p.postcode, state: p.state } as Suggestion;
+    })
+    .filter(Boolean)
+    .filter((s) => !(s as Suggestion).state || ALLOWED_STATES.includes((s as Suggestion).state!)) as Suggestion[];
+}
+
 /**
- * Address field with Google Places Autocomplete restricted to NJ / NY / PA.
- * When no Places key is configured the field degrades to a plain text input
- * (typed addresses are accepted) so the wizard never becomes unusable.
+ * Address field with autocomplete.
+ * Uses Google Places when a key is configured, otherwise falls back to a
+ * free OpenStreetMap (Photon) suggestion list so the lead still gets
+ * type-ahead help. Typed addresses remain accepted as a last resort.
  */
 export default function AddressAutocomplete({ value, placeholder, onChange, onEnter, invalid }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [placesReady, setPlacesReady] = useState(false);
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
+  const [open, setOpen] = useState(false);
+  const [justPicked, setJustPicked] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -71,25 +106,87 @@ export default function AddressAutocomplete({ value, placeholder, onChange, onEn
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Fallback suggestions (only when Google Places isn't available)
+  useEffect(() => {
+    if (placesReady || justPicked) return;
+    const q = value.trim();
+    if (q.length < 4) {
+      setSuggestions([]);
+      return;
+    }
+    const controller = new AbortController();
+    const t = setTimeout(() => {
+      fetchSuggestions(q, controller.signal)
+        .then((list) => {
+          setSuggestions(list);
+          setOpen(list.length > 0);
+        })
+        .catch(() => {
+          /* offline / blocked — plain typing still works */
+        });
+    }, 300);
+    return () => {
+      clearTimeout(t);
+      controller.abort();
+    };
+  }, [value, placesReady, justPicked]);
+
+  const pick = (s: Suggestion) => {
+    setJustPicked(true);
+    setOpen(false);
+    setSuggestions([]);
+    onChange(s.label, { verified: true, city: s.city, zip: s.zip });
+  };
+
   return (
-    <Input
-      ref={inputRef}
-      autoFocus
-      value={value}
-      autoComplete="off"
-      inputMode="text"
-      placeholder={placeholder}
-      aria-invalid={invalid || undefined}
-      onChange={(e) =>
-        onChange(e.target.value, { verified: placesReady ? false : e.target.value.trim().length > 5 })
-      }
-      onKeyDown={(e) => {
-        if (e.key === "Enter") {
-          e.preventDefault();
-          onEnter?.();
-        }
-      }}
-      className="h-14 text-lg"
-    />
+    <div className="relative">
+      <Input
+        ref={inputRef}
+        autoFocus
+        value={value}
+        autoComplete="off"
+        inputMode="text"
+        placeholder={placeholder}
+        aria-invalid={invalid || undefined}
+        onChange={(e) => {
+          setJustPicked(false);
+          onChange(e.target.value, {
+            verified: placesReady ? false : false,
+          });
+        }}
+        onFocus={() => suggestions.length > 0 && setOpen(true)}
+        onBlur={() => setTimeout(() => setOpen(false), 150)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            if (open && suggestions[0]) {
+              pick(suggestions[0]);
+              return;
+            }
+            onEnter?.();
+          }
+          if (e.key === "Escape") setOpen(false);
+        }}
+        className="h-14 text-lg"
+      />
+
+      {open && suggestions.length > 0 && (
+        <ul className="absolute z-50 mt-2 w-full overflow-hidden rounded-xl border border-border bg-popover shadow-lg">
+          {suggestions.map((s) => (
+            <li key={s.label}>
+              <button
+                type="button"
+                onMouseDown={(e) => e.preventDefault()}
+                onClick={() => pick(s)}
+                className="flex w-full items-start gap-3 px-4 py-3 text-left text-sm hover:bg-muted/60"
+              >
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
+                <span className="leading-snug">{s.label}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 }
