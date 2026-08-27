@@ -151,7 +151,8 @@ export default function AddressAutocomplete({ value, placeholder, onChange, onEn
         onChange={(e) => {
           setJustPicked(false);
           onChange(e.target.value, {
-            verified: placesReady ? false : false,
+            // Google validates on selection; without it we accept a typed address
+            verified: placesReady ? false : e.target.value.trim().length > 5,
           });
         }}
         onFocus={() => suggestions.length > 0 && setOpen(true)}
