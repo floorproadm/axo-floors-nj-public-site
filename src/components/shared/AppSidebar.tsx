@@ -16,7 +16,6 @@ const services = [
 ];
 
 const mainNavigation = [
-  { name: "Smart Estimate", href: "/get-started", highlight: true },
   { name: "Contact", href: "/contact" },
   { name: "About", href: "/about" },
   { name: "Gallery", href: "/gallery" },
