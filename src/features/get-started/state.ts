@@ -8,6 +8,10 @@ export interface GetStartedData {
   city: string;
   zip: string;
   leadSource: string;
+  /** Guided step 6: primary service path (quiz-style). */
+  serviceType: string;
+  /** Follow-up when serviceType === "install-plus-refinish". */
+  finishScope: string;
   services: string[];
   // Branch A
 
