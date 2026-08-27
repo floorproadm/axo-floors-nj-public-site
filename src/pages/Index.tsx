@@ -14,7 +14,7 @@ import { CheckCircle, Star, ArrowRight, Award, Users, Clock, Shield, Sparkles, B
 import homeHero from "@/assets/home-hero.jpg";
 import serviceSandingAsset from "@/assets/service-sanding-crew.jpg.asset.json";
 import serviceInstallAsset from "@/assets/axo-vinyl-plank-install.jpg.asset.json";
-import serviceStaircase from "@/assets/service-staircase.jpg";
+import stairsRailingsImg from "@/assets/stairs-railings.jpg.asset.json";
 import { useState, useEffect, useRef } from "react";
 import LeadMagnetGate from "@/components/shared/LeadMagnetGate";
 const Index = () => {
@@ -73,7 +73,8 @@ const Index = () => {
     href: "/stairs",
     features: ["S&F or Refinish", "Treads & Risers", "Railings & Balusters"],
     cta: "Explore Stair Services",
-    image: serviceStaircase
+    image: stairsRailingsImg.url,
+    imagePosition: "object-[55%_45%]"
   }];
   const benefits = [{
     icon: Users,
