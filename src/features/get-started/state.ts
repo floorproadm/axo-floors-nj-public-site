@@ -13,24 +13,22 @@ export interface GetStartedData {
   /** Follow-up when serviceType === "install-plus-refinish". */
   finishScope: string;
   services: string[];
-  // Branch A
-
-  consultType: string;
-  consultTopics: string;
-  // Branch B
-  wishlist: string;
+  // Quiz-parity branch fields
+  floorType: string;
+  materialsStatus: string;
+  materialDelivered: string;
+  location: string;
+  subfloor: string;
+  belowGrade: string;
+  currentCondition: string;
+  woodType: string;
+  livingDuringRefinish: string;
+  colorChange: string;
   timeline: string;
-  budget: number;
-  currentFloor: string;
-  condition: string;
-  areas: string[];
+  budgetRange: string;
   stairsIncluded: string;
   stairsCount: string;
   sqft: string;
-  sqftNotSure: boolean;
-  propertyType: string;
-  furnished: string;
-  homeAge: string;
   // Final
   consent: boolean;
 }
