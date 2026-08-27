@@ -659,9 +659,8 @@ const QuizFlow = ({ embedded = false, partnerId, onComplete }: QuizFlowProps) =>
                       <SelectTrigger className="w-full max-w-xs mx-auto text-center"><SelectValue placeholder="Select step count" /></SelectTrigger>
                       <SelectContent>
                         <SelectItem value="1-5">1 – 5 steps</SelectItem>
-                        <SelectItem value="6-10">6 – 10 steps</SelectItem>
-                        <SelectItem value="11-15">11 – 15 steps</SelectItem>
-                        <SelectItem value="16-20">16 – 20 steps</SelectItem>
+                        <SelectItem value="6-11">6 – 11 steps</SelectItem>
+                        <SelectItem value="12-20">12 – 20 steps</SelectItem>
                         <SelectItem value="20-plus">20+ steps</SelectItem>
                       </SelectContent>
                     </Select>
