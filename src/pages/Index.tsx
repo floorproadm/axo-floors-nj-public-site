@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 import { CheckCircle, Star, ArrowRight, Award, Users, Clock, Shield, Sparkles, BookOpen, Calculator, Palette, Wind, Zap, Home, Trophy, ClipboardList, FileText, Hammer, BadgeCheck } from "lucide-react";
 import homeHero from "@/assets/home-hero.jpg";
 import serviceSandingAsset from "@/assets/service-sanding-crew.jpg.asset.json";
-import serviceHardwood from "@/assets/service-hardwood.jpg";
+import serviceInstallAsset from "@/assets/axo-vinyl-plank-install.jpg.asset.json";
 import serviceStaircase from "@/assets/service-staircase.jpg";
 import { useState, useEffect, useRef } from "react";
 import LeadMagnetGate from "@/components/shared/LeadMagnetGate";
@@ -65,7 +65,8 @@ const Index = () => {
     href: "/hardwood-flooring",
     features: ["Hardwood Flooring", "Vinyl · Laminate", "Custom Patterns"],
     cta: "Explore Flooring",
-    image: serviceHardwood
+    image: serviceInstallAsset.url,
+    imagePosition: "object-[60%_50%]"
   }, {
     title: "Stairs & Railings",
     description: "Restore your staircase or transform it completely.",
