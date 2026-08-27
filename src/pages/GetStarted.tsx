@@ -163,7 +163,12 @@ export default function GetStarted() {
 
     list.push({
       id: "phone",
-      title: gsCopy.fields.phone.label,
+      title: (() => {
+        const first = data.firstName.trim();
+        if (!first) return gsCopy.fields.phone.label;
+        const pretty = first.charAt(0).toUpperCase() + first.slice(1);
+        return `${pretty}, ${gsCopy.fields.phone.label.charAt(0).toLowerCase()}${gsCopy.fields.phone.label.slice(1)}`;
+      })(),
       render: () => (
         <Input
           autoFocus
