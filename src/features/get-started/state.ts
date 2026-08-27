@@ -59,6 +59,8 @@ export const emptyData: GetStartedData = {
   city: "",
   zip: "",
   leadSource: "",
+  serviceType: "",
+  finishScope: "",
   services: [],
   consultType: "",
 
