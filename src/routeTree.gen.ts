@@ -15,6 +15,7 @@ import { Route as SplatRouteImport } from './routes/$'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ServiceAreasNewJerseyIndexRouteImport } from './routes/service-areas.new-jersey.index'
 import { Route as ServiceAreasNewJerseySlugRouteImport } from './routes/service-areas.new-jersey.$slug'
+import { Route as ApiPublicLeadNotifyRouteImport } from './routes/api/public/lead-notify'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -48,12 +49,18 @@ const ServiceAreasNewJerseySlugRoute =
     path: '/service-areas/new-jersey/$slug',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicLeadNotifyRoute = ApiPublicLeadNotifyRouteImport.update({
+  id: '/api/public/lead-notify',
+  path: '/api/public/lead-notify',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/axo-pages': typeof AxoPagesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/api/public/lead-notify': typeof ApiPublicLeadNotifyRoute
   '/service-areas/new-jersey/$slug': typeof ServiceAreasNewJerseySlugRoute
   '/service-areas/new-jersey/': typeof ServiceAreasNewJerseyIndexRoute
 }
@@ -62,6 +69,7 @@ export interface FileRoutesByTo {
   '/$': typeof SplatRoute
   '/axo-pages': typeof AxoPagesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/api/public/lead-notify': typeof ApiPublicLeadNotifyRoute
   '/service-areas/new-jersey/$slug': typeof ServiceAreasNewJerseySlugRoute
   '/service-areas/new-jersey': typeof ServiceAreasNewJerseyIndexRoute
 }
@@ -71,6 +79,7 @@ export interface FileRoutesById {
   '/$': typeof SplatRoute
   '/axo-pages': typeof AxoPagesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/api/public/lead-notify': typeof ApiPublicLeadNotifyRoute
   '/service-areas/new-jersey/$slug': typeof ServiceAreasNewJerseySlugRoute
   '/service-areas/new-jersey/': typeof ServiceAreasNewJerseyIndexRoute
 }
@@ -81,6 +90,7 @@ export interface FileRouteTypes {
     | '/$'
     | '/axo-pages'
     | '/sitemap.xml'
+    | '/api/public/lead-notify'
     | '/service-areas/new-jersey/$slug'
     | '/service-areas/new-jersey/'
   fileRoutesByTo: FileRoutesByTo
@@ -89,6 +99,7 @@ export interface FileRouteTypes {
     | '/$'
     | '/axo-pages'
     | '/sitemap.xml'
+    | '/api/public/lead-notify'
     | '/service-areas/new-jersey/$slug'
     | '/service-areas/new-jersey'
   id:
@@ -97,6 +108,7 @@ export interface FileRouteTypes {
     | '/$'
     | '/axo-pages'
     | '/sitemap.xml'
+    | '/api/public/lead-notify'
     | '/service-areas/new-jersey/$slug'
     | '/service-areas/new-jersey/'
   fileRoutesById: FileRoutesById
@@ -106,6 +118,7 @@ export interface RootRouteChildren {
   SplatRoute: typeof SplatRoute
   AxoPagesRoute: typeof AxoPagesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  ApiPublicLeadNotifyRoute: typeof ApiPublicLeadNotifyRoute
   ServiceAreasNewJerseySlugRoute: typeof ServiceAreasNewJerseySlugRoute
   ServiceAreasNewJerseyIndexRoute: typeof ServiceAreasNewJerseyIndexRoute
 }
@@ -154,6 +167,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServiceAreasNewJerseySlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/lead-notify': {
+      id: '/api/public/lead-notify'
+      path: '/api/public/lead-notify'
+      fullPath: '/api/public/lead-notify'
+      preLoaderRoute: typeof ApiPublicLeadNotifyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -162,6 +182,7 @@ const rootRouteChildren: RootRouteChildren = {
   SplatRoute: SplatRoute,
   AxoPagesRoute: AxoPagesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  ApiPublicLeadNotifyRoute: ApiPublicLeadNotifyRoute,
   ServiceAreasNewJerseySlugRoute: ServiceAreasNewJerseySlugRoute,
   ServiceAreasNewJerseyIndexRoute: ServiceAreasNewJerseyIndexRoute,
 }
