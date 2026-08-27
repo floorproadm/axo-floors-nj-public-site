@@ -28,13 +28,13 @@ export const gsCopy = {
   },
   attribution: { label: "How did you find us?", error: "Please pick one option." },
   service: {
-    label: "What can we help you with?",
-    helper: "Pick the option that best describes your project — we'll tailor the next questions.",
+    label: "What type of service do you need?",
+    helper: "Choose the option that best describes your project",
     error: "Please pick one option.",
   },
   finishScope: {
-    label: "Where should the sanding & finishing happen?",
-    helper: "This tells us how to scope the job correctly.",
+    label: "Is this finish for new wood we'll install, or for existing floors?",
+    helper: "This decides which checks we need to run",
     error: "Please pick one option.",
   },
   consult: {
