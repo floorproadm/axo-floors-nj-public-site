@@ -677,16 +677,12 @@ export default function GetStarted() {
 
       if (insertError) throw insertError;
 
-      // Notify the AXO team (non-blocking)
-      void supabase.functions
-        .invoke("send-notifications", {
-          body: {
-            leadData: leadPayload,
-            adminEmail: "axofloorsnj@gmail.com",
-            adminPhone: "+17323518653",
-          },
-        })
-        .catch(() => {});
+      // Notify the AXO team via our own site endpoint (Gmail, inbox-safe)
+      void fetch("/api/public/lead-notify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(leadPayload),
+      }).catch(() => {});
 
       clearDraft();
 
