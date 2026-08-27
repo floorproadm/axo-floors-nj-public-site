@@ -91,25 +91,6 @@ export default function GetStarted() {
     data.services.length === 1 && data.services[0] === "consultation";
 
 
-  // ── Reusable field renderers ─────────────────────────────
-  const textStep = (
-    key: "firstName" | "lastName",
-    copy: { label: string; placeholder: string; error: string },
-  ): Step => ({
-    id: key,
-    title: copy.label,
-    render: () => (
-      <Input
-        autoFocus
-        value={data[key]}
-        placeholder={copy.placeholder}
-        onChange={(e) => set(key, e.target.value)}
-        className="h-14 text-lg"
-      />
-    ),
-    validate: () => (data[key].trim().length >= 2 ? null : copy.error),
-  });
-
   const radioStep = (
     key: keyof GetStartedData,
     title: string,
