@@ -27,7 +27,16 @@ export const gsCopy = {
     },
   },
   attribution: { label: "How did you find us?", error: "Please pick one option." },
-  service: { label: "What can we help you with?", helper: "Select all that apply.", error: "Please select at least one option." },
+  service: {
+    label: "What can we help you with?",
+    helper: "Pick the option that best describes your project — we'll tailor the next questions.",
+    error: "Please pick one option.",
+  },
+  finishScope: {
+    label: "Where should the sanding & finishing happen?",
+    helper: "This tells us how to scope the job correctly.",
+    error: "Please pick one option.",
+  },
   consult: {
     type: { label: "What type of consultation works best for you?", error: "Please pick one option." },
     introTitle: "Meet your consultant",
