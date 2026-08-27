@@ -16,7 +16,7 @@ const services = [
 ];
 
 const mainNavigation = [
-  { name: "Smart Estimate", href: "/quiz", highlight: true },
+  { name: "Smart Estimate", href: "/get-started", highlight: true },
   { name: "Contact", href: "/contact" },
   { name: "About", href: "/about" },
   { name: "Gallery", href: "/gallery" },
@@ -104,7 +104,7 @@ export function AppSidebar({ onClose }: AppSidebarProps) {
       {/* CTAs na parte inferior */}
       <div className="p-4 border-t border-white/10 space-y-3">
         <Link 
-          to="/quiz" 
+          to="/get-started" 
           onClick={onClose}
           className="block w-full py-3 px-4 bg-gradient-to-r from-gold to-gold-warm text-black font-bold text-center rounded-xl hover:shadow-lg transition-all"
         >

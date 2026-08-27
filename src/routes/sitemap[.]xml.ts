@@ -5,7 +5,7 @@ const BASE_URL = "";
 
 const paths = [
   "/", "/installation", "/refinishing", "/vinyl-plank-flooring",
-  "/gallery", "/stain-gallery", "/about", "/contact", "/quiz", "/schedule-estimate",
+  "/gallery", "/stain-gallery", "/about", "/contact", "/get-started", "/schedule-estimate",
   "/campaign", "/referral-program", "/builders", "/realtors", "/builder-offer",
   "/partner-program", "/wow-pack", "/hub",
 ];

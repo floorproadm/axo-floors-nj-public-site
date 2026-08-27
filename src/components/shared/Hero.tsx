@@ -22,7 +22,7 @@ const Hero = ({
   image, 
   ctaPrimary = "Get Free Quote", 
   ctaSecondary = "Call Now",
-  ctaPrimaryHref = "/quiz",
+  ctaPrimaryHref = "/get-started",
   ctaSecondaryHref = "tel:(732) 351-8653",
   trustLine,
   showReviews = true 

@@ -85,7 +85,7 @@ const Installation = () => {
         image={hardwoodHero}
         ctaPrimary="Get My Free Estimate"
         ctaSecondary="See Our Work"
-        ctaPrimaryHref="/quiz"
+        ctaPrimaryHref="/get-started"
         ctaSecondaryHref="/gallery"
         trustLine="500+ Homes • 10-Year Warranty • Licensed & Insured"
       />
@@ -220,7 +220,7 @@ const Installation = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center">
               <Button asChild size="lg" className="gold-gradient hover:scale-105 transition-bounce text-base sm:text-lg px-8 py-5 h-auto min-h-[52px] text-black font-semibold w-full sm:w-auto">
-                <Link to="/quiz" className="flex items-center justify-center gap-2 text-black">
+                <Link to="/get-started" className="flex items-center justify-center gap-2 text-black">
                   Get My Free Estimate
                   <ArrowRight className="w-5 h-5 text-black" />
                 </Link>

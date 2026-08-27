@@ -81,7 +81,7 @@ const HeaderSSR = () => {
                 </div>
               </details>
               <span className="text-gold">|</span>
-              <SafeLink to="/quiz" className="text-white hover:text-gold font-medium transition-smooth">
+              <SafeLink to="/get-started" className="text-white hover:text-gold font-medium transition-smooth">
                 Smart Estimate
               </SafeLink>
               <span className="text-gold">|</span>
@@ -94,13 +94,13 @@ const HeaderSSR = () => {
               </SafeLink>
 
               <Button asChild className="ml-4 gold-gradient text-black font-semibold hover:scale-105 transition-bounce">
-                <a href="/quiz">Smart Estimate</a>
+                <a href="/get-started">Smart Estimate</a>
               </Button>
             </nav>
 
             {/* Mobile: simple inline nav links (always visible, wrap) */}
             <nav className="lg:hidden flex items-center gap-3 text-sm">
-              <SafeLink to="/quiz" className="text-white hover:text-gold font-medium">
+              <SafeLink to="/get-started" className="text-white hover:text-gold font-medium">
                 Estimate
               </SafeLink>
               <SafeLink to="/gallery" className="text-white hover:text-gold font-medium">
