@@ -132,6 +132,30 @@ export default function ScheduleEstimate() {
       });
 
       if (error) throw error;
+
+      // Notify the AXO team via our own site endpoint (Gmail, inbox-safe)
+      void fetch("/api/public/lead-notify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim() || null,
+          phone: phone.trim(),
+          address: address.trim() || null,
+          lead_source: "schedule_estimate",
+          services: serviceType ? [serviceType] : [],
+          notes: [
+            "## Appointment",
+            `- Preferred date: ${format(date, "yyyy-MM-dd")}`,
+            `- Preferred time: ${time}`,
+            serviceType ? `- Service: ${serviceType}` : "",
+            notes.trim() ? `- Notes: ${notes.trim()}` : "",
+          ]
+            .filter(Boolean)
+            .join("\n"),
+        }),
+      }).catch(() => {});
+
       setDone(true);
     } catch (err: any) {
       console.error("schedule-estimate error", err);

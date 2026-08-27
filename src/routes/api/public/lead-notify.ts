@@ -7,7 +7,7 @@ const NOTIFY_TO = "axofloorsnj@gmail.com";
 
 const schema = z.object({
   name: z.string().min(1).max(120),
-  email: z.string().email().max(200),
+  email: z.string().max(200).optional().nullable(),
   phone: z.string().max(40).optional().nullable(),
   address: z.string().max(300).optional().nullable(),
   city: z.string().max(120).optional().nullable(),
@@ -61,7 +61,7 @@ function buildHtml(lead: Lead): string {
   const contact: [string, string][] = [
     ["Name", lead.name],
     ["Phone", lead.phone || "—"],
-    ["Email", lead.email],
+    ["Email", lead.email || "—"],
     ["Address", [lead.address, lead.city, lead.zip_code].filter(Boolean).join(", ") || "—"],
     ["Source", lead.lead_source || "—"],
   ];
@@ -84,7 +84,7 @@ function buildHtml(lead: Lead): string {
     ${detail.map((s) => table(s.title, s.rows)).join("")}
     <div style="margin-top:24px">
       <a href="tel:${esc((lead.phone || "").replace(/[^\d+]/g, ""))}" style="display:inline-block;background:#D4AF37;color:#0b1a2b;text-decoration:none;font-weight:700;padding:12px 22px;border-radius:8px">Call ${esc(lead.name.split(" ")[0] || "lead")}</a>
-      <a href="mailto:${esc(lead.email)}" style="display:inline-block;margin-left:8px;color:#0b1a2b;text-decoration:none;font-weight:600;padding:12px 12px">Reply by email</a>
+      ${lead.email ? `<a href="mailto:${esc(lead.email)}" style="display:inline-block;margin-left:8px;color:#0b1a2b;text-decoration:none;font-weight:600;padding:12px 12px">Reply by email</a>` : ""}
     </div>
   </div>
   <p style="color:#9ca3af;font-size:11px;text-align:center;margin-top:16px">Sent automatically by the AXO Floors website.</p>
@@ -97,7 +97,7 @@ function buildText(lead: Lead): string {
     ``,
     `Name: ${lead.name}`,
     `Phone: ${lead.phone || "-"}`,
-    `Email: ${lead.email}`,
+    `Email: ${lead.email || "-"}`,
     `Address: ${[lead.address, lead.city, lead.zip_code].filter(Boolean).join(", ")}`,
     `Source: ${lead.lead_source || "-"}`,
     `Services: ${(lead.services || []).join(", ")}`,
@@ -117,7 +117,7 @@ function buildRaw(lead: Lead): string {
   const boundary = `axo_${Math.random().toString(36).slice(2)}`;
   const message = [
     `To: ${NOTIFY_TO}`,
-    `Reply-To: ${lead.email}`,
+    ...(lead.email ? [`Reply-To: ${lead.email}`] : []),
     `Subject: ${encodeHeader(`New lead: ${lead.name} — ${(lead.services || []).join(", ") || "Website inquiry"}`)}`,
     `MIME-Version: 1.0`,
     `Content-Type: multipart/alternative; boundary="${boundary}"`,
