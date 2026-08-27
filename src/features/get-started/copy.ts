@@ -195,3 +195,103 @@ export const STAIRS_COUNT_OPTIONS = [
   { value: "16-20", label: "16 – 20 steps" },
   { value: "20-plus", label: "20+ steps" },
 ] as const;
+
+// ─── Quiz-parity branch options (mirrors /quiz) ────────────
+export const QUIZ_COPY = {
+  floorType: { label: "What type of flooring are you interested in?", helper: "This helps us choose the right installation method and prep.", error: "Please select a flooring type." },
+  materials: { label: "Do you already have the flooring picked out and on order?", helper: "This affects scheduling, delivery timing, and the install plan.", error: "Please pick an option.", deliveredLabel: "Is the material already delivered on-site?", deliveredError: "Please tell us if the material is already delivered." },
+  location: { label: "Where will this flooring be installed?", helper: "Different locations may require different approaches.", error: "Please select the location type." },
+  subfloorGrade: { label: "Quick technical check", helper: "Two short questions that decide method, prep and warranty.", subfloorLabel: "What's under this floor?", belowGradeLabel: "Is this space below grade (basement)?", error: "Please answer both questions." },
+  condition: { label: "What's the current condition of your floors?", helper: "This helps us determine the best refinishing approach.", error: "Please select the current condition." },
+  wood: { label: "What type of wood flooring do you currently have?", helper: "This helps us choose the right refinishing approach.", error: "Please select your wood type." },
+  living: { label: "Will you be living in the home during the refinishing?", helper: "Affects scheduling, dust control, and finish curing time.", error: "Please answer the question." },
+  area: { label: "What's the approximate area for this project?", helper: "Choose from common sizes or enter a custom amount.", customLabel: "Or enter custom square footage", error: "Please specify the area size." },
+  colorChange: { label: "Are you planning to change the color of your floors?", helper: "This affects the refinishing process and cost.", error: "Please specify color preference." },
+  timeline: { label: "When would you like to start the project?", helper: "This helps us schedule and prepare.", error: "Please select a timeline." },
+  budget: { label: "What's your estimated budget range?", helper: "This helps us recommend the best options for you.", error: "Please select a budget range." },
+} as const;
+
+export const FLOOR_TYPE_OPTIONS = [
+  { value: "hardwood", label: "Hardwood", hint: "Classic and durable solid wood flooring" },
+  { value: "laminate", label: "Laminate", hint: "Affordable and resilient synthetic flooring" },
+  { value: "vinyl", label: "Vinyl", hint: "Water-resistant and low maintenance" },
+  { value: "custom", label: "Custom", hint: "Unique patterns and materials" },
+] as const;
+
+export const MATERIALS_OPTIONS = [
+  { value: "customer_has", label: "Yes — I already bought it", hint: "We'll verify compatibility before scheduling." },
+  { value: "axo_supply", label: "Not yet — I want AXO to supply it", hint: "We'll confirm product + lead time in writing before ordering." },
+  { value: "needs_help", label: "Not sure — I need help choosing", hint: "We'll guide you to the right product for your subfloor and traffic." },
+] as const;
+
+export const MATERIAL_DELIVERED_OPTIONS = [
+  { value: "yes", label: "Yes" },
+  { value: "no", label: "No" },
+  { value: "not_sure", label: "Not sure" },
+] as const;
+
+export const LOCATION_OPTIONS = [
+  { value: "residential", label: "Residential Home" },
+  { value: "apartment", label: "Apartment" },
+  { value: "commercial", label: "Commercial Space" },
+] as const;
+
+export const SUBFLOOR_OPTIONS = [
+  { value: "concrete", label: "Concrete slab" },
+  { value: "wood", label: "Plywood / wood" },
+  { value: "not-sure", label: "Not sure" },
+] as const;
+
+export const BELOW_GRADE_OPTIONS = [
+  { value: "yes", label: "Yes" },
+  { value: "no", label: "No" },
+  { value: "not-sure", label: "Not sure" },
+] as const;
+
+export const QUIZ_CONDITION_OPTIONS = [
+  { value: "light-wear", label: "Light Wear", hint: "Minor scratches and dullness" },
+  { value: "moderate-wear", label: "Moderate Wear", hint: "Visible scratches and some damage" },
+  { value: "heavy-wear", label: "Heavy Wear", hint: "Deep scratches and significant damage" },
+  { value: "damaged", label: "Damaged", hint: "Requires board replacement" },
+] as const;
+
+export const WOOD_TYPE_OPTIONS = [
+  { value: "oak", label: "Oak" },
+  { value: "maple", label: "Maple" },
+  { value: "pine", label: "Pine" },
+  { value: "not-sure", label: "Not Sure" },
+] as const;
+
+export const LIVING_OPTIONS = [
+  { value: "yes", label: "Yes", hint: "We'll plan low-VOC finishes & ventilation" },
+  { value: "no", label: "No", hint: "Faster cure & full prep window" },
+  { value: "not-sure", label: "Not sure", hint: "We'll discuss options" },
+] as const;
+
+export const AREA_PRESETS = [
+  { value: "200", label: "Small Room", hint: "~200 sq ft" },
+  { value: "400", label: "Medium Room", hint: "~400 sq ft" },
+  { value: "600", label: "Large Room", hint: "~600 sq ft" },
+  { value: "1200", label: "Whole Floor", hint: "1200+ sq ft" },
+] as const;
+
+export const COLOR_CHANGE_OPTIONS = [
+  { value: "keep-same", label: "Keep Same Color", hint: "Maintain current appearance" },
+  { value: "go-lighter", label: "Go Lighter", hint: "Brighten the space" },
+  { value: "go-darker", label: "Go Darker", hint: "Add richness and depth" },
+  { value: "need-consultation", label: "Need Consultation", hint: "Professional recommendation" },
+] as const;
+
+export const QUIZ_TIMELINE_OPTIONS = [
+  { value: "asap", label: "As soon as possible" },
+  { value: "1-month", label: "Within 1 month" },
+  { value: "3-months", label: "Within 3 months" },
+  { value: "planning", label: "Just planning" },
+] as const;
+
+export const QUIZ_BUDGET_OPTIONS = [
+  { value: "under-2k", label: "Up to $2,000" },
+  { value: "2k-5k", label: "$2,000 - $5,000" },
+  { value: "5k-10k", label: "$5,000 - $10,000" },
+  { value: "10k-plus", label: "$10,000+" },
+] as const;

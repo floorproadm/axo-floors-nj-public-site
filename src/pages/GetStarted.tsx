@@ -13,19 +13,24 @@ import { supabase } from "@/integrations/supabase/client";
 import { AXO_ORG_ID, AXO_PHONE_DISPLAY } from "@/lib/constants";
 import AddressAutocomplete from "@/features/get-started/AddressAutocomplete";
 import {
-  AREA_OPTIONS,
-  STAIRS_COUNT_OPTIONS,
-  ATTRIBUTION_OPTIONS,
-  CONDITION_OPTIONS,
-  CONSULT_TYPE_OPTIONS,
-  CURRENT_FLOOR_OPTIONS,
+  AREA_PRESETS,
+  BELOW_GRADE_OPTIONS,
+  COLOR_CHANGE_OPTIONS,
   FINISH_SCOPE_OPTIONS,
-  FURNISHED_OPTIONS,
-  HOME_AGE_OPTIONS,
-  PROPERTY_TYPE_OPTIONS,
-  SERVICE_OPTIONS,
+  FLOOR_TYPE_OPTIONS,
+  LIVING_OPTIONS,
+  LOCATION_OPTIONS,
+  MATERIALS_OPTIONS,
+  MATERIAL_DELIVERED_OPTIONS,
+  QUIZ_BUDGET_OPTIONS,
+  QUIZ_CONDITION_OPTIONS,
+  QUIZ_COPY,
+  QUIZ_TIMELINE_OPTIONS,
   SERVICE_TYPE_OPTIONS,
-  TIMELINE_OPTIONS,
+  STAIRS_COUNT_OPTIONS,
+  SUBFLOOR_OPTIONS,
+  ATTRIBUTION_OPTIONS,
+  WOOD_TYPE_OPTIONS,
   gsCopy,
 } from "@/features/get-started/copy";
 import {
@@ -293,192 +298,194 @@ export default function GetStarted() {
       });
     }
 
-    if (isConsultation) {
-
-      list.push(
-        radioStep("consultType", gsCopy.consult.type.label, CONSULT_TYPE_OPTIONS, gsCopy.consult.type.error),
-      );
-      list.push({
-        id: "consultantIntro",
-        title: gsCopy.consult.introTitle,
-        render: () => (
-          <div className="rounded-2xl border border-border bg-card p-5 sm:p-6">
-            <div className="flex items-center gap-4">
-              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-accent/20 text-lg font-heading font-bold text-accent-foreground">
-                AXO
-              </div>
-              <div>
-                <p className="font-semibold">{gsCopy.consult.consultantName}</p>
-                <p className="text-sm text-muted-foreground">{gsCopy.consult.consultantRole}</p>
-              </div>
-            </div>
-            <p className="mt-4 leading-relaxed text-muted-foreground">{gsCopy.consult.bio}</p>
-          </div>
-        ),
-      });
-      list.push({
-        id: "consultTopics",
-        title: gsCopy.consult.topics.label,
-        render: () => (
-          <Textarea
-            autoFocus
-            rows={6}
-            value={data.consultTopics}
-            placeholder={gsCopy.consult.topics.placeholder}
-            onChange={(e) => set("consultTopics", e.target.value)}
-            className="text-base"
-          />
-        ),
-      });
-    } else if (data.services.length > 0) {
-      list.push({
-        id: "wishlist",
-        title: gsCopy.qual.wishlist.label,
-        render: () => (
-          <Textarea
-            autoFocus
-            rows={6}
-            value={data.wishlist}
-            placeholder={gsCopy.qual.wishlist.placeholder}
-            onChange={(e) => set("wishlist", e.target.value)}
-            className="text-base"
-          />
-        ),
-      });
-      list.push(radioStep("timeline", gsCopy.qual.timeline.label, TIMELINE_OPTIONS, gsCopy.qual.timeline.error));
-      list.push({
-        id: "budget",
-        title: gsCopy.qual.budget.label,
-        helper: gsCopy.qual.budget.helper,
-        render: () => (
-          <div className="space-y-6">
-            <p className="text-4xl font-heading font-bold text-gradient-gold">{formatBudget(data.budget)}</p>
-            <Slider
-              value={[data.budget]}
-              min={2000}
-              max={50000}
-              step={500}
-              onValueChange={([v]) => set("budget", v)}
-            />
-            <div className="flex justify-between text-sm text-muted-foreground">
-              <span>$2,000</span>
-              <span>$50,000+</span>
-            </div>
-          </div>
-        ),
-      });
-      list.push(
-        radioStep("currentFloor", gsCopy.qual.currentFloor.label, CURRENT_FLOOR_OPTIONS, gsCopy.qual.currentFloor.error),
-      );
-      if (data.services.includes("refinishing")) {
-        list.push(
-          radioStep("condition", gsCopy.qual.condition.label, CONDITION_OPTIONS, gsCopy.qual.condition.error),
-        );
+    // ── Quiz-parity branches (mirrors /quiz step logic) ──
+    const branchKeys = (): string[] => {
+      const t = data.serviceType;
+      const installKeys = ["floorType", "materials", "location", "subfloorGrade", "area", "timeline", "budget"];
+      const refinishKeys = ["condition", "wood", "livingDuringRefinish", "area", "colorChange", "timeline", "budget"];
+      if (t === "not-sure") return ["area", "timeline", "budget"];
+      if (t === "new-installation") return installKeys;
+      if (t === "floor-refinish") return refinishKeys;
+      if (t === "install-plus-refinish") {
+        if (data.finishScope === "new-floor") return installKeys;
+        if (data.finishScope === "existing") return refinishKeys;
+        if (data.finishScope === "both")
+          return ["floorType", "materials", "location", "subfloorGrade", "condition", "area", "timeline", "budget"];
+        if (data.finishScope === "not-sure") return ["area", "timeline", "budget"];
       }
-      list.push({
-        id: "areas",
-        title: gsCopy.qual.areas.label,
-        helper: gsCopy.qual.areas.helper,
-        render: () => (
-          <div className="space-y-3">
-            {AREA_OPTIONS.map((area) => {
-              const active = data.areas.includes(area);
-              return (
-                <label
-                  key={area}
-                  className={`flex cursor-pointer items-center gap-3 rounded-xl border p-4 transition-colors ${
-                    active ? "border-accent bg-accent/10 shadow-sm" : "border-border hover:bg-muted/50"
-                  }`}
-                >
-                  <Checkbox
-                    checked={active}
-                    onCheckedChange={(checked) =>
-                      set("areas", checked ? [...data.areas, area] : data.areas.filter((a) => a !== area))
-                    }
-                  />
-                  <span className="font-medium">{area}</span>
-                </label>
-              );
-            })}
-          </div>
-        ),
-        validate: () => (data.areas.length ? null : gsCopy.qual.areas.error),
-      });
-      list.push({
-        id: "sqft",
-        title: gsCopy.qual.sqft.label,
-        render: () => (
-          <div className="space-y-4">
-            <div className="relative">
-              <Input
-                autoFocus
-                type="number"
-                inputMode="numeric"
-                min={0}
-                disabled={data.sqftNotSure}
-                value={data.sqft}
-                onChange={(e) => set("sqft", e.target.value)}
-                className="h-14 pr-14 text-lg"
-                placeholder="1200"
-              />
-              <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground">
-                ft²
-              </span>
-            </div>
-            <label className="flex cursor-pointer items-center gap-3">
-              <Checkbox
-                checked={data.sqftNotSure}
-                onCheckedChange={(checked) => {
-                  setError(null);
-                  setData((d) => ({ ...d, sqftNotSure: Boolean(checked), sqft: checked ? "" : d.sqft }));
-                }}
-              />
-              <span>{gsCopy.qual.sqft.notSure}</span>
-            </label>
+      return [];
+    };
 
-            <div className="space-y-3 pt-2">
-              <p className="font-heading font-semibold">{gsCopy.qual.stairs.label}</p>
-              <div className="grid grid-cols-2 gap-3">
-                {[
-                  { value: "yes", label: "Yes" },
-                  { value: "no", label: "No" },
-                ].map((opt) => (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    onClick={() => {
-                      setError(null);
-                      setData((d) => ({
-                        ...d,
-                        stairsIncluded: opt.value,
-                        stairsCount: opt.value === "no" ? "" : d.stairsCount,
-                      }));
-                    }}
-                    className={`rounded-xl border px-4 py-4 font-medium transition-colors ${
-                      data.stairsIncluded === opt.value
-                        ? "border-accent bg-accent/10 shadow-sm"
-                        : "border-border hover:bg-muted/50"
-                    }`}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
+    const pick = (key: keyof GetStartedData, value: string) => {
+      setError(null);
+      setData((d) => ({ ...d, [key]: value }));
+    };
+
+    const simpleStep = (
+      id: string,
+      copy: { label: string; helper?: string; error: string },
+      key: keyof GetStartedData,
+      options: readonly { value: string; label: string; hint?: string }[],
+    ): Step => ({
+      id,
+      title: copy.label,
+      helper: copy.helper,
+      render: () => cardList(options, String(data[key] ?? ""), (v) => pick(key, v)),
+      validate: () => (String(data[key] ?? "") ? null : copy.error),
+    });
+
+    const chipRow = (
+      key: keyof GetStartedData,
+      options: readonly { value: string; label: string }[],
+    ) => (
+      <div className="grid grid-cols-3 gap-3">
+        {options.map((opt) => (
+          <button
+            key={opt.value}
+            type="button"
+            onClick={() => pick(key, opt.value)}
+            className={`rounded-xl border px-3 py-3 text-sm font-medium transition-colors ${
+              String(data[key] ?? "") === opt.value
+                ? "border-accent bg-accent/10 shadow-sm"
+                : "border-border hover:bg-muted/50"
+            }`}
+          >
+            {opt.label}
+          </button>
+        ))}
+      </div>
+    );
+
+    const buildStep = (key: string): Step => {
+      switch (key) {
+        case "floorType":
+          return simpleStep("floorType", QUIZ_COPY.floorType, "floorType", FLOOR_TYPE_OPTIONS);
+        case "materials":
+          return {
+            id: "materials",
+            title: QUIZ_COPY.materials.label,
+            helper: QUIZ_COPY.materials.helper,
+            render: () => (
+              <div className="space-y-5">
+                {cardList(MATERIALS_OPTIONS, data.materialsStatus, (v) => {
+                  setError(null);
+                  setData((d) => ({
+                    ...d,
+                    materialsStatus: v,
+                    materialDelivered: v === "customer_has" ? d.materialDelivered : "",
+                  }));
+                })}
+                {data.materialsStatus === "customer_has" && (
+                  <div className="animate-in fade-in slide-in-from-top-2 space-y-3 rounded-xl border border-accent/40 bg-accent/5 p-4 duration-300">
+                    <p className="font-heading font-semibold">{QUIZ_COPY.materials.deliveredLabel}</p>
+                    {chipRow("materialDelivered", MATERIAL_DELIVERED_OPTIONS)}
+                  </div>
+                )}
               </div>
-              {data.stairsIncluded === "yes" && (
-                <div className="animate-in fade-in slide-in-from-top-2 space-y-3 rounded-xl border border-accent/40 bg-accent/5 p-4 duration-300">
-                  <p className="font-heading font-semibold">{gsCopy.qual.stairs.countLabel}</p>
-                  <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                    {STAIRS_COUNT_OPTIONS.map((opt) => (
+            ),
+            validate: () => {
+              if (!data.materialsStatus) return QUIZ_COPY.materials.error;
+              if (data.materialsStatus === "customer_has" && !data.materialDelivered)
+                return QUIZ_COPY.materials.deliveredError;
+              return null;
+            },
+          };
+        case "location":
+          return simpleStep("location", QUIZ_COPY.location, "location", LOCATION_OPTIONS);
+        case "subfloorGrade":
+          return {
+            id: "subfloorGrade",
+            title: QUIZ_COPY.subfloorGrade.label,
+            helper: QUIZ_COPY.subfloorGrade.helper,
+            render: () => (
+              <div className="space-y-6">
+                <div className="space-y-3">
+                  <p className="font-heading font-semibold">{QUIZ_COPY.subfloorGrade.subfloorLabel}</p>
+                  {chipRow("subfloor", SUBFLOOR_OPTIONS)}
+                </div>
+                <div className="space-y-3">
+                  <p className="font-heading font-semibold">{QUIZ_COPY.subfloorGrade.belowGradeLabel}</p>
+                  {chipRow("belowGrade", BELOW_GRADE_OPTIONS)}
+                </div>
+              </div>
+            ),
+            validate: () => (data.subfloor && data.belowGrade ? null : QUIZ_COPY.subfloorGrade.error),
+          };
+        case "condition":
+          return simpleStep("condition", QUIZ_COPY.condition, "currentCondition", QUIZ_CONDITION_OPTIONS);
+        case "wood":
+          return simpleStep("wood", QUIZ_COPY.wood, "woodType", WOOD_TYPE_OPTIONS);
+        case "livingDuringRefinish":
+          return simpleStep("livingDuringRefinish", QUIZ_COPY.living, "livingDuringRefinish", LIVING_OPTIONS);
+        case "colorChange":
+          return simpleStep("colorChange", QUIZ_COPY.colorChange, "colorChange", COLOR_CHANGE_OPTIONS);
+        case "timeline":
+          return simpleStep("timeline", QUIZ_COPY.timeline, "timeline", QUIZ_TIMELINE_OPTIONS);
+        case "budget":
+          return simpleStep("budget", QUIZ_COPY.budget, "budgetRange", QUIZ_BUDGET_OPTIONS);
+        case "area":
+        default:
+          return {
+            id: "area",
+            title: QUIZ_COPY.area.label,
+            helper: QUIZ_COPY.area.helper,
+            render: () => (
+              <div className="space-y-5">
+                <div className="grid grid-cols-2 gap-3">
+                  {AREA_PRESETS.map((size) => (
+                    <button
+                      key={size.value}
+                      type="button"
+                      onClick={() => pick("sqft", size.value)}
+                      className={`rounded-xl border p-4 text-left transition-colors ${
+                        data.sqft === size.value
+                          ? "border-accent bg-accent/10 shadow-sm"
+                          : "border-border hover:bg-muted/50"
+                      }`}
+                    >
+                      <span className="block font-medium">{size.label}</span>
+                      <span className="mt-1 block text-sm text-muted-foreground">{size.hint}</span>
+                    </button>
+                  ))}
+                </div>
+                <div>
+                  <p className="mb-2 text-sm font-medium">{QUIZ_COPY.area.customLabel}</p>
+                  <div className="relative">
+                    <Input
+                      type="number"
+                      inputMode="numeric"
+                      min={0}
+                      value={data.sqft}
+                      onChange={(e) => set("sqft", e.target.value)}
+                      className="h-14 pr-14 text-lg"
+                      placeholder="Enter custom sq ft"
+                    />
+                    <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground">
+                      sq ft
+                    </span>
+                  </div>
+                </div>
+                <div className="space-y-3 pt-2">
+                  <p className="font-heading font-semibold">{gsCopy.qual.stairs.label}</p>
+                  <div className="grid grid-cols-2 gap-3">
+                    {[
+                      { value: "yes", label: "Yes" },
+                      { value: "no", label: "No" },
+                    ].map((opt) => (
                       <button
                         key={opt.value}
                         type="button"
                         onClick={() => {
                           setError(null);
-                          set("stairsCount", opt.value);
+                          setData((d) => ({
+                            ...d,
+                            stairsIncluded: opt.value,
+                            stairsCount: opt.value === "no" ? "" : d.stairsCount,
+                          }));
                         }}
-                        className={`rounded-lg border px-3 py-3 text-sm font-medium transition-colors ${
-                          data.stairsCount === opt.value
-                            ? "border-accent bg-accent/15 shadow-sm"
+                        className={`rounded-xl border px-4 py-4 font-medium transition-colors ${
+                          data.stairsIncluded === opt.value
+                            ? "border-accent bg-accent/10 shadow-sm"
                             : "border-border hover:bg-muted/50"
                         }`}
                       >
@@ -486,24 +493,41 @@ export default function GetStarted() {
                       </button>
                     ))}
                   </div>
+                  {data.stairsIncluded === "yes" && (
+                    <div className="animate-in fade-in slide-in-from-top-2 space-y-3 rounded-xl border border-accent/40 bg-accent/5 p-4 duration-300">
+                      <p className="font-heading font-semibold">{gsCopy.qual.stairs.countLabel}</p>
+                      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+                        {STAIRS_COUNT_OPTIONS.map((opt) => (
+                          <button
+                            key={opt.value}
+                            type="button"
+                            onClick={() => pick("stairsCount", opt.value)}
+                            className={`rounded-lg border px-3 py-3 text-sm font-medium transition-colors ${
+                              data.stairsCount === opt.value
+                                ? "border-accent bg-accent/15 shadow-sm"
+                                : "border-border hover:bg-muted/50"
+                            }`}
+                          >
+                            {opt.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          </div>
-        ),
-        validate: () => {
-          if (!data.sqftNotSure && !(Number(data.sqft) > 0)) return gsCopy.qual.sqft.error;
-          if (!data.stairsIncluded) return gsCopy.qual.stairs.error;
-          if (data.stairsIncluded === "yes" && !data.stairsCount) return gsCopy.qual.stairs.countError;
-          return null;
-        },
-      });
-      list.push(
-        radioStep("propertyType", gsCopy.qual.propertyType.label, PROPERTY_TYPE_OPTIONS, gsCopy.qual.propertyType.error),
-      );
-      list.push(radioStep("furnished", gsCopy.qual.furnished.label, FURNISHED_OPTIONS, gsCopy.qual.furnished.error));
-      list.push(radioStep("homeAge", gsCopy.qual.homeAge.label, HOME_AGE_OPTIONS, gsCopy.qual.homeAge.error));
-    }
+              </div>
+            ),
+            validate: () => {
+              if (!data.sqft || Number(data.sqft) <= 0) return QUIZ_COPY.area.error;
+              if (!data.stairsIncluded) return gsCopy.qual.stairs.error;
+              if (data.stairsIncluded === "yes" && !data.stairsCount) return gsCopy.qual.stairs.countError;
+              return null;
+            },
+          };
+      }
+    };
+
+    branchKeys().forEach((k) => list.push(buildStep(k)));
 
     list.push({
       id: "consent",
@@ -562,9 +586,17 @@ export default function GetStarted() {
     if (submitting) return;
     setSubmitting(true);
     try {
-      const serviceLabels = data.services.map(
-        (v) => SERVICE_OPTIONS.find((s) => s.value === v)?.label ?? v,
-      );
+      const labelOf = (
+        options: readonly { value: string; label: string }[],
+        value: string,
+      ) => options.find((o) => o.value === value)?.label ?? "";
+
+      const serviceLabels = [labelOf(SERVICE_TYPE_OPTIONS, data.serviceType) || data.serviceType].filter(Boolean);
+      const budgetNumber =
+        data.budgetRange === "10k-plus" ? 15000 :
+        data.budgetRange === "5k-10k" ? 7500 :
+        data.budgetRange === "2k-5k" ? 3500 :
+        data.budgetRange === "under-2k" ? 2000 : null;
       const lines: string[] = [];
       // Markers: "## Title" starts a section, "- Label: value" is a row.
       // Mobile-friendly plain text; the notification template renders each
@@ -587,39 +619,34 @@ export default function GetStarted() {
       ]);
 
       section("Request", [
-        ["Services", serviceLabels.join(", ")],
+        ["Service", serviceLabels.join(", ")],
+        ["Finish scope", labelOf(FINISH_SCOPE_OPTIONS, data.finishScope)],
         ["How they found us", data.leadSource],
       ]);
 
-      if (isConsultation) {
-        section("Consultation", [
-          ["Type", CONSULT_TYPE_OPTIONS.find((c) => c.value === data.consultType)?.label],
-          ["Topics to cover", data.consultTopics],
-        ]);
-      } else {
-        section("Project", [
-          ["Dream floors", data.wishlist],
-          ["Timeline", data.timeline],
-          ["Budget", formatBudget(data.budget)],
-          ["Current floors", data.currentFloor],
-          ["Condition", data.condition],
-          ["Areas", data.areas.join(", ")],
-          ["Square footage", data.sqftNotSure ? "Not sure" : data.sqft ? `${data.sqft} ft²` : ""],
-          [
-            "Stairs",
-            data.stairsIncluded === "yes"
-              ? `Yes — ${STAIRS_COUNT_OPTIONS.find((o) => o.value === data.stairsCount)?.label ?? data.stairsCount}`
-              : data.stairsIncluded === "no"
-                ? "No"
-                : "",
-          ],
-        ]);
-        section("Property", [
-          ["Property type", data.propertyType],
-          ["Furnished", data.furnished],
-          ["Home age", data.homeAge],
-        ]);
-      }
+      section("Project", [
+        ["Flooring type", labelOf(FLOOR_TYPE_OPTIONS, data.floorType)],
+        ["Materials", labelOf(MATERIALS_OPTIONS, data.materialsStatus)],
+        ["Material delivered", labelOf(MATERIAL_DELIVERED_OPTIONS, data.materialDelivered)],
+        ["Location", labelOf(LOCATION_OPTIONS, data.location)],
+        ["Subfloor", labelOf(SUBFLOOR_OPTIONS, data.subfloor)],
+        ["Below grade", labelOf(BELOW_GRADE_OPTIONS, data.belowGrade)],
+        ["Condition", labelOf(QUIZ_CONDITION_OPTIONS, data.currentCondition)],
+        ["Wood type", labelOf(WOOD_TYPE_OPTIONS, data.woodType)],
+        ["Living in home during work", labelOf(LIVING_OPTIONS, data.livingDuringRefinish)],
+        ["Color change", labelOf(COLOR_CHANGE_OPTIONS, data.colorChange)],
+        ["Square footage", data.sqft ? `${data.sqft} sq ft` : ""],
+        [
+          "Stairs",
+          data.stairsIncluded === "yes"
+            ? `Yes — ${STAIRS_COUNT_OPTIONS.find((o) => o.value === data.stairsCount)?.label ?? data.stairsCount}`
+            : data.stairsIncluded === "no"
+              ? "No"
+              : "",
+        ],
+        ["Timeline", labelOf(QUIZ_TIMELINE_OPTIONS, data.timeline)],
+        ["Budget", labelOf(QUIZ_BUDGET_OPTIONS, data.budgetRange)],
+      ]);
 
       const utm = utmRef.current || {};
       section(
@@ -640,9 +667,9 @@ export default function GetStarted() {
           zip_code: data.zip || null,
           lead_source: data.leadSource || "Website — Get Started",
           services: serviceLabels,
-          budget: isConsultation ? null : data.budget,
-          room_size: data.sqftNotSure ? "Not sure" : data.sqft || null,
-          message: isConsultation ? data.consultTopics : data.wishlist,
+          budget: budgetNumber,
+          room_size: data.sqft || null,
+          message: null,
           notes: lines.join("\n"),
           status: "new_lead",
           priority: "high",
