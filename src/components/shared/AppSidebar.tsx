@@ -10,8 +10,9 @@ interface AppSidebarProps {
 }
 
 const services = [
-  { name: "Hardwood Flooring Installation", href: "/hardwood-flooring" },
-  { name: "Sanding And Refinish", href: "/sanding-and-refinish" },
+  { name: "Sanding & Refinishing", href: "/sanding-and-refinish" },
+  { name: "Flooring Installation", href: "/hardwood-flooring" },
+  { name: "Stairs & Railings", href: "/stairs" },
   { name: "Vinyl Plank Flooring", href: "/vinyl-plank-flooring" },
 ];
 
