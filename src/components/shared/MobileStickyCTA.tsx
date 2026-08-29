@@ -41,7 +41,7 @@ const MobileStickyCTA = () => {
           className="flex-1 inline-flex items-center justify-center gap-2 rounded-md bg-gold px-4 py-3 text-sm font-semibold text-black shadow-soft active:scale-[0.99] transition-smooth"
         >
           <CalendarCheck className="h-4 w-4" />
-          Get My Free Estimate
+          Get My Estimate
         </Link>
         <a
           href={`tel:${AXO_PHONE_TEL}`}
