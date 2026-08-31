@@ -55,7 +55,7 @@ const Index = () => {
     title: "Sanding & Refinishing",
     description: "Restore what time has worn away.\nRemove scratches, worn finish and outdated color while bringing the natural character of your hardwood back to life.",
     href: "/sanding-and-refinish",
-    features: ["Dustless sanding", "Custom stain options", "Professional finish"],
+    features: ["Dust-controlled sanding", "Custom stain options", "Professional finish"],
     cta: "Explore Refinishing",
     image: serviceSandingAsset.url,
     imagePosition: "object-[50%_30%]"
