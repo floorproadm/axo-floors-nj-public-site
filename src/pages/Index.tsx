@@ -150,7 +150,7 @@ const Index = () => {
       <Hero
         title={"Bring Out the Best in Your Hardwood Floors\n"}
         subtitle="Premium Flooring Solutions in New Jersey"
-        description="Hardwood refinishing and flooring installation across New Jersey, completed with precision and a process built around your home."
+        description="Whether you're restoring existing hardwood or starting with something new, we'll help you create floors that feel right for your home."
         image={homeHero}
         ctaPrimary="Get My Estimate"
         ctaSecondary="See Our Work"
