@@ -63,7 +63,7 @@ const Index = () => {
     title: "Flooring Installation",
     description: "New hardwood, planned around your home.\nFrom material and layout to transitions and finishing details, every installation is built for a seamless result.",
     href: "/hardwood-flooring",
-    features: ["Hardwood Flooring", "Vinyl · Laminate", "Custom Patterns"],
+    features: ["Solid & engineered hardwood", "Vinyl · Laminate", "Custom Patterns"],
     cta: "Explore Flooring",
     image: serviceInstallAsset.url,
     imagePosition: "object-[60%_50%]"
