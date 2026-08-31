@@ -53,7 +53,7 @@ const Index = () => {
   }, [isMobile]);
   const services = [{
     title: "Sanding & Refinishing",
-    description: "Bring worn hardwood back to life without replacing it.",
+    description: "Restore what time has worn away.\nRemove scratches, worn finish and outdated color while bringing the natural character of your hardwood back to life.",
     href: "/sanding-and-refinish",
     features: ["Dustless sanding", "Custom stain options", "Professional finish"],
     cta: "Explore Refinishing",
