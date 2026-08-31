@@ -12,7 +12,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { CheckCircle, Star, ArrowRight, Award, Users, Clock, Shield, Sparkles, BookOpen, Calculator, Palette, Wind, Zap, Home, Trophy, ClipboardList, FileText, Hammer, BadgeCheck } from "lucide-react";
 import homeHero from "@/assets/home-hero.jpg";
-import serviceSandingAsset from "@/assets/service-sanding-crew.jpg.asset.json";
+import serviceSandingImg from "@/assets/service-sanding-crew-cropped.jpg";
 import serviceInstallAsset from "@/assets/axo-vinyl-plank-install.jpg.asset.json";
 import stairsRailingsImg from "@/assets/stairs-railings.jpg.asset.json";
 import { useState, useEffect, useRef } from "react";
@@ -58,7 +58,7 @@ const Index = () => {
     features: ["Dust-controlled sanding", "Custom stain options\n", "Premium finish"],
     cta: "Explore Refinishing",
     image: serviceSandingAsset.url,
-    imagePosition: "object-[50%_45%] origin-top"
+    imagePosition: "object-center"
   }, {
     title: "Flooring Installation",
     description: "New hardwood, planned around your home.\nFrom material and layout to transitions and finishing details, every installation is built for a seamless result.",
