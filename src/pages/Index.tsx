@@ -57,7 +57,7 @@ const Index = () => {
     href: "/sanding-and-refinish",
     features: ["Dust-controlled sanding", "Custom stain options\n", "Premium finish"],
     cta: "Explore Refinishing",
-    image: serviceSandingAsset.url,
+    image: serviceSandingImg,
     imagePosition: "object-center"
   }, {
     title: "Flooring Installation",
