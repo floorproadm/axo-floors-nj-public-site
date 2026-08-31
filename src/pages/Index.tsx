@@ -58,7 +58,7 @@ const Index = () => {
     features: ["Dust-controlled sanding", "Custom stain options\n", "Premium finish"],
     cta: "Explore Refinishing",
     image: serviceSandingAsset.url,
-    imagePosition: "object-top origin-top"
+    imagePosition: "object-[50%_22%] origin-top"
   }, {
     title: "Flooring Installation",
     description: "New hardwood, planned around your home.\nFrom material and layout to transitions and finishing details, every installation is built for a seamless result.",
