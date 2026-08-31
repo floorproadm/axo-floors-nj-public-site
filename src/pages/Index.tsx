@@ -149,7 +149,7 @@ const Index = () => {
       {/* Hero Section */}
       <Hero
         title={"Bring Out the Best in Your Hardwood Floors\n"}
-        subtitle="Premium Flooring Solutions in New Jersey"
+        subtitle="FLOORING SOLUTIONS IN NEW JERSEY"
         description="Whether you're restoring existing hardwood or starting with something new, we'll help you create floors that feel right for your home."
         image={homeHero}
         ctaPrimary="Get My Estimate"
