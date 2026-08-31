@@ -148,7 +148,7 @@ const Index = () => {
       
       {/* Hero Section */}
       <Hero
-        title={"Beautiful Floors.\u00a0\nWithout the Dust, Delays, or Guesswork."}
+        title={"Bring Out the Best in Your Hardwood Floors\n"}
         subtitle="Premium Flooring Solutions in New Jersey"
         description="Hardwood refinishing and flooring installation across New Jersey, completed with precision and a process built around your home."
         image={homeHero}
