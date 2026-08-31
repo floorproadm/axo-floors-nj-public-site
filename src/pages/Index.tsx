@@ -61,7 +61,7 @@ const Index = () => {
     imagePosition: "object-[50%_30%]"
   }, {
     title: "Flooring Installation",
-    description: "The right floor. Installed the right way.",
+    description: "New hardwood, planned around your home.\nFrom material and layout to transitions and finishing details, every installation is built for a seamless result.",
     href: "/hardwood-flooring",
     features: ["Hardwood Flooring", "Vinyl · Laminate", "Custom Patterns"],
     cta: "Explore Flooring",
