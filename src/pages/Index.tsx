@@ -69,7 +69,7 @@ const Index = () => {
     imagePosition: "object-[60%_50%]"
   }, {
     title: "Stairs & Railings",
-    description: "Restore your staircase or transform it completely.",
+    description: "Make your staircase part of the transformation.\nRefinish existing stairs or transform the entire staircase with new treads, railings, posts and balusters.",
     href: "/stairs",
     features: ["S&F or Refinish", "Treads & Risers", "Railings & Balusters"],
     cta: "Explore Stair Services",
