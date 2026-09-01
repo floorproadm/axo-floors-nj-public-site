@@ -113,7 +113,7 @@ const Index = () => {
   }, {
     icon: FileText,
     step: "02",
-    title: "Custom Plan & Transparent Quote",
+    title: "Clear Scope & Estimate",
     description: "A clear scope and a fixed price. No surprises, no hidden fees."
   }, {
     icon: Hammer,
