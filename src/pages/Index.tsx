@@ -239,10 +239,10 @@ const Index = () => {
               Crafted by Experts Who <span className="text-gradient-gold">Treat Every Floor Like Their Own</span>
             </h2>
             <p className="text-mobile-base text-muted-foreground leading-relaxed mb-4">
-              AXO Floors is led by a father-and-son team with over a decade of hands-on experience delivering premium flooring results across NJ, NY, and PA.
+              AXO is a father-and-son flooring company with 15+ years of hands-on experience.
             </p>
             <p className="text-mobile-base text-foreground leading-relaxed">
-              When you hire AXO, you're not hiring a crew — you're trusting craftsmen who take pride in every detail.
+              We stay close to every project because our craftsmanship is hard to hand off.
             </p>
           </div>
         </div>
