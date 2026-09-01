@@ -114,7 +114,7 @@ const Index = () => {
     icon: FileText,
     step: "02",
     title: "Clear Scope & Estimate",
-    description: "A clear scope and a fixed price. No surprises, no hidden fees."
+     description: "You receive a written estimate with the recommended process, project scope, and pricing clearly defined."
   }, {
     icon: Hammer,
     step: "03",
