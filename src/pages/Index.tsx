@@ -108,7 +108,7 @@ const Index = () => {
   const processSteps = [{
     icon: ClipboardList,
     step: "01",
-    title: "In-Home Assessment",
+    title: "In-Home Consultation",
     description: "We visit your home, measure precisely, and listen to what you actually want."
   }, {
     icon: FileText,
