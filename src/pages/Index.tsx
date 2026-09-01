@@ -298,7 +298,7 @@ const Index = () => {
               {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 sm:w-6 sm:h-6 fill-accent text-accent" />)}
             </div>
             <h2 className="text-mobile-3xl font-bold font-heading mb-4 sm:mb-6 px-2 [text-wrap:balance] leading-tight">
-              Hear From Our <span className="block sm:inline text-accent">HAPPY CUSTOMERS</span>
+              What Homeowners <span className="block sm:inline text-accent">Say About AXO</span>
             </h2>
           </div>
 
