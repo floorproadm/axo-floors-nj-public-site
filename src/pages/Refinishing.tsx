@@ -11,52 +11,10 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Link } from "react-router-dom";
-import {
-  ArrowRight,
-  Check,
-  X,
-  Wind,
-  Hammer,
-  Sparkles,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import sandingHero from "@/assets/sanding-hero-new.jpg";
 
 const Refinishing = () => {
-  const options = [
-    {
-      icon: Sparkles,
-      name: "Sanding & Refinishing",
-      tagline: "The standard restoration.",
-      description:
-        "Full sand to bare wood, your choice of stain, then three coats of premium finish. Brings most floors back to like-new.",
-      bestFor: "Floors with surface wear, dull finish, light scratches.",
-    },
-    {
-      icon: Wind,
-      name: "Dustless Sanding",
-      tagline: "Same result. Zero dust.",
-      description:
-        "Same process — but our equipment captures 99% of dust at the source. You can stay in the house. No two-day cleanup.",
-      bestFor: "Families, allergies, occupied homes.",
-    },
-    {
-      icon: Hammer,
-      name: "Complete Restoration",
-      tagline: "When boards need fixing first.",
-      description:
-        "Damaged boards, pet stains, water marks, gaps. We repair or replace what's broken, then sand and refinish the whole floor so it looks uniform.",
-      bestFor: "Older floors, water damage, missing boards.",
-    },
-  ];
-
-  const replaceCompare = [
-    { label: "Typical cost (1,000 sqft)", refinish: "$3,500 – $6,000", replace: "$10,000 – $18,000" },
-    { label: "Time on site", refinish: "2 – 4 days", replace: "1 – 2 weeks" },
-    { label: "Mess & demolition", refinish: "Minimal — dustless option", replace: "Tear-out, debris haul" },
-    { label: "Same character & age", refinish: "Yes — preserves the original wood", replace: "New wood, new look" },
-    { label: "Sustainability", refinish: "Reuses what you have", replace: "Old wood goes to landfill" },
-  ];
-
   const faqs = [
     {
       q: "How much does refinishing cost?",
@@ -122,92 +80,6 @@ const Refinishing = () => {
         </div>
       </section>
 
-      {/* 3 ways we refinish */}
-      <section className="spacing-mobile-md bg-secondary/30">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <p className="text-xs font-semibold uppercase tracking-wider text-accent mb-3">
-              Three Ways We Refinish
-            </p>
-            <h2 className="text-mobile-3xl font-bold font-heading mb-4">
-              Pick the Approach That Fits <span className="text-gradient-gold">Your Floor</span>
-            </h2>
-            <p className="text-mobile-base text-muted-foreground max-w-2xl mx-auto">
-              Same craftsmen, three levels of work — depending on what your floor actually needs.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {options.map((opt, i) => (
-              <Card
-                key={i}
-                className="group border-0 shadow-elegant hover:shadow-gold transition-all duration-300 hover:-translate-y-2 bg-card"
-              >
-                <CardContent className="p-7">
-                  <div className="inline-flex items-center justify-center w-12 h-12 bg-accent/10 rounded-xl mb-5 group-hover:bg-accent transition-colors">
-                    <opt.icon className="w-6 h-6 text-accent group-hover:text-accent-foreground transition-colors" />
-                  </div>
-                  <h3 className="text-xl font-heading font-bold mb-1">{opt.name}</h3>
-                  <p className="text-sm text-accent font-medium mb-4">{opt.tagline}</p>
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-5">
-                    {opt.description}
-                  </p>
-                  <div className="pt-4 border-t border-border/60">
-                    <p className="text-xs uppercase tracking-wider text-muted-foreground mb-1.5">Best for</p>
-                    <p className="text-sm text-foreground">{opt.bestFor}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Refinish vs Replace */}
-      <section className="spacing-mobile-md bg-background">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-10">
-              <h2 className="text-mobile-3xl font-bold font-heading mb-4">
-                Refinish vs. <span className="text-gradient-gold">Replace</span>
-              </h2>
-              <p className="text-mobile-base text-muted-foreground">
-                Side by side — for a typical 1,000 sqft home.
-              </p>
-            </div>
-
-            <div className="rounded-2xl border border-border/60 overflow-hidden shadow-elegant bg-card">
-              <div className="grid grid-cols-[1.4fr_1fr_1fr] bg-secondary/50 border-b border-border/60">
-                <div className="p-4 text-xs font-semibold uppercase tracking-wider text-muted-foreground">&nbsp;</div>
-                <div className="p-4 text-center">
-                  <div className="inline-flex items-center gap-1.5 text-accent font-bold">
-                    <Check className="w-4 h-4" /> Refinish
-                  </div>
-                </div>
-                <div className="p-4 text-center text-muted-foreground font-medium">
-                  Replace
-                </div>
-              </div>
-              {replaceCompare.map((row, i) => (
-                <div
-                  key={i}
-                  className={`grid grid-cols-[1.4fr_1fr_1fr] text-sm ${
-                    i % 2 === 0 ? "bg-background" : "bg-secondary/20"
-                  }`}
-                >
-                  <div className="p-4 font-medium text-foreground">{row.label}</div>
-                  <div className="p-4 text-center text-foreground font-semibold">{row.refinish}</div>
-                  <div className="p-4 text-center text-muted-foreground">{row.replace}</div>
-                </div>
-              ))}
-            </div>
-
-            <p className="text-center text-sm text-muted-foreground mt-6 max-w-2xl mx-auto">
-              If your boards are cupping, rotting, or beyond repair — we'll tell you upfront. Refinishing only works on wood that's still sound.
-            </p>
-          </div>
-        </div>
-      </section>
 
       {/* Process */}
       <section className="spacing-mobile-md bg-secondary/40">
