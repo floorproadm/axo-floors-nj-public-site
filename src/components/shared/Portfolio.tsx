@@ -50,7 +50,7 @@ const Portfolio = () => {
              See what the right process can reveal.
           </h2>
           <p className="text-base sm:text-lg text-grey max-w-3xl mx-auto leading-relaxed px-2">
-            Every floor below started as someone's "we've been meaning to fix that." Browse recent projects from homes across Monmouth County and beyond.
+             You'd be surprised what the right process can bring back.
           </p>
         </div>
 
