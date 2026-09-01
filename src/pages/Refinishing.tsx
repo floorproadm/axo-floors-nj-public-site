@@ -11,52 +11,10 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Link } from "react-router-dom";
-import {
-  ArrowRight,
-  Check,
-  X,
-  Wind,
-  Hammer,
-  Sparkles,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import sandingHero from "@/assets/sanding-hero-new.jpg";
 
 const Refinishing = () => {
-  const options = [
-    {
-      icon: Sparkles,
-      name: "Sanding & Refinishing",
-      tagline: "The standard restoration.",
-      description:
-        "Full sand to bare wood, your choice of stain, then three coats of premium finish. Brings most floors back to like-new.",
-      bestFor: "Floors with surface wear, dull finish, light scratches.",
-    },
-    {
-      icon: Wind,
-      name: "Dustless Sanding",
-      tagline: "Same result. Zero dust.",
-      description:
-        "Same process — but our equipment captures 99% of dust at the source. You can stay in the house. No two-day cleanup.",
-      bestFor: "Families, allergies, occupied homes.",
-    },
-    {
-      icon: Hammer,
-      name: "Complete Restoration",
-      tagline: "When boards need fixing first.",
-      description:
-        "Damaged boards, pet stains, water marks, gaps. We repair or replace what's broken, then sand and refinish the whole floor so it looks uniform.",
-      bestFor: "Older floors, water damage, missing boards.",
-    },
-  ];
-
-  const replaceCompare = [
-    { label: "Typical cost (1,000 sqft)", refinish: "$3,500 – $6,000", replace: "$10,000 – $18,000" },
-    { label: "Time on site", refinish: "2 – 4 days", replace: "1 – 2 weeks" },
-    { label: "Mess & demolition", refinish: "Minimal — dustless option", replace: "Tear-out, debris haul" },
-    { label: "Same character & age", refinish: "Yes — preserves the original wood", replace: "New wood, new look" },
-    { label: "Sustainability", refinish: "Reuses what you have", replace: "Old wood goes to landfill" },
-  ];
-
   const faqs = [
     {
       q: "How much does refinishing cost?",
