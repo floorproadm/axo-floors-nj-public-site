@@ -218,10 +218,18 @@ const Contact = () => {
         <div className="container mx-auto px-4 py-16 sm:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14 items-start">
             {/* Left: title + CTAs */}
-            <div className="lg:col-span-2">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold uppercase leading-tight mb-8">
-                How AXO Floors Project Works
+            <div className="lg:col-span-2 lg:sticky lg:top-24">
+              <p className="text-gold font-heading font-bold uppercase tracking-[0.25em] text-xs sm:text-sm mb-3">
+                The AXO Process
+              </p>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold uppercase leading-[1.1]">
+                How{" "}
+                <span className="text-gold">
+                  AXO Floors
+                </span>{" "}
+                Project Works
               </h2>
+              <div className="mt-6 h-1 w-16 gold-gradient rounded-full" aria-hidden="true" />
             </div>
 
             {/* Right: accordion steps */}
