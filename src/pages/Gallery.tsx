@@ -295,7 +295,7 @@ const Gallery = () => {
                 >
                   <div className="relative aspect-[4/3] overflow-hidden">
                     <img 
-                      src={imageMap[folder.cover_image_url] || folder.cover_image_url} 
+                      src={imageMap[folder.cover_image_url] || folder.cover_image_url || albumCover} 
                       alt={folder.name}
                       loading="lazy"
                       className="w-full h-full object-cover group-hover:scale-110 transition-smooth duration-500"
