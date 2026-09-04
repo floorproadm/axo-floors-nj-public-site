@@ -251,30 +251,35 @@ const Gallery = () => {
 
 
       {/* Gallery Intro + Folders */}
-      <section className="pt-6 pb-16 md:py-20 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-14">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/10 border border-gold/30 mb-5">
+      <section className="pb-16 md:pb-20 bg-background">
+        <div className="relative overflow-hidden bg-navy mb-14 md:mb-16">
+          <div className="absolute inset-0 bg-gradient-to-br from-navy via-navy to-navy/80" />
+          <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full bg-gold/10 blur-3xl" />
+          <div className="absolute -bottom-24 -left-24 w-72 h-72 rounded-full bg-gold/10 blur-3xl" />
+          <div className="relative container mx-auto px-4 pt-10 pb-12 md:pt-16 md:pb-16 text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/15 border border-gold/40 backdrop-blur-sm mb-5">
               <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
               <span className="text-xs font-semibold tracking-[0.18em] uppercase text-gold">
                 Project Gallery
               </span>
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-heading text-navy mb-5 leading-[1.05] tracking-tight">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-heading text-white mb-5 leading-[1.05] tracking-tight">
               Browse Real
               <br className="hidden sm:block" />{" "}
               <span className="text-gradient-gold italic">Transformations</span>
             </h2>
             <div className="flex items-center justify-center gap-3 mb-5">
-              <span className="h-px w-10 bg-gold/40" />
-              <span className="w-1.5 h-1.5 rounded-full bg-gold/60" />
-              <span className="h-px w-10 bg-gold/40" />
+              <span className="h-px w-10 bg-gold/50" />
+              <span className="w-1.5 h-1.5 rounded-full bg-gold" />
+              <span className="h-px w-10 bg-gold/50" />
             </div>
-            <p className="text-grey leading-relaxed text-base md:text-lg">
+            <p className="text-white/70 leading-relaxed text-base md:text-lg max-w-2xl mx-auto">
               Albums organized by project type — refinishing, installations, and more.
-              <span className="block mt-1 text-navy/70 font-medium">Tap any album to explore the full set.</span>
+              <span className="block mt-1 text-white/90 font-medium">Tap any album to explore the full set.</span>
             </p>
           </div>
+        </div>
+        <div className="container mx-auto px-4">
           {isLoading ? (
             <div className="text-center py-20">
               <p className="text-grey text-lg">Loading gallery...</p>
