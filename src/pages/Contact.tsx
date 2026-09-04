@@ -37,7 +37,7 @@ const Contact = () => {
       const leadData = {
         name: sanitizeInput(formData.name),
         email: formData.email.trim() ? sanitizeInput(formData.email) : null,
-        phone: formData.phone.trim() ? sanitizeInput(formData.phone) : null,
+        phone: formData.phone.trim() ? sanitizeInput(formData.phone) : '',
         lead_source: 'contact',
         status: 'cold_lead',
         priority: 'medium',
