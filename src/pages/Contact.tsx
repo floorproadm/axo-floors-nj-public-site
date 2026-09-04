@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Phone, Plus, Minus, MessageSquare } from "lucide-react";
+import { Phone, Plus, Minus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { sanitizeInput } from "@/utils/validation";
 
