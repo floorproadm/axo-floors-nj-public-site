@@ -17,8 +17,9 @@ const Header = () => {
   ];
 
   const services = [
-    { name: "Hardwood Flooring", href: "/hardwood-flooring" },
-    { name: "Sanding & Refinish", href: "/sanding-and-refinish" },
+    { name: "Sanding & Refinishing", href: "/sanding-and-refinish" },
+    { name: "Flooring Installation", href: "/hardwood-flooring" },
+    { name: "Stairs & Railings", href: "/stairs" },
     { name: "Vinyl Plank Flooring", href: "/vinyl-plank-flooring" },
   ];
 
@@ -80,8 +81,8 @@ const Header = () => {
                         <ChevronDown className="h-4 w-4" />
                       </button>
                       {isServicesOpen && (
-                        <div className="absolute top-full left-0 mt-2 w-48 bg-black border border-white/10 rounded-lg shadow-elegant z-50">
-                          <div className="py-2">
+                        <div className="absolute top-full left-0 pt-2 w-56 z-50">
+                          <div className="py-2 bg-black border border-white/10 rounded-lg shadow-elegant">
                             {services.map((service) => (
                               <Link
                                 key={service.name}
