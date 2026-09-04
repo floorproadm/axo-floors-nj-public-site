@@ -7,12 +7,36 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Phone } from "lucide-react";
+import { Phone, Plus, Minus, MessageSquare } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { sanitizeInput } from "@/utils/validation";
 
+const projectSteps = [
+  {
+    title: "Reach Out",
+    body: "Call, text, or fill out the online form to request your free estimate. Expect a response within minutes, not a callback days later."
+  },
+  {
+    title: "Walkthrough and Proposal",
+    body: "Someone walks the property with you, asks the right questions about your floors and goals, and hands you real pricing in writing before they leave."
+  },
+  {
+    title: "Prep and Protection",
+    body: "Furniture, adjacent surfaces, and the surrounding area get properly protected, and the subfloor gets inspected and prepped before any work begins. Skipping this step is where most bad flooring jobs start."
+  },
+  {
+    title: "Installation and Communication",
+    body: "The crew works around your schedule and keeps you in the loop, so you're never guessing what stage the project is at — from install or sanding through the final finish coat."
+  },
+  {
+    title: "Final Walkthrough",
+    body: "Nothing gets marked complete until you've walked the finished floor yourself and signed off in person."
+  }
+];
+
 const Contact = () => {
   const { toast } = useToast();
+  const [openStep, setOpenStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -185,6 +209,77 @@ const Contact = () => {
                 {isSubmitting ? "Sending..." : "Submit"}
               </Button>
             </form>
+          </div>
+        </div>
+      </section>
+
+      {/* How AXO Floors Project Works */}
+      <section className="navy-gradient text-white relative overflow-hidden">
+        <div className="container mx-auto px-4 py-16 sm:py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14 items-start">
+            {/* Left: title + CTAs */}
+            <div className="lg:col-span-2">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold uppercase leading-tight mb-8">
+                How AXO Floors Project Works
+              </h2>
+              <div className="flex flex-col sm:flex-row lg:flex-col gap-4">
+                <Button asChild className="gold-gradient text-black font-semibold text-base px-8 h-auto min-h-[52px] rounded-full hover:scale-105 transition-bounce w-full sm:w-auto">
+                  <a href="/get-started" className="flex items-center justify-center gap-2">
+                    <MessageSquare className="w-5 h-5" />
+                    Get My Free Estimate
+                  </a>
+                </Button>
+                <Button asChild variant="outline" className="border-2 border-white text-white bg-transparent hover:bg-white hover:text-navy text-base px-8 h-auto min-h-[52px] rounded-full font-semibold w-full sm:w-auto">
+                  <a href="tel:(732) 351-8653" className="flex items-center justify-center gap-2">
+                    <Phone className="w-5 h-5" />
+                    (732) 351-8653
+                  </a>
+                </Button>
+              </div>
+            </div>
+
+            {/* Right: accordion steps */}
+            <div className="lg:col-span-3 space-y-3">
+              {projectSteps.map((step, index) => {
+                const isOpen = openStep === index;
+                return (
+                  <div
+                    key={step.title}
+                    className={`rounded-xl overflow-hidden transition-colors ${
+                      isOpen ? "bg-white/15" : "bg-white/90"
+                    }`}
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setOpenStep(isOpen ? -1 : index)}
+                      aria-expanded={isOpen}
+                      className={`w-full flex items-center justify-between gap-4 px-5 sm:px-7 py-4 sm:py-5 text-left font-heading font-bold uppercase text-base sm:text-lg transition-colors ${
+                        isOpen ? "text-white" : "text-navy"
+                      }`}
+                    >
+                      <span className="flex items-center gap-3 sm:gap-4">
+                        <span className={isOpen ? "text-white/70" : "text-gold"}>{index + 1}.</span>
+                        {step.title}
+                      </span>
+                      <span
+                        className={`shrink-0 flex items-center justify-center w-8 h-8 rounded-full ${
+                          isOpen ? "text-white" : "text-gold"
+                        }`}
+                      >
+                        {isOpen ? <Minus className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
+                      </span>
+                    </button>
+                    {isOpen && (
+                      <div className="px-5 sm:px-7 pb-5 sm:pb-6 -mt-1">
+                        <p className="text-white/85 text-sm sm:text-base leading-relaxed max-w-2xl">
+                          {step.body}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
