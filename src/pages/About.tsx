@@ -161,7 +161,7 @@ const About = () => {
                   <div className="text-white/80">Projects Completed</div>
                 </div>
                 <div>
-                  <div className="text-3xl md:text-4xl font-bold text-gold mb-2">10+</div>
+                  <div className="text-3xl md:text-4xl font-bold text-gold mb-2">15+</div>
                   <div className="text-white/80">Years Experience</div>
                 </div>
                 <div>
