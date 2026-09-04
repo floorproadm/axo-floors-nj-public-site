@@ -4,109 +4,50 @@ import { AXO_ORG_ID } from "@/lib/constants";
 import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Phone, Mail, MessageSquare, Star, Check, AlertTriangle, ExternalLink, AlertCircle } from "lucide-react";
+import { Textarea } from "@/components/ui/textarea";
+import { Phone } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { validateForm, sanitizeInput, checkRateLimit, getClientIdentifier, formatPhoneNumber, useFieldValidation } from "@/utils/validation";
-import { sanitizeForLogging, logSecurityEvent, monitorFormSubmission, monitorRateLimit, validateRequestSize } from "@/utils/security-monitoring";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { sanitizeInput } from "@/utils/validation";
+
 const Contact = () => {
-  const {
-    toast
-  } = useToast();
-  const {
-    validateField
-  } = useFieldValidation();
+  const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     email: "",
-    city: "",
-    service: "",
-    timeline: ""
+    message: ""
   });
 
-  // Real-time field validation
-  const handleFieldChange = (field: string, value: string, rules: string[] = []) => {
-    const sanitizedValue = sanitizeInput(value);
-    setFormData(prev => ({
-      ...prev,
-      [field]: sanitizedValue
-    }));
-
-    // Clear previous error
-    if (formErrors[field]) {
-      setFormErrors(prev => ({
-        ...prev,
-        [field]: ''
-      }));
-    }
-
-    // Validate field if it has rules
-    if (rules.length > 0) {
-      const error = validateField(sanitizedValue, rules);
-      if (error) {
-        setFormErrors(prev => ({
-          ...prev,
-          [field]: error
-        }));
-      }
-    }
-  };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Simple validation - only check required fields
-    if (!formData.name.trim() || !formData.phone.trim()) {
+    if (!formData.name.trim() || !formData.message.trim()) {
       toast({
         title: "Required fields missing",
-        description: "Please fill in your name and phone number",
+        description: "Please fill in your name and your question",
         variant: "destructive"
       });
       return;
     }
     setIsSubmitting(true);
     try {
-      console.log('Submitting contact form with data:', {
-        name: formData.name,
-        phone: formData.phone,
-        hasEmail: !!formData.email,
-        hasCity: !!formData.city
-      });
-
-      // Save to Supabase leads table
       const leadData = {
         name: sanitizeInput(formData.name),
         email: formData.email.trim() ? sanitizeInput(formData.email) : null,
-        phone: sanitizeInput(formData.phone),
-        city: formData.city.trim() ? sanitizeInput(formData.city) : null,
+        phone: formData.phone.trim() ? sanitizeInput(formData.phone) : '',
         lead_source: 'contact',
         status: 'cold_lead',
         priority: 'medium',
-        services: formData.service ? [formData.service] : [],
-        message: `Timeline: ${formData.timeline || 'Not specified'}`,
+        services: ['general_inquiry'],
+        message: sanitizeInput(formData.message),
         organization_id: AXO_ORG_ID,
       };
-      console.log('Prepared lead data:', leadData);
-      const {
-        data,
-        error
-      } = await supabase.from('leads').insert([leadData]).select();
-      if (error) {
-        console.error('Supabase error details:', {
-          message: error.message,
-          details: error.details,
-          hint: error.hint,
-          code: error.code
-        });
-        throw error;
-      }
-      console.log('Successfully saved lead:', data);
+
+      const { error } = await supabase.from('leads').insert([leadData]).select();
+      if (error) throw error;
 
       // Notify the AXO team via our own site endpoint (Gmail, inbox-safe)
       void fetch('/api/public/lead-notify', {
@@ -116,261 +57,141 @@ const Contact = () => {
           name: leadData.name,
           email: leadData.email,
           phone: leadData.phone,
-          city: leadData.city,
           lead_source: 'contact',
           services: leadData.services,
-          notes: `## Project\n- Service: ${formData.service || 'Not specified'}\n- Timeline: ${formData.timeline || 'Not specified'}`,
+          notes: `## Question\n${formData.message}`,
         }),
       }).catch(() => {});
+
       toast({
         title: "Thank you for contacting us!",
-        description: "We'll get back to you within 24 hours with your free estimate."
+        description: "We'll get back to you as soon as we can."
       });
 
-      // Reset form
-      setFormData({
-        name: "",
-        phone: "",
-        email: "",
-        city: "",
-        service: "",
-        timeline: ""
-      });
-      setFormErrors({});
+      setFormData({ name: "", phone: "", email: "", message: "" });
     } catch (error: any) {
       console.error('Contact form submission error:', error);
-      let errorMessage = "Please try again or call us directly at (732) 351-8653";
-
-      // Provide specific error messages
-      if (error.message?.includes('violates row-level security')) {
-        errorMessage = "Security check failed. Please ensure all required fields are filled correctly.";
-      } else if (error.message?.includes('duplicate')) {
-        errorMessage = "You've already submitted a request. We'll contact you soon!";
-      }
       toast({
         title: "Error",
-        description: errorMessage,
+        description: "Please try again or call us directly at (732) 351-8653",
         variant: "destructive"
       });
     } finally {
       setIsSubmitting(false);
     }
   };
-  const services = ["Hardwood Floor Refinishing", "Hardwood Floor Installation", "Vinyl Plank Flooring", "Floor Repair", "Other"];
-  const njCities = ["Newark", "Jersey City", "Paterson", "Elizabeth", "Edison", "Woodbridge", "Lakewood", "Toms River", "Hamilton", "Trenton", "Clifton", "Camden", "Brick", "Cherry Hill", "Passaic", "Union City", "Bayonne", "East Orange", "Vineland", "New Brunswick", "Wayne", "Irvington", "Paramus", "Hoboken"];
-  const benefits = ["Free in-home consultation & same-day quotes", "Licensed, insured, bonded professionals", "Average project: 3–5 days", "Save up to 40% vs. replacement"];
-  const faqs = [{
-    question: "How soon can you come?",
-    answer: "Within 24h for estimates."
-  }, {
-    question: "How long does refinishing take?",
-    answer: "1–5 days on average."
-  }, {
-    question: "Is there dust?",
-    answer: "We use dust-free sanding systems."
-  }];
-  // Calculate form validity dynamically - only require name and phone
-  const isFormValid = useMemo(() => {
-    return formData.name.trim().length > 0 && formData.phone.trim().length > 0 && !isSubmitting;
-  }, [formData.name, formData.phone, isSubmitting]);
-  return <div className="min-h-screen">
-      <Header />
-      
-      {/* Hero Section */}
-      <section className="py-16 sm:py-20 navy-gradient text-white relative overflow-hidden">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-heading mb-6 sm:mb-10">Get Your Free Floor Estimate in 24h – Guaranteed Response.</h1>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-            <Button asChild className="gold-gradient hover:scale-105 transition-bounce text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-5 h-auto min-h-[48px] text-black font-semibold w-full sm:w-auto">
+  const isFormValid = useMemo(() => {
+    return formData.name.trim().length > 0 && formData.message.trim().length > 0 && !isSubmitting;
+  }, [formData.name, formData.message, isSubmitting]);
+
+  return (
+    <div className="min-h-screen">
+      <Header />
+
+      {/* Hero — Ready To Get Started? */}
+      <section className="navy-gradient text-white relative overflow-hidden">
+        <div className="container mx-auto px-4 py-16 sm:py-24 text-center">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold font-heading mb-5">
+            Ready To Get Started?
+          </h1>
+          <p className="text-white/85 max-w-2xl mx-auto text-base sm:text-lg mb-8">
+            We're excited to hear about your project! Reach out using the link below, and let's discuss how AXO Floors can bring your vision to life.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Button asChild className="gold-gradient hover:scale-105 transition-bounce text-base sm:text-lg px-8 py-5 h-auto min-h-[48px] text-black font-semibold w-full sm:w-auto">
               <a href="/get-started" className="flex items-center justify-center gap-2">
-                Get My Free Estimate Now
+                Free Estimate Request
               </a>
             </Button>
-            <Button asChild variant="outline" className="border-2 border-white text-white bg-transparent hover:bg-white hover:text-navy text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-5 h-auto min-h-[48px] font-semibold w-full sm:w-auto">
+            <Button asChild variant="outline" className="border-2 border-white text-white bg-transparent hover:bg-white hover:text-navy text-base sm:text-lg px-8 py-5 h-auto min-h-[48px] font-semibold w-full sm:w-auto">
               <a href="tel:(732) 351-8653" className="flex items-center justify-center gap-2">
                 <Phone className="w-5 h-5" />
-                Call (732) 351-8653
+                (732) 351-8653
               </a>
             </Button>
           </div>
         </div>
       </section>
 
-      {/* Social Proof */}
-      <section className="py-8 bg-white border-b">
-        <div className="container mx-auto px-4 text-center">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <div className="flex items-center gap-1">
-              {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 fill-gold text-gold" />)}
-            </div>
-            
-          </div>
-          <blockquote className="text-grey max-w-4xl mx-auto text-base sm:text-lg italic">
-            "Eduardo gave me a quote the same day, finished my project in 3 days, and saved me $3,200 vs. replacement. Amazing team!"
-          </blockquote>
-          <cite className="text-gold font-medium mt-2 block">— Laura M., NJ</cite>
-        </div>
-      </section>
-
-
-      {/* Main Content */}
-      <section id="quote-form" className="py-16 sm:py-20 bg-grey-light">
+      {/* Simple question form */}
+      <section className="py-14 sm:py-20 bg-grey-light">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
-            {/* Contact Form - Enhanced */}
-            <div className="lg:col-span-2">
-              <Card className="shadow-elegant">
-                <CardHeader className="text-center">
-                  <CardTitle className="text-2xl sm:text-3xl font-heading font-bold text-navy">
-                    Get My Free Estimate in 24h
-                  </CardTitle>
-                  <p className="text-grey">Essential fields only - takes 60 seconds</p>
-                </CardHeader>
-                <CardContent className="space-y-6">
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="name">Name *</Label>
-                      <Input id="name" placeholder="Full Name" required className="h-12" value={formData.name} onChange={e => setFormData(prev => ({
-                      ...prev,
-                      name: e.target.value
-                    }))} />
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="phone">Phone *</Label>
-                      <Input id="phone" type="tel" placeholder="(732) 555-0123" required className="h-12" value={formData.phone} onChange={e => setFormData(prev => ({
-                      ...prev,
-                      phone: e.target.value
-                    }))} />
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Email (Optional)</Label>
-                      <Input id="email" type="email" placeholder="your@email.com" className="h-12" value={formData.email} onChange={e => setFormData(prev => ({
-                      ...prev,
-                      email: e.target.value
-                    }))} />
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="city">City (Optional)</Label>
-                      <Input id="city" placeholder="Enter your city" className="h-12" value={formData.city} onChange={e => setFormData(prev => ({
-                      ...prev,
-                      city: e.target.value
-                    }))} />
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="service">Service Needed</Label>
-                      <Select value={formData.service} onValueChange={value => setFormData(prev => ({
-                      ...prev,
-                      service: value
-                    }))}>
-                        <SelectTrigger className="h-12">
-                          <SelectValue placeholder="What service do you need?" />
-                        </SelectTrigger>
-                        <SelectContent className="bg-white border border-input">
-                          {services.map(service => <SelectItem key={service} value={service.toLowerCase().replace(/\s+/g, '-')}>
-                              {service}
-                            </SelectItem>)}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <Label htmlFor="timeline">Project Timeline</Label>
-                      <Select value={formData.timeline} onValueChange={value => setFormData(prev => ({
-                      ...prev,
-                      timeline: value
-                    }))}>
-                        <SelectTrigger className="h-12">
-                          <SelectValue placeholder="When do you want to start?" />
-                        </SelectTrigger>
-                        <SelectContent className="bg-white border border-input">
-                          <SelectItem value="asap">ASAP</SelectItem>
-                          <SelectItem value="this-month">This month</SelectItem>
-                          <SelectItem value="next-3-months">Next 3 months</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <Button type="submit" className="w-full gold-gradient hover:scale-105 transition-bounce text-base sm:text-lg py-4 sm:py-5 h-auto min-h-[48px] font-semibold disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100" disabled={!isFormValid}>
-                      {isSubmitting ? "Sending..." : "Get My Free Estimate in 24h"}
-                    </Button>
-                    
-                    <p className="text-xs text-grey text-center">
-                      100% free estimate • No obligation • We respect your privacy
-                    </p>
-                  </form>
-                </CardContent>
-              </Card>
+          <div className="max-w-2xl mx-auto">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl sm:text-3xl font-heading font-bold text-navy mb-3">
+                Have A Question?
+              </h2>
+              <p className="text-grey text-base sm:text-lg">
+                If you have a question aside from estimate inquiries, fill out this form and we'll be in touch as soon as we can!
+              </p>
             </div>
 
-            {/* Alternative Contact Methods */}
-            <div className="space-y-6">
-              <Card className="bg-navy text-white">
-                <CardContent className="p-6 space-y-4">
-                  <h4 className="text-lg font-heading font-semibold text-gold">
-                    Alternative Contact Methods
-                  </h4>
-                  
-                  <div className="space-y-3">
-                    <a href="tel:(732) 351-8653" className="flex items-center gap-3 p-4 rounded-lg border border-gold text-gold hover:bg-gold hover:text-navy transition-all w-full">
-                      <Phone className="w-5 h-5 flex-shrink-0" />
-                      <div className="text-left min-w-0">
-                        <div className="font-semibold text-base">(732) 351-8653</div>
-                        <div className="text-sm opacity-80">Click to call</div>
-                      </div>
-                    </a>
-                    
-                    <a href="mailto:axofloorsnj@gmail.com" className="flex items-center gap-3 p-4 rounded-lg border border-gold text-gold hover:bg-gold hover:text-navy transition-all w-full">
-                      <Mail className="w-5 h-5 flex-shrink-0" />
-                      <div className="text-left min-w-0 flex-1">
-                        <div className="font-semibold text-sm truncate">axofloorsnj@gmail.com</div>
-                        <div className="text-sm opacity-80">Send email</div>
-                      </div>
-                    </a>
-                    
-                    <a href="https://wa.me/17323518653" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-4 rounded-lg border border-gold text-gold hover:bg-gold hover:text-navy transition-all w-full">
-                      <MessageSquare className="w-5 h-5 flex-shrink-0" />
-                      <div className="text-left min-w-0 flex-1">
-                        <div className="font-semibold">WhatsApp</div>
-                        <div className="text-sm opacity-80">Instant response</div>
-                      </div>
-                      <ExternalLink className="w-4 h-4 flex-shrink-0" />
-                    </a>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
+            <form onSubmit={handleSubmit} className="bg-navy rounded-2xl p-6 sm:p-8 space-y-5 shadow-elegant">
+              <div className="space-y-2">
+                <Label htmlFor="name" className="text-white">Name <span className="text-white/60">(required)</span></Label>
+                <Input
+                  id="name"
+                  placeholder="Full name"
+                  required
+                  className="h-12 bg-white/95 border-0"
+                  value={formData.name}
+                  onChange={e => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                />
+              </div>
 
-      {/* Mini FAQ */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-2xl sm:text-3xl font-heading font-bold text-navy mb-4">
-              Have questions before booking?
-            </h2>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            {faqs.map((faq, index) => <Card key={index} className="text-center hover:shadow-elegant transition-smooth">
-                <CardContent className="p-6">
-                  <h3 className="font-heading font-semibold text-navy mb-3 text-sm">
-                    {faq.question}
-                  </h3>
-                  <p className="text-grey text-sm">{faq.answer}</p>
-                </CardContent>
-              </Card>)}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="text-white">Email</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="your@email.com"
+                    className="h-12 bg-white/95 border-0"
+                    value={formData.email}
+                    onChange={e => setFormData(prev => ({ ...prev, email: e.target.value }))}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="phone" className="text-white">Phone</Label>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    placeholder="(732) 555-0123"
+                    className="h-12 bg-white/95 border-0"
+                    value={formData.phone}
+                    onChange={e => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="message" className="text-white">How can we help? <span className="text-white/60">(required)</span></Label>
+                <Textarea
+                  id="message"
+                  required
+                  placeholder="Type your question here..."
+                  className="min-h-[140px] resize-none bg-white/95 border-0"
+                  value={formData.message}
+                  onChange={e => setFormData(prev => ({ ...prev, message: e.target.value }))}
+                />
+              </div>
+
+              <Button
+                type="submit"
+                disabled={!isFormValid}
+                className="gold-gradient text-black font-semibold px-10 h-12 text-base rounded-full hover:scale-105 transition-bounce disabled:opacity-50 disabled:hover:scale-100"
+              >
+                {isSubmitting ? "Sending..." : "Submit"}
+              </Button>
+            </form>
           </div>
         </div>
       </section>
 
       <Footer />
-    </div>;
+    </div>
+  );
 };
+
 export default Contact;
