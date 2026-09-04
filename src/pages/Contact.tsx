@@ -7,12 +7,36 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Phone } from "lucide-react";
+import { Phone, Plus, Minus, MessageSquare } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { sanitizeInput } from "@/utils/validation";
 
+const projectSteps = [
+  {
+    title: "Reach Out",
+    body: "Call, text, or fill out the online form to request your free estimate. Expect a response within minutes, not a callback days later."
+  },
+  {
+    title: "Walkthrough and Proposal",
+    body: "Someone walks the property with you, asks the right questions about your floors and goals, and hands you real pricing in writing before they leave."
+  },
+  {
+    title: "Prep and Protection",
+    body: "Furniture, adjacent surfaces, and the surrounding area get properly protected, and the subfloor gets inspected and prepped before any work begins. Skipping this step is where most bad flooring jobs start."
+  },
+  {
+    title: "Installation and Communication",
+    body: "The crew works around your schedule and keeps you in the loop, so you're never guessing what stage the project is at — from install or sanding through the final finish coat."
+  },
+  {
+    title: "Final Walkthrough",
+    body: "Nothing gets marked complete until you've walked the finished floor yourself and signed off in person."
+  }
+];
+
 const Contact = () => {
   const { toast } = useToast();
+  const [openStep, setOpenStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
