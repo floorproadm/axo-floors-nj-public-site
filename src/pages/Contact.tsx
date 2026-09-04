@@ -222,20 +222,6 @@ const Contact = () => {
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-bold uppercase leading-tight mb-8">
                 How AXO Floors Project Works
               </h2>
-              <div className="flex flex-col sm:flex-row lg:flex-col gap-4">
-                <Button asChild className="gold-gradient text-black font-semibold text-base px-8 h-auto min-h-[52px] rounded-full hover:scale-105 transition-bounce w-full sm:w-auto">
-                  <a href="/get-started" className="flex items-center justify-center gap-2">
-                    <MessageSquare className="w-5 h-5" />
-                    Get My Free Estimate
-                  </a>
-                </Button>
-                <Button asChild variant="outline" className="border-2 border-white text-white bg-transparent hover:bg-white hover:text-navy text-base px-8 h-auto min-h-[52px] rounded-full font-semibold w-full sm:w-auto">
-                  <a href="tel:(732) 351-8653" className="flex items-center justify-center gap-2">
-                    <Phone className="w-5 h-5" />
-                    (732) 351-8653
-                  </a>
-                </Button>
-              </div>
             </div>
 
             {/* Right: accordion steps */}
