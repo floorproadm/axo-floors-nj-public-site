@@ -254,16 +254,11 @@ const Gallery = () => {
       <section className="pt-6 pb-16 md:py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-14">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold/10 border border-gold/30 mb-5">
-              <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
-              <span className="text-xs font-semibold tracking-[0.18em] uppercase text-gold">
-                Project Gallery
-              </span>
-            </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-heading text-navy mb-5 leading-[1.05] tracking-tight">
-              The Work
+            <h2 className="text-[2.5rem] leading-[1.15] tracking-tight sm:text-4xl md:text-5xl lg:text-6xl font-bold font-heading text-navy mb-5">
+              The Work{" "}
+              <span className="text-gradient-gold italic">Speaks</span>
               <br className="hidden sm:block" />{" "}
-              <span className="text-gradient-gold italic">Speaks for Itself</span>
+              <span className="text-gradient-gold italic">for Itself</span>
             </h2>
             <div className="flex items-center justify-center gap-3 mb-5">
               <span className="h-px w-10 bg-gold/40" />
