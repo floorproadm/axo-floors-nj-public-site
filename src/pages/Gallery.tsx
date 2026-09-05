@@ -1,11 +1,10 @@
 // @ts-nocheck
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Link } from "react-router-dom";
-import { Image, ChevronLeft, ChevronRight, X, MapPin, Play } from "lucide-react";
+import { Image, ChevronLeft, ChevronRight, X, MapPin, Play, ArrowLeft, LayoutGrid } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -75,94 +74,98 @@ const imageMap: Record<string, string> = {
   "album-cover.png": albumCover,
 };
 
+const resolveImage = (url?: string) => (url ? imageMap[url] || url : "");
+
 const Gallery = () => {
   const [projects, setProjects] = useState<GalleryProject[]>([]);
   const [folders, setFolders] = useState<GalleryFolder[]>([]);
-  const [selectedFolder, setSelectedFolder] = useState<string | null>(null);
+  // Album drilldown: "all" = every photo, otherwise folder id
+  const [activeAlbum, setActiveAlbum] = useState<"all" | string | null>(null);
   const [lightboxImages, setLightboxImages] = useState<GalleryProject[]>([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
-  const [filteredProjects, setFilteredProjects] = useState<GalleryProject[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState("All");
   const [isLoading, setIsLoading] = useState(true);
-  const [visibleCount, setVisibleCount] = useState(9);
   const [publicPosts, setPublicPosts] = useState<PublicFeedPost[]>([]);
   const [selectedPost, setSelectedPost] = useState<PublicFeedPost | null>(null);
   const [postImageIndex, setPostImageIndex] = useState(0);
+  const thumbStripRef = useRef<HTMLDivElement>(null);
+  const touchStartX = useRef<number | null>(null);
   const { toast } = useToast();
-
-  const categories = ["All", "Hardwood Flooring", "Sanding & Refinish", "Before and After", "Vinyl Plank"];
 
   useEffect(() => {
     fetchFoldersAndProjects();
     fetchPublicFeedPosts();
   }, []);
 
-  useEffect(() => {
-    if (selectedFolder) {
-      setFilteredProjects(projects.filter(project => project.parent_folder_id === selectedFolder));
-    } else if (selectedCategory === "All") {
-      setFilteredProjects(projects);
-    } else {
-      setFilteredProjects(projects.filter(project => project.category === selectedCategory));
-    }
-  }, [projects, selectedCategory, selectedFolder]);
-
-  // Handle keyboard navigation in lightbox
+  // Keyboard navigation in lightbox
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (!isLightboxOpen) return;
-      
       switch (event.key) {
-        case 'Escape':
+        case "Escape":
           handleCloseLightbox();
           break;
-        case 'ArrowLeft':
+        case "ArrowLeft":
           event.preventDefault();
           handlePreviousImage();
           break;
-        case 'ArrowRight':
+        case "ArrowRight":
           event.preventDefault();
           handleNextImage();
           break;
       }
     };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isLightboxOpen, lightboxImages.length]);
+
+  // Keep active thumbnail visible in the strip
+  useEffect(() => {
+    if (!isLightboxOpen || !thumbStripRef.current) return;
+    const active = thumbStripRef.current.children[currentImageIndex] as HTMLElement | undefined;
+    active?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  }, [currentImageIndex, isLightboxOpen]);
+
+  // Lock body scroll while lightbox is open
+  useEffect(() => {
+    if (isLightboxOpen || selectedPost) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isLightboxOpen, selectedPost]);
 
   const fetchFoldersAndProjects = async () => {
     try {
-      // Fetch folders
       const { data: foldersData, error: foldersError } = await supabase
-        .from('gallery_folders')
-        .select('*')
-        .order('display_order', { ascending: true });
+        .from("gallery_folders")
+        .select("*")
+        .order("display_order", { ascending: true });
 
-      // Fetch projects
       const { data: projectsData, error: projectsError } = await supabase
-        .from('gallery_projects')
-        .select('*')
-        .order('display_order', { ascending: true });
+        .from("gallery_projects")
+        .select("*")
+        .order("display_order", { ascending: true });
 
       if (foldersError) throw foldersError;
       if (projectsError) throw projectsError;
 
-      // Count projects per folder and ensure English descriptions
-      const foldersWithCounts = (foldersData || []).map(folder => ({
+      const foldersWithCounts = (foldersData || []).map((folder) => ({
         ...folder,
-        // Force English description for Before and After folder
-        description: folder.name === 'Before and After' 
-          ? 'Stunning transformations from our floor refinishing projects'
-          : folder.description,
-        project_count: (projectsData || []).filter(project => project.parent_folder_id === folder.id).length
+        description:
+          folder.name === "Before and After"
+            ? "Stunning transformations from our floor refinishing projects"
+            : folder.description,
+        project_count: (projectsData || []).filter((project) => project.parent_folder_id === folder.id).length,
       }));
 
       setFolders(foldersWithCounts);
       setProjects(projectsData || []);
     } catch (error) {
-      console.error('Error fetching gallery data:', error);
+      console.error("Error fetching gallery data:", error);
       toast({
         title: "Error",
         description: "Failed to load gallery data",
@@ -195,31 +198,27 @@ const Gallery = () => {
         images = imgData || [];
       }
 
-      setPublicPosts(
-        (posts || [])
-          .map((p) => ({
-            ...p,
-            tags: p.tags || [],
-            images: images.filter((img) => img.feed_post_id === p.id),
-          }))
-          // Show all public posts (with or without images)
-      );
+      setPublicPosts((posts || []).map((p) => ({ ...p, tags: p.tags || [], images: images.filter((img) => img.feed_post_id === p.id) })));
     } catch (err) {
       console.error("Error fetching public feed posts:", err);
     }
   };
 
-  const handleLoadMore = () => {
-    setVisibleCount(prev => prev + 6);
-  };
+  const albumImages = useMemo(() => {
+    if (activeAlbum === "all") return projects;
+    if (activeAlbum) return projects.filter((p) => p.parent_folder_id === activeAlbum);
+    return [];
+  }, [projects, activeAlbum]);
 
-  const handleFolderClick = (folder: GalleryFolder) => {
-    const folderProjects = projects.filter(project => project.parent_folder_id === folder.id);
-    if (folderProjects.length > 0) {
-      setLightboxImages(folderProjects);
-      setCurrentImageIndex(0);
-      setIsLightboxOpen(true);
-    }
+  const activeAlbumName = useMemo(() => {
+    if (activeAlbum === "all") return "All Photos";
+    return folders.find((f) => f.id === activeAlbum)?.name || "Album";
+  }, [activeAlbum, folders]);
+
+  const openLightbox = (images: GalleryProject[], index: number) => {
+    setLightboxImages(images);
+    setCurrentImageIndex(index);
+    setIsLightboxOpen(true);
   };
 
   const handleCloseLightbox = () => {
@@ -236,75 +235,162 @@ const Gallery = () => {
     setCurrentImageIndex((prev) => (prev < lightboxImages.length - 1 ? prev + 1 : 0));
   };
 
-  const handleBackToFolders = () => {
-    setSelectedFolder(null);
-    setSelectedCategory("All");
+  // Swipe support (mobile)
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
   };
-
-  const visibleProjects = filteredProjects.slice(0, visibleCount);
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const delta = e.changedTouches[0].clientX - touchStartX.current;
+    if (Math.abs(delta) > 50) {
+      if (delta > 0) handlePreviousImage();
+      else handleNextImage();
+    }
+    touchStartX.current = null;
+  };
 
   return (
     <div className="min-h-screen">
       <Header />
-      
 
-
-
-      {/* Gallery Intro + Folders */}
+      {/* Gallery Intro + Folders / Album view */}
       <section className="pt-6 pb-16 md:py-20 bg-background">
         <div className="container mx-auto px-4">
-          <div className="text-center max-w-3xl mx-auto mb-14">
-            <h2 className="text-[1.75rem] leading-[1.35] sm:text-3xl md:text-4xl lg:text-5xl font-bold font-heading text-navy mb-4 px-1 py-1 overflow-visible">
-              The Work{" "}
-              <span className="text-gradient-gold italic inline-block px-0.5">Speaks</span>
-              <br className="hidden sm:block" />{" "}
-              <span className="text-gradient-gold italic inline-block px-0.5">for Itself</span>
-            </h2>
-            <p className="text-grey leading-relaxed text-base md:text-lg">
-              Albums organized by project type — refinishing, installations, and more.
-              <span className="block mt-1 text-navy/70 font-medium">Tap any album to explore the full set.</span>
-            </p>
-          </div>
-          {isLoading ? (
-            <div className="text-center py-20">
-              <p className="text-grey text-lg">Loading gallery...</p>
-            </div>
+          {activeAlbum === null ? (
+            <>
+              <div className="text-center max-w-3xl mx-auto mb-14">
+                <h2 className="text-[1.75rem] leading-[1.35] sm:text-3xl md:text-4xl lg:text-5xl font-bold font-heading text-navy mb-4 px-1 py-1 overflow-visible">
+                  The Work{" "}
+                  <span className="text-gradient-gold italic inline-block px-0.5">Speaks</span>
+                  <br className="hidden sm:block" />{" "}
+                  <span className="text-gradient-gold italic inline-block px-0.5">for Itself</span>
+                </h2>
+                <p className="text-grey leading-relaxed text-base md:text-lg">
+                  Albums organized by project type — refinishing, installations, and more.
+                  <span className="block mt-1 text-navy/70 font-medium">Tap any album to explore the full set.</span>
+                </p>
+              </div>
+              {isLoading ? (
+                <div className="text-center py-20">
+                  <p className="text-grey text-lg">Loading gallery...</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {/* All Photos album */}
+                  {projects.length > 0 && (
+                    <Card
+                      className="group hover:shadow-gold transition-smooth hover:-translate-y-2 overflow-hidden cursor-pointer"
+                      onClick={() => setActiveAlbum("all")}
+                    >
+                      <div className="relative aspect-[4/3] overflow-hidden">
+                        <img
+                          src={resolveImage(projects[0]?.image_url)}
+                          alt="All Photos"
+                          loading="lazy"
+                          className="w-full h-full object-cover group-hover:scale-110 transition-smooth duration-500"
+                        />
+                        <div className="absolute inset-0 bg-navy/60 opacity-0 group-hover:opacity-100 transition-smooth flex items-center justify-center">
+                          <div className="text-white text-center">
+                            <LayoutGrid className="w-12 h-12 mx-auto mb-2" />
+                            <span className="font-medium text-lg">View All Photos</span>
+                          </div>
+                        </div>
+                      </div>
+                      <CardContent className="p-6">
+                        <h3 className="text-xl font-heading font-semibold text-navy mb-2 group-hover:text-gold transition-smooth">
+                          All Photos
+                        </h3>
+                        <p className="text-grey leading-relaxed">
+                          Browse our complete portfolio — {projects.length} photos in one place.
+                        </p>
+                      </CardContent>
+                    </Card>
+                  )}
+
+                  {folders.map((folder) => (
+                    <Card
+                      key={folder.id}
+                      className="group hover:shadow-gold transition-smooth hover:-translate-y-2 overflow-hidden cursor-pointer"
+                      onClick={() => setActiveAlbum(folder.id)}
+                    >
+                      <div className="relative aspect-[4/3] overflow-hidden">
+                        <img
+                          src={resolveImage(folder.cover_image_url)}
+                          alt={folder.name}
+                          loading="lazy"
+                          className="w-full h-full object-cover group-hover:scale-110 transition-smooth duration-500"
+                        />
+                        <div className="absolute inset-0 bg-navy/60 opacity-0 group-hover:opacity-100 transition-smooth flex items-center justify-center">
+                          <div className="text-white text-center">
+                            <Image className="w-12 h-12 mx-auto mb-2" />
+                            <span className="font-medium text-lg">View Photos</span>
+                          </div>
+                        </div>
+                        {folder.project_count > 0 && (
+                          <div className="absolute top-3 right-3 bg-black/60 text-white text-xs px-2 py-1 rounded-full">
+                            {folder.project_count} photos
+                          </div>
+                        )}
+                      </div>
+                      <CardContent className="p-6">
+                        <h3 className="text-xl font-heading font-semibold text-navy mb-2 group-hover:text-gold transition-smooth">
+                          {folder.name}
+                        </h3>
+                        <p className="text-grey leading-relaxed">{folder.description}</p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              )}
+            </>
           ) : (
-            /* Folder View */
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {folders.map((folder) => (
-                <Card 
-                  key={folder.id} 
-                  className="group hover:shadow-gold transition-smooth hover:-translate-y-2 overflow-hidden cursor-pointer"
-                  onClick={() => handleFolderClick(folder)}
+            /* Album drilldown — uniform grid */
+            <div>
+              <div className="flex items-center gap-3 mb-6">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setActiveAlbum(null)}
+                  className="text-navy hover:text-gold"
                 >
-                  <div className="relative aspect-[4/3] overflow-hidden">
-                    <img 
-                      src={imageMap[folder.cover_image_url] || folder.cover_image_url} 
-                      alt={folder.name}
-                      loading="lazy"
-                      className="w-full h-full object-cover group-hover:scale-110 transition-smooth duration-500"
-                    />
-                     <div className="absolute inset-0 bg-navy/60 opacity-0 group-hover:opacity-100 transition-smooth flex items-center justify-center">
-                       <div className="text-white text-center">
-                         <Image className="w-12 h-12 mx-auto mb-2" />
-                         <span className="font-medium text-lg">View Photos</span>
-                       </div>
-                     </div>
-                   </div>
-                  <CardContent className="p-6">
-                    <h3 className="text-xl font-heading font-semibold text-navy mb-2 group-hover:text-gold transition-smooth">
-                      {folder.name}
-                    </h3>
-                    <p className="text-grey leading-relaxed">{folder.description}</p>
-                  </CardContent>
-                </Card>
-              ))}
+                  <ArrowLeft className="w-4 h-4 mr-1" /> All Albums
+                </Button>
+                <div className="min-w-0">
+                  <h2 className="text-xl md:text-2xl font-heading font-bold text-navy truncate">{activeAlbumName}</h2>
+                  <p className="text-sm text-grey">{albumImages.length} photos — tap any photo to view it full screen.</p>
+                </div>
+              </div>
+
+              {albumImages.length === 0 ? (
+                <div className="text-center py-20">
+                  <Image className="w-12 h-12 mx-auto text-grey/40 mb-3" />
+                  <p className="text-grey">This album is empty.</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
+                  {albumImages.map((project, index) => (
+                    <button
+                      key={project.id}
+                      type="button"
+                      className="group relative aspect-square overflow-hidden rounded-lg bg-muted focus:outline-none focus:ring-2 focus:ring-gold"
+                      onClick={() => openLightbox(albumImages, index)}
+                      aria-label={`View photo ${index + 1}: ${project.title}`}
+                    >
+                      <img
+                        src={resolveImage(project.image_url)}
+                        alt={project.title}
+                        loading="lazy"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-smooth duration-500"
+                      />
+                      <div className="absolute inset-0 bg-navy/0 group-hover:bg-navy/30 transition-smooth" />
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           )}
         </div>
       </section>
-
 
       {publicPosts.length > 0 && (
         <section className="py-20 bg-grey-light">
@@ -481,70 +567,105 @@ const Gallery = () => {
         </div>
       )}
 
-      {/* Lightbox Modal */}
+      {/* Album Lightbox — contained photo + thumbnail strip */}
       {isLightboxOpen && (
-        <div 
-          className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center"
+        <div
+          className="fixed inset-0 z-50 bg-black/95 flex flex-col"
           onClick={handleCloseLightbox}
         >
-          <div className="relative w-full h-full max-w-6xl flex items-center justify-center p-4">
-            {/* Close Button */}
+          {/* Top bar: counter + close */}
+          <div className="flex items-center justify-between px-4 py-3 shrink-0" onClick={(e) => e.stopPropagation()}>
+            <div className="bg-black/50 text-white px-3 py-1 rounded-full text-sm font-medium">
+              {currentImageIndex + 1} / {lightboxImages.length}
+            </div>
             <Button
               variant="ghost"
               size="icon"
-              className="absolute top-4 right-4 z-20 text-white hover:bg-white/20"
+              className="text-white hover:bg-white/20"
               onClick={handleCloseLightbox}
+              aria-label="Close"
             >
               <X className="w-6 h-6" />
             </Button>
+          </div>
 
-            {/* Image Navigation */}
-            {lightboxImages.length > 0 && (
-              <>
-                {/* Previous Button */}
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="absolute left-4 top-1/2 -translate-y-1/2 z-10 text-white hover:bg-white/20"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handlePreviousImage();
-                  }}
-                >
-                  <ChevronLeft className="w-8 h-8" />
-                </Button>
+          {/* Main photo — always contained within the viewport */}
+          <div
+            className="relative flex-1 min-h-0 flex items-center justify-center px-12 sm:px-16"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+          >
+            {lightboxImages.length > 1 && (
+              <Button
+                variant="ghost"
+                size="icon"
+                className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10 text-white hover:bg-white/20"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handlePreviousImage();
+                }}
+                aria-label="Previous photo"
+              >
+                <ChevronLeft className="w-8 h-8" />
+              </Button>
+            )}
 
-                {/* Current Image */}
-                <div className="flex items-center justify-center w-full h-full">
-                  <img
-                    src={imageMap[lightboxImages[currentImageIndex]?.image_url] || lightboxImages[currentImageIndex]?.image_url}
-                    alt={lightboxImages[currentImageIndex]?.title}
-                    className="max-w-full max-h-full object-contain"
-                    onClick={(e) => e.stopPropagation()}
-                  />
-                  
-                  {/* Photo Counter */}
-                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/50 text-white px-3 py-1 rounded-full text-sm font-medium">
-                    {currentImageIndex + 1} / {lightboxImages.length}
-                  </div>
-                </div>
+            <img
+              src={resolveImage(lightboxImages[currentImageIndex]?.image_url)}
+              alt={lightboxImages[currentImageIndex]?.title}
+              className="max-w-full max-h-full object-contain rounded-lg select-none"
+              onClick={(e) => e.stopPropagation()}
+              draggable={false}
+            />
 
-                {/* Next Button */}
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="absolute right-4 top-1/2 -translate-y-1/2 z-10 text-white hover:bg-white/20"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleNextImage();
-                  }}
-                >
-                  <ChevronRight className="w-8 h-8" />
-                </Button>
-
-              </>
+            {lightboxImages.length > 1 && (
+              <Button
+                variant="ghost"
+                size="icon"
+                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 text-white hover:bg-white/20"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleNextImage();
+                }}
+                aria-label="Next photo"
+              >
+                <ChevronRight className="w-8 h-8" />
+              </Button>
             )}
           </div>
+
+          {/* Thumbnail strip — 64x64, tap to jump */}
+          {lightboxImages.length > 1 && (
+            <div className="shrink-0 py-3" onClick={(e) => e.stopPropagation()}>
+              <div
+                ref={thumbStripRef}
+                className="flex gap-2 overflow-x-auto px-4 pb-1 justify-start sm:justify-center"
+                style={{ scrollbarWidth: "thin" }}
+              >
+                {lightboxImages.map((img, index) => (
+                  <button
+                    key={img.id}
+                    type="button"
+                    onClick={() => setCurrentImageIndex(index)}
+                    aria-label={`Go to photo ${index + 1}`}
+                    className={`w-16 h-16 shrink-0 rounded-md overflow-hidden transition-all focus:outline-none ${
+                      index === currentImageIndex
+                        ? "ring-2 ring-gold opacity-100"
+                        : "opacity-50 hover:opacity-90"
+                    }`}
+                  >
+                    <img
+                      src={resolveImage(img.image_url)}
+                      alt=""
+                      loading="lazy"
+                      className="w-full h-full object-cover"
+                      draggable={false}
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
 
