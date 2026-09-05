@@ -305,32 +305,6 @@ const Gallery = () => {
         </div>
       </section>
 
-      {/* Trust Section */}
-      <section className="py-16 bg-background border-y border-border">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold font-heading text-navy text-center mb-8">
-              What You're Looking At
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {[
-                { title: "No stock photos", text: "Every image is from a real AXO Floors project." },
-                { title: "Real client homes", text: "Photographed on-site, after final inspection." },
-                { title: "No shortcuts", text: "Same process on a $5K job and a $50K job." },
-                { title: "Consistent results", text: "What you see here is what we deliver — every time." },
-              ].map((item) => (
-                <div key={item.title} className="flex gap-3">
-                  <div className="w-1.5 h-1.5 rounded-full bg-gold mt-2.5 flex-shrink-0" />
-                  <div>
-                    <p className="font-heading font-semibold text-navy">{item.title}</p>
-                    <p className="text-grey text-sm leading-relaxed">{item.text}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
 
       {publicPosts.length > 0 && (
         <section className="py-20 bg-grey-light">
