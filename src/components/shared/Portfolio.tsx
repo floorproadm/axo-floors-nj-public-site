@@ -6,12 +6,12 @@ import { ArrowRight, Eye } from "lucide-react";
 import ImageLightbox from "@/components/locations/ssr/ImageLightbox";
 import ba1 from "@/assets/before-after-1.png.asset.json";
 import ba2 from "@/assets/before-after-2.png.asset.json";
-import ba3 from "@/assets/before-after-3.png.asset.json";
+import ba3 from "@/assets/before-after-installation-restoration.png.asset.json";
 import ba4 from "@/assets/before-after-4.png.asset.json";
 const beforeAfterPhotos = [
   { src: ba1.url, alt: "Before and after hardwood floor refinishing in a foyer with staircase" },
   { src: ba2.url, alt: "Before and after hardwood floor sanding and refinishing in a living room" },
-  { src: ba3.url, alt: "Before and after hardwood floor restoration in a bedroom" },
+  { src: ba3.url, alt: "Before and after hardwood floor installation and restoration by AXO Floors" },
   { src: ba4.url, alt: "Before and after hardwood floor refinishing in a kitchen" },
 ];
 const portfolioItems = [{
