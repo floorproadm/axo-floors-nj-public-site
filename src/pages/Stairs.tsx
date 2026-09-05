@@ -115,7 +115,7 @@ const Stairs = () => {
 
             <div className="rounded-lg overflow-hidden shadow-lg">
               <img
-                src={stairsHero}
+                src={stairsRefinished.url}
                 alt="Refinished hardwood staircase with custom railing by AXO Floors"
                 className="w-full h-full object-cover"
                 loading="lazy"
