@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { CheckCircle, ArrowRight, Hammer, Palette, Shield, Sparkles } from "lucide-react";
 import stairsHero from "@/assets/service-staircase.jpg";
+import stairsRefinished from "@/assets/service-staircase-refinished.jpg.asset.json";
 
 const Stairs = () => {
   const services = [
