@@ -254,17 +254,12 @@ const Gallery = () => {
       <section className="pt-6 pb-16 md:py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-14">
-            <h2 className="text-[2.5rem] leading-[1.15] tracking-tight sm:text-4xl md:text-5xl lg:text-6xl font-bold font-heading text-navy mb-5">
+            <h2 className="text-[1.75rem] leading-[1.2] tracking-tight sm:text-3xl md:text-4xl lg:text-5xl font-bold font-heading text-navy mb-4">
               The Work{" "}
               <span className="text-gradient-gold italic">Speaks</span>
               <br className="hidden sm:block" />{" "}
               <span className="text-gradient-gold italic">for Itself</span>
             </h2>
-            <div className="flex items-center justify-center gap-3 mb-5">
-              <span className="h-px w-10 bg-gold/40" />
-              <span className="w-1.5 h-1.5 rounded-full bg-gold/60" />
-              <span className="h-px w-10 bg-gold/40" />
-            </div>
             <p className="text-grey leading-relaxed text-base md:text-lg">
               Albums organized by project type — refinishing, installations, and more.
               <span className="block mt-1 text-navy/70 font-medium">Tap any album to explore the full set.</span>
