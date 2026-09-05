@@ -261,9 +261,9 @@ const Gallery = () => {
               </span>
             </div>
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-heading text-navy mb-5 leading-[1.05] tracking-tight">
-              Browse Real
+              The Work
               <br className="hidden sm:block" />{" "}
-              <span className="text-gradient-gold italic">Transformations</span>
+              <span className="text-gradient-gold italic">Speaks for Itself</span>
             </h2>
             <div className="flex items-center justify-center gap-3 mb-5">
               <span className="h-px w-10 bg-gold/40" />
