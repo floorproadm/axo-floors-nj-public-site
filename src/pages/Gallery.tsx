@@ -5,7 +5,7 @@ import Footer from "@/components/shared/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { ArrowRight, Star, Eye, Image, ChevronLeft, ChevronRight, X, Gift, MapPin, Play } from "lucide-react";
+import { Image, ChevronLeft, ChevronRight, X, MapPin, Play } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -305,49 +305,6 @@ const Gallery = () => {
         </div>
       </section>
 
-      {/* Transformation Explanation */}
-      <section className="py-20 bg-grey-light">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-10">
-              <h2 className="text-3xl md:text-4xl font-bold font-heading text-navy mb-4">
-                Why These Floors Look Different
-              </h2>
-              <p className="text-grey leading-relaxed max-w-2xl mx-auto">
-                The difference isn't luck. It's process, equipment, and craftsmanship — applied the same way on every job.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <Card>
-                <CardContent className="p-6">
-                  <h3 className="font-heading font-semibold text-navy text-lg mb-2">Dust-Contained Sanding</h3>
-                  <p className="text-grey text-sm leading-relaxed">
-                    Industrial dust-containment systems keep your home clean while we work. No mess on your furniture, no white film on your walls.
-                  </p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="p-6">
-                  <h3 className="font-heading font-semibold text-navy text-lg mb-2">Controlled Finish Application</h3>
-                  <p className="text-grey text-sm leading-relaxed">
-                    Stains and sealers applied in thin, even coats — no streaks, no lap marks, no shortcuts. The grain stays sharp and the color stays true.
-                  </p>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardContent className="p-6">
-                  <h3 className="font-heading font-semibold text-navy text-lg mb-2">Owner-Led Quality Control</h3>
-                  <p className="text-grey text-sm leading-relaxed">
-                    Every job is inspected before we leave. If something isn't right, we fix it before you ever see it.
-                  </p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Trust Section */}
       <section className="py-16 bg-background border-y border-border">
         <div className="container mx-auto px-4">
@@ -616,66 +573,6 @@ const Gallery = () => {
           </div>
         </div>
       )}
-
-      {/* Testimonial Section */}
-      <section className="py-20 bg-grey-light">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold font-heading text-navy mb-4">
-            Let's Turn Your Floors Into Something You're Proud Of
-          </h2>
-          <p className="text-grey max-w-2xl mx-auto mb-10 text-lg">
-            Tell us about your project in under 2 minutes. We'll respond within 24 hours with a clear, personalized plan — no pressure, no obligation.
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            {[
-              {
-                name: "Jennifer M.",
-                text: "The transformation of our hardwood floors was incredible. AXO Floors exceeded our expectations with their attention to detail.",
-                rating: 5
-              },
-              {
-                name: "Robert K.",
-                text: "Professional, punctual, and the quality is outstanding. Our refinished hardwood floors are the centerpiece of our home.",
-                rating: 5
-              },
-              {
-                name: "Maria L.",
-                text: "From quote to completion, the process was seamless. The vinyl plank floors look amazing and are so practical.",
-                rating: 5
-              }
-            ].map((testimonial, index) => (
-              <Card key={index} className="group hover:shadow-gold transition-smooth">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-center gap-1 mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-gold text-gold" />
-                    ))}
-                  </div>
-                  <p className="text-grey mb-4 leading-relaxed italic">
-                    "{testimonial.text}"
-                  </p>
-                  <p className="font-heading font-semibold text-navy">
-                    - {testimonial.name}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-            <Button asChild className="gold-gradient hover:scale-105 transition-bounce text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-5 h-auto min-h-[48px] text-black font-semibold">
-              <Link to="/contact" className="flex items-center gap-2">
-                Get My Free Estimate
-                <ArrowRight className="w-5 h-5" />
-              </Link>
-            </Button>
-            <Button variant="outline" asChild className="text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-5 h-auto min-h-[48px] font-semibold hover:bg-gold hover:text-navy hover:border-gold">
-              <a href="tel:(732) 351-8653">Call (732) 351-8653</a>
-            </Button>
-          </div>
-        </div>
-      </section>
 
       <Footer />
     </div>
