@@ -723,24 +723,28 @@ const Gallery = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             <div className="sm:col-span-2 lg:col-span-2 rounded-2xl overflow-hidden shadow-elegant bg-black/20 aspect-[9/16] sm:aspect-[16/9]">
               <video
+                ref={sandingVideoRef}
                 src={sandingVideo.url}
                 autoPlay
                 loop
                 muted
                 playsInline
                 preload="auto"
+                onLoadedMetadata={() => playVideo(sandingVideoRef.current)}
                 className="w-full h-full object-cover"
                 aria-label="Behind the scenes: dust-controlled hardwood floor sanding"
               />
             </div>
             <div className="sm:col-span-2 lg:col-span-2 rounded-2xl overflow-hidden shadow-elegant bg-black/20 aspect-[9/16] sm:aspect-[16/9]">
               <video
+                ref={beforeAfterVideoRef}
                 src={beforeAfterVideo.url}
                 autoPlay
                 loop
                 muted
                 playsInline
                 preload="auto"
+                onLoadedMetadata={() => playVideo(beforeAfterVideoRef.current)}
                 className="w-full h-full object-cover"
                 aria-label="Before and after hardwood floor transformation"
               />
