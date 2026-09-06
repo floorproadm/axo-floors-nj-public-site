@@ -97,6 +97,11 @@ const Gallery = () => {
     fetchPublicFeedPosts();
   }, []);
 
+  // Scroll to top when entering or leaving an album view
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [activeAlbum]);
+
   // Keyboard navigation in lightbox
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
