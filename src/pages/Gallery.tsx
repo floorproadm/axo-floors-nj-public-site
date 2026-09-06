@@ -4,7 +4,9 @@ import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Image, ChevronLeft, ChevronRight, X, MapPin, Play, ArrowLeft, LayoutGrid } from "lucide-react";
+import { Image, ChevronLeft, ChevronRight, X, MapPin, Play, ArrowLeft, LayoutGrid, Instagram } from "lucide-react";
+import sandingVideo from "@/assets/gallery-social-sanding.mp4.asset.json";
+import beforeAfterVideo from "@/assets/gallery-social-before-after.mp4.asset.json";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -673,6 +675,59 @@ const Gallery = () => {
           )}
         </div>
       )}
+
+      {/* Follow Us / Social Loop Section */}
+      <section className="py-16 md:py-24 bg-navy text-white overflow-hidden">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10 md:mb-14">
+            <div className="max-w-2xl">
+              <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">Follow Us</p>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-4">
+                See Us in <span className="text-gradient-gold">Action</span>
+              </h2>
+              <p className="text-white/80 text-base md:text-lg leading-relaxed">
+                Follow along on social media for behind-the-scenes looks at our latest projects.
+              </p>
+            </div>
+            <a
+              href="https://www.instagram.com/axofloorsnj/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-full px-6 py-3 transition-smooth w-full sm:w-auto"
+            >
+              <Instagram className="w-5 h-5" />
+              <span className="font-medium">@axofloorsnj</span>
+            </a>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            <div className="sm:col-span-2 lg:col-span-2 rounded-2xl overflow-hidden shadow-elegant bg-black/20 aspect-[9/16] sm:aspect-[16/9]">
+              <video
+                src={sandingVideo.url}
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="auto"
+                className="w-full h-full object-cover"
+                aria-label="Behind the scenes: dust-controlled hardwood floor sanding"
+              />
+            </div>
+            <div className="sm:col-span-2 lg:col-span-2 rounded-2xl overflow-hidden shadow-elegant bg-black/20 aspect-[9/16] sm:aspect-[16/9]">
+              <video
+                src={beforeAfterVideo.url}
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="auto"
+                className="w-full h-full object-cover"
+                aria-label="Before and after hardwood floor transformation"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
 
       <Footer />
     </div>
