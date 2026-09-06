@@ -690,13 +690,13 @@ const Gallery = () => {
               </p>
             </div>
             <a
-              href="https://www.instagram.com/axofloorsnj/"
+              href="https://www.instagram.com/axofloors/"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-full px-6 py-3 transition-smooth w-full sm:w-auto"
             >
               <Instagram className="w-5 h-5" />
-              <span className="font-medium">@axofloorsnj</span>
+              <span className="font-medium">@axofloors</span>
             </a>
           </div>
 
