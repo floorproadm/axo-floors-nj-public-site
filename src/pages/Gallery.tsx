@@ -92,7 +92,27 @@ const Gallery = () => {
   const [postImageIndex, setPostImageIndex] = useState(0);
   const thumbStripRef = useRef<HTMLDivElement>(null);
   const touchStartX = useRef<number | null>(null);
+  const sandingVideoRef = useRef<HTMLVideoElement>(null);
+  const beforeAfterVideoRef = useRef<HTMLVideoElement>(null);
   const { toast } = useToast();
+
+  const playVideo = (video: HTMLVideoElement | null) => {
+    if (!video) return;
+    video.muted = true;
+    video.playsInline = true;
+    video.autoplay = true;
+    const promise = video.play();
+    if (promise && typeof promise.catch === "function") {
+      promise.catch(() => {
+        // Autoplay blocked or not ready; will retry on user interaction if needed
+      });
+    }
+  };
+
+  useEffect(() => {
+    playVideo(sandingVideoRef.current);
+    playVideo(beforeAfterVideoRef.current);
+  }, []);
 
   useEffect(() => {
     fetchFoldersAndProjects();
@@ -703,24 +723,28 @@ const Gallery = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             <div className="sm:col-span-2 lg:col-span-2 rounded-2xl overflow-hidden shadow-elegant bg-black/20 aspect-[9/16] sm:aspect-[16/9]">
               <video
+                ref={sandingVideoRef}
                 src={sandingVideo.url}
                 autoPlay
                 loop
                 muted
                 playsInline
                 preload="auto"
+                onLoadedMetadata={() => playVideo(sandingVideoRef.current)}
                 className="w-full h-full object-cover"
                 aria-label="Behind the scenes: dust-controlled hardwood floor sanding"
               />
             </div>
             <div className="sm:col-span-2 lg:col-span-2 rounded-2xl overflow-hidden shadow-elegant bg-black/20 aspect-[9/16] sm:aspect-[16/9]">
               <video
+                ref={beforeAfterVideoRef}
                 src={beforeAfterVideo.url}
                 autoPlay
                 loop
                 muted
                 playsInline
                 preload="auto"
+                onLoadedMetadata={() => playVideo(beforeAfterVideoRef.current)}
                 className="w-full h-full object-cover"
                 aria-label="Before and after hardwood floor transformation"
               />
