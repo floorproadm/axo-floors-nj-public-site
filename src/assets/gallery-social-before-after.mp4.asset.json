@@ -1,9 +1,11 @@
 {
   "version": 1,
-  "asset_id": "49b222f6-21c0-4fe4-a7b1-59d3eb647359",
+  "asset_id": "264220df-c0d6-46a0-b163-4796d52d9ac4",
   "project_id": "c137fb77-3417-4cb2-a730-37b10e153e82",
-  "url": "/__l5e/assets-v1/49b222f6-21c0-4fe4-a7b1-59d3eb647359/gallery-social-before-after.mp4",
+  "url": "/__l5e/assets-v1/264220df-c0d6-46a0-b163-4796d52d9ac4/gallery-social-before-after.mp4",
+  "r2_key": "a/v1/c137fb77-3417-4cb2-a730-37b10e153e82/264220df-c0d6-46a0-b163-4796d52d9ac4/gallery-social-before-after.mp4",
   "original_filename": "gallery-social-before-after.mp4",
-  "size": 8698303,
-  "created_at": "2026-09-06T02:00:14Z"
+  "size": 44473485,
+  "content_type": "video/mp4",
+  "created_at": "2026-09-06T02:12:26Z"
 }
