@@ -92,7 +92,27 @@ const Gallery = () => {
   const [postImageIndex, setPostImageIndex] = useState(0);
   const thumbStripRef = useRef<HTMLDivElement>(null);
   const touchStartX = useRef<number | null>(null);
+  const sandingVideoRef = useRef<HTMLVideoElement>(null);
+  const beforeAfterVideoRef = useRef<HTMLVideoElement>(null);
   const { toast } = useToast();
+
+  const playVideo = (video: HTMLVideoElement | null) => {
+    if (!video) return;
+    video.muted = true;
+    video.playsInline = true;
+    video.autoplay = true;
+    const promise = video.play();
+    if (promise && typeof promise.catch === "function") {
+      promise.catch(() => {
+        // Autoplay blocked or not ready; will retry on user interaction if needed
+      });
+    }
+  };
+
+  useEffect(() => {
+    playVideo(sandingVideoRef.current);
+    playVideo(beforeAfterVideoRef.current);
+  }, []);
 
   useEffect(() => {
     fetchFoldersAndProjects();
