@@ -110,8 +110,43 @@ const Gallery = () => {
   };
 
   useEffect(() => {
-    playVideo(sandingVideoRef.current);
-    playVideo(beforeAfterVideoRef.current);
+    const videos = [sandingVideoRef.current, beforeAfterVideoRef.current];
+    const playAll = () => videos.forEach((v) => playVideo(v));
+
+    // Try immediately on mount
+    playAll();
+
+    // Start playing before the section scrolls into view
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) playVideo(entry.target as HTMLVideoElement);
+        });
+      },
+      { rootMargin: "400px 0px", threshold: 0 }
+    );
+    videos.forEach((v) => v && observer.observe(v));
+
+    // iOS/Safari: retry as soon as the user scrolls or touches the page (first gesture unlocks autoplay)
+    const onGesture = () => playAll();
+    window.addEventListener("scroll", onGesture, { passive: true });
+    window.addEventListener("touchstart", onGesture, { passive: true });
+    window.addEventListener("click", onGesture);
+
+    // Keep trying until playback actually starts (covers low-power mode edge cases)
+    const interval = window.setInterval(() => {
+      videos.forEach((v) => {
+        if (v && v.paused) playVideo(v);
+      });
+    }, 2500);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", onGesture);
+      window.removeEventListener("touchstart", onGesture);
+      window.removeEventListener("click", onGesture);
+      window.clearInterval(interval);
+    };
   }, []);
 
   useEffect(() => {
