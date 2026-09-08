@@ -699,25 +699,14 @@ const Gallery = () => {
       {/* Follow Us / Social Loop Section */}
       <section className="py-16 md:py-24 bg-navy text-white overflow-hidden">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6 mb-10 md:mb-14">
-            <div className="max-w-2xl">
-              <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">Follow Us</p>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-4">
-                See Us in <span className="text-gradient-gold">Action</span>
-              </h2>
-              <p className="text-white/80 text-base md:text-lg leading-relaxed">
-                Follow along on social media for behind-the-scenes looks at our latest projects.
-              </p>
-            </div>
-            <a
-              href="https://www.instagram.com/axofloors/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-full px-6 py-3 transition-smooth w-full sm:w-auto"
-            >
-              <Instagram className="w-5 h-5" />
-              <span className="font-medium">@axofloors</span>
-            </a>
+          <div className="max-w-2xl mb-10 md:mb-14">
+            <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">Follow Us</p>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-4">
+              See Us in <span className="text-gradient-gold">Action</span>
+            </h2>
+            <p className="text-white/80 text-base md:text-lg leading-relaxed">
+              Follow along on social media for behind-the-scenes looks at our latest projects.
+            </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
@@ -749,6 +738,18 @@ const Gallery = () => {
                 aria-label="Before and after hardwood floor transformation"
               />
             </div>
+          </div>
+
+          <div className="mt-10 md:mt-14 flex justify-center">
+            <a
+              href="https://www.instagram.com/axofloors/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-full px-6 py-3 transition-smooth w-full sm:w-auto"
+            >
+              <Instagram className="w-5 h-5" />
+              <span className="font-medium">@axofloors</span>
+            </a>
           </div>
         </div>
       </section>
