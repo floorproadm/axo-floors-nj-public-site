@@ -60,7 +60,7 @@ const Refinishing = () => {
         ctaSecondary="See Before & After"
         ctaPrimaryHref="/get-started"
         ctaSecondaryHref="/gallery"
-        trustLine="500+ Floors Restored • 10-Year Warranty • Dustless Process"
+        trustLine="1000+ Floors Restored • 10-Year Warranty • Dustless Process"
       />
 
       {/* Opening hook */}
