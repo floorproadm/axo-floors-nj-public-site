@@ -97,21 +97,13 @@ const Stairs = () => {
                 Stairs are the hardest-working surface in your home — and the first thing guests see. We treat them
                 with the same precision we bring to your floors.
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {benefits.map((benefit, index) => (
                   <div key={index} className="flex items-center gap-3">
                     <CheckCircle className="w-5 h-5 text-gold flex-shrink-0" />
                     <span className="text-grey">{benefit}</span>
                   </div>
                 ))}
-              </div>
-              <div className="flex justify-center">
-                <Button asChild className="gold-gradient hover:scale-105 transition-bounce text-base sm:text-lg px-8 sm:px-10 py-4 sm:py-5 h-auto min-h-[56px] text-black font-semibold">
-                  <Link to="/get-started" className="flex items-center justify-center gap-2 w-full sm:w-auto">
-                    Get My Estimate
-                    <ArrowRight className="w-5 h-5" />
-                  </Link>
-                </Button>
               </div>
             </div>
 
