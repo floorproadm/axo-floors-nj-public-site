@@ -73,10 +73,10 @@ const Portfolio = () => {
 
         {/* View More Button */}
         <div className="text-center px-4 sm:px-0">
-          <Button asChild className="gold-gradient hover:scale-105 transition-bounce min-h-[48px] px-6 sm:px-8">
-            <Link to="/gallery" className="flex items-center justify-center gap-2 text-sm sm:text-base">
+          <Button asChild className="gold-gradient hover:scale-105 transition-bounce min-h-[52px] h-auto px-8 sm:px-10 py-4 sm:py-5 text-base sm:text-lg font-semibold w-full sm:w-auto">
+            <Link to="/gallery" className="flex items-center justify-center gap-2 text-black">
               View Complete Gallery
-              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
+              <ArrowRight className="w-5 h-5" />
             </Link>
           </Button>
         </div>
