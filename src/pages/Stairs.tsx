@@ -39,7 +39,7 @@ const Stairs = () => {
     "Carpet removal and disposal included",
     "Custom stain and finish options",
     "Safe, code-conscious railing work",
-    "Most staircases completed in 2–4 days",
+    "Most staircases completed in 2–3 days",
   ];
 
   return (
