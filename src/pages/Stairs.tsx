@@ -105,12 +105,14 @@ const Stairs = () => {
                   </div>
                 ))}
               </div>
-              <Button asChild className="gold-gradient hover:scale-105 transition-bounce">
-                <Link to="/get-started" className="flex items-center gap-2">
-                  Get My Estimate
-                  <ArrowRight className="w-5 h-5" />
-                </Link>
-              </Button>
+              <div className="flex justify-center">
+                <Button asChild className="gold-gradient hover:scale-105 transition-bounce text-base sm:text-lg px-8 sm:px-10 py-4 sm:py-5 h-auto min-h-[56px] text-black font-semibold">
+                  <Link to="/get-started" className="flex items-center justify-center gap-2 w-full sm:w-auto">
+                    Get My Estimate
+                    <ArrowRight className="w-5 h-5" />
+                  </Link>
+                </Button>
+              </div>
             </div>
 
             <div className="rounded-lg overflow-hidden shadow-lg">
