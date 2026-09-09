@@ -12,11 +12,11 @@ const CORE_PATHS = [
   "/installation",
   "/refinishing",
   "/vinyl-plank-flooring",
+  "/stairs",
   "/stain-gallery",
   "/gallery",
   "/about",
   "/contact",
-
 ];
 
 const MobileStickyCTA = () => {
