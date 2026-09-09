@@ -267,10 +267,19 @@ const Gallery = () => {
   };
 
   const albumImages = useMemo(() => {
-    if (activeAlbum === "all") return projects;
+    if (activeAlbum === "all") {
+      // Sort by folder display_order first, then project display_order,
+      // so All Photos follows the album sequence: Refinish > Installation > Stairs > Custom Jobs > Repairs...
+      const folderOrder = new Map(folders.map((f) => [f.id, f.display_order]));
+      return [...projects].sort((a, b) => {
+        const folderDiff = (folderOrder.get(a.parent_folder_id || "") ?? Infinity) - (folderOrder.get(b.parent_folder_id || "") ?? Infinity);
+        if (folderDiff !== 0) return folderDiff;
+        return a.display_order - b.display_order;
+      });
+    }
     if (activeAlbum) return projects.filter((p) => p.parent_folder_id === activeAlbum);
     return [];
-  }, [projects, activeAlbum]);
+  }, [projects, activeAlbum, folders]);
 
   const activeAlbumName = useMemo(() => {
     if (activeAlbum === "all") return "All Photos";
