@@ -60,7 +60,7 @@ const Refinishing = () => {
         ctaSecondary="See Before & After"
         ctaPrimaryHref="/get-started"
         ctaSecondaryHref="/gallery"
-        trustLine="1000+ Floors Restored • Dust Control Process"
+        trustLine="500+ Floors Restored • Dust Control Process"
       />
 
       {/* Opening hook */}
