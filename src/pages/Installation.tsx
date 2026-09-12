@@ -87,7 +87,7 @@ const Installation = () => {
         ctaSecondary="See Our Work"
         ctaPrimaryHref="/get-started"
         ctaSecondaryHref="/gallery"
-        trustLine="1000+ Homes • Licensed & Insured"
+        trustLine="500+ Homes • Licensed & Insured"
       />
 
       {/* Opening hook */}
