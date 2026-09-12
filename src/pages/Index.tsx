@@ -156,7 +156,7 @@ const Index = () => {
         ctaSecondary="See Our Work"
         ctaPrimaryHref="/get-started"
         ctaSecondaryHref="/gallery"
-        trustLine="500+ Homes Transformed • 15+ Years Hands-On Experience"
+        trustLine="500+ Homes Transformed • 10+ Years Hands-On Experience"
         showReviews={true}
       />
 
