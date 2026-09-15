@@ -11,7 +11,6 @@ const Header = () => {
 
   const navigation = [
     { name: "Services", href: "#", hasDropdown: true },
-    { name: "Smart Estimate", href: "/get-started" },
     { name: "Gallery", href: "/gallery" },
     { name: "Contact", href: "/contact" },
   ];
