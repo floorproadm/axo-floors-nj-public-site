@@ -8,7 +8,7 @@ const links = [
   { label: "Get Your Free Estimate", to: "/contact", icon: Calendar, primary: true },
   { label: "Call Us — (732) 351-8653", to: "tel:+17323518653", icon: Phone, primary: true, external: true },
   { label: "About Us", to: "/about", icon: ClipboardCheck },
-  { label: "Our Services", to: "/", icon: Wrench },
+  { label: "Our Services", to: "/#services", icon: Wrench, hash: true },
   { label: "See Our Work", to: "/gallery", icon: Images },
   
   
