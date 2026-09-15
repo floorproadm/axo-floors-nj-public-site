@@ -8,7 +8,7 @@ const links = [
   { label: "Get Your Free Estimate", to: "/contact", icon: Calendar, primary: true },
   { label: "Call Us — (732) 351-8653", to: "tel:+17323518653", icon: Phone, primary: true, external: true },
   { label: "About Us", to: "/about", icon: ClipboardCheck },
-  { label: "Our Services", to: "/", icon: Wrench },
+  { label: "Our Services", to: "/#services", icon: Wrench, hash: true },
   { label: "See Our Work", to: "/gallery", icon: Images },
   
   
@@ -61,8 +61,13 @@ const Links = () => (
 
         return (
           <motion.div key={l.label} variants={item}>
-            {l.external ? (
-              <a href={l.to} target={l.to.startsWith("tel") ? undefined : "_blank"} rel="noopener noreferrer" className={cls}>
+            {l.external || l.hash ? (
+              <a
+                href={l.to}
+                target={l.external && !l.to.startsWith("tel") ? "_blank" : undefined}
+                rel="noopener noreferrer"
+                className={cls}
+              >
                 <Icon className="w-5 h-5 shrink-0" />
                 {l.label}
               </a>
