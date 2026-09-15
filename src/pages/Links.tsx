@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Calendar, Phone, Wrench, Images, Palette, ClipboardCheck, Star, Gift } from "lucide-react";
+import { Calendar, Phone, Wrench, Images, ClipboardCheck, Star, Gift } from "lucide-react";
 import axoLogo from "@/assets/axo-logo-official.png";
 import woodyMascot from "@/assets/woody-mascot.jpg";
 
@@ -10,7 +10,7 @@ const links = [
   { label: "About Us", to: "/about", icon: ClipboardCheck },
   { label: "Our Services", to: "/", icon: Wrench },
   { label: "See Our Work", to: "/gallery", icon: Images },
-  { label: "Stain Gallery", to: "/stain-gallery", icon: Palette },
+  
   
 ];
 
