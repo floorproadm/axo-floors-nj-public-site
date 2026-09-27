@@ -111,12 +111,13 @@ const HeaderSSR = () => {
               <SafeLink to="/gallery" className="text-white hover:text-gold font-medium">
                 Gallery
               </SafeLink>
-              <SafeLink to="/contact" className="text-white hover:text-gold font-medium">
-                Contact
-              </SafeLink>
               <SafeLink to="/blog" className="text-white hover:text-gold font-medium">
                 Blog
               </SafeLink>
+              <SafeLink to="/contact" className="text-white hover:text-gold font-medium">
+                Contact
+              </SafeLink>
+
             </nav>
           </div>
         </div>
