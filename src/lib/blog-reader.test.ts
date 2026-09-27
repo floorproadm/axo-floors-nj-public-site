@@ -1,3 +1,4 @@
+// @ts-nocheck -- vitest is run via bunx and is not a typed project dependency
 import { afterEach, describe, expect, it } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
 import { createElement } from "react";
