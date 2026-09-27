@@ -17,7 +17,7 @@ function summarize(post: NonNullable<Awaited<ReturnType<typeof fetchBlogPost>>>[
   return text.length > 160 ? `${text.slice(0, 159).trimEnd()}…` : text;
 }
 
-export const Route = createFileRoute("/blog/$slug")({
+export const Route = createFileRoute("/blog/")({
   loader: async ({ params }) => { const page = await fetchBlogPost({ data: { slug: params.slug } }); if (!page) throw notFound(); return page; },
   headers: () => ({ "Cache-Control": "public, max-age=60, s-maxage=300" }),
   head: ({ loaderData }) => {
