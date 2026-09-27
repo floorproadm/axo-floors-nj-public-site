@@ -5,7 +5,7 @@ import { BlogShell, CoverFallback, formatDate } from "@/components/blog/BlogChro
 
 const TITLE = "Flooring Blog | AXO Floors NJ";
 const DESC =
-  "Hardwood flooring tips, refinishing guides and project stories from AXO Floors, serving New Jersey homeowners.";
+  "Expert insights, timeless craftsmanship, and everything you need to know about Floors.";
 const URL = `${PUBLIC_SITE_URL}/blog`;
 
 export const Route = createFileRoute("/blog/")({
