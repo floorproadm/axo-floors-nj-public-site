@@ -83,29 +83,33 @@ export function AppSidebar({ onClose }: AppSidebarProps) {
         {/* Navegação Principal */}
         <div className="px-3 space-y-1">
           {mainNavigation.map((item) => (
-            <Link
-              key={item.name}
-              to={item.href}
-              onClick={onClose}
-              className={`block py-3 px-4 rounded-xl font-medium transition-all ${
-                isActive(item.href)
-                  ? 'text-gold bg-gold/10 border-l-2 border-gold'
-                  : 'highlight' in item && item.highlight
-                    ? 'text-gold hover:bg-gold/10'
-                    : 'text-white hover:text-gold hover:bg-white/5'
-              }`}
-            >
-              {item.name}
-            </Link>
+            <Fragment key={item.name}>
+              <Link
+                to={item.href}
+                onClick={onClose}
+                className={`block py-3 px-4 rounded-xl font-medium transition-all ${
+                  isActive(item.href)
+                    ? 'text-gold bg-gold/10 border-l-2 border-gold'
+                    : 'highlight' in item && item.highlight
+                      ? 'text-gold hover:bg-gold/10'
+                      : 'text-white hover:text-gold hover:bg-white/5'
+                }`}
+              >
+                {item.name}
+              </Link>
+              {/* Blog sits directly below Gallery. It's a server-rendered route
+                  outside the SPA router, so it uses a full navigation anchor. */}
+              {item.href === '/gallery' && (
+                <a
+                  href="/blog"
+                  onClick={onClose}
+                  className="block py-3 px-4 rounded-xl font-medium transition-all text-white hover:text-gold hover:bg-white/5"
+                >
+                  Blog
+                </a>
+              )}
+            </Fragment>
           ))}
-          {/* Blog is a server-rendered route outside the SPA router: full navigation */}
-          <a
-            href="/blog"
-            onClick={onClose}
-            className="block py-3 px-4 rounded-xl font-medium transition-all text-white hover:text-gold hover:bg-white/5"
-          >
-            Blog
-          </a>
         </div>
       </div>
 
