@@ -35,11 +35,12 @@ export interface PublicBlogPost extends Omit<BlogPostRow, "cover_image_url"> {
 
 export class BlogBackendError extends Error {}
 
-type FetchLike = typeof fetch;
-let fetchImpl: FetchLike = (...a) => fetch(...a);
+type FetchLike = (input: string, init?: RequestInit) => Promise<Response>;
+const defaultFetch: FetchLike = (input, init) => fetch(input, init);
+let fetchImpl: FetchLike = defaultFetch;
 /** Test hook: inject a mock fetch (fixtures only, no network). */
-export function __setBlogFetch(f: FetchLike | null) {
-  fetchImpl = f ?? ((...a) => fetch(...a));
+export function __setBlogFetch(f: FetchLike | typeof fetch | null) {
+  fetchImpl = (f as FetchLike) ?? defaultFetch;
 }
 
 const headers = () => ({ apikey: SUPABASE_ANON_KEY, Accept: "application/json" });
