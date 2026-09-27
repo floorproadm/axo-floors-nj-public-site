@@ -48,7 +48,7 @@ function BlogIndex() {
     <BlogShell>
       <section className="bg-navy text-white">
         <div className="container mx-auto px-4 py-8 md:py-11">
-          <p className="text-xs md:text-sm font-semibold uppercase tracking-[0.18em] text-gold mb-2">AXO Floors Journal</p>
+          <p className="text-xs md:text-sm font-semibold uppercase tracking-[0.18em] text-gold mb-2">AXO JOURNAL</p>
           <h1 className="text-3xl md:text-4xl font-heading font-bold mb-2">Flooring Blog</h1>
           <p className="text-white/80 max-w-2xl text-base md:text-lg">{DESC}</p>
         </div>
