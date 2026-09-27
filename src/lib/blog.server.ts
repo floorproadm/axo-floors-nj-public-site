@@ -78,32 +78,12 @@ export async function signCover(path: string | null): Promise<string | null> {
   } catch { return null; }
 }
 
-async function validateFigureLinks(postSlug: string, document: RichBlogDocument) {
-  const figures = document.blocks.filter((block): block is Extract<RichBlogBlock, { type: "figure" }> => block.type === "figure");
-  if (!figures.length) return new Set<string>();
-  const ids = [...new Set(figures.map((figure) => figure.media_id))];
-  const encodedIds = ids.map((id) => `"${id}"`).join(",");
-  const rows = await rest<Array<{ id: string; storage_path?: string; path?: string; blog_post_slug?: string; post_slug?: string }>>(
-    "blog_post_media",
-    `select=id,storage_path,path,blog_post_slug,post_slug&id=in.(${encodeURIComponent(encodedIds)})`,
-  );
-  const allowed = new Set<string>();
-  for (const row of rows) {
-    const path = row.storage_path ?? row.path;
-    const slug = row.blog_post_slug ?? row.post_slug;
-    const figure = figures.find((item) => item.media_id === row.id);
-    if (figure && path === figure.path && (!slug || slug === postSlug)) allowed.add(row.id);
-  }
-  return allowed;
-}
-
-async function resolveDocument(postSlug: string, value: unknown | null): Promise<PublicRichBlogDocument | null> {
+async function resolveDocument(_postSlug: string, value: unknown | null): Promise<PublicRichBlogDocument | null> {
   if (value === null) return null;
   const document = parseRichBlogDocument(value);
-  const allowed = await validateFigureLinks(postSlug, document);
   const blocks = await Promise.all(document.blocks.map(async (block) => {
     if (block.type !== "figure") return block;
-    return { ...block, signedUrl: allowed.has(block.media_id) ? await signCover(block.path) : null };
+    return { ...block, signedUrl: await signCover(block.path) };
   }));
   return { version: 1, blocks };
 }
