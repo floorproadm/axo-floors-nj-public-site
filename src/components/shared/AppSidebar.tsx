@@ -98,6 +98,14 @@ export function AppSidebar({ onClose }: AppSidebarProps) {
               {item.name}
             </Link>
           ))}
+          {/* Blog is a server-rendered route outside the SPA router: full navigation */}
+          <a
+            href="/blog"
+            onClick={onClose}
+            className="block py-3 px-4 rounded-xl font-medium transition-all text-white hover:text-gold hover:bg-white/5"
+          >
+            Blog
+          </a>
         </div>
       </div>
 

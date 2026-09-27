@@ -108,6 +108,12 @@ const Header = () => {
                   )}
                 </div>
               ))}
+              <span className="text-gold mx-4">|</span>
+              {/* Server-rendered route outside BrowserRouter: plain anchor */}
+              <a href="/blog" className="text-white hover:text-gold font-medium transition-smooth">
+                Blog
+              </a>
+              
               
               {/* Fixed CTA Button */}
               <Button asChild className="ml-6 gold-gradient text-black font-semibold hover:scale-105 transition-bounce">
