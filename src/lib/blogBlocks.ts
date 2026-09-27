@@ -32,7 +32,8 @@ const documentSchema = z.object({ version: z.literal(1), blocks: z.array(blockSc
 export type BlogInline = z.infer<typeof inlineSchema>;
 export type RichBlogBlock = z.infer<typeof blockSchema>;
 export type RichBlogDocument = z.infer<typeof documentSchema>;
-export type PublicRichBlogDocument = { version: 1; blocks: Array<RichBlogBlock | (Extract<RichBlogBlock, { type: "figure" }> & { signedUrl: string | null })> };
+export type PublicFigureBlock = Omit<Extract<RichBlogBlock, { type: "figure" }>, "path" | "media_id"> & { signedUrl: string | null };
+export type PublicRichBlogDocument = { version: 1; blocks: Array<Exclude<RichBlogBlock, { type: "figure" }> | PublicFigureBlock> };
 export class InvalidBlogBodyError extends Error {}
 
 export function parseRichBlogDocument(value: unknown): RichBlogDocument {

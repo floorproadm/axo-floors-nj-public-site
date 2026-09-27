@@ -7,7 +7,7 @@ import { ArticleMarkdown } from "@/components/blog/BlogChrome";
 
 const NOW = new Date("2026-09-27T00:00:00Z");
 const base = {
-  slug: "how-to-refinish", title: "How to Refinish", excerpt: "Guide", body_markdown: "## Step one\n\nSand it.",
+  id: "11111111-1111-4111-8111-111111111111", slug: "how-to-refinish", title: "How to Refinish", excerpt: "Guide", body_markdown: "## Step one\n\nSand it.",
   cover_image_url: "axo/covers/a.jpg", cover_alt: "Oak floor", category: "Guides", tags: ["oak"],
   author_display_name: "Eduardo", seo_title: null, seo_description: null, status: "published",
   published_at: "2026-09-01T00:00:00Z", updated_at: "2026-09-02T00:00:00Z",

@@ -1,5 +1,5 @@
 import { CircleHelp, Quote } from "lucide-react";
-import type { BlogInline, PublicRichBlogDocument, RichBlogBlock } from "@/lib/blogBlocks";
+import type { BlogInline, PublicFigureBlock, PublicRichBlogDocument, RichBlogBlock } from "@/lib/blogBlocks";
 import { isSafeBlogUrl } from "@/lib/blogBlocks";
 import { CoverFallback } from "./BlogChrome";
 
@@ -26,7 +26,7 @@ export function richFaqs(document: PublicRichBlogDocument | null) {
   return document?.blocks.filter((block): block is Extract<RichBlogBlock, { type: "faq" }> => block.type === "faq") ?? [];
 }
 
-function FigureBlock({ block }: { block: Extract<PublicBlock, { type: "figure" }> & { signedUrl?: string | null } }) {
+function FigureBlock({ block }: { block: PublicFigureBlock }) {
   return <figure className="my-10 md:-mx-16 md:my-14">
     {block.signedUrl ? <img src={block.signedUrl} alt={block.alt} loading="lazy" className="aspect-[4/3] w-full rounded-md object-cover shadow-elegant md:aspect-[16/10]" /> : <CoverFallback className="aspect-[4/3] w-full rounded-md md:aspect-[16/10]" />}
     {block.caption && <figcaption className="mt-3 border-l-2 border-gold pl-3 text-sm leading-6 text-grey">{block.caption}</figcaption>}

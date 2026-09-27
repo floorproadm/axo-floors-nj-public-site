@@ -12,6 +12,7 @@ export const BLOG_BUCKET = "blog-media";
 export const COVER_URL_TTL_SECONDS = 3600;
 
 export interface BlogPostRow {
+  id: string;
   slug: string;
   title: string;
   excerpt: string | null;
@@ -42,7 +43,7 @@ let fetchImpl: FetchLike = defaultFetch;
 export function __setBlogFetch(f: FetchLike | typeof fetch | null) { fetchImpl = (f as FetchLike) ?? defaultFetch; }
 
 const headers = () => ({ apikey: SUPABASE_ANON_KEY, Accept: "application/json" });
-const LIST_COLS = "slug,title,excerpt,cover_image_url,cover_alt,category,tags,author_display_name,status,published_at,updated_at";
+const LIST_COLS = "id,slug,title,excerpt,cover_image_url,cover_alt,category,tags,author_display_name,status,published_at,updated_at";
 const FULL_COLS = `${LIST_COLS},body_markdown,body_blocks,seo_title,seo_description`;
 
 function publicFilter(now: Date) {
@@ -78,22 +79,31 @@ export async function signCover(path: string | null): Promise<string | null> {
   } catch { return null; }
 }
 
-async function resolveDocument(_postSlug: string, value: unknown | null): Promise<PublicRichBlogDocument | null> {
+async function resolveDocument(post: BlogPostRow, value: unknown | null): Promise<PublicRichBlogDocument | null> {
   if (value == null) return null;
   const document = parseRichBlogDocument(value);
+  const figures = document.blocks.filter((block): block is Extract<RichBlogBlock, { type: "figure" }> => block.type === "figure");
+  const allowed = new Map<string, string>();
+  if (figures.length) {
+    const ids = figures.map((figure) => figure.media_id).join(",");
+    const rows = await rest<Array<{ id: string; storage_path: string }>>("blog_post_media", `select=id,storage_path&organization_id=eq.${AXO_ORG_ID}&blog_post_id=eq.${encodeURIComponent(post.id)}&id=in.(${encodeURIComponent(ids)})`);
+    for (const row of rows) allowed.set(row.id, row.storage_path);
+  }
   const blocks = await Promise.all(document.blocks.map(async (block) => {
     if (block.type !== "figure") return block;
-    return { ...block, signedUrl: await signCover(block.path) };
+    const linkedPath = allowed.get(block.media_id);
+    const signedUrl = linkedPath === block.path ? await signCover(block.path) : null;
+    const { path: _path, media_id: _mediaId, ...publicFigure } = block;
+    return { ...publicFigure, signedUrl };
   }));
   return { version: 1, blocks };
 }
-
 async function toPublic(row: BlogPostRow, includeBody: boolean): Promise<PublicBlogPost> {
   const { cover_image_url, body_blocks, ...safe } = row;
   return {
     ...safe,
     body_markdown: includeBody ? safe.body_markdown : null,
-    bodyBlocks: includeBody ? await resolveDocument(row.slug, body_blocks) : null,
+    bodyBlocks: includeBody ? await resolveDocument(row, body_blocks) : null,
     coverUrl: await signCover(cover_image_url),
   };
 }
