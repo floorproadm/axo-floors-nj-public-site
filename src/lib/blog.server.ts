@@ -79,20 +79,25 @@ export async function signCover(path: string | null): Promise<string | null> {
   } catch { return null; }
 }
 
+const FIGURE_EXT = /\.(jpe?g|png|webp|gif|avif)$/i;
+
+// Only paths inside this org + this exact post folder, with an allowed image
+// extension and no traversal, are even attempted. Storage RLS
+// (blog_media_is_public) is the authoritative check on sign.
+export function isFigurePathForPost(path: string, postId: string) {
+  const prefix = `org-${AXO_ORG_ID}/posts/${postId}/`;
+  if (!path.startsWith(prefix)) return false;
+  const file = path.slice(prefix.length);
+  return file.length > 0 && !file.includes("/") && !file.includes("..") && FIGURE_EXT.test(file);
+}
+
 async function resolveDocument(post: BlogPostRow, value: unknown | null): Promise<PublicRichBlogDocument | null> {
   if (value == null) return null;
   const document = parseRichBlogDocument(value);
-  const figures = document.blocks.filter((block): block is Extract<RichBlogBlock, { type: "figure" }> => block.type === "figure");
-  const allowed = new Map<string, string>();
-  if (figures.length) {
-    const ids = figures.map((figure) => figure.media_id).join(",");
-    const rows = await rest<Array<{ id: string; storage_path: string }>>("blog_post_media", `select=id,storage_path&organization_id=eq.${AXO_ORG_ID}&blog_post_id=eq.${encodeURIComponent(post.id)}&id=in.(${encodeURIComponent(ids)})`);
-    for (const row of rows) allowed.set(row.id, row.storage_path);
-  }
+  // Never query blog_post_media anonymously (no anon RLS). Sign directly.
   const blocks = await Promise.all(document.blocks.map(async (block) => {
     if (block.type !== "figure") return block;
-    const linkedPath = allowed.get(block.media_id);
-    const signedUrl = linkedPath === block.path ? await signCover(block.path) : null;
+    const signedUrl = isFigurePathForPost(block.path, post.id) ? await signCover(block.path) : null;
     const { path: _path, media_id: _mediaId, ...publicFigure } = block;
     return { ...publicFigure, signedUrl };
   }));

@@ -77,7 +77,7 @@ describe("blog public reader", () => {
     ] };
     __setBlogFetch((async (url: string) => {
       calls.push(url);
-      if (url.includes("/rest/v1/blog_post_media")) return new Response(JSON.stringify([{ id: mediaId, storage_path: path }]));
+      if (url.includes("/rest/v1/blog_post_media")) return new Response("[]", { status: 403 });
       if (url.includes("/storage/v1/object/sign/")) return new Response(JSON.stringify({ signedURL: "/object/sign/blog-media/private?token=rich" }));
       return new Response(JSON.stringify([{ ...base, body_blocks }]));
     }) as typeof fetch);
@@ -91,7 +91,32 @@ describe("blog public reader", () => {
     expect(html).toContain('href="/get-started"');
     expect(html).toContain("token=rich");
     expect(JSON.stringify(post)).not.toContain(path);
-    expect(calls.some((url) => url.includes("blog_post_media") && url.includes(encodeURIComponent(mediaId)))).toBe(true);
+    expect(JSON.stringify(post)).not.toContain(mediaId);
+    expect(calls.some((url) => url.includes("blog_post_media"))).toBe(false);
+    expect(calls.some((url) => url.includes("/storage/v1/object/sign/blog-media/" + path.split("/").map(encodeURIComponent).join("/")))).toBe(true);
+  });
+  it("falls back when storage denies signing, and never signs cross-post or non-image paths", async () => {
+    const other = "33333333-3333-4333-8333-333333333333";
+    const org = "org-a0000000-0000-0000-0000-000000000001";
+    const fig = (p: string) => ({ type: "figure", media_id: "22222222-2222-4222-8222-222222222222", path: p, alt: "x" });
+    const body_blocks = { version: 1, blocks: [
+      fig(`${org}/posts/${base.id}/unreferenced.jpg`),
+      fig(`${org}/posts/${other}/cross.jpg`),
+      fig(`${org}/posts/${base.id}/doc.pdf`),
+    ] };
+    __setBlogFetch((async (url: string) => {
+      calls.push(url);
+      if (url.includes("/rest/v1/blog_post_media")) return new Response("[]", { status: 403 });
+      if (url.includes("/storage/v1/object/sign/")) return new Response(JSON.stringify({ error: "not found" }), { status: 400 });
+      return new Response(JSON.stringify([{ ...base, cover_image_url: null, body_blocks }]));
+    }) as typeof fetch);
+    const post = await getPublishedPost("how-to-refinish", NOW);
+    expect(post?.bodyBlocks?.blocks.map((b) => b.signedUrl)).toEqual([null, null, null]);
+    const signs = calls.filter((c) => c.includes("/storage/v1/object/sign/"));
+    expect(signs.length).toBe(1);
+    expect(signs[0]).toContain("unreferenced.jpg");
+    expect(calls.some((c) => c.includes("blog_post_media"))).toBe(false);
+    expect(JSON.stringify(post)).not.toContain("/posts/");
   });
   it("fails closed for malformed blocks and unsafe rich links", () => {
     expect(() => parseRichBlogDocument({ version: 1, blocks: [{ type: "paragraph", content: [{ text: "bad", href: "javascript:alert(1)" }] }] })).toThrow(InvalidBlogBodyError);
