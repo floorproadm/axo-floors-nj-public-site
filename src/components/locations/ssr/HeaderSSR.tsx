@@ -89,12 +89,14 @@ const HeaderSSR = () => {
                 Gallery
               </SafeLink>
               <span className="text-gold">|</span>
-              <SafeLink to="/contact" className="text-white hover:text-gold font-medium transition-smooth">
-                Contact
-              </SafeLink>
               <SafeLink to="/blog" className="text-white hover:text-gold font-medium transition-smooth">
                 Blog
               </SafeLink>
+              <span className="text-gold">|</span>
+              <SafeLink to="/contact" className="text-white hover:text-gold font-medium transition-smooth">
+                Contact
+              </SafeLink>
+
 
               <Button asChild className="ml-4 gold-gradient text-black font-semibold hover:scale-105 transition-bounce">
                 <a href="/get-started">Smart Estimate</a>
@@ -109,12 +111,13 @@ const HeaderSSR = () => {
               <SafeLink to="/gallery" className="text-white hover:text-gold font-medium">
                 Gallery
               </SafeLink>
-              <SafeLink to="/contact" className="text-white hover:text-gold font-medium">
-                Contact
-              </SafeLink>
               <SafeLink to="/blog" className="text-white hover:text-gold font-medium">
                 Blog
               </SafeLink>
+              <SafeLink to="/contact" className="text-white hover:text-gold font-medium">
+                Contact
+              </SafeLink>
+
             </nav>
           </div>
         </div>

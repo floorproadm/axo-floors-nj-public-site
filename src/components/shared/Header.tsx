@@ -106,13 +106,22 @@ const Header = () => {
                   {index < navigation.length - 1 && (
                     <span className="text-gold mx-4">|</span>
                   )}
+                  {/* Blog follows Gallery. Server-rendered route outside the
+                      SPA router, so it uses a plain anchor. */}
+                  {item.href === "/gallery" && (
+                    <>
+                      <a
+                        href="/blog"
+                        className="text-white hover:text-gold font-medium transition-smooth"
+                      >
+                        Blog
+                      </a>
+                      <span className="text-gold mx-4">|</span>
+                    </>
+                  )}
                 </div>
               ))}
-              <span className="text-gold mx-4">|</span>
-              {/* Server-rendered route outside BrowserRouter: plain anchor */}
-              <a href="/blog" className="text-white hover:text-gold font-medium transition-smooth">
-                Blog
-              </a>
+
               
               
               {/* Fixed CTA Button */}
