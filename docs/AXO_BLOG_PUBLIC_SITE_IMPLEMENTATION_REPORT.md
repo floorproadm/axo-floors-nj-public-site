@@ -33,3 +33,26 @@ Gallery page/code, gallery tables, media buckets, Feed, Project A, DB schema/RLS
 - Added: `src/lib/blog.server.ts`, `src/lib/blog.functions.ts`, `src/lib/blog-reader.test.ts`, `src/components/blog/BlogChrome.tsx`, `src/routes/blog.index.tsx`, `src/routes/blog.$slug.tsx`, this report.
 - Modified: `src/routes/sitemap[.]xml.ts`, `src/components/shared/Header.tsx`, `src/components/shared/AppSidebar.tsx`, `src/components/locations/ssr/HeaderSSR.tsx`.
 - Removed: `public/sitemap.xml` (superseded by dynamic route).
+
+## Follow-up: Blog moved directly below Gallery in all menus
+
+Requested after the initial build (mobile menu screenshot).
+
+- `src/components/shared/AppSidebar.tsx` — Blog now renders inside the `mainNavigation`
+  map immediately after the Gallery entry (wrapped in a `Fragment`), so the drawer reads
+  Contact → About → Gallery → **Blog** → Stain Colors → Builders. Still a plain
+  `<a href="/blog">` (server-rendered route outside the SPA router).
+- `src/components/shared/Header.tsx` — Blog anchor moved from the end of the desktop nav
+  into the `navigation` map right after Gallery: Services | Gallery | **Blog** | Contact |
+  Smart Estimate. The trailing hard-coded separator + anchor were removed so no duplicate
+  `|` remains.
+- `src/components/locations/ssr/HeaderSSR.tsx` — desktop and mobile navs on the SSR
+  service-area/hub pages reordered the same way (Gallery | **Blog** | Contact).
+
+### Verification
+- `build-errors.log`: latest entries `build OK` (a transient `Cannot find name 'Fragment'`
+  between the two edits cleared once the import landed).
+- Playwright 393x800, mobile drawer link order:
+  `['Contact', 'About', 'Gallery', 'Blog', 'Stain Colors', 'Builders', 'SMART ESTIMATE', 'CONTACT US']`;
+  screenshot confirms Blog directly below Gallery, no layout defects.
+- Playwright 1280x900, desktop nav text: `Services | Gallery | Blog | Contact Smart Estimate`.
