@@ -79,7 +79,7 @@ export async function signCover(path: string | null): Promise<string | null> {
 }
 
 async function resolveDocument(_postSlug: string, value: unknown | null): Promise<PublicRichBlogDocument | null> {
-  if (value === null) return null;
+  if (value == null) return null;
   const document = parseRichBlogDocument(value);
   const blocks = await Promise.all(document.blocks.map(async (block) => {
     if (block.type !== "figure") return block;
