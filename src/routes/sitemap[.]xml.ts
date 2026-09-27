@@ -1,14 +1,24 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
+import { PUBLIC_SITE_URL } from "@/lib/constants";
+import { getPublishedLocations } from "@/data/njLocations";
 
-const BASE_URL = "";
+const BASE_URL = PUBLIC_SITE_URL;
 
+// Previously a static public/sitemap.xml shadowed this route; its NJ
+// service-area entries are now emitted here so blog posts can be dynamic.
 const paths = [
   "/", "/installation", "/refinishing", "/vinyl-plank-flooring",
   "/gallery", "/stain-gallery", "/about", "/contact", "/get-started", "/schedule-estimate",
   "/campaign", "/referral-program", "/builders", "/realtors", "/builder-offer",
-  "/partner-program", "/wow-pack", "/hub",
+  "/partner-program", "/wow-pack", "/hub", "/blog",
+  "/service-areas/new-jersey",
+  ...getPublishedLocations()
+    .filter((l) => l.indexable)
+    .map((l) => `/service-areas/new-jersey/${l.slug}`),
 ];
+
+const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
@@ -17,6 +27,17 @@ export const Route = createFileRoute("/sitemap.xml")({
         const urls = paths.map((p) =>
           `  <url><loc>${BASE_URL}${p}</loc><changefreq>weekly</changefreq><priority>${p === "/" ? "1.0" : "0.8"}</priority></url>`
         );
+        try {
+          const { listSitemapEntries } = await import("@/lib/blog.server");
+          for (const e of await listSitemapEntries()) {
+            const lastmod = (e.updated_at ?? e.published_at ?? "").slice(0, 10);
+            urls.push(
+              `  <url><loc>${esc(`${BASE_URL}/blog/${e.slug}`)}</loc>${lastmod ? `<lastmod>${lastmod}</lastmod>` : ""}<changefreq>monthly</changefreq><priority>0.7</priority></url>`
+            );
+          }
+        } catch (err) {
+          console.error("sitemap: blog entries unavailable", err);
+        }
         const xml = [
           `<?xml version="1.0" encoding="UTF-8"?>`,
           `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
@@ -24,7 +45,7 @@ export const Route = createFileRoute("/sitemap.xml")({
           `</urlset>`,
         ].join("\n");
         return new Response(xml, {
-          headers: { "Content-Type": "application/xml", "Cache-Control": "public, max-age=3600" },
+          headers: { "Content-Type": "application/xml", "Cache-Control": "public, max-age=300" },
         });
       },
     },

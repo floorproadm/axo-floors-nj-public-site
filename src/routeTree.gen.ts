@@ -13,6 +13,8 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as AxoPagesRouteImport } from './routes/axo-pages'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as ServiceAreasNewJerseyIndexRouteImport } from './routes/service-areas.new-jersey.index'
 import { Route as ServiceAreasNewJerseySlugRouteImport } from './routes/service-areas.new-jersey.$slug'
 import { Route as ApiPublicLeadNotifyRouteImport } from './routes/api/public/lead-notify'
@@ -35,6 +37,16 @@ const SplatRoute = SplatRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServiceAreasNewJerseyIndexRoute =
@@ -60,6 +72,8 @@ export interface FileRoutesByFullPath {
   '/$': typeof SplatRoute
   '/axo-pages': typeof AxoPagesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/blog/': typeof BlogIndexRoute
   '/api/public/lead-notify': typeof ApiPublicLeadNotifyRoute
   '/service-areas/new-jersey/$slug': typeof ServiceAreasNewJerseySlugRoute
   '/service-areas/new-jersey/': typeof ServiceAreasNewJerseyIndexRoute
@@ -69,6 +83,8 @@ export interface FileRoutesByTo {
   '/$': typeof SplatRoute
   '/axo-pages': typeof AxoPagesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/blog': typeof BlogIndexRoute
   '/api/public/lead-notify': typeof ApiPublicLeadNotifyRoute
   '/service-areas/new-jersey/$slug': typeof ServiceAreasNewJerseySlugRoute
   '/service-areas/new-jersey': typeof ServiceAreasNewJerseyIndexRoute
@@ -79,6 +95,8 @@ export interface FileRoutesById {
   '/$': typeof SplatRoute
   '/axo-pages': typeof AxoPagesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/blog/$slug': typeof BlogSlugRoute
+  '/blog/': typeof BlogIndexRoute
   '/api/public/lead-notify': typeof ApiPublicLeadNotifyRoute
   '/service-areas/new-jersey/$slug': typeof ServiceAreasNewJerseySlugRoute
   '/service-areas/new-jersey/': typeof ServiceAreasNewJerseyIndexRoute
@@ -90,6 +108,8 @@ export interface FileRouteTypes {
     | '/$'
     | '/axo-pages'
     | '/sitemap.xml'
+    | '/blog/$slug'
+    | '/blog/'
     | '/api/public/lead-notify'
     | '/service-areas/new-jersey/$slug'
     | '/service-areas/new-jersey/'
@@ -99,6 +119,8 @@ export interface FileRouteTypes {
     | '/$'
     | '/axo-pages'
     | '/sitemap.xml'
+    | '/blog/$slug'
+    | '/blog'
     | '/api/public/lead-notify'
     | '/service-areas/new-jersey/$slug'
     | '/service-areas/new-jersey'
@@ -108,6 +130,8 @@ export interface FileRouteTypes {
     | '/$'
     | '/axo-pages'
     | '/sitemap.xml'
+    | '/blog/$slug'
+    | '/blog/'
     | '/api/public/lead-notify'
     | '/service-areas/new-jersey/$slug'
     | '/service-areas/new-jersey/'
@@ -118,6 +142,8 @@ export interface RootRouteChildren {
   SplatRoute: typeof SplatRoute
   AxoPagesRoute: typeof AxoPagesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  BlogSlugRoute: typeof BlogSlugRoute
+  BlogIndexRoute: typeof BlogIndexRoute
   ApiPublicLeadNotifyRoute: typeof ApiPublicLeadNotifyRoute
   ServiceAreasNewJerseySlugRoute: typeof ServiceAreasNewJerseySlugRoute
   ServiceAreasNewJerseyIndexRoute: typeof ServiceAreasNewJerseyIndexRoute
@@ -153,6 +179,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/service-areas/new-jersey/': {
       id: '/service-areas/new-jersey/'
       path: '/service-areas/new-jersey'
@@ -182,6 +222,8 @@ const rootRouteChildren: RootRouteChildren = {
   SplatRoute: SplatRoute,
   AxoPagesRoute: AxoPagesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  BlogSlugRoute: BlogSlugRoute,
+  BlogIndexRoute: BlogIndexRoute,
   ApiPublicLeadNotifyRoute: ApiPublicLeadNotifyRoute,
   ServiceAreasNewJerseySlugRoute: ServiceAreasNewJerseySlugRoute,
   ServiceAreasNewJerseyIndexRoute: ServiceAreasNewJerseyIndexRoute,
