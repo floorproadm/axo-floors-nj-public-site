@@ -16,8 +16,9 @@ import { AXO_PHONE_DISPLAY } from "@/lib/constants";
  * crawlability and first-paint, not the in-app navigation experience.
  */
 const services = [
-  { name: "Hardwood Flooring", href: "/hardwood-flooring" },
-  { name: "Sanding & Refinish", href: "/sanding-and-refinish" },
+  { name: "Sanding & Refinishing", href: "/sanding-and-refinish" },
+  { name: "Flooring Installation", href: "/hardwood-flooring" },
+  { name: "Stairs & Railings", href: "/stairs" },
   { name: "Vinyl Plank Flooring", href: "/vinyl-plank-flooring" },
 ];
 
@@ -80,10 +81,6 @@ const HeaderSSR = () => {
                   ))}
                 </div>
               </details>
-              <span className="text-gold">|</span>
-              <SafeLink to="/get-started" className="text-white hover:text-gold font-medium transition-smooth">
-                Smart Estimate
-              </SafeLink>
               <span className="text-gold">|</span>
               <SafeLink to="/gallery" className="text-white hover:text-gold font-medium transition-smooth">
                 Gallery
