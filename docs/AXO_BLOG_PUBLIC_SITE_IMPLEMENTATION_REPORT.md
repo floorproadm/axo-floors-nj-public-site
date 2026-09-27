@@ -24,7 +24,7 @@ Gallery page/code, gallery tables, media buckets, Feed, Project A, DB schema/RLS
 - `bunx vitest run src/lib/blog-reader.test.ts` — 7/7 with mocked fetch fixture: public filter params in query, draft/future rows dropped, cover signed only for resolved published post with raw path absent from output, draft/unknown → null with no sign call, 503 outage vs empty distinguished, sitemap entries public-only, markdown strips `<script>`, `javascript:` links and `http:` images.
 - Live dev: `GET /blog` 200 with empty state + canonical + Cache-Control; `GET /blog/does-not-exist` **404** with noindex; `/sitemap.xml` 200 with absolute URLs incl. `/blog`.
 - Playwright 390px: /blog renders, no page errors; mobile sidebar on home shows Blog link.
-- Errors encountered: vitest ignored `*.server.test.ts` name → renamed test file; static sitemap shadowing (fixed above).
+- Errors encountered: vitest ignored `*.server.test.ts` name → renamed test file; static sitemap shadowing (fixed above); TS2556 on fetch-injection typing (fixed); test file marked ts-nocheck because vitest types are not a project dependency. `tsgo` clean for blog files.
 
 ## UNVERIFIED
 - End-to-end publish in A → appearance in B, real signed cover from live `blog-media`, and full SSR article render against live data (live table has 0 rows; no sample articles created). Article SSR/head/JSON-LD was verified only via unit fixture logic, not a live row.
