@@ -1,14 +1,21 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 import { PUBLIC_SITE_URL } from "@/lib/constants";
+import { getPublishedLocations } from "@/data/njLocations";
 
 const BASE_URL = PUBLIC_SITE_URL;
 
+// Previously a static public/sitemap.xml shadowed this route; its NJ
+// service-area entries are now emitted here so blog posts can be dynamic.
 const paths = [
   "/", "/installation", "/refinishing", "/vinyl-plank-flooring",
   "/gallery", "/stain-gallery", "/about", "/contact", "/get-started", "/schedule-estimate",
   "/campaign", "/referral-program", "/builders", "/realtors", "/builder-offer",
   "/partner-program", "/wow-pack", "/hub", "/blog",
+  "/service-areas/new-jersey",
+  ...getPublishedLocations()
+    .filter((l) => l.indexable)
+    .map((l) => `/service-areas/new-jersey/${l.slug}`),
 ];
 
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
