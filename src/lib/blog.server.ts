@@ -1,23 +1,24 @@
-// Server-only, SSR-safe public-anon reader for Project A's public.blog_posts.
-// Uses plain fetch against PostgREST / Storage with the PUBLIC anon key only
-// (never service role). RLS on blog_posts + blog-media enforces visibility;
-// we additionally filter by org, status, and published_at <= now.
+// Server-only public reader for AXO's published blog content.
+// Uses the public anon key only. RLS remains the authority; every row is also
+// re-checked for organization, status, and publication date before media signs.
 import { AXO_ORG_ID } from "@/lib/constants";
+import { isSafeBlogUrl, parseRichBlogDocument, plainTextFromInlines, type BlogInline, type RichBlogBlock, type RichBlogDocument, type PublicRichBlogDocument } from "@/lib/blogBlocks";
 
 const SUPABASE_URL = "https://dcfmrqrbsfxvqhihpamd.supabase.co";
 const SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRjZm1ycXJic2Z4dnFoaWhwYW1kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAwNjE5MTEsImV4cCI6MjA4NTYzNzkxMX0.TKL0qDwIrg9pXLewjpg1YmF_Pw5tCwUK7zdj7vho8A8";
 
 export const BLOG_BUCKET = "blog-media";
-/** Signed cover TTL (1h). Page HTML is cached far shorter (5 min). */
 export const COVER_URL_TTL_SECONDS = 3600;
 
 export interface BlogPostRow {
+  id: string;
   slug: string;
   title: string;
   excerpt: string | null;
   body_markdown: string | null;
-  cover_image_url: string | null; // PRIVATE storage path
+  body_blocks: unknown | null;
+  cover_image_url: string | null;
   cover_alt: string | null;
   category: string | null;
   tags: string[] | null;
@@ -29,8 +30,9 @@ export interface BlogPostRow {
   updated_at: string | null;
 }
 
-export interface PublicBlogPost extends Omit<BlogPostRow, "cover_image_url"> {
-  coverUrl: string | null; // short-lived signed URL, never the raw path
+export interface PublicBlogPost extends Omit<BlogPostRow, "cover_image_url" | "body_blocks"> {
+  coverUrl: string | null;
+  bodyBlocks: PublicRichBlogDocument | null;
 }
 
 export class BlogBackendError extends Error {}
@@ -38,94 +40,108 @@ export class BlogBackendError extends Error {}
 type FetchLike = (input: string, init?: RequestInit) => Promise<Response>;
 const defaultFetch: FetchLike = (input, init) => fetch(input, init);
 let fetchImpl: FetchLike = defaultFetch;
-/** Test hook: inject a mock fetch (fixtures only, no network). */
-export function __setBlogFetch(f: FetchLike | typeof fetch | null) {
-  fetchImpl = (f as FetchLike) ?? defaultFetch;
-}
+export function __setBlogFetch(f: FetchLike | typeof fetch | null) { fetchImpl = (f as FetchLike) ?? defaultFetch; }
 
 const headers = () => ({ apikey: SUPABASE_ANON_KEY, Accept: "application/json" });
-
-const LIST_COLS =
-  "slug,title,excerpt,cover_image_url,cover_alt,category,tags,author_display_name,status,published_at,updated_at";
-const FULL_COLS = `${LIST_COLS},body_markdown,seo_title,seo_description`;
+const LIST_COLS = "id,slug,title,excerpt,cover_image_url,cover_alt,category,tags,author_display_name,status,published_at,updated_at";
+const FULL_COLS = `${LIST_COLS},body_markdown,body_blocks,seo_title,seo_description`;
 
 function publicFilter(now: Date) {
-  return (
-    `organization_id=eq.${AXO_ORG_ID}` +
-    `&status=eq.published&published_at=not.is.null` +
-    `&published_at=lte.${encodeURIComponent(now.toISOString())}`
-  );
+  return `organization_id=eq.${AXO_ORG_ID}&status=eq.published&published_at=not.is.null&published_at=lte.${encodeURIComponent(now.toISOString())}`;
 }
-
-/** Defense in depth: re-check visibility client-side of RLS. */
 export function isPubliclyVisible(r: Pick<BlogPostRow, "status" | "published_at">, now = new Date()) {
   if (r.status !== "published" || !r.published_at) return false;
   const t = Date.parse(r.published_at);
   return Number.isFinite(t) && t <= now.getTime();
 }
 
-async function rest<T>(query: string): Promise<T> {
+async function rest<T>(table: string, query: string): Promise<T> {
   let res: Response;
-  try {
-    res = await fetchImpl(`${SUPABASE_URL}/rest/v1/blog_posts?${query}`, { headers: headers() });
-  } catch (e) {
-    throw new BlogBackendError(`Blog backend unreachable: ${(e as Error).message}`);
-  }
+  try { res = await fetchImpl(`${SUPABASE_URL}/rest/v1/${table}?${query}`, { headers: headers() }); }
+  catch (error) { throw new BlogBackendError(`Blog backend unreachable: ${(error as Error).message}`); }
   if (!res.ok) throw new BlogBackendError(`Blog backend error ${res.status}`);
   return (await res.json()) as T;
 }
 
-/** Signs a PRIVATE blog-media path. Returns null on any failure (fallback art). */
 export async function signCover(path: string | null): Promise<string | null> {
-  if (!path || /^https?:\/\//i.test(path)) return null; // contract: path only
+  if (!path || /^https?:\/\//i.test(path)) return null;
   const clean = path.replace(/^\/+/, "").replace(new RegExp(`^${BLOG_BUCKET}/`), "");
   const encoded = clean.split("/").map(encodeURIComponent).join("/");
   try {
     const res = await fetchImpl(`${SUPABASE_URL}/storage/v1/object/sign/${BLOG_BUCKET}/${encoded}`, {
-      method: "POST",
-      headers: {
-        ...headers(),
-        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-        "Content-Type": "application/json",
-      },
+      method: "POST", headers: { ...headers(), Authorization: `Bearer ${SUPABASE_ANON_KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({ expiresIn: COVER_URL_TTL_SECONDS }),
     });
     if (!res.ok) return null;
-    const j = (await res.json()) as { signedURL?: string; signedUrl?: string };
-    const rel = j.signedURL ?? j.signedUrl;
-    if (!rel) return null;
-    return rel.startsWith("http") ? rel : `${SUPABASE_URL}/storage/v1${rel.startsWith("/") ? "" : "/"}${rel}`;
-  } catch {
-    return null;
-  }
+    const json = (await res.json()) as { signedURL?: string; signedUrl?: string };
+    const relative = json.signedURL ?? json.signedUrl;
+    return relative ? (relative.startsWith("http") ? relative : `${SUPABASE_URL}/storage/v1${relative.startsWith("/") ? "" : "/"}${relative}`) : null;
+  } catch { return null; }
 }
 
-async function toPublic(r: BlogPostRow): Promise<PublicBlogPost> {
-  const { cover_image_url, ...rest } = r;
-  return { ...rest, coverUrl: await signCover(cover_image_url) };
+async function resolveDocument(post: BlogPostRow, value: unknown | null): Promise<PublicRichBlogDocument | null> {
+  if (value == null) return null;
+  const document = parseRichBlogDocument(value);
+  const figures = document.blocks.filter((block): block is Extract<RichBlogBlock, { type: "figure" }> => block.type === "figure");
+  const allowed = new Map<string, string>();
+  if (figures.length) {
+    const ids = figures.map((figure) => figure.media_id).join(",");
+    const rows = await rest<Array<{ id: string; storage_path: string }>>("blog_post_media", `select=id,storage_path&organization_id=eq.${AXO_ORG_ID}&blog_post_id=eq.${encodeURIComponent(post.id)}&id=in.(${encodeURIComponent(ids)})`);
+    for (const row of rows) allowed.set(row.id, row.storage_path);
+  }
+  const blocks = await Promise.all(document.blocks.map(async (block) => {
+    if (block.type !== "figure") return block;
+    const linkedPath = allowed.get(block.media_id);
+    const signedUrl = linkedPath === block.path ? await signCover(block.path) : null;
+    const { path: _path, media_id: _mediaId, ...publicFigure } = block;
+    return { ...publicFigure, signedUrl };
+  }));
+  return { version: 1, blocks };
+}
+async function toPublic(row: BlogPostRow, includeBody: boolean): Promise<PublicBlogPost> {
+  const { cover_image_url, body_blocks, ...safe } = row;
+  return {
+    ...safe,
+    body_markdown: includeBody ? safe.body_markdown : null,
+    bodyBlocks: includeBody ? await resolveDocument(row, body_blocks) : null,
+    coverUrl: await signCover(cover_image_url),
+  };
 }
 
 export async function listPublishedPosts(now = new Date()): Promise<PublicBlogPost[]> {
-  const rows = await rest<BlogPostRow[]>(
-    `select=${LIST_COLS}&${publicFilter(now)}&order=published_at.desc&limit=100`,
-  );
-  const visible = rows.filter((r) => isPubliclyVisible(r, now));
-  return Promise.all(visible.map((r) => toPublic({ ...r, body_markdown: null } as BlogPostRow)));
+  const rows = await rest<BlogPostRow[]>("blog_posts", `select=${LIST_COLS}&${publicFilter(now)}&order=published_at.desc&limit=100`);
+  return Promise.all(rows.filter((row) => isPubliclyVisible(row, now)).map((row) => toPublic({ ...row, body_markdown: null, body_blocks: null, seo_title: null, seo_description: null }, false)));
 }
 
 export async function getPublishedPost(slug: string, now = new Date()): Promise<PublicBlogPost | null> {
   if (!/^[a-z0-9][a-z0-9-]{0,200}$/i.test(slug)) return null;
-  const rows = await rest<BlogPostRow[]>(
-    `select=${FULL_COLS}&slug=eq.${encodeURIComponent(slug)}&${publicFilter(now)}&limit=1`,
-  );
+  const rows = await rest<BlogPostRow[]>("blog_posts", `select=${FULL_COLS}&slug=eq.${encodeURIComponent(slug)}&${publicFilter(now)}&limit=1`);
   const row = rows[0];
   if (!row || !isPubliclyVisible(row, now)) return null;
-  return toPublic(row); // cover signed ONLY after published resolution
+  return toPublic(row, true);
+}
+
+export async function getPublishedPostPage(slug: string, now = new Date()) {
+  const [post, allPosts] = await Promise.all([getPublishedPost(slug, now), listPublishedPosts(now)]);
+  if (!post) return null;
+  const others = allPosts.filter((candidate) => candidate.slug !== slug);
+  const sameCategory = post.category ? others.filter((candidate) => candidate.category === post.category) : [];
+  return { post, related: [...sameCategory, ...others.filter((candidate) => !sameCategory.some((same) => same.slug === candidate.slug))].slice(0, 3) };
 }
 
 export async function listSitemapEntries(now = new Date()) {
-  const rows = await rest<Pick<BlogPostRow, "slug" | "status" | "published_at" | "updated_at">[]>(
-    `select=slug,status,published_at,updated_at&${publicFilter(now)}&order=published_at.desc&limit=1000`,
-  );
-  return rows.filter((r) => isPubliclyVisible(r, now));
+  const rows = await rest<Array<Pick<BlogPostRow, "slug" | "status" | "published_at" | "updated_at">>>("blog_posts", `select=slug,status,published_at,updated_at&${publicFilter(now)}&order=published_at.desc&limit=1000`);
+  return rows.filter((row) => isPubliclyVisible(row, now));
+}
+
+export function summarizePublishedBody(post: Pick<PublicBlogPost, "bodyBlocks" | "body_markdown">, limit = 160) {
+  const rich = post.bodyBlocks?.blocks.flatMap((block) => {
+    if ("content" in block) return plainTextFromInlines(block.content);
+    if (block.type === "bulletList" || block.type === "orderedList") return block.items.map(plainTextFromInlines).join(" ");
+    if (block.type === "faq") return `${block.question} ${plainTextFromInlines(block.answer)}`;
+    return "";
+  }).filter(Boolean).join(" ");
+  const legacy = post.body_markdown?.replace(/[#*_>`\[\]()!-]/g, " ").replace(/\s+/g, " ").trim();
+  const text = (rich || legacy || "").replace(/\s+/g, " ").trim();
+  return text.length > limit ? `${text.slice(0, limit - 1).trimEnd()}…` : text;
 }

@@ -4,10 +4,12 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { createElement } from "react";
 import { __setBlogFetch, getPublishedPost, isPubliclyVisible, listPublishedPosts, listSitemapEntries } from "./blog.server";
 import { ArticleMarkdown } from "@/components/blog/BlogChrome";
+import { BlogBlocks } from "@/components/blog/BlogBlocks";
+import { InvalidBlogBodyError, parseRichBlogDocument } from "./blogBlocks";
 
 const NOW = new Date("2026-09-27T00:00:00Z");
 const base = {
-  slug: "how-to-refinish", title: "How to Refinish", excerpt: "Guide", body_markdown: "## Step one\n\nSand it.",
+  id: "11111111-1111-4111-8111-111111111111", slug: "how-to-refinish", title: "How to Refinish", excerpt: "Guide", body_markdown: "## Step one\n\nSand it.",
   cover_image_url: "axo/covers/a.jpg", cover_alt: "Oak floor", category: "Guides", tags: ["oak"],
   author_display_name: "Eduardo", seo_title: null, seo_description: null, status: "published",
   published_at: "2026-09-01T00:00:00Z", updated_at: "2026-09-02T00:00:00Z",
@@ -61,6 +63,47 @@ describe("blog public reader", () => {
   it("visibility helper", () => {
     expect(isPubliclyVisible({ status: "published", published_at: null }, NOW)).toBe(false);
   });
+
+  it("validates and SSR-renders rich blocks while signing only linked private figures", async () => {
+    const mediaId = "22222222-2222-4222-8222-222222222222";
+    const path = "org-a0000000-0000-0000-0000-000000000001/posts/11111111-1111-4111-8111-111111111111/oak.jpg";
+    const body_blocks = { version: 1, blocks: [
+      { type: "heading", level: 2, id: "choose-finish", content: [{ text: "Choose a finish" }] },
+      { type: "paragraph", content: [{ text: "Durable", marks: ["bold"] }, { text: " and elegant", marks: ["italic"] }] },
+      { type: "bulletList", items: [[{ text: "Low sheen" }], [{ text: "Natural grain" }]] },
+      { type: "figure", media_id: mediaId, path, alt: "Finished oak floor", caption: "Natural oak after refinishing" },
+      { type: "faq", question: "How long does it take?", answer: [{ text: "Usually a few days." }] },
+      { type: "cta", text: "Plan your flooring project", href: "/get-started" },
+    ] };
+    __setBlogFetch((async (url: string) => {
+      calls.push(url);
+      if (url.includes("/rest/v1/blog_post_media")) return new Response(JSON.stringify([{ id: mediaId, storage_path: path }]));
+      if (url.includes("/storage/v1/object/sign/")) return new Response(JSON.stringify({ signedURL: "/object/sign/blog-media/private?token=rich" }));
+      return new Response(JSON.stringify([{ ...base, body_blocks }]));
+    }) as typeof fetch);
+    const post = await getPublishedPost("how-to-refinish", NOW);
+    const html = renderToStaticMarkup(createElement(BlogBlocks, { document: post?.bodyBlocks }));
+    expect(html).toContain('id="choose-finish"');
+    expect(html).toContain("<strong>Durable</strong>");
+    expect(html).toContain("<em> and elegant</em>");
+    expect(html).toContain("Natural oak after refinishing");
+    expect(html).toContain("How long does it take?");
+    expect(html).toContain('href="/get-started"');
+    expect(html).toContain("token=rich");
+    expect(JSON.stringify(post)).not.toContain(path);
+    expect(calls.some((url) => url.includes("blog_post_media") && url.includes(encodeURIComponent(mediaId)))).toBe(true);
+  });
+  it("fails closed for malformed blocks and unsafe rich links", () => {
+    expect(() => parseRichBlogDocument({ version: 1, blocks: [{ type: "paragraph", content: [{ text: "bad", href: "javascript:alert(1)" }] }] })).toThrow(InvalidBlogBodyError);
+    expect(() => parseRichBlogDocument({ version: 1, blocks: [{ type: "unknown" }] })).toThrow(InvalidBlogBodyError);
+  });
+  it("keeps the legacy markdown body unchanged when rich blocks are null", async () => {
+    mock([{ ...base, body_blocks: null }]);
+    const post = await getPublishedPost("how-to-refinish", NOW);
+    expect(post?.bodyBlocks).toBeNull();
+    expect(post?.body_markdown).toBe(base.body_markdown);
+  });
+
   it("markdown: raw HTML dropped, unsafe links stripped, headings rendered", () => {
     const html = renderToStaticMarkup(createElement(ArticleMarkdown, {
       source: "## Heading\n\n<script>alert(1)</script>\n\n[bad](javascript:alert(1)) [ok](https://example.com)\n\n![i](http://insecure/x.png)",
