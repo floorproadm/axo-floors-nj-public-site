@@ -1,8 +1,8 @@
 // Server-only public reader for AXO's published blog content.
 // Uses the public anon key only. RLS remains the authority; every row is also
 // re-checked for organization, status, and publication date before media signs.
-import { z } from "zod";
 import { AXO_ORG_ID } from "@/lib/constants";
+import { isSafeBlogUrl, parseRichBlogDocument, plainTextFromInlines, type BlogInline, type RichBlogBlock, type RichBlogDocument, type PublicRichBlogDocument } from "@/lib/blogBlocks";
 
 const SUPABASE_URL = "https://dcfmrqrbsfxvqhihpamd.supabase.co";
 const SUPABASE_ANON_KEY =
@@ -10,36 +10,6 @@ const SUPABASE_ANON_KEY =
 
 export const BLOG_BUCKET = "blog-media";
 export const COVER_URL_TTL_SECONDS = 3600;
-const MAX_BLOCK_BYTES = 512 * 1024;
-const mediaPathPattern = new RegExp(`^org-${AXO_ORG_ID}/posts/[0-9a-f-]{36}/[^/]+$`, "i");
-
-const safeUrlSchema = z.string().max(2048).refine((value) => isSafeBlogUrl(value), "Unsafe URL");
-const markSchema = z.enum(["bold", "italic"]);
-const inlineSchema = z.object({
-  text: z.string().max(20000),
-  marks: z.array(markSchema).max(2).optional(),
-  href: safeUrlSchema.optional(),
-}).strict();
-const inlineArraySchema = z.array(inlineSchema).max(1000);
-
-const blockSchema = z.discriminatedUnion("type", [
-  z.object({ type: z.literal("paragraph"), content: inlineArraySchema }).strict(),
-  z.object({ type: z.literal("heading"), level: z.union([z.literal(2), z.literal(3)]), id: z.string().regex(/^[a-z0-9][a-z0-9-_]{0,119}$/i), content: inlineArraySchema }).strict(),
-  z.object({ type: z.literal("bulletList"), items: z.array(inlineArraySchema).max(500) }).strict(),
-  z.object({ type: z.literal("orderedList"), items: z.array(inlineArraySchema).max(500) }).strict(),
-  z.object({ type: z.literal("quote"), content: inlineArraySchema }).strict(),
-  z.object({ type: z.literal("divider") }).strict(),
-  z.object({ type: z.literal("figure"), media_id: z.string().uuid(), path: z.string().max(1024).refine((value) => mediaPathPattern.test(value), "Invalid media path"), alt: z.string().min(1).max(500), caption: z.string().max(1000).optional() }).strict(),
-  z.object({ type: z.literal("faq"), question: z.string().min(1).max(500), answer: inlineArraySchema }).strict(),
-  z.object({ type: z.literal("cta"), text: z.string().min(1).max(300), href: safeUrlSchema }).strict(),
-]);
-const documentSchema = z.object({ version: z.literal(1), blocks: z.array(blockSchema).max(500) }).strict();
-
-export type BlogInline = z.infer<typeof inlineSchema>;
-export type RichBlogBlock = z.infer<typeof blockSchema>;
-export type RichBlogDocument = z.infer<typeof documentSchema>;
-export type PublicRichBlogBlock = RichBlogBlock extends infer B ? B : never;
-export type PublicRichBlogDocument = { version: 1; blocks: Array<RichBlogBlock | (Extract<RichBlogBlock, { type: "figure" }> & { signedUrl: string | null })> };
 
 export interface BlogPostRow {
   slug: string;
@@ -65,7 +35,6 @@ export interface PublicBlogPost extends Omit<BlogPostRow, "cover_image_url" | "b
 }
 
 export class BlogBackendError extends Error {}
-export class InvalidBlogBodyError extends Error {}
 
 type FetchLike = (input: string, init?: RequestInit) => Promise<Response>;
 const defaultFetch: FetchLike = (input, init) => fetch(input, init);
@@ -75,11 +44,6 @@ export function __setBlogFetch(f: FetchLike | typeof fetch | null) { fetchImpl =
 const headers = () => ({ apikey: SUPABASE_ANON_KEY, Accept: "application/json" });
 const LIST_COLS = "slug,title,excerpt,cover_image_url,cover_alt,category,tags,author_display_name,status,published_at,updated_at";
 const FULL_COLS = `${LIST_COLS},body_markdown,body_blocks,seo_title,seo_description`;
-
-export function isSafeBlogUrl(value: string) {
-  const url = value.trim();
-  return /^(https?:\/\/|mailto:|\/|#)/i.test(url) && !/^(javascript|data|vbscript):/i.test(url);
-}
 
 function publicFilter(now: Date) {
   return `organization_id=eq.${AXO_ORG_ID}&status=eq.published&published_at=not.is.null&published_at=lte.${encodeURIComponent(now.toISOString())}`;
@@ -112,18 +76,6 @@ export async function signCover(path: string | null): Promise<string | null> {
     const relative = json.signedURL ?? json.signedUrl;
     return relative ? (relative.startsWith("http") ? relative : `${SUPABASE_URL}/storage/v1${relative.startsWith("/") ? "" : "/"}${relative}`) : null;
   } catch { return null; }
-}
-
-export function parseRichBlogDocument(value: unknown): RichBlogDocument {
-  let bytes: number;
-  try { bytes = new TextEncoder().encode(JSON.stringify(value)).length; }
-  catch { throw new InvalidBlogBodyError("Rich article body is not serializable"); }
-  if (bytes > MAX_BLOCK_BYTES) throw new InvalidBlogBodyError("Rich article body exceeds 512KB");
-  const result = documentSchema.safeParse(value);
-  if (!result.success) throw new InvalidBlogBodyError("Rich article body does not match version 1");
-  const ids = result.data.blocks.filter((block) => block.type === "heading").map((block) => block.id);
-  if (new Set(ids).size !== ids.length) throw new InvalidBlogBodyError("Rich article heading IDs must be unique");
-  return result.data;
 }
 
 async function validateFigureLinks(postSlug: string, document: RichBlogDocument) {
@@ -192,7 +144,6 @@ export async function listSitemapEntries(now = new Date()) {
   return rows.filter((row) => isPubliclyVisible(row, now));
 }
 
-export function plainTextFromInlines(inlines: BlogInline[]) { return inlines.map((inline) => inline.text).join(""); }
 export function summarizePublishedBody(post: Pick<PublicBlogPost, "bodyBlocks" | "body_markdown">, limit = 160) {
   const rich = post.bodyBlocks?.blocks.flatMap((block) => {
     if ("content" in block) return plainTextFromInlines(block.content);

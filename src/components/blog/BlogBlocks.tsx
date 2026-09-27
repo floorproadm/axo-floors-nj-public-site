@@ -1,6 +1,6 @@
 import { CircleHelp, Quote } from "lucide-react";
-import type { BlogInline, PublicRichBlogDocument, RichBlogBlock } from "@/lib/blog.server";
-import { isSafeBlogUrl } from "@/lib/blog.server";
+import type { BlogInline, PublicRichBlogDocument, RichBlogBlock } from "@/lib/blogBlocks";
+import { isSafeBlogUrl } from "@/lib/blogBlocks";
 import { CoverFallback } from "./BlogChrome";
 
 type PublicBlock = PublicRichBlogDocument["blocks"][number];
