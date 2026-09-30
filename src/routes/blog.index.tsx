@@ -32,12 +32,12 @@ function Meta({ post }: { post: CardPost }) {
 }
 function FeaturedPost({ post }: { post: CardPost }) {
   return <article data-testid="featured-post" className="group grid overflow-hidden rounded-md border border-border bg-card shadow-elegant lg:grid-cols-[1.35fr_1fr]">
-    <a href={`/blog/${post.slug}`} className="block min-h-64 overflow-hidden lg:min-h-[430px]" aria-label={`Read ${post.title}`}><ArticleImage post={post} eager /></a>
+    <a href={`/blog/${post.slug}`} className="block h-52 overflow-hidden sm:h-60 lg:h-[300px]" aria-label={`Read ${post.title}`}><ArticleImage post={post} eager /></a>
     <div className="flex flex-col justify-center p-6 sm:p-8 lg:p-10"><span className="mb-5 text-xs font-bold uppercase text-gold-warm">Featured story</span><Meta post={post} /><h2 className="mt-4 text-3xl font-bold leading-tight text-navy md:text-4xl"><a href={`/blog/${post.slug}`} className="transition-colors hover:text-gold-warm">{post.title}</a></h2>{post.excerpt && <p className="mt-5 text-base leading-7 text-grey md:text-lg">{post.excerpt}</p>}<a href={`/blog/${post.slug}`} className="mt-7 inline-flex items-center gap-2 font-bold text-navy">Read the story <ArrowRight className="h-4 w-4 text-gold-warm" /></a></div>
   </article>;
 }
 function PostCard({ post }: { post: CardPost }) {
-  return <article className="group flex h-full flex-col overflow-hidden rounded-md border border-border bg-card"><a href={`/blog/${post.slug}`} className="block aspect-[16/10] overflow-hidden"><ArticleImage post={post} /></a><div className="flex flex-1 flex-col p-6"><Meta post={post} /><h2 className="mt-3 text-2xl font-bold leading-tight text-navy"><a href={`/blog/${post.slug}`} className="hover:text-gold-warm">{post.title}</a></h2>{post.excerpt && <p className="mt-3 flex-1 text-sm leading-6 text-grey">{post.excerpt}</p>}<a href={`/blog/${post.slug}`} className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-navy">Read article <ArrowRight className="h-4 w-4 text-gold-warm" /></a></div></article>;
+  return <article className="group flex h-full flex-col overflow-hidden rounded-md border border-border bg-card"><a href={`/blog/${post.slug}`} className="block h-40 overflow-hidden md:h-44"><ArticleImage post={post} /></a><div className="flex flex-1 flex-col p-6"><Meta post={post} /><h2 className="mt-3 text-2xl font-bold leading-tight text-navy"><a href={`/blog/${post.slug}`} className="hover:text-gold-warm">{post.title}</a></h2>{post.excerpt && <p className="mt-3 flex-1 text-sm leading-6 text-grey">{post.excerpt}</p>}<a href={`/blog/${post.slug}`} className="mt-5 inline-flex items-center gap-2 text-sm font-bold text-navy">Read article <ArrowRight className="h-4 w-4 text-gold-warm" /></a></div></article>;
 }
 function BlogIndex() {
   const posts = Route.useLoaderData();
