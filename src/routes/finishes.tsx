@@ -39,7 +39,7 @@ function Card({ img, brand, name, pill, desc, children }: { img: string; brand: 
 }
 
 function SectionLabel({ children }: { children: string }) {
-  return <div className="mb-5 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-grey">{children}<span className="h-px flex-1 bg-border" /></div>;
+  return <div className="mb-6 flex items-center gap-4"><span className="h-9 w-1.5 shrink-0 rounded-full bg-gold" /><p className="text-lg font-extrabold uppercase tracking-[0.2em] text-navy md:text-xl">{children}</p><span className="h-px flex-1 bg-gold/50" /></div>;
 }
 
 function Stress({ level }: { level: number }) {
