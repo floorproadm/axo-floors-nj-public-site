@@ -46,7 +46,7 @@ export const CATALOG: Category[] = [
     num: "01", id: "finishes", title: "Water-Based Finishes",
     brands: [
       { brand: "LOBA", products: [
-        { img: life, brand: L, name: "Life", pill: "1K · One-Component", desc: "A one-component water-based finish with balanced properties, excellent build and easy application — a strong price/performance choice for living areas.", stress: 4,
+        { img: life, brand: L, name: "Life", pill: "1K · One-Component", desc: "A one-component water-based finish with balanced properties, excellent build and easy application — a strong price/performance choice for living areas.", stress: 5,
           chips: [{ label: "Available sheens (US)", items: ["Satin", "Semi-Gloss"] }, { label: "Recommended for", items: ["Living Areas", "Light-Colored Wood Species"] }],
           note: "Available in 2.5-gallon size only." },
         { img: viva, brand: L, name: "Viva", pill: "1K · One-Component", desc: "A non-yellowing one-component finish with excellent chemical and abrasion resistance and powerful resistance to plasticizer migration from flooring adhesives.", stress: 5,
