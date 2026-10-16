@@ -105,8 +105,7 @@ export const CATALOG: Category[] = [
     brands: [
       { brand: "LOBA", products: [
         { img: amberizer, brand: L, name: "Amberizer", pill: "Additive · Amber Tone", desc: "Achieves the traditional look of an aged oil-modified polyurethane finish with water-based coatings.",
-          chips: [{ label: "Compatible with", items: ["All LOBA Water-Based Finishes"] }, { label: "Best for", items: ["Dark Wood Species"] }],
-          note: "For light wood species, LOBA recommends consultation before use." },
+          chips: [{ label: "Compatible with", items: ["All LOBA Water-Based Finishes"] }, { label: "Best for", items: ["Dark Wood Species"] }] },
         { img: whitener, brand: L, name: "Whitener", pill: "Additive · Brightening", desc: "Added to LOBA water-based sealers and finishes for a smooth brightening of wood floors. Intensity is controlled by applying one or more layers.",
           chips: [{ label: "Compatible with", items: ["LOBA Water-Based Sealers & Finishes"] }, { label: "Best for", items: ["White & Light Floors"] }] },
         { img: uv, brand: L, name: "UV-Protect", pill: "Additive · UV Protection", desc: "Helps protect light-colored wood species against yellowing and darkening from sunlight — so color changes are less noticeable when rugs or furniture are moved.",
