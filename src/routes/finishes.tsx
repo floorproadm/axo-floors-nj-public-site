@@ -39,7 +39,7 @@ function Card({ img, brand, name, pill, desc, children }: { img: string; brand: 
 }
 
 function SectionLabel({ children }: { children: string }) {
-  return <div className="mb-5 mt-12 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-grey first:mt-0">{children}<span className="h-px flex-1 bg-border" /></div>;
+  return <div className="mb-5 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-grey">{children}<span className="h-px flex-1 bg-border" /></div>;
 }
 
 function Stress({ level }: { level: number }) {
@@ -65,7 +65,7 @@ function ProductCard({ p }: { p: Product }) {
 }
 
 function CategoryHeading({ num, title }: { num: string; title: string }) {
-  return <h2 className="mb-2 mt-14 flex items-baseline gap-3 text-xl font-bold uppercase tracking-[0.12em] text-navy first:mt-0 md:text-2xl"><span className="text-gold">{num}</span>{title}</h2>;
+  return <h2 className="flex items-baseline gap-3 text-xl font-bold uppercase tracking-[0.12em] text-navy md:text-2xl"><span className="text-gold">{num}</span>{title}</h2>;
 }
 
 function FinishesPage() {
@@ -78,9 +78,9 @@ function FinishesPage() {
     </div></section>
 
     <section className="container mx-auto max-w-5xl px-4 py-10 md:py-16">
-      {CATALOG.map((cat) => <div key={cat.num}>
+      {CATALOG.map((cat) => <div key={cat.num} id={cat.id} className="mt-16 scroll-mt-28 first:mt-0">
         <CategoryHeading num={cat.num} title={cat.title} />
-        {cat.brands.map((b) => <div key={b.brand}>
+        {cat.brands.map((b) => <div key={b.brand} className="mt-8">
           <SectionLabel>{b.brand}</SectionLabel>
           <div className="space-y-6">{b.products.map((p) => <ProductCard key={p.name} p={p} />)}</div>
         </div>)}
