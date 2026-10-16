@@ -73,7 +73,7 @@ function FinishesPage() {
     <section className="bg-navy text-white"><div className="container mx-auto px-4 py-10 md:py-14">
       <p className="mb-2 text-xs font-bold uppercase tracking-[0.28em] text-gold">Hardwood Finishing Guide</p>
       <h1 className="text-3xl font-bold md:text-5xl">Finishes, Sealers & Additives</h1>
-      <p className="mt-4 max-w-3xl text-base leading-7 text-white/80 md:text-lg">A complete guide to the professional LOBA and Bona water-based products AXO Floors selects and applies on hardwood floors.</p>
+      <p className="mt-4 max-w-3xl text-base leading-7 text-white/80 md:text-lg">Beautiful hardwood floors deserve the right finishing products. Explore our selection of professional water-based products, designed to enhance natural beauty and provide lasting protection.</p>
       <div className="mt-6 h-1 w-16 bg-gold" />
     </div></section>
 
