@@ -9,24 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as AxoPagesRouteImport } from './routes/axo-pages'
-import { Route as SplatRouteImport } from './routes/$'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SplatRouteImport } from './routes/$'
+import { Route as AxoPagesRouteImport } from './routes/axo-pages'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
+import { Route as ApiPublicLeadNotifyRouteImport } from './routes/api/public/lead-notify'
 import { Route as ServiceAreasNewJerseyIndexRouteImport } from './routes/service-areas.new-jersey.index'
 import { Route as ServiceAreasNewJerseySlugRouteImport } from './routes/service-areas.new-jersey.$slug'
-import { Route as ApiPublicLeadNotifyRouteImport } from './routes/api/public/lead-notify'
 
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AxoPagesRoute = AxoPagesRouteImport.update({
-  id: '/axo-pages',
-  path: '/axo-pages',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SplatRoute = SplatRouteImport.update({
@@ -34,9 +29,14 @@ const SplatRoute = SplatRouteImport.update({
   path: '/$',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const AxoPagesRoute = AxoPagesRouteImport.update({
+  id: '/axo-pages',
+  path: '/axo-pages',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogIndexRoute = BlogIndexRouteImport.update({
@@ -47,6 +47,11 @@ const BlogIndexRoute = BlogIndexRouteImport.update({
 const BlogSlugRoute = BlogSlugRouteImport.update({
   id: '/blog/$slug',
   path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicLeadNotifyRoute = ApiPublicLeadNotifyRouteImport.update({
+  id: '/api/public/lead-notify',
+  path: '/api/public/lead-notify',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServiceAreasNewJerseyIndexRoute =
@@ -61,11 +66,6 @@ const ServiceAreasNewJerseySlugRoute =
     path: '/service-areas/new-jersey/$slug',
     getParentRoute: () => rootRouteImport,
   } as any)
-const ApiPublicLeadNotifyRoute = ApiPublicLeadNotifyRouteImport.update({
-  id: '/api/public/lead-notify',
-  path: '/api/public/lead-notify',
-  getParentRoute: () => rootRouteImport,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -151,18 +151,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/axo-pages': {
-      id: '/axo-pages'
-      path: '/axo-pages'
-      fullPath: '/axo-pages'
-      preLoaderRoute: typeof AxoPagesRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$': {
@@ -172,11 +165,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SplatRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/axo-pages': {
+      id: '/axo-pages'
+      path: '/axo-pages'
+      fullPath: '/axo-pages'
+      preLoaderRoute: typeof AxoPagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog/': {
@@ -193,6 +193,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/lead-notify': {
+      id: '/api/public/lead-notify'
+      path: '/api/public/lead-notify'
+      fullPath: '/api/public/lead-notify'
+      preLoaderRoute: typeof ApiPublicLeadNotifyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/service-areas/new-jersey/': {
       id: '/service-areas/new-jersey/'
       path: '/service-areas/new-jersey'
@@ -205,13 +212,6 @@ declare module '@tanstack/react-router' {
       path: '/service-areas/new-jersey/$slug'
       fullPath: '/service-areas/new-jersey/$slug'
       preLoaderRoute: typeof ServiceAreasNewJerseySlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/lead-notify': {
-      id: '/api/public/lead-notify'
-      path: '/api/public/lead-notify'
-      fullPath: '/api/public/lead-notify'
-      preLoaderRoute: typeof ApiPublicLeadNotifyRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
