@@ -332,9 +332,9 @@ const Gallery = () => {
               <div className="text-center max-w-3xl mx-auto mb-14">
                 <h2 className="text-[1.75rem] leading-[1.35] sm:text-3xl md:text-4xl lg:text-5xl font-bold font-heading text-navy mb-4">
                   The Work{" "}
-                  <span className="text-gradient-gold italic inline-block gold-clip-safe">Speaks</span>
+                  <span className="text-gradient-gold inline-block gold-clip-safe">Speaks</span>
                   <br className="hidden sm:block" />{" "}
-                  <span className="text-gradient-gold italic inline-block gold-clip-safe">for Itself</span>
+                  <span className="text-gradient-gold inline-block gold-clip-safe">for Itself</span>
                 </h2>
                 <p className="text-grey leading-relaxed text-base md:text-lg">
                   Albums organized by project type — refinishing, installations, and more.
