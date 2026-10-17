@@ -175,6 +175,13 @@
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+  /* Italic glyphs (f, s, k...) overhang their advance width, so the gradient
+     box must be wider than the letters or background-clip:text slices them off.
+     The matching negative margin keeps the visible spacing unchanged. */
+  .gold-clip-safe {
+    padding-inline: 0.25em;
+    margin-inline: -0.25em;
+  }
   .touch-target { min-height: 44px; min-width: 44px; }
   .btn-mobile { min-height: 48px; padding: 0.75rem 1rem; font-size: 0.875rem; }
   @media (min-width: 640px) { .btn-mobile { padding: 0.75rem 1.5rem; font-size: 1rem; } }
