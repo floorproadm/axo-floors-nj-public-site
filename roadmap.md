@@ -1,4 +1,5 @@
 # GA4 page measurement
+- [ ] Phase 1B Step B: verify questionnaire archive, replace only Get Started, and validate synthetic submissions and mobile/desktop preview without publishing.
 - [x] Install one shared Google tag using the saved Measurement ID.
 - [x] Measure public page navigation with sanitized URLs and campaign attribution.
 - [x] Test initialization, local navigation counts, privacy, and existing page browsing.
