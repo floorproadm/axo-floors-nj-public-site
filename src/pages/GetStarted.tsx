@@ -14,6 +14,7 @@ import { AXO_PHONE_TEL } from "@/lib/constants";
 import { estimateCopy } from "@/features/get-started/copy";
 import { captureEstimateAttribution, emptyEstimate, estimateSchema, estimateServices, sendEstimate, type EstimateAttribution } from "@/features/get-started/estimate";
 import { saveEstimate } from "@/features/get-started/estimate.functions";
+import { ProjectPhotos } from "@/features/get-started/ProjectPhotos";
 import "@/features/get-started/estimate.css";
 
 export default function GetStarted() {
@@ -23,6 +24,8 @@ export default function GetStarted() {
   const [done, setDone] = useState(false);
   const [notificationFailed, setNotificationFailed] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [photoCount, setPhotoCount] = useState(0);
+  const [hadPhotoPreviews, setHadPhotoPreviews] = useState(false);
   const locked = useRef(false);
   const attribution = useRef<EstimateAttribution>({});
   const formRef = useRef<HTMLFormElement>(null);
@@ -69,6 +72,7 @@ export default function GetStarted() {
         } finally { clearTimeout(timer); }
       });
       setNotificationFailed(!result.notificationSent);
+      setHadPhotoPreviews(photoCount > 0);
       setDone(true);
       setForm(emptyEstimate);
     } catch {
@@ -99,6 +103,7 @@ export default function GetStarted() {
             <h1 ref={confirmation} tabIndex={-1} className="font-heading text-3xl font-bold leading-tight sm:text-4xl">{estimateCopy.thanks}</h1>
             <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground">{estimateCopy.thanksBody}</p>
             {notificationFailed && <p role="status" className="mt-4 text-sm leading-relaxed text-muted-foreground">Your request is saved, but the email notification could not be confirmed. You can text us directly; please don't submit again.</p>}
+            {hadPhotoPreviews && <p role="status" className="mt-4 text-sm leading-relaxed text-muted-foreground">Your photos were local previews only and were not attached to this request.</p>}
             <Button asChild className="mt-8 min-h-12 bg-gold text-accent-foreground hover:bg-gold/90"><Link to="/">Return Home<ArrowRight className="h-4 w-4" /></Link></Button>
           </section>
         ) : (
@@ -111,6 +116,7 @@ export default function GetStarted() {
                   <div><Label htmlFor="name">Full Name <span aria-hidden="true">*</span></Label><Input {...inputProps("name")} required autoComplete="name" maxLength={120} value={form.name} onChange={(e) => update("name", e.target.value)} className="mt-2 h-12 text-base" />{errorFor("name")}</div>
                   <div><Label htmlFor="phone">Phone Number <span aria-hidden="true">*</span></Label><Input {...inputProps("phone")} required type="tel" autoComplete="tel" inputMode="tel" maxLength={40} value={form.phone} onChange={(e) => update("phone", e.target.value)} className="mt-2 h-12 text-base" />{errorFor("phone")}</div>
                 </div>
+                <div><Label htmlFor="email">Email <span className="font-normal text-muted-foreground">(optional)</span></Label><Input {...inputProps("email")} type="email" autoComplete="email" maxLength={200} value={form.email} onChange={(e) => update("email", e.target.value)} className="mt-2 h-12 text-base" />{errorFor("email")}</div>
                 <fieldset><legend className="mb-2 text-sm font-medium">Service <span aria-hidden="true">*</span></legend>
                   <RadioGroup value={form.service} onValueChange={(v) => update("service", v)} aria-label="Service" aria-required="true" aria-invalid={Boolean(errors.service)} aria-describedby={errors.service ? "service-error" : undefined} className="grid gap-2 sm:grid-cols-2">
                     {estimateServices.map((option, i) => <Label key={option.value} htmlFor={`service-${option.value}`} className={`flex min-h-14 cursor-pointer items-center gap-3 rounded-md border p-3 text-sm leading-relaxed ${form.service === option.value ? "border-gold bg-accent/10" : "border-border"}`}><RadioGroupItem id={`service-${option.value}`} data-field={i === 0 ? "service" : undefined} value={option.value} />{option.label}</Label>)}
@@ -118,10 +124,11 @@ export default function GetStarted() {
                 </fieldset>
                 <div><Label htmlFor="location">Project City or ZIP Code <span aria-hidden="true">*</span></Label><Input {...inputProps("location")} required autoComplete="off" maxLength={120} placeholder="e.g. Freehold or 07728" value={form.location} onChange={(e) => update("location", e.target.value)} className="mt-2 h-12 text-base" />{errorFor("location")}</div>
                 <div><Label htmlFor="message">Tell Us About Your Project <span className="font-normal text-muted-foreground">(optional)</span></Label><Textarea {...inputProps("message")} maxLength={2000} rows={3} value={form.message} onChange={(e) => update("message", e.target.value)} className="mt-2 min-h-24 resize-y text-base" />{errorFor("message")}</div>
-                <div><Label htmlFor="email">Email <span className="font-normal text-muted-foreground">(optional)</span></Label><Input {...inputProps("email")} type="email" autoComplete="email" maxLength={200} value={form.email} onChange={(e) => update("email", e.target.value)} className="mt-2 h-12 text-base" />{errorFor("email")}</div>
+                <ProjectPhotos disabled={sending} onCountChange={setPhotoCount} />
                 <div><Label htmlFor="consent" className="flex min-h-12 cursor-pointer items-start gap-3 text-sm font-normal leading-relaxed"><Checkbox {...inputProps("consent")} checked={form.consent} onCheckedChange={(v) => update("consent", v === true)} aria-required="true" className="mt-1 shrink-0" /><span>{estimateCopy.consent}</span></Label>{errorFor("consent")}</div>
               </fieldset>
               {submitError && <p role="alert" className="text-sm leading-relaxed text-destructive">{submitError}</p>}
+              {photoCount > 0 && <p role="status" className="text-sm leading-relaxed text-muted-foreground">Your estimate request will be sent without the {photoCount} locally previewed {photoCount === 1 ? "photo" : "photos"}.</p>}
               <Button type="submit" disabled={sending} className="min-h-14 w-full bg-gold px-4 text-base font-semibold text-accent-foreground hover:bg-gold/90">{sending ? <><Loader2 className="h-4 w-4 animate-spin" />Sending…</> : <>{estimateCopy.submit}<ArrowRight className="h-4 w-4" /></>}</Button>
               <span className="sr-only" role="status">{sending ? "Sending your estimate request." : ""}</span>
             </form>
