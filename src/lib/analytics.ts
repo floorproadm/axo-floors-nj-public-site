@@ -107,8 +107,8 @@ export function initializeAnalytics(measurementId: string) {
   };
   const originalPush = window.history.pushState;
   const originalReplace = window.history.replaceState;
-  const push: History['pushState'] = function (...args) { originalPush.apply(this, args); onNavigation(); };
-  const replace: History['replaceState'] = function (...args) { originalReplace.apply(this, args); onNavigation(); };
+  const push: History['pushState'] = function (this: History, ...args) { originalPush.apply(this, args); onNavigation(); };
+  const replace: History['replaceState'] = function (this: History, ...args) { originalReplace.apply(this, args); onNavigation(); };
   window.history.pushState = push;
   window.history.replaceState = replace;
   window.addEventListener('popstate', onNavigation);
