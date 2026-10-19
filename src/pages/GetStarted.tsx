@@ -1,779 +1,133 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState, type FormEvent } from "react";
+import { Link } from "react-router-dom";
+import { useServerFn } from "@tanstack/react-start";
+import { ArrowLeft, ArrowRight, CheckCircle2, Loader2, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
-import { useToast } from "@/hooks/use-toast";
 import SEOHead from "@/components/shared/SEOHead";
-import { supabase } from "@/integrations/supabase/client";
-import { AXO_ORG_ID, AXO_PHONE_DISPLAY } from "@/lib/constants";
-import AddressAutocomplete from "@/features/get-started/AddressAutocomplete";
-import {
-  AREA_PRESETS,
-  BELOW_GRADE_OPTIONS,
-  COLOR_CHANGE_OPTIONS,
-  FINISH_SCOPE_OPTIONS,
-  FLOOR_TYPE_OPTIONS,
-  LIVING_OPTIONS,
-  LOCATION_OPTIONS,
-  MATERIALS_OPTIONS,
-  MATERIAL_DELIVERED_OPTIONS,
-  QUIZ_BUDGET_OPTIONS,
-  QUIZ_CONDITION_OPTIONS,
-  QUIZ_COPY,
-  QUIZ_TIMELINE_OPTIONS,
-  SERVICE_TYPE_OPTIONS,
-  STAIRS_COUNT_OPTIONS,
-  SUBFLOOR_OPTIONS,
-  ATTRIBUTION_OPTIONS,
-  WOOD_TYPE_OPTIONS,
-  gsCopy,
-} from "@/features/get-started/copy";
-import {
-  captureUtms,
-  clearDraft,
-  emptyData,
-  formatBudget,
-  formatPhone,
-  isValidEmail,
-  isValidPhone,
-  loadDraft,
-  saveDraft,
-  servicesFromType,
-  type GetStartedData,
-  type UtmParams,
-} from "@/features/get-started/state";
-
-type StepId = string;
-
-interface Step {
-  id: StepId;
-  title: string;
-  helper?: string;
-  render: () => React.ReactElement;
-  validate?: () => string | null;
-}
-
-const amberBtn =
-  "gold-gradient text-accent-foreground shadow-gold transition-smooth hover:opacity-90 font-heading font-semibold tracking-wide";
-
+import logo from "@/assets/axo-logo-official.png";
+import { AXO_PHONE_TEL } from "@/lib/constants";
+import { estimateCopy } from "@/features/get-started/copy";
+import { captureEstimateAttribution, emptyEstimate, estimateSchema, estimateServices, sendEstimate, type EstimateAttribution } from "@/features/get-started/estimate";
+import { saveEstimate } from "@/features/get-started/estimate.functions";
+import "@/features/get-started/estimate.css";
 
 export default function GetStarted() {
-  const navigate = useNavigate();
-  const { toast } = useToast();
-
-  const [data, setData] = useState<GetStartedData>(emptyData);
-  const [step, setStep] = useState(0);
-  const [error, setError] = useState<string | null>(null);
-  const [direction, setDirection] = useState<1 | -1>(1);
-  const [submitting, setSubmitting] = useState(false);
+  const [form, setForm] = useState(emptyEstimate);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [sending, setSending] = useState(false);
   const [done, setDone] = useState(false);
-  const [hydrated, setHydrated] = useState(false);
-  const utmRef = useRef<UtmParams>({});
+  const [notificationFailed, setNotificationFailed] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const locked = useRef(false);
+  const attribution = useRef<EstimateAttribution>({});
+  const formRef = useRef<HTMLFormElement>(null);
+  const confirmation = useRef<HTMLHeadingElement>(null);
+  const insert = useServerFn(saveEstimate);
+  const sms = `sms:${AXO_PHONE_TEL}?body=${encodeURIComponent("Hi AXO Floors! I'd like to discuss an estimate for my flooring project.")}`;
 
-  // Restore draft + capture UTMs once on load
-  useEffect(() => {
-    const draft = loadDraft();
-    if (draft) {
-      setData(draft.data);
-      setStep(draft.step);
-    }
-    utmRef.current = captureUtms();
-    setHydrated(true);
-  }, []);
-
-  useEffect(() => {
-    if (hydrated && !done) saveDraft(data, step);
-  }, [data, step, hydrated, done]);
-
-  const set = useCallback(<K extends keyof GetStartedData>(key: K, value: GetStartedData[K]) => {
-    setError(null);
-    setData((d) => ({ ...d, [key]: value }));
-  }, []);
-
-  const isConsultation =
-    data.services.length === 1 && data.services[0] === "consultation";
-
-
-  const radioStep = (
-    key: keyof GetStartedData,
-    title: string,
-    options: readonly (string | { value: string; label: string; hint?: string })[],
-    errorMsg: string,
-    helper?: string,
-  ): Step => ({
-    id: String(key),
-    title,
-    helper,
-    render: () => (
-      <RadioGroup
-        value={String(data[key] ?? "")}
-        onValueChange={(v) => set(key, v as never)}
-        className="space-y-3"
-      >
-        {options.map((opt) => {
-          const value = typeof opt === "string" ? opt : opt.value;
-          const label = typeof opt === "string" ? opt : opt.label;
-          const hint = typeof opt === "string" ? undefined : opt.hint;
-          const active = String(data[key] ?? "") === value;
-          return (
-            <label
-              key={value}
-              htmlFor={`${String(key)}-${value}`}
-              className={`flex cursor-pointer items-start gap-3 rounded-xl border p-4 transition-colors ${
-                active ? "border-accent bg-accent/10 shadow-sm" : "border-border hover:bg-muted/50"
-              }`}
-            >
-              <RadioGroupItem id={`${String(key)}-${value}`} value={value} className="mt-1" />
-              <span>
-                <span className="block font-medium leading-snug">{label}</span>
-                {hint && <span className="block text-sm text-muted-foreground">{hint}</span>}
-              </span>
-            </label>
-          );
-        })}
-      </RadioGroup>
-    ),
-    validate: () => (String(data[key] ?? "").length > 0 ? null : errorMsg),
-  });
-
-  // ── Step assembly ────────────────────────────────────────
-  const steps = useMemo<Step[]>(() => {
-    const list: Step[] = [];
-
-    list.push({
-      id: "name",
-      title: gsCopy.fields.name.label,
-      render: () => (
-        <Input
-          autoFocus
-          value={`${data.firstName}${data.lastName ? ` ${data.lastName}` : ""}`}
-          placeholder={gsCopy.fields.name.placeholder}
-          onChange={(e) => {
-            const raw = e.target.value;
-            const trimmedStart = raw.replace(/^\s+/, "");
-            const parts = trimmedStart.split(" ");
-            const first = parts.shift() ?? "";
-            setError(null);
-            setData((d) => ({ ...d, firstName: first, lastName: parts.join(" ") }));
-          }}
-          className="h-14 text-lg"
-        />
-      ),
-      validate: () =>
-        data.firstName.trim().length >= 2 ? null : gsCopy.fields.name.error,
-    });
-
-
-    list.push({
-      id: "phone",
-      title: (() => {
-        const first = data.firstName.trim();
-        if (!first) return gsCopy.fields.phone.label;
-        const pretty = first.charAt(0).toUpperCase() + first.slice(1);
-        return `${pretty}, ${gsCopy.fields.phone.label.charAt(0).toLowerCase()}${gsCopy.fields.phone.label.slice(1)}`;
-      })(),
-      render: () => (
-        <Input
-          autoFocus
-          type="tel"
-          inputMode="tel"
-          value={data.phone}
-          placeholder={gsCopy.fields.phone.placeholder}
-          onChange={(e) => set("phone", formatPhone(e.target.value))}
-          className="h-14 text-lg"
-        />
-      ),
-      validate: () => (isValidPhone(data.phone) ? null : gsCopy.fields.phone.error),
-    });
-
-    list.push({
-      id: "email",
-      title: gsCopy.fields.email.label,
-      render: () => (
-        <Input
-          autoFocus
-          type="email"
-          inputMode="email"
-          value={data.email}
-          placeholder={gsCopy.fields.email.placeholder}
-          onChange={(e) => set("email", e.target.value)}
-          className="h-14 text-lg"
-        />
-      ),
-      validate: () => (isValidEmail(data.email) ? null : gsCopy.fields.email.error),
-    });
-
-    list.push({
-      id: "address",
-      title: gsCopy.fields.address.label,
-      helper: gsCopy.fields.address.helper,
-      render: () => (
-        <AddressAutocomplete
-          value={data.address}
-          placeholder={gsCopy.fields.address.placeholder}
-          invalid={Boolean(error)}
-          onEnter={() => goNext()}
-          onChange={(value, meta) =>
-            setData((d) => ({
-              ...d,
-              address: value,
-              addressVerified: meta.verified,
-              city: meta.city ?? d.city,
-              zip: meta.zip ?? d.zip,
-            }))
-          }
-        />
-      ),
-      validate: () => {
-        if (!data.address.trim()) return gsCopy.fields.address.errorEmpty;
-        if (!data.addressVerified) return gsCopy.fields.address.error;
-        return null;
-      },
-    });
-
-    list.push(
-      radioStep("leadSource", gsCopy.attribution.label, ATTRIBUTION_OPTIONS, gsCopy.attribution.error),
-    );
-    const pickServiceType = (value: string, scope?: string) => {
-      setError(null);
-      setData((d) => {
-        const nextScope = value === "install-plus-refinish" ? (scope ?? d.finishScope) : "";
-        return {
-          ...d,
-          serviceType: value,
-          finishScope: nextScope,
-          services: servicesFromType(value, nextScope),
-        };
-      });
-    };
-
-    const cardList = (
-      options: readonly { value: string; label: string; hint?: string }[],
-      selected: string,
-      onPick: (v: string) => void,
-    ) => (
-      <div className="space-y-3">
-        {options.map((opt) => {
-          const active = selected === opt.value;
-          return (
-            <button
-              key={opt.value}
-              type="button"
-              onClick={() => onPick(opt.value)}
-              className={`w-full rounded-xl border p-4 text-left transition-colors ${
-                active ? "border-accent bg-accent/10 shadow-sm" : "border-border hover:bg-muted/50"
-              }`}
-            >
-              <span className="block font-medium leading-snug">{opt.label}</span>
-              {opt.hint && <span className="mt-1 block text-sm text-muted-foreground">{opt.hint}</span>}
-            </button>
-          );
-        })}
-      </div>
-    );
-
-    list.push({
-      id: "serviceType",
-      title: gsCopy.service.label,
-      helper: gsCopy.service.helper,
-      render: () => cardList(SERVICE_TYPE_OPTIONS, data.serviceType, (v) => pickServiceType(v)),
-      validate: () => (data.serviceType ? null : gsCopy.service.error),
-    });
-
-    if (data.serviceType === "install-plus-refinish") {
-      list.push({
-        id: "finishScope",
-        title: gsCopy.finishScope.label,
-        helper: gsCopy.finishScope.helper,
-        render: () =>
-          cardList(FINISH_SCOPE_OPTIONS, data.finishScope, (v) =>
-            pickServiceType("install-plus-refinish", v),
-          ),
-        validate: () => (data.finishScope ? null : gsCopy.finishScope.error),
-      });
-    }
-
-    // ── Quiz-parity branches (mirrors /quiz step logic) ──
-    const branchKeys = (): string[] => {
-      const t = data.serviceType;
-      const installKeys = ["floorType", "materials", "location", "subfloorGrade", "area", "timeline", "budget"];
-      const refinishKeys = ["condition", "wood", "livingDuringRefinish", "area", "colorChange", "timeline", "budget"];
-      if (t === "not-sure") return ["area", "timeline", "budget"];
-      if (t === "new-installation") return installKeys;
-      if (t === "floor-refinish") return refinishKeys;
-      if (t === "install-plus-refinish") {
-        if (data.finishScope === "new-floor") return installKeys;
-        if (data.finishScope === "existing") return refinishKeys;
-        if (data.finishScope === "both")
-          return ["floorType", "materials", "location", "subfloorGrade", "condition", "area", "timeline", "budget"];
-        if (data.finishScope === "not-sure") return ["area", "timeline", "budget"];
+  // Intentionally do not load, modify or submit any legacy localStorage wizard draft.
+  useEffect(() => { attribution.current = captureEstimateAttribution(); }, []);
+  useEffect(() => { if (done) confirmation.current?.focus(); }, [done]);
+  function update<K extends keyof typeof form>(key: K, value: (typeof form)[K]) {
+    setForm((previous) => ({ ...previous, [key]: value }));
+    setErrors((previous) => ({ ...previous, [key]: "" }));
+    setSubmitError("");
+  }
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (locked.current || done) return;
+    const parsed = estimateSchema.safeParse(form);
+    if (!parsed.success) {
+      const next: Record<string, string> = {};
+      for (const issue of parsed.error.issues) {
+        const key = String(issue.path[0]);
+        if (!next[key]) next[key] = issue.message;
       }
-      return [];
-    };
-
-    const pick = (key: keyof GetStartedData, value: string) => {
-      setError(null);
-      setData((d) => ({ ...d, [key]: value }));
-    };
-
-    const simpleStep = (
-      id: string,
-      copy: { label: string; helper?: string; error: string },
-      key: keyof GetStartedData,
-      options: readonly { value: string; label: string; hint?: string }[],
-    ): Step => ({
-      id,
-      title: copy.label,
-      helper: copy.helper,
-      render: () => cardList(options, String(data[key] ?? ""), (v) => pick(key, v)),
-      validate: () => (String(data[key] ?? "") ? null : copy.error),
-    });
-
-    const chipRow = (
-      key: keyof GetStartedData,
-      options: readonly { value: string; label: string }[],
-    ) => (
-      <div className="grid grid-cols-3 gap-3">
-        {options.map((opt) => (
-          <button
-            key={opt.value}
-            type="button"
-            onClick={() => pick(key, opt.value)}
-            className={`rounded-xl border px-3 py-3 text-sm font-medium transition-colors ${
-              String(data[key] ?? "") === opt.value
-                ? "border-accent bg-accent/10 shadow-sm"
-                : "border-border hover:bg-muted/50"
-            }`}
-          >
-            {opt.label}
-          </button>
-        ))}
-      </div>
-    );
-
-    const buildStep = (key: string): Step => {
-      switch (key) {
-        case "floorType":
-          return simpleStep("floorType", QUIZ_COPY.floorType, "floorType", FLOOR_TYPE_OPTIONS);
-        case "materials":
-          return {
-            id: "materials",
-            title: QUIZ_COPY.materials.label,
-            helper: QUIZ_COPY.materials.helper,
-            render: () => (
-              <div className="space-y-5">
-                {cardList(MATERIALS_OPTIONS, data.materialsStatus, (v) => {
-                  setError(null);
-                  setData((d) => ({
-                    ...d,
-                    materialsStatus: v,
-                    materialDelivered: v === "customer_has" ? d.materialDelivered : "",
-                  }));
-                })}
-                {data.materialsStatus === "customer_has" && (
-                  <div className="animate-in fade-in slide-in-from-top-2 space-y-3 rounded-xl border border-accent/40 bg-accent/5 p-4 duration-300">
-                    <p className="font-heading font-semibold">{QUIZ_COPY.materials.deliveredLabel}</p>
-                    {chipRow("materialDelivered", MATERIAL_DELIVERED_OPTIONS)}
-                  </div>
-                )}
-              </div>
-            ),
-            validate: () => {
-              if (!data.materialsStatus) return QUIZ_COPY.materials.error;
-              if (data.materialsStatus === "customer_has" && !data.materialDelivered)
-                return QUIZ_COPY.materials.deliveredError;
-              return null;
-            },
-          };
-        case "location":
-          return simpleStep("location", QUIZ_COPY.location, "location", LOCATION_OPTIONS);
-        case "subfloorGrade":
-          return {
-            id: "subfloorGrade",
-            title: QUIZ_COPY.subfloorGrade.label,
-            helper: QUIZ_COPY.subfloorGrade.helper,
-            render: () => (
-              <div className="space-y-6">
-                <div className="space-y-3">
-                  <p className="font-heading font-semibold">{QUIZ_COPY.subfloorGrade.subfloorLabel}</p>
-                  {chipRow("subfloor", SUBFLOOR_OPTIONS)}
-                </div>
-                <div className="space-y-3">
-                  <p className="font-heading font-semibold">{QUIZ_COPY.subfloorGrade.belowGradeLabel}</p>
-                  {chipRow("belowGrade", BELOW_GRADE_OPTIONS)}
-                </div>
-              </div>
-            ),
-            validate: () => (data.subfloor && data.belowGrade ? null : QUIZ_COPY.subfloorGrade.error),
-          };
-        case "condition":
-          return simpleStep("condition", QUIZ_COPY.condition, "currentCondition", QUIZ_CONDITION_OPTIONS);
-        case "wood":
-          return simpleStep("wood", QUIZ_COPY.wood, "woodType", WOOD_TYPE_OPTIONS);
-        case "livingDuringRefinish":
-          return simpleStep("livingDuringRefinish", QUIZ_COPY.living, "livingDuringRefinish", LIVING_OPTIONS);
-        case "colorChange":
-          return simpleStep("colorChange", QUIZ_COPY.colorChange, "colorChange", COLOR_CHANGE_OPTIONS);
-        case "timeline":
-          return simpleStep("timeline", QUIZ_COPY.timeline, "timeline", QUIZ_TIMELINE_OPTIONS);
-        case "budget":
-          return simpleStep("budget", QUIZ_COPY.budget, "budgetRange", QUIZ_BUDGET_OPTIONS);
-        case "area":
-        default:
-          return {
-            id: "area",
-            title: QUIZ_COPY.area.label,
-            helper: QUIZ_COPY.area.helper,
-            render: () => (
-              <div className="space-y-5">
-                <div className="grid grid-cols-2 gap-3">
-                  {AREA_PRESETS.map((size) => (
-                    <button
-                      key={size.value}
-                      type="button"
-                      onClick={() => pick("sqft", size.value)}
-                      className={`rounded-xl border p-4 text-left transition-colors ${
-                        data.sqft === size.value
-                          ? "border-accent bg-accent/10 shadow-sm"
-                          : "border-border hover:bg-muted/50"
-                      }`}
-                    >
-                      <span className="block font-medium">{size.label}</span>
-                      <span className="mt-1 block text-sm text-muted-foreground">{size.hint}</span>
-                    </button>
-                  ))}
-                </div>
-                <div>
-                  <p className="mb-2 text-sm font-medium">{QUIZ_COPY.area.customLabel}</p>
-                  <div className="relative">
-                    <Input
-                      type="number"
-                      inputMode="numeric"
-                      min={0}
-                      value={data.sqft}
-                      onChange={(e) => set("sqft", e.target.value)}
-                      className="h-14 pr-14 text-lg"
-                      placeholder="Enter custom sq ft"
-                    />
-                    <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground">
-                      sq ft
-                    </span>
-                  </div>
-                </div>
-                <div className="space-y-3 pt-2">
-                  <p className="font-heading font-semibold">{gsCopy.qual.stairs.label}</p>
-                  <div className="grid grid-cols-2 gap-3">
-                    {[
-                      { value: "yes", label: "Yes" },
-                      { value: "no", label: "No" },
-                    ].map((opt) => (
-                      <button
-                        key={opt.value}
-                        type="button"
-                        onClick={() => {
-                          setError(null);
-                          setData((d) => ({
-                            ...d,
-                            stairsIncluded: opt.value,
-                            stairsCount: opt.value === "no" ? "" : d.stairsCount,
-                          }));
-                        }}
-                        className={`rounded-xl border px-4 py-4 font-medium transition-colors ${
-                          data.stairsIncluded === opt.value
-                            ? "border-accent bg-accent/10 shadow-sm"
-                            : "border-border hover:bg-muted/50"
-                        }`}
-                      >
-                        {opt.label}
-                      </button>
-                    ))}
-                  </div>
-                  {data.stairsIncluded === "yes" && (
-                    <div className="animate-in fade-in slide-in-from-top-2 space-y-3 rounded-xl border border-accent/40 bg-accent/5 p-4 duration-300">
-                      <p className="font-heading font-semibold">{gsCopy.qual.stairs.countLabel}</p>
-                      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                        {STAIRS_COUNT_OPTIONS.map((opt) => (
-                          <button
-                            key={opt.value}
-                            type="button"
-                            onClick={() => pick("stairsCount", opt.value)}
-                            className={`rounded-lg border px-3 py-3 text-sm font-medium transition-colors ${
-                              data.stairsCount === opt.value
-                                ? "border-accent bg-accent/15 shadow-sm"
-                                : "border-border hover:bg-muted/50"
-                            }`}
-                          >
-                            {opt.label}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ),
-            validate: () => {
-              if (!data.sqft || Number(data.sqft) <= 0) return QUIZ_COPY.area.error;
-              if (!data.stairsIncluded) return gsCopy.qual.stairs.error;
-              if (data.stairsIncluded === "yes" && !data.stairsCount) return gsCopy.qual.stairs.countError;
-              return null;
-            },
-          };
-      }
-    };
-
-    branchKeys().forEach((k) => list.push(buildStep(k)));
-
-    list.push({
-      id: "consent",
-      title: gsCopy.consent.label,
-      render: () => (
-        <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-border p-4">
-          <Checkbox
-            checked={data.consent}
-            onCheckedChange={(checked) => set("consent", Boolean(checked))}
-            className="mt-1"
-          />
-          <span className="leading-relaxed">{gsCopy.consent.text}</span>
-        </label>
-      ),
-      validate: () => (data.consent ? null : gsCopy.consent.error),
-    });
-
-    return list;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data, error, set]);
-
-  const totalScreens = steps.length + 1; // + intro
-  const isIntro = step === 0;
-  const current = steps[step - 1];
-  const isLast = step === steps.length;
-  const progress = done ? 100 : Math.round((step / totalScreens) * 100);
-
-  const goNext = useCallback(() => {
-    if (isIntro) {
-      setDirection(1);
-      setStep(1);
+      setErrors(next);
+      const first = Object.keys(next)[0];
+      requestAnimationFrame(() => formRef.current?.querySelector<HTMLElement>(`[data-field="${first}"]`)?.focus());
       return;
     }
-    const err = current?.validate?.() ?? null;
-    if (err) {
-      setError(err);
-      return;
-    }
-    setError(null);
-    if (isLast) {
-      void submit();
-      return;
-    }
-    setDirection(1);
-    setStep((s) => s + 1);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [current, isIntro, isLast]);
-
-  const goPrev = () => {
-    setError(null);
-    setDirection(-1);
-    setStep((s) => Math.max(0, s - 1));
-  };
-
-  async function submit() {
-    if (submitting) return;
-    setSubmitting(true);
+    locked.current = true;
+    setSending(true);
+    setSubmitError("");
     try {
-      const labelOf = (
-        options: readonly { value: string; label: string }[],
-        value: string,
-      ) => options.find((o) => o.value === value)?.label ?? "";
-
-      const serviceLabels = [labelOf(SERVICE_TYPE_OPTIONS, data.serviceType) || data.serviceType].filter(Boolean);
-      const budgetNumber =
-        data.budgetRange === "10k-plus" ? 15000 :
-        data.budgetRange === "5k-10k" ? 7500 :
-        data.budgetRange === "2k-5k" ? 3500 :
-        data.budgetRange === "under-2k" ? 2000 : null;
-      const lines: string[] = [];
-      // Markers: "## Title" starts a section, "- Label: value" is a row.
-      // Mobile-friendly plain text; the notification template renders each
-      // "##" block as a collapsible <details> section.
-      const section = (title: string, rows: [string, string | null | undefined][]) => {
-        const filled = rows.filter(([, v]) => v !== null && v !== undefined && String(v).trim() !== "");
-        if (!filled.length) return;
-        if (lines.length) lines.push("");
-        lines.push(`## ${title}`);
-        filled.forEach(([k, v]) => lines.push(`- ${k}: ${v}`));
-      };
-
-      // Contact details live in the lead's own fields (name/phone/email/address),
-      // so they are intentionally omitted here to avoid duplication in the email.
-
-
-
-      section("Request", [
-        ["Service", serviceLabels.join(", ")],
-        ["Finish scope", labelOf(FINISH_SCOPE_OPTIONS, data.finishScope)],
-        ["How they found us", data.leadSource],
-      ]);
-
-      section("Project", [
-        ["Flooring type", labelOf(FLOOR_TYPE_OPTIONS, data.floorType)],
-        ["Materials", labelOf(MATERIALS_OPTIONS, data.materialsStatus)],
-        ["Material delivered", labelOf(MATERIAL_DELIVERED_OPTIONS, data.materialDelivered)],
-        ["Location", labelOf(LOCATION_OPTIONS, data.location)],
-        ["Subfloor", labelOf(SUBFLOOR_OPTIONS, data.subfloor)],
-        ["Below grade", labelOf(BELOW_GRADE_OPTIONS, data.belowGrade)],
-        ["Condition", labelOf(QUIZ_CONDITION_OPTIONS, data.currentCondition)],
-        ["Wood type", labelOf(WOOD_TYPE_OPTIONS, data.woodType)],
-        ["Living in home during work", labelOf(LIVING_OPTIONS, data.livingDuringRefinish)],
-        ["Color change", labelOf(COLOR_CHANGE_OPTIONS, data.colorChange)],
-        ["Square footage", data.sqft ? `${data.sqft} sq ft` : ""],
-        [
-          "Stairs",
-          data.stairsIncluded === "yes"
-            ? `Yes — ${STAIRS_COUNT_OPTIONS.find((o) => o.value === data.stairsCount)?.label ?? data.stairsCount}`
-            : data.stairsIncluded === "no"
-              ? "No"
-              : "",
-        ],
-        ["Timeline", labelOf(QUIZ_TIMELINE_OPTIONS, data.timeline)],
-        ["Budget", labelOf(QUIZ_BUDGET_OPTIONS, data.budgetRange)],
-      ]);
-
-      const utm = utmRef.current || {};
-      section(
-        "Attribution",
-        Object.entries(utm)
-          .filter(([, v]) => Boolean(v))
-          .map(([k, v]) => [k, String(v)] as [string, string]),
-      );
-
-      const leadPayload = {
-        organization_id: AXO_ORG_ID,
-        name: `${data.firstName.trim()} ${data.lastName.trim()}`.trim(),
-        email: data.email.trim(),
-        phone: data.phone,
-        address: data.address,
-        city: data.city || null,
-        zip_code: data.zip || null,
-        lead_source: data.leadSource || "Website — Get Started",
-        services: serviceLabels,
-        budget: budgetNumber,
-        room_size: data.sqft || null,
-        message: null,
-        notes: lines.join("\n"),
-        status: "new_lead",
-        priority: "high",
-        contact_type: "web_form",
-      };
-
-      const { error: insertError } = await supabase
-        .from("leads")
-        .insert([leadPayload as never]);
-
-      if (insertError) throw insertError;
-
-      // Notify the AXO team via our own site endpoint (Gmail, inbox-safe)
-      void fetch("/api/public/lead-notify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(leadPayload),
-      }).catch(() => {});
-
-      clearDraft();
-
-      setDone(true);
-    } catch (e) {
-      console.error("Get Started submit failed:", e);
-      toast({
-        title: gsCopy.errorToast.title,
-        description: `${gsCopy.errorToast.description.replace("(732) 351-8653", AXO_PHONE_DISPLAY)}`,
-        variant: "destructive",
+      const result = await sendEstimate(parsed.data, attribution.current, async (data, safe) => {
+        const saved = await insert({ data: { form: data, attribution: safe } });
+        if (!saved.saved) throw new Error("not_saved");
+      }, async (payload) => {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 10000);
+        try {
+          const response = await fetch("/api/public/lead-notify", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload), signal: controller.signal });
+          return response.ok;
+        } finally { clearTimeout(timer); }
       });
+      setNotificationFailed(!result.notificationSent);
+      setDone(true);
+      setForm(emptyEstimate);
+    } catch {
+      // Do not log input, payloads or provider errors.
+      setSubmitError("We couldn't confirm your request was saved. Please text us directly before retrying.");
     } finally {
-      setSubmitting(false);
+      setSending(false);
+      // After success there is no second insert, including a failed notification.
+      if (!done) locked.current = false;
     }
   }
-
-  // Enter advances
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key !== "Enter" || done) return;
-      const target = e.target as HTMLElement | null;
-      if (target?.tagName === "TEXTAREA") return;
-      e.preventDefault();
-      goNext();
-    };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, [goNext, done]);
-
-  const slideClass = direction === 1 ? "animate-gs-slide-in-right" : "animate-gs-slide-in-left";
+  const errorFor = (key: string) => errors[key] ? <p id={`${key}-error`} role="alert" className="mt-2 text-sm text-destructive">{errors[key]}</p> : null;
+  const inputProps = (key: string) => ({ id: key, "data-field": key, "aria-invalid": Boolean(errors[key]), "aria-describedby": errors[key] ? `${key}-error` : undefined });
 
   return (
-    <div className="flex min-h-[100dvh] flex-col bg-background">
-      <SEOHead
-        title="Get Started — Tell Us About Your Floors | AXO Floors NJ"
-        description="Answer a few quick questions about your hardwood project and the AXO Floors team will reach out with real answers — not a generic sales pitch."
-      />
-
-      {/* Progress bar */}
-      <div className="h-1 w-full bg-muted">
-        <div
-          className="h-full gold-gradient transition-all duration-300"
-          style={{ width: `${progress}%` }}
-        />
-      </div>
-
-      <main className="mx-auto flex w-full max-w-xl flex-1 flex-col justify-center px-5 py-10 sm:py-16">
+    <div className="estimate-page min-h-[100dvh] bg-background text-foreground">
+      <SEOHead title="Get Started — Tell Us About Your Floors | AXO Floors NJ" description="Answer a few quick questions about your hardwood project and the AXO Floors team will reach out with real answers — not a generic sales pitch." />
+      <header className="bg-navy border-b border-gold">
+        <div className="mx-auto flex max-w-3xl items-center justify-between px-5 py-4 sm:px-8">
+          <Link to="/" aria-label="AXO Floors home"><img src={logo} alt="AXO Floors" className="h-10 w-auto sm:h-12" /></Link>
+          <Button asChild variant="ghost" className="text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"><Link to="/"><ArrowLeft className="h-4 w-4" />Home</Link></Button>
+        </div>
+      </header>
+      <main className="mx-auto max-w-3xl px-5 py-8 sm:px-8 sm:py-12">
         {done ? (
-          <div className="animate-gs-slide-in-right space-y-6 text-center">
-            <h1 className="text-3xl font-bold [text-wrap:balance] sm:text-4xl">{gsCopy.thanks.headline}</h1>
-            <p className="leading-relaxed text-muted-foreground">{gsCopy.thanks.body}</p>
-            <Button className={`h-13 w-full py-6 text-base ${amberBtn}`} onClick={() => navigate("/")}>
-              {gsCopy.thanks.cta}
-            </Button>
-          </div>
-        ) : isIntro ? (
-          <div className="animate-gs-slide-in-right space-y-6">
-            <h1 className="text-3xl font-bold [text-wrap:balance] sm:text-4xl">{gsCopy.intro.headline}</h1>
-            <p className="leading-relaxed text-muted-foreground">{gsCopy.intro.body}</p>
-            <Button className={`w-full py-6 text-base ${amberBtn}`} onClick={goNext}>
-              {gsCopy.intro.cta}
-            </Button>
-          </div>
+          <section aria-live="polite" className="py-10">
+            <CheckCircle2 className="mb-5 h-12 w-12 text-gold" aria-hidden="true" />
+            <h1 ref={confirmation} tabIndex={-1} className="font-heading text-3xl font-bold leading-tight sm:text-4xl">{estimateCopy.thanks}</h1>
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground">{estimateCopy.thanksBody}</p>
+            {notificationFailed && <p role="status" className="mt-4 text-sm leading-relaxed text-muted-foreground">Your request is saved, but the email notification could not be confirmed. You can text us directly; please don't submit again.</p>}
+            <Button asChild className="mt-8 min-h-12 bg-gold text-accent-foreground hover:bg-gold/90"><Link to="/">Return Home<ArrowRight className="h-4 w-4" /></Link></Button>
+          </section>
         ) : (
-          <div key={current?.id} className={`${slideClass} space-y-6`}>
-            <div className="space-y-2">
-              <p className="text-sm font-medium text-muted-foreground">
-                Step {step} of {steps.length}
-              </p>
-              <h1 className="text-2xl font-bold [text-wrap:balance] sm:text-3xl">{current?.title}</h1>
-              {current?.helper && <p className="text-sm text-muted-foreground">{current.helper}</p>}
-            </div>
-
-            {current?.render()}
-
-            {error && (
-              <p role="alert" className="text-sm font-medium text-destructive">
-                {error}
-              </p>
-            )}
-
-            <div className="flex gap-3 pt-2">
-              <Button variant="outline" className="flex-1 py-6" onClick={goPrev} disabled={submitting}>
-                {gsCopy.nav.previous}
-              </Button>
-              <Button className={`flex-1 py-6 ${amberBtn}`} onClick={goNext} disabled={submitting}>
-                {isLast ? (submitting ? gsCopy.nav.submitting : gsCopy.nav.submit) : gsCopy.nav.next}
-              </Button>
-            </div>
-          </div>
+          <>
+            <h1 className="max-w-xl font-heading text-3xl font-bold leading-tight sm:text-4xl">{estimateCopy.headline}</h1>
+            <p className="mb-7 mt-3 max-w-xl text-base leading-relaxed text-muted-foreground">{estimateCopy.supporting}</p>
+            <form ref={formRef} onSubmit={submit} noValidate aria-label="Estimate request" aria-busy={sending} className="space-y-5">
+              <fieldset disabled={sending} className="space-y-5">
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <div><Label htmlFor="name">Full Name <span aria-hidden="true">*</span></Label><Input {...inputProps("name")} required autoComplete="name" maxLength={120} value={form.name} onChange={(e) => update("name", e.target.value)} className="mt-2 h-12 text-base" />{errorFor("name")}</div>
+                  <div><Label htmlFor="phone">Phone Number <span aria-hidden="true">*</span></Label><Input {...inputProps("phone")} required type="tel" autoComplete="tel" inputMode="tel" maxLength={40} value={form.phone} onChange={(e) => update("phone", e.target.value)} className="mt-2 h-12 text-base" />{errorFor("phone")}</div>
+                </div>
+                <fieldset><legend className="mb-2 text-sm font-medium">Service <span aria-hidden="true">*</span></legend>
+                  <RadioGroup value={form.service} onValueChange={(v) => update("service", v)} aria-label="Service" aria-required="true" aria-invalid={Boolean(errors.service)} aria-describedby={errors.service ? "service-error" : undefined} className="grid gap-2 sm:grid-cols-2">
+                    {estimateServices.map((option, i) => <Label key={option.value} htmlFor={`service-${option.value}`} className={`flex min-h-14 cursor-pointer items-center gap-3 rounded-md border p-3 text-sm leading-relaxed ${form.service === option.value ? "border-gold bg-accent/10" : "border-border"}`}><RadioGroupItem id={`service-${option.value}`} data-field={i === 0 ? "service" : undefined} value={option.value} />{option.label}</Label>)}
+                  </RadioGroup>{errorFor("service")}
+                </fieldset>
+                <div><Label htmlFor="location">Project City or ZIP Code <span aria-hidden="true">*</span></Label><Input {...inputProps("location")} required autoComplete="off" maxLength={120} placeholder="e.g. Freehold or 07728" value={form.location} onChange={(e) => update("location", e.target.value)} className="mt-2 h-12 text-base" />{errorFor("location")}</div>
+                <div><Label htmlFor="message">Tell Us About Your Project <span className="font-normal text-muted-foreground">(optional)</span></Label><Textarea {...inputProps("message")} maxLength={2000} rows={3} value={form.message} onChange={(e) => update("message", e.target.value)} className="mt-2 min-h-24 resize-y text-base" />{errorFor("message")}</div>
+                <div><Label htmlFor="email">Email <span className="font-normal text-muted-foreground">(optional)</span></Label><Input {...inputProps("email")} type="email" autoComplete="email" maxLength={200} value={form.email} onChange={(e) => update("email", e.target.value)} className="mt-2 h-12 text-base" />{errorFor("email")}</div>
+                <div><Label htmlFor="consent" className="flex min-h-12 cursor-pointer items-start gap-3 text-sm font-normal leading-relaxed"><Checkbox {...inputProps("consent")} checked={form.consent} onCheckedChange={(v) => update("consent", v === true)} aria-required="true" className="mt-1 shrink-0" /><span>{estimateCopy.consent}</span></Label>{errorFor("consent")}</div>
+              </fieldset>
+              {submitError && <p role="alert" className="text-sm leading-relaxed text-destructive">{submitError}</p>}
+              <Button type="submit" disabled={sending} className="min-h-14 w-full bg-gold px-4 text-base font-semibold text-accent-foreground hover:bg-gold/90">{sending ? <><Loader2 className="h-4 w-4 animate-spin" />Sending…</> : <>{estimateCopy.submit}<ArrowRight className="h-4 w-4" /></>}</Button>
+              <span className="sr-only" role="status">{sending ? "Sending your estimate request." : ""}</span>
+            </form>
+          </>
         )}
+        <div className="mt-5 border-t border-border pt-4 text-center"><Button asChild variant="link" className="h-auto min-h-12 whitespace-normal text-sm text-foreground"><a href={sms}><MessageSquare className="h-4 w-4 shrink-0" />Prefer texting? Text Us Directly</a></Button></div>
       </main>
     </div>
   );

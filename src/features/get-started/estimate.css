@@ -1,0 +1,6 @@
+.estimate-page {
+  /* Feature-scoped owner-approved yellow; shared pages and tokens stay unchanged. */
+  --gold-accent: 45.14 84.8% 51.37%;
+  --accent: var(--gold-accent);
+  --ring: var(--gold-accent);
+}

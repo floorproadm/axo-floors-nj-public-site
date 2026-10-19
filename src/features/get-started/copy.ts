@@ -2,6 +2,15 @@
  * All user-facing copy for the /get-started wizard.
  * Keys are i18n-ready: a PT dictionary can be added later and swapped by locale.
  */
+export const estimateCopy = {
+  headline: "Let's Talk About Your Floors.",
+  supporting: "Tell us a little about your project. Our team will reach out to discuss the details and next steps.",
+  submit: "Request My Estimate",
+  consent: "I consent to being contacted by AXO Floors by phone, text, or email regarding my project.",
+  thanks: "Thank You — Let's Talk Floors.",
+  thanksBody: "Your request has been received. Our team will reach out to discuss your project and next steps.",
+} as const;
+
 export const gsCopy = {
   intro: {
     headline: "Let's Bring Your Floors Back to Life",
