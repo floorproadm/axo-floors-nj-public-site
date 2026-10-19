@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-router";
 import type { QueryClient } from "@tanstack/react-query";
 import type { ReactNode } from "react";
+import Analytics from "@/components/shared/Analytics";
 
 import appCss from "../styles.css?url";
 
@@ -78,6 +79,7 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body>
+        <Analytics />
         {children}
         <Scripts />
       </body>
