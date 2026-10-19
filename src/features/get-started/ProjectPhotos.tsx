@@ -13,7 +13,7 @@ export function ProjectPhotos({ disabled, onCountChange }: { disabled: boolean; 
   const nextId = useRef(0);
   const picker = useRef<HTMLInputElement>(null);
   const mounted = useRef(true);
-  useEffect(() => { mounted.current = true; return () => { mounted.current = false; current.current.forEach((photo) => URL.revokeObjectURL(photo.url)); }; }, []);
+  useEffect(() => { mounted.current = true; return () => { mounted.current = false; current.current = []; }; }, []);
 
   async function select(event: ChangeEvent<HTMLInputElement>) {
     const files = Array.from(event.target.files || []);
@@ -24,21 +24,27 @@ export function ProjectPhotos({ disabled, onCountChange }: { disabled: boolean; 
       if (!mounted.current) break;
       const error = validateProjectPhoto(file, current.current.length);
       if (error) { problems.push(error); continue; }
-      const url = URL.createObjectURL(file);
       try {
+        // Existing image policy allows data: but not blob:; keep previews in memory
+        // without altering security headers or persisting images anywhere.
+        const url = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => typeof reader.result === "string" ? resolve(reader.result) : reject(new Error("unreadable"));
+          reader.onerror = () => reject(new Error("unreadable"));
+          reader.readAsDataURL(file);
+        });
+        if (!mounted.current) break;
         const image = new Image(); image.src = url;
         await image.decode();
-        if (!mounted.current) { URL.revokeObjectURL(url); break; }
+        if (!mounted.current) break;
         current.current = [...current.current, { id: nextId.current++, url }];
-      } catch { URL.revokeObjectURL(url); problems.push("This photo couldn't be opened. Please choose another JPEG, PNG, or WebP image."); }
+      } catch { problems.push("This photo couldn't be opened. Please choose another JPEG, PNG, or WebP image."); }
     }
     if (!mounted.current) return;
     setPhotos([...current.current]); onCountChange(current.current.length);
     setErrors([...new Set(problems)]); setPreparing(false);
   }
   function remove(id: number) {
-    const photo = current.current.find((item) => item.id === id);
-    if (photo) URL.revokeObjectURL(photo.url);
     current.current = current.current.filter((item) => item.id !== id);
     setPhotos([...current.current]); onCountChange(current.current.length); setErrors([]);
   }

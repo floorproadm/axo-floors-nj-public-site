@@ -2,7 +2,7 @@
 
 ## Preview implementation
 - Optional Email follows Name and Phone, before Service. Existing validation and lead submission remain unchanged.
-- The optional photo section supports **local-only previews**, selection/removal, five-photo limit, 10 MB per image, JPEG/PNG/WebP, and explicit HEIC/iPhone feedback. It creates only short-lived browser object URLs, released on removal and unmount. No filenames, files, URLs, or image data enter submission or analytics.
+- The optional photo section supports **local-only previews**, selection/removal, five-photo limit, 10 MB per image, JPEG/PNG/WebP, and explicit HEIC/iPhone feedback. It holds image data URLs only in browser memory (per existing image-security rules), dropping references on removal and unmount. No filenames, files, URLs, or image data enter submission or analytics.
 - Notices before selection, before submitting, and in confirmation explicitly state that photos are **not attached**. The form can be completed with no photos.
 
 ## Read-only findings
