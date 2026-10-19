@@ -1,0 +1,41 @@
+
+name: AXO Floors - Production Build Check
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_commit:
+        description: "Commit to validate"
+        required: true
+        type: string
+        default: "0f64943e062c8badb737becd2f58d1f4a098fd3d"
+
+permissions:
+  contents: read
+
+jobs:
+  production-build:
+    name: Validate production build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout selected commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.target_commit }}
+          persist-credentials: false
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.0"
+
+      - name: Install locked dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build for production
+        run: bun run build
+
+      - name: Confirm tested commit
+        run: git rev-parse HEAD
