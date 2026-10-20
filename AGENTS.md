@@ -1,5 +1,6 @@
 # Architecture rules
 - Keep the compact Get Started form schema and payload mapping in its feature module; validate again in its server function and insert through existing anonymous RLS, then notify once after confirmed insertion, so other lead pathways stay isolated.
+- Keep project-photo previews memory-only and isolated from form payloads, using data URLs allowed by existing image-security rules; uploads remain disabled until private lead-scoped storage and staff access are verified, preventing accidental disclosure or orphaned attachments.
 - Initialize GA4 in the root shell through a browser effect and a public server function exposing only the validated Measurement ID, so server-held configuration never leaks unrelated secrets.
 - Observe the shared browser-history boundary for page measurement across existing routers; do not migrate rendering or edit form logic for analytics.
 - Build page telemetry through the analytics privacy allowlist, using fixed titles, token-free paths, origin-only referrers and recognized campaign channels; never pass arbitrary URL values or document titles to Google.
