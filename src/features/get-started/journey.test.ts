@@ -11,7 +11,11 @@ const refinish: Journey = { ...emptyJourney, serviceType: "floor-refinish", cond
 const guidance: Journey = { ...emptyJourney, serviceType: "not-sure", timeline: "planning", contactMethod: "either" };
 const form = (journey: Journey) => ({ ...contact, services: journeyServices(journey.serviceType), journey });
 describe("Owner-approved guided journey", () => {
-  it.each(["new-installation", "install-plus-refinish"])("requires finish scope for %s and has ten pages", (serviceType) => {
+  it("new installation follows the shortened sequence without scope, date or details", () => {
+    expect(journeySteps("new-installation")).toEqual(["contact", "service", "floorType", "materials", "area", "timeline", "reach"]);
+    expect(estimateSchema.safeParse(form({ ...install, finishScope: "", startDate: "" })).success).toBe(true);
+  });
+  it.each(["install-plus-refinish"])("requires finish scope for %s and has ten pages", (serviceType) => {
     expect(journeySteps(serviceType)).toEqual(["contact", "service", "finishScope", "floorType", "materials", "area", "date", "details", "timeline", "reach"]);
     expect(journeySchema.safeParse({ ...install, serviceType, finishScope: "" }).success).toBe(false);
   });
@@ -54,8 +58,16 @@ describe("Owner-approved guided journey", () => {
   });
   it("No stairs clears hidden count", () => { expect(journeySchema.parse({ ...install, stairs: "no" }).stairsCount).toBe(""); });
   it("date is optional and valid calendar dates only", () => {
-    expect(journeySchema.safeParse({ ...install, startDate: "" }).success).toBe(true);
-    for (const startDate of ["2026-02-30", "2026-13-01", "<script>"]) expect(journeySchema.safeParse({ ...install, startDate }).success).toBe(false);
+    expect(journeySchema.safeParse({ ...install, serviceType: "install-plus-refinish", startDate: "" }).success).toBe(true);
+    for (const startDate of ["2026-02-30", "2026-13-01", "<script>"]) expect(journeySchema.safeParse({ ...install, serviceType: "install-plus-refinish", startDate }).success).toBe(false);
+  });
+  it("new installation clears hidden scope and date from validated payload and notes", () => {
+    const parsed = journeySchema.parse(install);
+    expect(parsed.finishScope).toBe(""); expect(parsed.startDate).toBe("");
+    const payload = buildEstimatePayload(form(install));
+    expect(payload.notes).not.toContain("Finish scope");
+    expect(payload.notes).not.toContain("Preferred exact start date");
+    expect(payload.services).toEqual(["installation"]);
   });
   it("switching branch clears all technical answers while preserving common preferences", () => {
     expect(switchJourneyService(install, "not-sure")).toEqual({ ...emptyJourney, serviceType: "not-sure", timeline: "not-sure", contactMethod: "text" });
@@ -73,10 +85,11 @@ describe("Owner-approved guided journey", () => {
   });
   it("saves every relevant installation answer and same notes in exactly one notification", async () => {
     const insert = vi.fn(async () => undefined), notify = vi.fn(async () => true);
-    const result = await sendEstimate(form(install), {}, insert, notify);
+    const combined = { ...install, serviceType: "install-plus-refinish" };
+    const result = await sendEstimate(form(combined), {}, insert, notify);
     expect(result.saved).toBe(true); expect(insert).toHaveBeenCalledTimes(1); expect(notify).toHaveBeenCalledTimes(1);
     const payload = notify.mock.calls[0]?.[0] as ReturnType<typeof buildEstimatePayload> | undefined;
-    expect(payload?.notes).toEqual(buildEstimatePayload(form(install)).notes);
+    expect(payload?.notes).toEqual(buildEstimatePayload(form(combined)).notes);
     for (const value of ["For the new floor being installed", "Hardwood", "already bought it", "Material delivered: Yes", "12 – 20 steps", "2026-11-14", "General timeline: Not sure", "Text Message", "Synthetic project"]) expect(payload?.notes).toContain(value);
   });
   it("server rejects incomplete wizard before insert", async () => {

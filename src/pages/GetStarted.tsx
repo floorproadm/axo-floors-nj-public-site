@@ -70,6 +70,7 @@ export default function GetStarted() {
   const insert = useServerFn(saveEstimate);
   const steps = journeySteps(journey.serviceType);
   const current = steps[step - 1];
+  const displayedStep = journey.serviceType === "new-installation" ? Math.max(1, step - 1) : step;
   const sms = `sms:${AXO_PHONE_TEL}?body=${encodeURIComponent("Hi AXO Floors! I'd like to discuss an estimate for my flooring project.")}`;
 
   // Never hydrate legacy wizard drafts or put contact data/media into URLs or analytics.
@@ -80,6 +81,7 @@ export default function GetStarted() {
     setErrors((previous) => ({ ...previous, [key]: "" })); setSubmitError("");
   }
   function updateJourney<K extends keyof Journey>(key: K, value: Journey[K]) {
+    if (key === "serviceType" && value === "new-installation") setForm((previous) => ({ ...previous, message: "" }));
     setJourney((previous) => {
       if (key === "serviceType") return switchJourneyService(previous, value as Journey["serviceType"]);
       const next = { ...previous, [key]: value };
@@ -160,7 +162,7 @@ export default function GetStarted() {
       </section></> : current && <>
         <div className="mb-4 flex items-center justify-center gap-2" aria-hidden="true">{steps.map((item, i) => <span key={item} className={`h-1 w-8 rounded ${step >= i + 1 ? "bg-gold" : "bg-grey/30"}`} />)}</div>
         <Card className="border-2 border-gold/20 bg-card shadow-elegant">
-          <CardHeader className="pb-4 text-center"><CardTitle className="font-heading text-xl text-navy">Step {step} of {steps.length}</CardTitle></CardHeader>
+          <CardHeader className="pb-4 text-center"><CardTitle className="font-heading text-xl text-navy">Step {displayedStep} of {steps.length}</CardTitle></CardHeader>
           <CardContent className="p-6 sm:p-8">
             <form ref={formRef} onSubmit={advance} noValidate aria-label="Estimate request" aria-busy={sending}>
               <div key={current} className={`animate-gs-slide-in-${direction} space-y-6`}>
