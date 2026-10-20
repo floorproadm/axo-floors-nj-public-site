@@ -1,6 +1,7 @@
 // @ts-nocheck -- follows the project's bunx Vitest test convention.
 import { describe, it, expect, vi } from "vitest";
 import { AXO_ORG_ID } from "../../lib/constants";
+import { formatPhoneInput } from "../../utils/validation";
 import { estimateSchema, buildEstimatePayload, sendEstimate, captureEstimateAttribution, toggleEstimateService } from "./estimate";
 const valid = { name: "Synthetic Test", phone: "(732) 555-0123", services: ["refinishing"], location: "Freehold", email: "", message: "", consent: true };
 describe("Compact estimate rules", () => {
@@ -17,6 +18,13 @@ describe("Compact estimate rules", () => {
   it("accepts US phone with optional country code and rejects invalid US numbers", () => {
     expect(estimateSchema.safeParse({ ...valid, phone: "+1 732 555 0123" }).success).toBe(true);
     for (const phone of ["123", "0000000000", "+44 7325550123"]) expect(estimateSchema.safeParse({ ...valid, phone }).success).toBe(false);
+  });
+  it("formats typed digits as (732) 351-8653 while the owner types", () => {
+    expect(formatPhoneInput("7323518653")).toBe("(732) 351-8653");
+    expect(formatPhoneInput("17323518653")).toBe("(732) 351-8653");
+    expect(formatPhoneInput("732")).toBe("732");
+    expect(formatPhoneInput("73235")).toBe("(732) 35");
+    expect(estimateSchema.safeParse({ ...valid, phone: formatPhoneInput("17323518653") }).success).toBe(true);
   });
   it("accepts typed city OR ZIP without street selection", () => {
     expect(buildEstimatePayload(valid)).toMatchObject({ city: "Freehold", zip_code: null, address: null });
