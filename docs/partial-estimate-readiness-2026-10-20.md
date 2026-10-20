@@ -54,7 +54,7 @@ Existing tests were run with synthetic data and mocked network/database boundari
 
 Playwright at 1280×1800 opened preview Get Started, clicked Start and submitted an empty contact step: three validation errors, contact step retained, focus on the name field, zero browser runtime errors. No valid contact submission or production write was performed.
 
-Build evidence: the observability build log was absent in this sandbox at review time; the running Vite preview reported ready. No manual build was run, as project builds are harness-managed. A new full build result must be obtained separately; passing unit tests and a rendered preview are not production build certification.
+Build evidence: the harness subsequently reported **build OK at 2026-10-20T20:32:10Z**, checked after the documentation edits. No manual build was run. This verifies the current preview compilation, not published-domain behavior or durable cross-project suppression.
 
 ## Changed paths
 
