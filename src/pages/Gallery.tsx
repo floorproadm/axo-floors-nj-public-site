@@ -5,7 +5,7 @@ import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Image, ChevronLeft, ChevronRight, X, MapPin, Play, ArrowLeft, ArrowRight, MessageSquare, LayoutGrid, Instagram } from "lucide-react";
+import { Image, ChevronLeft, ChevronRight, X, MapPin, Play, ArrowLeft, ArrowRight, ArrowUpRight, MessageSquare, LayoutGrid, Instagram } from "lucide-react";
 import { AXO_PHONE_TEL } from "@/lib/constants";
 import sandingVideo from "@/assets/gallery-social-sanding.mp4.asset.json";
 import beforeAfterVideo from "@/assets/gallery-social-before-after.mp4.asset.json";
@@ -819,16 +819,22 @@ const Gallery = () => {
             </div>
           </div>
 
-          <div className="mt-10 md:mt-14 flex justify-center">
+          <div className="mt-10 md:mt-14 flex flex-col items-center">
+            <p className="mb-4 font-body text-xs font-semibold uppercase tracking-[0.2em] text-navy/50">
+              More from AXO Floors
+            </p>
             <a
               href="https://www.instagram.com/axofloors/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 bg-navy hover:bg-navy-dark text-primary-foreground border border-navy rounded-full px-6 py-3 transition-smooth w-full sm:w-auto"
+              aria-label="Follow AXO Floors on Instagram: @axofloors (opens in a new tab)"
+              className="group inline-flex min-h-11 items-center justify-center gap-2 rounded-sm px-2 py-1 text-navy transition-smooth hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
-              <Instagram className="w-5 h-5" />
-              <span className="font-medium">@axofloors</span>
+              <Instagram className="h-5 w-5" aria-hidden="true" />
+              <span className="font-body text-base font-medium">@axofloors</span>
+              <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
             </a>
+            <span aria-hidden="true" className="mt-3 h-px w-10 bg-gold" />
           </div>
         </div>
       </section>
