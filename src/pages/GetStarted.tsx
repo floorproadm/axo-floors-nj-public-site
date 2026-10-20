@@ -141,9 +141,9 @@ export default function GetStarted() {
   return <div className="estimate-page flex min-h-[100dvh] flex-col bg-background text-foreground">
     <SEOHead title="Get Started — Tell Us About Your Floors | AXO Floors NJ" description="Answer a few quick questions about your hardwood project and the AXO Floors team will reach out with real answers — not a generic sales pitch." />
     {step === 0 && !done ? <div className="estimate-welcome flex min-h-[100dvh] flex-col">
-      <main className="mx-auto flex w-full max-w-xl flex-1 flex-col items-center px-5 pb-12 pt-8 text-center sm:pt-12">
+      <main className="mx-auto flex w-full max-w-xl flex-1 flex-col items-center px-5 pb-24 pt-8 text-center sm:pt-12">
         <Link to="/" aria-label="AXO Floors home" className="animate-gs-slide-in-right mx-auto block w-fit"><img src={logo} alt="AXO Floors" className="mx-auto h-16 w-auto" /></Link>
-        <div className="animate-gs-slide-in-right my-auto w-full space-y-6 pt-12 sm:pt-16">
+        <div className="animate-gs-slide-in-right my-auto w-full space-y-6 pt-8 sm:pt-12">
           <h1 ref={heading} tabIndex={-1} className="text-3xl font-bold [text-wrap:balance] focus:outline-none sm:text-4xl">{gsCopy.intro.headline}</h1>
           <p className="leading-relaxed">{gsCopy.intro.body}</p>
           <Button type="button" className={`w-full py-6 text-base ${goldButton}`} onClick={() => { setDirection("right"); setStep(1); }}>{gsCopy.intro.cta}</Button>
