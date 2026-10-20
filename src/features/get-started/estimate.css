@@ -4,3 +4,16 @@
   --accent: var(--gold-accent);
   --ring: var(--gold-accent);
 }
+
+/* Owner-approved Welcome-only palette: black page, white type, logo without its navy chip. */
+.estimate-welcome {
+  background-color: #0a0a0a;
+  color: #ffffff;
+}
+.estimate-welcome h1,
+.estimate-welcome h2 {
+  color: #ffffff;
+}
+.estimate-welcome p {
+  color: rgba(255, 255, 255, 0.82);
+}
