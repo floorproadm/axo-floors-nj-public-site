@@ -823,18 +823,21 @@ const Gallery = () => {
             <p className="mb-4 font-body text-xs font-semibold uppercase tracking-[0.2em] text-navy/50">
               More from AXO Floors
             </p>
-            <a
-              href="https://www.instagram.com/axofloors/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Follow AXO Floors on Instagram: @axofloors (opens in a new tab)"
-              className="group inline-flex min-h-11 items-center justify-center gap-2 rounded-sm px-2 py-1 text-navy transition-smooth hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            <Button
+              asChild
+              className="h-auto min-h-12 bg-gold px-7 py-3 text-base font-semibold text-navy shadow-soft hover:bg-gold/90 focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
-              <Instagram className="h-5 w-5" aria-hidden="true" />
-              <span className="font-body text-base font-medium">@axofloors</span>
-              <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-            </a>
-            <span aria-hidden="true" className="mt-3 h-px w-10 bg-gold" />
+              <a
+                href="https://www.instagram.com/axofloors/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Follow AXO Floors on Instagram: @axofloors (opens in a new tab)"
+              >
+                <Instagram className="h-5 w-5" aria-hidden="true" />
+                <span className="font-body">@axofloors</span>
+                <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+              </a>
+            </Button>
           </div>
         </div>
       </section>
