@@ -51,10 +51,10 @@ function table(title: string, rows: [string, string][]): string {
   const body = rows
     .map(
       ([k, v]) =>
-        `<tr><td style="padding:6px 12px 6px 0;color:#6b7280;font-size:13px;white-space:nowrap;vertical-align:top">${esc(k)}</td><td style="padding:6px 0;color:#111827;font-size:14px;font-weight:600">${esc(v)}</td></tr>`,
+        `<tr><td style="width:42%;padding:8px 12px 8px 0;color:#6b7280;font-size:13px;vertical-align:top;border-bottom:1px solid #f1f1f1">${esc(k)}</td><td style="padding:8px 0;color:#111827;font-size:14px;font-weight:600;vertical-align:top;border-bottom:1px solid #f1f1f1">${esc(v)}</td></tr>`,
     )
     .join("");
-  return `<h3 style="margin:24px 0 8px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#8B6914">${esc(title)}</h3><table style="width:100%;border-collapse:collapse">${body}</table>`;
+  return `<h3 style="margin:24px 0 8px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#0b1a2b;border-left:4px solid #ECB81A;padding-left:10px">${esc(title)}</h3><table style="width:100%;border-collapse:collapse;table-layout:fixed">${body}</table>`;
 }
 
 function buildHtml(lead: Lead): string {
@@ -65,25 +65,19 @@ function buildHtml(lead: Lead): string {
     ["Address", [lead.address, lead.city, lead.zip_code].filter(Boolean).join(", ") || "—"],
     ["Source", lead.lead_source || "—"],
   ];
-  const summary: [string, string][] = [
-    ["Services", (lead.services || []).join(", ") || "—"],
-    ["Square footage", lead.room_size ? `${lead.room_size} sq ft` : "—"],
-    ["Budget", typeof lead.budget === "number" && lead.budget > 0 ? `$${lead.budget.toLocaleString("en-US")}` : "—"],
-  ];
   const detail = lead.notes ? parseNotes(lead.notes) : [];
 
   return `<!DOCTYPE html><html><body style="margin:0;background:#f6f6f6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif">
 <div style="max-width:600px;margin:0 auto;padding:24px">
   <div style="background:#0b1a2b;border-radius:12px 12px 0 0;padding:20px 24px">
-    <div style="color:#D4AF37;font-size:12px;letter-spacing:.12em;text-transform:uppercase">New lead — axofloorsnj.com</div>
+    <div style="color:#ECB81A;font-size:12px;letter-spacing:.12em;text-transform:uppercase">New lead &middot; AXO Floors website</div>
     <div style="color:#fff;font-size:22px;font-weight:700;margin-top:4px">${esc(lead.name)}</div>
   </div>
   <div style="background:#fff;border:1px solid #e5e7eb;border-top:0;border-radius:0 0 12px 12px;padding:8px 24px 28px">
     ${table("Contact", contact)}
-    ${table("Summary", summary)}
     ${detail.map((s) => table(s.title, s.rows)).join("")}
     <div style="margin-top:24px">
-      <a href="tel:${esc((lead.phone || "").replace(/[^\d+]/g, ""))}" style="display:inline-block;background:#D4AF37;color:#0b1a2b;text-decoration:none;font-weight:700;padding:12px 22px;border-radius:8px">Call ${esc(lead.name.split(" ")[0] || "lead")}</a>
+      <a href="tel:${esc((lead.phone || "").replace(/[^\d+]/g, ""))}" style="display:inline-block;background:#ECB81A;color:#0b1a2b;text-decoration:none;font-weight:700;padding:12px 22px;border-radius:8px">Call ${esc(lead.name.split(" ")[0] || "lead")}</a>
       ${lead.email ? `<a href="mailto:${esc(lead.email)}" style="display:inline-block;margin-left:8px;color:#0b1a2b;text-decoration:none;font-weight:600;padding:12px 12px">Reply by email</a>` : ""}
     </div>
   </div>
