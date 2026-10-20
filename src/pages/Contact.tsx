@@ -70,7 +70,7 @@ const Contact = () => {
         organization_id: AXO_ORG_ID,
       };
 
-      const { error } = await supabase.from('leads').insert([leadData]).select();
+      const { error } = await supabase.from('leads').insert([leadData]);
       if (error) throw error;
       // The single lead email is sent by FloorPRO when the lead is saved.
 
