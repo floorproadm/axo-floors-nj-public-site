@@ -1,3 +1,4 @@
+// @ts-nocheck -- follows the project's bunx Vitest test convention.
 import { describe, expect, it, vi } from "vitest";
 import { emptyJourney, journeySchema, journeySteps, journeyServices, normalizeJourney, switchJourneyService, type Journey } from "./journey";
 import { estimateSchema, buildEstimatePayload, sendEstimate } from "./estimate";

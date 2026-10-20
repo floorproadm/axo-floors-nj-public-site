@@ -144,15 +144,15 @@ export default function GetStarted() {
       <div className="h-1 w-full bg-muted" />
       <main className="mx-auto flex w-full max-w-xl flex-1 flex-col justify-center px-5 py-10 sm:py-16">
         <div className="animate-gs-slide-in-right space-y-6">
-          <Link to="/" aria-label="AXO Floors home" className="block w-fit"><img src={logo} alt="AXO Floors" className="h-16 w-auto" /></Link>
-          <h1 ref={heading} tabIndex={-1} className="text-3xl font-bold [text-wrap:balance] sm:text-4xl">{gsCopy.intro.headline}</h1>
+          <Link to="/" aria-label="AXO Floors home" className="block w-fit rounded-md bg-navy px-4 py-3"><img src={logo} alt="AXO Floors" className="h-16 w-auto" /></Link>
+          <h1 ref={heading} tabIndex={-1} className="text-3xl font-bold [text-wrap:balance] focus:outline-none sm:text-4xl">{gsCopy.intro.headline}</h1>
           <p className="leading-relaxed text-muted-foreground">{gsCopy.intro.body}</p>
           <Button type="button" className={`w-full py-6 text-base ${goldButton}`} onClick={() => { setDirection("right"); setStep(1); }}>{gsCopy.intro.cta}</Button>
         </div>
       </main>
     </> : <main className="mx-auto w-full max-w-3xl px-5 py-10 sm:py-16">
       {done ? <section className="animate-gs-slide-in-right mx-auto max-w-xl space-y-6 text-center" aria-live="polite">
-        <h1 ref={heading} tabIndex={-1} className="text-3xl font-bold [text-wrap:balance] sm:text-4xl">Thank You — You're in Good Hands</h1>
+        <h1 ref={heading} tabIndex={-1} className="text-3xl font-bold [text-wrap:balance] focus:outline-none sm:text-4xl">Thank You — You're in Good Hands</h1>
         <p className="leading-relaxed text-muted-foreground">Thank you for considering AXO Floors. Our team will reach out to discuss your goals, answer your questions, and help you plan the next steps.</p>
         {notificationFailed && <p role="status" className="text-sm text-muted-foreground">Your request is saved, but the email notification could not be confirmed. You can text us directly; please don't submit again.</p>}
         {photoCount > 0 && <p role="status" className="text-sm text-muted-foreground">Your photos were local previews only and were not attached to this request.</p>}
@@ -164,7 +164,7 @@ export default function GetStarted() {
           <CardContent className="p-6 sm:p-8">
             <form ref={formRef} onSubmit={advance} noValidate aria-label="Estimate request" aria-busy={sending}>
               <div key={current} className={`animate-gs-slide-in-${direction} space-y-6`}>
-                <div className="mb-6 text-center"><h1 ref={heading} tabIndex={-1} className="mb-2 font-heading text-2xl font-bold text-navy">{titles[current]}</h1>{helpers[current] && <p className="text-grey">{helpers[current]}</p>}</div>
+                <div className="mb-6 text-center"><h1 ref={heading} tabIndex={-1} className="mb-2 font-heading text-2xl font-bold text-navy focus:outline-none">{titles[current]}</h1>{helpers[current] && <p className="text-grey">{helpers[current]}</p>}</div>
                 <fieldset disabled={sending} className="space-y-6">
                   {current === "contact" && <div className="grid gap-5 sm:grid-cols-2">
                     <div><Label htmlFor="name">Full Name *</Label><Input {...inputProps("name")} required autoComplete="name" maxLength={120} value={form.name} onChange={(e) => update("name", e.target.value)} className="mt-2 h-12 text-base" />{errorFor("name")}</div>
