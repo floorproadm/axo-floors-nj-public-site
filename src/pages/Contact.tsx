@@ -72,20 +72,7 @@ const Contact = () => {
 
       const { error } = await supabase.from('leads').insert([leadData]).select();
       if (error) throw error;
-
-      // Notify the AXO team via our own site endpoint (Gmail, inbox-safe)
-      void fetch('/api/public/lead-notify', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: leadData.name,
-          email: leadData.email,
-          phone: leadData.phone,
-          lead_source: 'contact',
-          services: leadData.services,
-          notes: `## Question\n${formData.message}`,
-        }),
-      }).catch(() => {});
+      // The single lead email is sent by FloorPRO when the lead is saved.
 
       toast({
         title: "Thank you for contacting us!",
