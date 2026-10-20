@@ -1,4 +1,5 @@
 # GA4 page measurement
+- [ ] Compact Get Started: enable validated multi-service checkboxes and exclusive guidance; verify synthetic lead/notification flow and mobile/desktop, preview only.
 - [x] Remove only /campaign, /builder-offer and /axo-pages without archives or publishing; surviving pages and sitemap verified, 33 tests pass; existing wildcard returns HTTP 200 with a 404 screen (separate SEO follow-up).
 - [x] Compact Get Started enhancements: Email reordered; local-only photo previews and 33 tests/mobile-desktop checks pass; archive unchanged; no live submissions or publishing.
 - [x] Point the /hub "Get Your Free Estimate" button to /get-started (was /contact); verified in preview, nothing published.
