@@ -139,7 +139,7 @@ export default function GetStarted() {
   const choices = (field: keyof Journey, options: Options, compact = false, area = false) => <><ChoiceCards field={field} value={journey[field]} options={options} onChange={(value) => updateJourney(field, value as Journey[typeof field])} error={errors[field]} compact={compact} area={area} />{errorFor(field)}</>;
   const back = () => { if (sending) return; setErrors({}); setSubmitError(""); setDirection("left"); setStep(Math.max(0, step - 1)); };
 
-  return <div className="estimate-page flex min-h-[100dvh] flex-col bg-background text-foreground">
+  return <div className={`estimate-page flex min-h-[100dvh] flex-col ${done ? "estimate-welcome" : "bg-background"} text-foreground`}>
     <SEOHead title="Get Started — Tell Us About Your Floors | AXO Floors NJ" description="Answer a few quick questions about your hardwood project and the AXO Floors team will reach out with real answers — not a generic sales pitch." />
     {step === 0 && !done ? <div className="estimate-welcome flex min-h-[100dvh] flex-col">
       <main className="mx-auto flex w-full max-w-xl flex-1 flex-col items-center px-5 pb-24 pt-8 text-center sm:pt-12">
@@ -150,14 +150,14 @@ export default function GetStarted() {
           <Button type="button" className={`w-full py-6 text-base ${goldButton}`} onClick={() => { setDirection("right"); setStep(1); }}>{gsCopy.intro.cta}</Button>
         </div>
       </main>
-    </div> : <main className="mx-auto w-full max-w-3xl px-5 py-10 sm:py-16">
-      {done ? <section className="animate-gs-slide-in-right mx-auto max-w-xl space-y-6 text-center" aria-live="polite">
+    </div> : <main className={`mx-auto w-full flex-1 ${done ? "flex max-w-xl flex-col items-center px-5 pb-24 pt-8 text-center" : "max-w-3xl px-5 py-10 sm:py-16"}`}>
+      {done ? <><Link to="/" aria-label="AXO Floors home" className="animate-gs-slide-in-right mx-auto block w-fit"><img src={logo} alt="AXO Floors" className="mx-auto h-16 w-auto" /></Link><section className="animate-gs-slide-in-right my-auto w-full space-y-6 pt-8 text-center" aria-live="polite">
         <h1 ref={heading} tabIndex={-1} className="text-3xl font-bold [text-wrap:balance] focus:outline-none sm:text-4xl">Thank You — You're in Good Hands</h1>
         <p className="leading-relaxed text-muted-foreground">Thank you for considering AXO Floors. Our team will reach out to discuss your goals, answer your questions, and help you plan the next steps.</p>
         {notificationFailed && <p role="status" className="text-sm text-muted-foreground">Your request is saved, but the email notification could not be confirmed. You can text us directly; please don't submit again.</p>}
         {photoCount > 0 && <p role="status" className="text-sm text-muted-foreground">Your photos were local previews only and were not attached to this request.</p>}
         <Button asChild className={`min-h-12 w-full ${goldButton}`}><Link to="/">Return Home</Link></Button>
-      </section> : current && <>
+      </section></> : current && <>
         <div className="mb-4 flex items-center justify-center gap-2" aria-hidden="true">{steps.map((item, i) => <span key={item} className={`h-1 w-8 rounded ${step >= i + 1 ? "bg-gold" : "bg-grey/30"}`} />)}</div>
         <Card className="border-2 border-gold/20 bg-card shadow-elegant">
           <CardHeader className="pb-4 text-center"><CardTitle className="font-heading text-xl text-navy">Step {step} of {steps.length}</CardTitle></CardHeader>
