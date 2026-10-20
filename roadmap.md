@@ -12,4 +12,5 @@
 - [x] Test initialization, local navigation counts, privacy, and existing page browsing.
 - [x] Report required Google settings and published-domain verification status.
 - [ ] Eliminate Google-generated duplicate views and Contact conversion: awaiting the owner's GA4 / Google tag settings changes.
-- [ ] Verify published-domain collection: awaiting authorized publishing after Google settings are corrected.
+- [ ] Verify published-domain collection: awaiting authorized publishing after Google settings are corrected.- [x] Phase 1B website bridge for partial-estimate intake (preview; inert until secret + FloorPRO switch/scheduler)
+- [ ] Owner: add PARTIAL_ESTIMATE_INTAKE_SECRET to this project and FloorPRO, enable FloorPRO switch + scheduler, then publish (blocked on owner)

@@ -26,7 +26,7 @@ describe('GA4 event rules', () => {
     expect(sent).toEqual([]);
   });
   it('step 1 event stays off and requires durable server confirmation', () => {
-    expect(trackEstimateStep1Completed({ durable: true, captureId: 'c1' })).toBe(false);
+    expect(trackEstimateStep1Completed({ durable: true, captureId: 'c1' }, false)).toBe(false);
     expect(trackEstimateStep1Completed(null, true)).toBe(false);
     expect(trackEstimateStep1Completed({ durable: false, captureId: 'c1' }, true)).toBe(false);
   });
