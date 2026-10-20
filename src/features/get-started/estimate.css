@@ -17,3 +17,7 @@
 .estimate-welcome p {
   color: rgba(255, 255, 255, 0.82);
 }
+/* Owner-approved Thank You screen: the text-us link reads white on black. */
+.estimate-welcome .estimate-sms {
+  color: #ffffff;
+}
