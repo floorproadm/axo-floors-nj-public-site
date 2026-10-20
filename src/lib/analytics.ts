@@ -174,8 +174,9 @@ export function trackGenerateLead(servicePath: string, submissionId: string) {
   return trackEvent('generate_lead', { form_location: 'get_started', service_path: servicePath }, submissionId);
 }
 
-// OFF until Project A's private partial-capture API confirms durable storage.
-export const STEP1_CAPTURE_ENABLED = false;
+// Only ever called with the server's authoritative "captured" result; the server
+// bridge stays inert until PARTIAL_ESTIMATE_INTAKE_SECRET and FloorPRO's switch are on.
+export const STEP1_CAPTURE_ENABLED = true;
 export function trackEstimateStep1Completed(confirmation: { durable: boolean; captureId: string } | null, enabled = STEP1_CAPTURE_ENABLED) {
   if (!enabled || !confirmation?.durable || !confirmation.captureId) return false;
   return trackEvent('estimate_step_1_completed', { form_location: 'get_started' }, confirmation.captureId);

@@ -21,7 +21,8 @@ import { gsCopy, estimateCopy, SERVICE_TYPE_OPTIONS, FINISH_SCOPE_OPTIONS, FLOOR
 import { captureEstimateAttribution, emptyEstimate, estimateSchema, sendEstimate, type EstimateAttribution } from "@/features/get-started/estimate";
 import { emptyJourney, journeySchema, journeyServices, journeySteps, stepFields, switchJourneyService, normalizeJourney, timelineOptions, contactOptions, type Journey, type JourneyStep } from "@/features/get-started/journey";
 import { saveEstimate } from "@/features/get-started/estimate.functions";
-import { trackContactClick, trackGenerateLead } from "@/lib/analytics";
+import { trackContactClick, trackEstimateStep1Completed, trackGenerateLead } from "@/lib/analytics";
+import { capturePartialStep1, flushPartialCompletion, touchPartial } from "@/features/get-started/partial.functions";
 import { ProjectPhotos } from "@/features/get-started/ProjectPhotos";
 import "@/features/get-started/estimate.css";
 
@@ -69,13 +70,16 @@ export default function GetStarted() {
   const formRef = useRef<HTMLFormElement>(null);
   const heading = useRef<HTMLHeadingElement>(null);
   const insert = useServerFn(saveEstimate);
+  const capture = useServerFn(capturePartialStep1);
+  const touch = useServerFn(touchPartial);
+  const flush = useServerFn(flushPartialCompletion);
   const steps = journeySteps(journey.serviceType);
   const current = steps[step - 1];
   const displayedStep = journey.serviceType === "new-installation" ? Math.max(1, step - 1) : step;
   const sms = `sms:${AXO_PHONE_TEL}?body=${encodeURIComponent("Hi AXO Floors! I'd like to discuss an estimate for my flooring project.")}`;
 
   // Never hydrate legacy wizard drafts or put contact data/media into URLs or analytics.
-  useEffect(() => { attribution.current = captureEstimateAttribution(); }, []);
+  useEffect(() => { attribution.current = captureEstimateAttribution(); void flush().catch(() => undefined); }, []);
   useEffect(() => { heading.current?.focus(); window.scrollTo({ top: 0, behavior: "instant" }); }, [step, done]);
   function update<K extends keyof typeof form>(key: K, value: (typeof form)[K]) {
     setForm((previous) => ({ ...previous, [key]: value }));
@@ -111,7 +115,13 @@ export default function GetStarted() {
   async function advance(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (locked.current || saved.current || !validateStep()) return;
-    if (step < steps.length) { setDirection("right"); setStep(step + 1); return; }
+    if (step < steps.length) {
+      // Partial capture never blocks or delays the form; GA4 fires only on the server's durable confirmation.
+      if (current === "contact") void capture({ data: { name: form.name, phone: form.phone, email: form.email, location: form.location } })
+        .then((r) => { if (r.firstDurable) trackEstimateStep1Completed({ durable: true, captureId: "session" }); }).catch(() => undefined);
+      else if (current) void touch().catch(() => undefined);
+      setDirection("right"); setStep(step + 1); return;
+    }
     const parsed = estimateSchema.safeParse({ ...form, services: journeyServices(journey.serviceType), journey });
     if (!parsed.success) {
       const next: Record<string, string> = {};
