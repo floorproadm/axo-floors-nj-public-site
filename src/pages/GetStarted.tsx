@@ -180,6 +180,7 @@ export default function GetStarted() {
                     <div><Label htmlFor="phone">Phone Number *</Label><Input {...inputProps("phone")} required type="tel" autoComplete="tel" inputMode="tel" maxLength={17} value={form.phone} onChange={(e) => update("phone", formatPhoneInput(e.target.value))} className="mt-2 h-12 text-base" />{errorFor("phone")}</div>
                     <div><Label htmlFor="email">Email (optional)</Label><Input {...inputProps("email")} type="email" autoComplete="email" maxLength={200} value={form.email} onChange={(e) => update("email", e.target.value)} className="mt-2 h-12 text-base" />{errorFor("email")}</div>
                     <div><Label htmlFor="location">Project City or ZIP Code *</Label><Input {...inputProps("location")} required autoComplete="off" maxLength={120} placeholder="e.g. Freehold or 07728" value={form.location} onChange={(e) => update("location", e.target.value)} className="mt-2 h-12 text-base" /><p className="mt-2 text-xs text-grey">We serve New Jersey, New York and Pennsylvania.</p>{errorFor("location")}</div>
+                    <p className="text-sm text-grey sm:col-span-2">We'll use these details to contact you about your flooring estimate.</p>
                   </div>}
                   {current === "service" && choices("serviceType", SERVICE_TYPE_OPTIONS)}
                   {current === "finishScope" && choices("finishScope", FINISH_SCOPE_OPTIONS)}
