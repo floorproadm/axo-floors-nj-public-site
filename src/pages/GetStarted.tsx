@@ -16,6 +16,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import SEOHead from "@/components/shared/SEOHead";
 import logo from "@/assets/axo-logo-official.png";
 import { AXO_PHONE_TEL } from "@/lib/constants";
+import { formatPhoneInput } from "@/utils/validation";
 import { gsCopy, estimateCopy, SERVICE_TYPE_OPTIONS, FINISH_SCOPE_OPTIONS, FLOOR_TYPE_OPTIONS, MATERIALS_OPTIONS, MATERIAL_DELIVERED_OPTIONS, AREA_PRESETS, QUIZ_CONDITION_OPTIONS, STAIRS_COUNT_OPTIONS } from "@/features/get-started/copy";
 import { captureEstimateAttribution, emptyEstimate, estimateSchema, sendEstimate, type EstimateAttribution } from "@/features/get-started/estimate";
 import { emptyJourney, journeySchema, journeyServices, journeySteps, stepFields, switchJourneyService, normalizeJourney, timelineOptions, contactOptions, type Journey, type JourneyStep } from "@/features/get-started/journey";
@@ -167,7 +168,7 @@ export default function GetStarted() {
                 <fieldset disabled={sending} className="space-y-6">
                   {current === "contact" && <div className="grid gap-5 sm:grid-cols-2">
                     <div><Label htmlFor="name">Full Name *</Label><Input {...inputProps("name")} required autoComplete="name" maxLength={120} value={form.name} onChange={(e) => update("name", e.target.value)} className="mt-2 h-12 text-base" />{errorFor("name")}</div>
-                    <div><Label htmlFor="phone">Phone Number *</Label><Input {...inputProps("phone")} required type="tel" autoComplete="tel" maxLength={40} value={form.phone} onChange={(e) => update("phone", e.target.value)} className="mt-2 h-12 text-base" />{errorFor("phone")}</div>
+                    <div><Label htmlFor="phone">Phone Number *</Label><Input {...inputProps("phone")} required type="tel" autoComplete="tel" inputMode="tel" placeholder="(732) 351-8653" maxLength={17} value={form.phone} onChange={(e) => update("phone", formatPhoneInput(e.target.value))} className="mt-2 h-12 text-base" />{errorFor("phone")}</div>
                     <div><Label htmlFor="email">Email (optional)</Label><Input {...inputProps("email")} type="email" autoComplete="email" maxLength={200} value={form.email} onChange={(e) => update("email", e.target.value)} className="mt-2 h-12 text-base" />{errorFor("email")}</div>
                     <div><Label htmlFor="location">Project City or ZIP Code *</Label><Input {...inputProps("location")} required autoComplete="off" maxLength={120} placeholder="e.g. Freehold or 07728" value={form.location} onChange={(e) => update("location", e.target.value)} className="mt-2 h-12 text-base" /><p className="mt-2 text-xs text-grey">We serve New Jersey, New York and Pennsylvania.</p>{errorFor("location")}</div>
                   </div>}
