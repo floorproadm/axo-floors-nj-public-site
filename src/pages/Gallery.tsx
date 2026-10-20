@@ -1,10 +1,12 @@
 // @ts-nocheck
 import { useState, useEffect, useRef, useMemo } from "react";
+import { Link } from "@tanstack/react-router";
 import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Image, ChevronLeft, ChevronRight, X, MapPin, Play, ArrowLeft, LayoutGrid, Instagram } from "lucide-react";
+import { Image, ChevronLeft, ChevronRight, X, MapPin, Play, ArrowLeft, ArrowRight, MessageSquare, LayoutGrid, Instagram } from "lucide-react";
+import { AXO_PHONE_TEL } from "@/lib/constants";
 import sandingVideo from "@/assets/gallery-social-sanding.mp4.asset.json";
 import beforeAfterVideo from "@/assets/gallery-social-before-after.mp4.asset.json";
 import { Badge } from "@/components/ui/badge";
@@ -458,6 +460,12 @@ const Gallery = () => {
                   ))}
                 </div>
               )}
+              <div className="mt-8 flex flex-col items-center justify-center gap-2 border-t border-border pt-6 sm:flex-row sm:gap-4">
+                <p className="font-body text-base text-navy">Inspired by this project?</p>
+                <Button asChild variant="link" className="min-h-11 text-navy focus-visible:ring-2 focus-visible:ring-gold">
+                  <Link to="/get-started">Get My Estimate →</Link>
+                </Button>
+              </div>
             </div>
           )}
         </div>
@@ -738,6 +746,32 @@ const Gallery = () => {
             </div>
           )}
         </div>
+      )}
+
+      {activeAlbum === null && (
+        <section aria-labelledby="gallery-estimate-heading" className="bg-navy py-14 text-primary-foreground md:py-20">
+          <div className="container mx-auto px-4">
+            <div className="max-w-3xl">
+              <p className="mb-4 font-body text-sm font-semibold text-gold">YOUR FLOORS COULD BE NEXT</p>
+              <h2 id="gallery-estimate-heading" className="mb-5 font-heading text-3xl font-bold leading-tight md:text-4xl lg:text-5xl">
+                Like What You See? Let's Talk About Your Floors.
+              </h2>
+              <p className="max-w-2xl font-body text-base leading-relaxed text-primary-foreground/80 md:text-lg">
+                Every great floor starts with a conversation. Tell us about your project, and we'll help you explore the next steps.
+              </p>
+              <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:gap-5">
+                <Button asChild size="lg" className="h-auto min-h-12 w-full bg-gold px-7 py-3 text-base font-semibold text-navy hover:bg-gold/90 focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-navy sm:w-auto">
+                  <Link to="/get-started">Get My Estimate <ArrowRight aria-hidden="true" /></Link>
+                </Button>
+                <Button asChild variant="link" className="h-auto min-h-12 whitespace-normal px-0 py-3 text-primary-foreground/90 focus-visible:ring-2 focus-visible:ring-gold">
+                  <a href={`sms:${AXO_PHONE_TEL}?body=${encodeURIComponent("Hi AXO Floors! I'd like to discuss an estimate for my flooring project.")}`}>
+                    <MessageSquare aria-hidden="true" /> Prefer texting? Text Us Directly
+                  </a>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </section>
       )}
 
       {/* Follow Us / Social Loop Section */}
