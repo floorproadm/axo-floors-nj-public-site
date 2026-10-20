@@ -123,13 +123,7 @@ export default function GetStarted() {
         const result = await insert({ data: { form: data, attribution: safe } });
         if (!result.saved) throw new Error("not_saved");
         saved.current = true;
-      }, async (payload) => {
-        const controller = new AbortController(); const timer = setTimeout(() => controller.abort(), 10000);
-        try {
-          const response = await fetch("/api/public/lead-notify", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload), signal: controller.signal });
-          return response.ok;
-        } finally { clearTimeout(timer); }
-      });
+      }, async () => true); // The single lead email is sent by FloorPRO when the lead is saved.
       setNotificationFailed(!result.notificationSent); setDone(true);
       setForm(emptyEstimate); setJourney(emptyJourney);
     } catch {
