@@ -21,7 +21,7 @@ describe("Optional project photo rules", () => {
   });
   it("rejects empty files", () => { expect(validateProjectPhoto({ ...photo, size: 0 }, 0)).not.toBeNull(); });
   it("permits submission without images and strips files from the form boundary", async () => {
-    const form = { name: "Synthetic Test", phone: "7325550123", email: "", service: "refinishing", location: "07728", message: "", consent: true, photos: [photo] };
+    const form = { name: "Synthetic Test", phone: "7325550123", email: "", services: ["refinishing"], location: "07728", message: "", consent: true, photos: [photo] };
     expect(estimateSchema.parse(form)).not.toHaveProperty("photos");
     const inserted: unknown[] = [], notified: unknown[] = [];
     await sendEstimate(form, {}, async (data) => { inserted.push(data); }, async (data) => { notified.push(data); return true; });
