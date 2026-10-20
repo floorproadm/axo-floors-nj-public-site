@@ -1,4 +1,5 @@
 # GA4 page measurement
+- [ ] Remove only /campaign, /builder-offer and /axo-pages without archives or publishing; verify surviving pages, sitemap and deleted URL responses.
 - [x] Compact Get Started enhancements: Email reordered; local-only photo previews and 33 tests/mobile-desktop checks pass; archive unchanged; no live submissions or publishing.
 - [x] Point the /hub "Get Your Free Estimate" button to /get-started (was /contact); verified in preview, nothing published.
 - [ ] Enable secure photo attachments: blocked by unavailable read-only external storage/policy access and missing verified lead-scoped upload authorization; requires separate owner approval for any necessary storage/policy/schema/FloorPRO changes.

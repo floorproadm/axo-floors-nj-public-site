@@ -21,7 +21,6 @@ import Gallery from "./pages/Gallery";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
 import StainGallery from "./pages/StainGallery";
-import BuilderPartnerships from "./pages/BuilderPartnerships";
 import PartnerProgram from "./pages/PartnerProgram";
 import GetStarted from "./pages/GetStarted";
 import ThankYou from "./pages/ThankYou";
@@ -32,7 +31,6 @@ import Builders from "./pages/Builders";
 import Realtors from "./pages/Realtors";
 import ShareBeforeAfter from "./pages/ShareBeforeAfter";
 import Auth from "./pages/Auth";
-import Campaign from "./pages/Campaign";
 
 import WowPack from "./pages/WowPack";
 import ReviewRequest from "./pages/ReviewRequest";
@@ -76,7 +74,6 @@ const App = () => {
                   <Route path="/stain-gallery" element={<StainGallery />} />
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/about" element={<About />} />
-                  <Route path="/campaign" element={<Campaign />} />
                   <Route path="/quiz" element={<Quiz />} />
                   <Route path="/get-started" element={<GetStarted />} />
 
@@ -87,7 +84,6 @@ const App = () => {
                   <Route path="/reset-password" element={<ResetPassword />} />
                   <Route path="/builders" element={<Builders />} />
                   <Route path="/realtors" element={<Realtors />} />
-                  <Route path="/builder-offer" element={<BuilderPartnerships />} />
                   <Route path="/partner-program" element={<PartnerProgram />} />
                   <Route path="/floor-diagnostic" element={<Navigate to="/get-started" replace />} />
                   
