@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { AXO_ORG_ID } from "@/lib/constants";
+import { journeySchema, journeyServices, journeyNotes } from "./journey";
 
 export const estimateServices = [
   { value: "refinishing", label: "Sanding & Refinishing" },
@@ -31,6 +32,10 @@ export const estimateSchema = z.object({
   message: z.string().trim().max(2000, "Please keep your project description under 2,000 characters.").refine((v) => !/[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/.test(v), "Please remove unsupported characters."),
   email: cleanLine(200).refine((v) => !v || z.string().email().safeParse(v).success, "Please enter a valid email address, or leave it blank."),
   consent: z.boolean().refine((v) => v, "Please give permission for us to contact you about this project."),
+  journey: journeySchema.optional(),
+}).superRefine((data, ctx) => {
+  if (data.journey && JSON.stringify(data.services) !== JSON.stringify(journeyServices(data.journey.serviceType)))
+    ctx.addIssue({ code: "custom", path: ["services"], message: "Service selections must match your project journey." });
 });
 export type EstimateInput = z.infer<typeof estimateSchema>;
 export const emptyEstimate: EstimateInput = { name: "", phone: "", services: [], location: "", message: "", email: "", consent: false };
@@ -70,6 +75,7 @@ export function buildEstimatePayload(raw: unknown, attribution: unknown = {}) {
   const labels = data.services.map((service) => estimateServices.find((s) => s.value === service)?.label || service);
   const rows = ["## Request", `- Services: ${labels.join(", ")}`, `- Project city or ZIP: ${data.location}`, "- Contact permission: Granted for this submitted project"];
   if (data.message) rows.push("", "## Project", `- Description: ${data.message}`);
+  if (data.journey) rows.push("", "## Project Details", ...journeyNotes(data.journey));
   const entries = Object.entries(safe);
   if (entries.length) rows.push("", "## Attribution", ...entries.map(([k, v]) => `- ${k}: ${v}`));
   return { organization_id: AXO_ORG_ID, name: data.name, phone: data.phone, email: data.email || null,

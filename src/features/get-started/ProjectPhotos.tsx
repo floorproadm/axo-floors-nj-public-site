@@ -50,8 +50,8 @@ export function ProjectPhotos({ disabled, onCountChange }: { disabled: boolean; 
   }
   return (
     <section aria-labelledby="photos-heading" className="border-t border-border pt-5">
-      <div className="flex items-center justify-between gap-3"><h2 id="photos-heading" className="font-body text-sm font-medium">Add Photos <span className="font-normal text-muted-foreground">(optional)</span></h2><span role="status" className="shrink-0 text-sm text-muted-foreground">{photos.length} of {MAX_PROJECT_PHOTOS}</span></div>
-      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Photos of your existing floors or project area help us prepare for our conversation.</p>
+      <div className="flex items-center justify-between gap-3"><h2 id="photos-heading" className="font-body text-sm font-medium">Add Photos or Video <span className="font-normal text-muted-foreground">(optional)</span></h2><span role="status" className="shrink-0 text-sm text-muted-foreground">{photos.length} of {MAX_PROJECT_PHOTOS}</span></div>
+      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">Photos are local previews only and are not submitted with your request. Video uploads are unavailable until secure private attachments are approved.</p>
       <input ref={picker} type="file" multiple accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" aria-label="Choose project photos for local preview" aria-describedby="photos-limits" onChange={select} disabled={disabled || preparing || photos.length >= MAX_PROJECT_PHOTOS} className="sr-only" tabIndex={-1} />
       <Button type="button" variant="outline" disabled={disabled || preparing || photos.length >= MAX_PROJECT_PHOTOS} onClick={() => picker.current?.click()} aria-describedby="photos-limits" className="mt-3 min-h-12">{preparing ? <Loader2 className="h-4 w-4 animate-spin" /> : <ImagePlus className="h-4 w-4" />}{preparing ? "Preparing previews…" : "Choose Photos"}</Button>
       <p id="photos-limits" className="mt-2 text-xs leading-relaxed text-muted-foreground">Up to 5 photos · JPEG, PNG, WebP · 10 MB each. HEIC is not supported.</p>
