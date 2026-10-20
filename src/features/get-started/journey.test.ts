@@ -16,7 +16,7 @@ describe("Owner-approved guided journey", () => {
     expect(estimateSchema.safeParse(form({ ...install, finishScope: "", startDate: "" })).success).toBe(true);
   });
   it.each(["install-plus-refinish"])("requires finish scope for %s and has ten pages", (serviceType) => {
-    expect(journeySteps(serviceType)).toEqual(["contact", "service", "finishScope", "floorType", "materials", "area", "date", "details", "timeline", "reach"]);
+    expect(journeySteps(serviceType)).toEqual(["contact", "service", "floorType", "finishScope", "materials", "area", "date", "details", "timeline", "reach"]);
     expect(journeySchema.safeParse({ ...install, serviceType, finishScope: "" }).success).toBe(false);
   });
   it("refinishing has seven pages without purchase, scope or date", () => {

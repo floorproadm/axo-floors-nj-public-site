@@ -65,7 +65,7 @@ export const journeySchema = journeyFields.transform(normalizeJourney).superRefi
 export type JourneyStep = "contact" | "service" | "finishScope" | "floorType" | "materials" | "condition" | "area" | "date" | "details" | "timeline" | "reach";
 export function journeySteps(service: string): JourneyStep[] {
   if (service === "new-installation") return ["contact", "service", "floorType", "materials", "area", "timeline", "reach"];
-  const technical: JourneyStep[] = isInstallation(service) ? ["finishScope", "floorType", "materials", "area", "date"] : service === "floor-refinish" ? ["condition", "area"] : [];
+  const technical: JourneyStep[] = isInstallation(service) ? ["floorType", "finishScope", "materials", "area", "date"] : service === "floor-refinish" ? ["condition", "area"] : [];
   return ["contact", "service", ...technical, "details", "timeline", "reach"];
 }
 export const stepFields: Record<JourneyStep, string[]> = { contact: ["name", "phone", "email", "location"], service: ["serviceType"], finishScope: ["finishScope"], floorType: ["floorType"], materials: ["materials", "delivered"], condition: ["condition"], area: ["areaPreset", "stairs", "stairsCount"], date: ["startDate"], details: ["message"], timeline: ["timeline"], reach: ["contactMethod", "consent"] };
