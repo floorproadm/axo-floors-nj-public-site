@@ -3,7 +3,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 const mocks = vi.hoisted(() => ({ insert: vi.fn(), from: vi.fn(), create: vi.fn() }));
 vi.mock("@supabase/supabase-js", () => ({ createClient: mocks.create }));
 import { insertEstimate } from "./estimate.server";
-const valid = { name: "Synthetic Server Test", phone: "7325550123", service: "stairs", location: "Freehold", message: "", email: "", consent: true };
+const valid = { name: "Synthetic Server Test", phone: "7325550123", services: ["stairs"], location: "Freehold", message: "", email: "", consent: true };
 describe("Server-side estimate boundary", () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -25,5 +25,19 @@ describe("Server-side estimate boundary", () => {
     mocks.insert.mockResolvedValue({ error: { message: "synthetic error" } });
     expect(await insertEstimate(valid, {})).toEqual({ saved: false });
     expect(mocks.insert).toHaveBeenCalledTimes(1);
+  });
+  it("inserts one lead containing the complete multi-service array and labels", async () => {
+    const services = ["installation", "refinishing", "stairs"];
+    expect(await insertEstimate({ ...valid, services }, {})).toEqual({ saved: true });
+    expect(mocks.insert).toHaveBeenCalledTimes(1);
+    expect(mocks.insert).toHaveBeenCalledWith([expect.objectContaining({ services, notes: expect.stringContaining("Flooring Installation, Sanding & Refinishing, Stairs & Railings") })]);
+  });
+  it("accepts the archived consultation key alone", async () => {
+    expect(await insertEstimate({ ...valid, services: ["consultation"] }, {})).toEqual({ saved: true });
+    expect(mocks.insert).toHaveBeenCalledWith([expect.objectContaining({ services: ["consultation"] })]);
+  });
+  it.each([[], ["unknown"], ["stairs", "stairs"], ["consultation", "stairs"], Array(6).fill("repair")])("rejects invalid arrays before any insert %j", async (services) => {
+    await expect(insertEstimate({ ...valid, services }, {})).rejects.toThrow();
+    expect(mocks.create).not.toHaveBeenCalled(); expect(mocks.insert).not.toHaveBeenCalled();
   });
 });

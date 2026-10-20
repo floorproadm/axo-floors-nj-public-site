@@ -6,13 +6,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import SEOHead from "@/components/shared/SEOHead";
 import logo from "@/assets/axo-logo-official.png";
 import { AXO_PHONE_TEL } from "@/lib/constants";
 import { estimateCopy } from "@/features/get-started/copy";
-import { captureEstimateAttribution, emptyEstimate, estimateSchema, estimateServices, sendEstimate, type EstimateAttribution } from "@/features/get-started/estimate";
+import { captureEstimateAttribution, emptyEstimate, estimateSchema, estimateServices, sendEstimate, toggleEstimateService, type EstimateAttribution, type EstimateService } from "@/features/get-started/estimate";
 import { saveEstimate } from "@/features/get-started/estimate.functions";
 import { ProjectPhotos } from "@/features/get-started/ProjectPhotos";
 import "@/features/get-started/estimate.css";
@@ -39,6 +38,11 @@ export default function GetStarted() {
   function update<K extends keyof typeof form>(key: K, value: (typeof form)[K]) {
     setForm((previous) => ({ ...previous, [key]: value }));
     setErrors((previous) => ({ ...previous, [key]: "" }));
+    setSubmitError("");
+  }
+  function updateService(service: EstimateService, checked: boolean) {
+    setForm((previous) => ({ ...previous, services: toggleEstimateService(previous.services, service, checked) }));
+    setErrors((previous) => ({ ...previous, services: "" }));
     setSubmitError("");
   }
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -117,10 +121,11 @@ export default function GetStarted() {
                   <div><Label htmlFor="phone">Phone Number <span aria-hidden="true">*</span></Label><Input {...inputProps("phone")} required type="tel" autoComplete="tel" inputMode="tel" maxLength={40} value={form.phone} onChange={(e) => update("phone", e.target.value)} className="mt-2 h-12 text-base" />{errorFor("phone")}</div>
                 </div>
                 <div><Label htmlFor="email">Email <span className="font-normal text-muted-foreground">(optional)</span></Label><Input {...inputProps("email")} type="email" autoComplete="email" maxLength={200} value={form.email} onChange={(e) => update("email", e.target.value)} className="mt-2 h-12 text-base" />{errorFor("email")}</div>
-                <fieldset><legend className="mb-2 text-sm font-medium">Service <span aria-hidden="true">*</span></legend>
-                  <RadioGroup value={form.service} onValueChange={(v) => update("service", v)} aria-label="Service" aria-required="true" aria-invalid={Boolean(errors.service)} aria-describedby={errors.service ? "service-error" : undefined} className="grid gap-2 sm:grid-cols-2">
-                    {estimateServices.map((option, i) => <Label key={option.value} htmlFor={`service-${option.value}`} className={`flex min-h-14 cursor-pointer items-center gap-3 rounded-md border p-3 text-sm leading-relaxed ${form.service === option.value ? "border-gold bg-accent/10" : "border-border"}`}><RadioGroupItem id={`service-${option.value}`} data-field={i === 0 ? "service" : undefined} value={option.value} />{option.label}</Label>)}
-                  </RadioGroup>{errorFor("service")}
+                <fieldset aria-describedby={`services-caption${errors.services ? " services-error" : ""}`} aria-invalid={Boolean(errors.services)}><legend className="mb-2 text-sm font-medium">Service <span aria-hidden="true">*</span></legend>
+                  <p id="services-caption" className="mb-3 text-sm text-muted-foreground">Select all that apply.</p>
+                  <div className="grid gap-2 sm:grid-cols-2">
+                    {estimateServices.map((option, i) => <Label key={option.value} htmlFor={`service-${option.value}`} className={`flex min-h-14 cursor-pointer items-center gap-3 rounded-md border p-3 text-sm leading-relaxed ${form.services.includes(option.value) ? "border-gold bg-accent/10" : "border-border"}`}><Checkbox id={`service-${option.value}`} data-field={i === 0 ? "services" : undefined} value={option.value} checked={form.services.includes(option.value)} onCheckedChange={(value) => updateService(option.value, value === true)} aria-invalid={Boolean(errors.services)} aria-describedby={`services-caption${errors.services ? " services-error" : ""}`} />{option.label}</Label>)}
+                  </div>{errorFor("services")}
                 </fieldset>
                 <div><Label htmlFor="location">Project City or ZIP Code <span aria-hidden="true">*</span></Label><Input {...inputProps("location")} required autoComplete="off" maxLength={120} placeholder="e.g. Freehold or 07728" value={form.location} onChange={(e) => update("location", e.target.value)} className="mt-2 h-12 text-base" />{errorFor("location")}</div>
                 <div><Label htmlFor="message">Tell Us About Your Project <span className="font-normal text-muted-foreground">(optional)</span></Label><Textarea {...inputProps("message")} maxLength={2000} rows={3} value={form.message} onChange={(e) => update("message", e.target.value)} className="mt-2 min-h-24 resize-y text-base" />{errorFor("message")}</div>

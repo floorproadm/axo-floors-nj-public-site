@@ -5,21 +5,35 @@ export const estimateServices = [
   { value: "refinishing", label: "Sanding & Refinishing" },
   { value: "installation", label: "Flooring Installation" },
   { value: "stairs", label: "Stairs & Railings" },
-  { value: "repair", label: "Repairs / Other / Not Sure" },
+  { value: "repair", label: "Repairs & Restoration" },
+  { value: "consultation", label: "Not Sure / Need Guidance" },
 ] as const;
+
+export type EstimateService = (typeof estimateServices)[number]["value"];
+export function toggleEstimateService(current: EstimateService[], service: EstimateService, checked: boolean): EstimateService[] {
+  if (!checked) return current.filter((value) => value !== service);
+  if (service === "consultation") return [service];
+  return [...current.filter((value) => value !== "consultation" && value !== service), service];
+}
+
+const servicesSchema = z.array(z.enum(["refinishing", "installation", "stairs", "repair", "consultation"]))
+  .min(1, "Please select at least one service.")
+  .max(5, "Please select only the listed services.")
+  .refine((values) => new Set(values).size === values.length, "Please select each service only once.")
+  .refine((values) => !values.includes("consultation") || values.length === 1, "Select guidance alone, or choose specific services.");
 
 const cleanLine = (max: number) => z.string().trim().max(max).refine((v) => !/[\r\n\x00-\x1f\x7f]/.test(v), "Please use a single line of text.");
 export const estimateSchema = z.object({
   name: cleanLine(120).refine((v) => v.length >= 2, "Please enter your full name."),
   phone: cleanLine(40).refine((v) => /^(?:1)?[2-9]\d{2}[2-9]\d{6}$/.test(v.replace(/\D/g, "")), "Please enter a valid US phone number."),
-  service: z.enum(["refinishing", "installation", "stairs", "repair"], { errorMap: () => ({ message: "Please select a service." }) }),
+  services: servicesSchema,
   location: cleanLine(120).refine((v) => /^\d{5}(?:-\d{4})?$/.test(v) || (/[a-zA-Z]/.test(v) && /^[\p{L}\p{M} .,'’()-]+$/u.test(v) && v.length >= 2), "Please enter a city or a 5-digit ZIP code."),
   message: z.string().trim().max(2000, "Please keep your project description under 2,000 characters.").refine((v) => !/[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]/.test(v), "Please remove unsupported characters."),
   email: cleanLine(200).refine((v) => !v || z.string().email().safeParse(v).success, "Please enter a valid email address, or leave it blank."),
   consent: z.boolean().refine((v) => v, "Please give permission for us to contact you about this project."),
 });
 export type EstimateInput = z.infer<typeof estimateSchema>;
-export const emptyEstimate = { name: "", phone: "", service: "", location: "", message: "", email: "", consent: false };
+export const emptyEstimate: EstimateInput = { name: "", phone: "", services: [], location: "", message: "", email: "", consent: false };
 
 // Only safe channel tokens and origin-only referrers; never persist arbitrary queries.
 export const attributionSchema = z.object({
@@ -53,14 +67,14 @@ export function buildEstimatePayload(raw: unknown, attribution: unknown = {}) {
   const data = estimateSchema.parse(raw);
   const safe = attributionSchema.parse(attribution);
   const zip = /^\d{5}(?:-\d{4})?$/.test(data.location);
-  const label = estimateServices.find((s) => s.value === data.service)?.label || data.service;
-  const rows = ["## Request", `- Service: ${label}`, `- Project city or ZIP: ${data.location}`, "- Contact permission: Granted for this submitted project"];
+  const labels = data.services.map((service) => estimateServices.find((s) => s.value === service)?.label || service);
+  const rows = ["## Request", `- Services: ${labels.join(", ")}`, `- Project city or ZIP: ${data.location}`, "- Contact permission: Granted for this submitted project"];
   if (data.message) rows.push("", "## Project", `- Description: ${data.message}`);
   const entries = Object.entries(safe);
   if (entries.length) rows.push("", "## Attribution", ...entries.map(([k, v]) => `- ${k}: ${v}`));
   return { organization_id: AXO_ORG_ID, name: data.name, phone: data.phone, email: data.email || null,
     city: zip ? null : data.location, zip_code: zip ? data.location : null, address: null,
-    services: [data.service], lead_source: "Website — Get Started", status: "new_lead", priority: "high", contact_type: "web_form",
+    services: data.services, lead_source: "Website — Get Started", status: "new_lead", priority: "high", contact_type: "web_form",
     message: data.message || null, notes: rows.join("\n"), budget: null, room_size: null };
 }
 export type EstimatePayload = ReturnType<typeof buildEstimatePayload>;
