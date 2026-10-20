@@ -10,7 +10,7 @@ import SEOHead from "@/components/shared/SEOHead";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { CheckCircle, Star, ArrowRight, Award, Users, Clock, Shield, Sparkles, BookOpen, Calculator, Palette, Wind, Zap, Home, Trophy, ClipboardList, FileText, Hammer, BadgeCheck } from "lucide-react";
+import { CheckCircle, Star, ArrowRight, Award, Users, Clock, Shield, BookOpen, Calculator, Palette, Wind, Zap, Home, Trophy, ClipboardList, FileText, Hammer, BadgeCheck } from "lucide-react";
 import homeHero from "@/assets/home-hero.jpg";
 import serviceSandingImg from "@/assets/service-sanding-crew-cropped.jpg";
 import serviceInstallAsset from "@/assets/axo-vinyl-plank-install.jpg.asset.json";
@@ -332,10 +332,6 @@ const Index = () => {
       <section className="spacing-mobile-md bg-gradient-subtle border-t border-border/50">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/10 border border-accent/20 mb-6">
-              <Sparkles className="w-4 h-4 text-accent" />
-              <span className="text-xs font-semibold uppercase tracking-wider text-accent">Personalized Estimate</span>
-            </div>
             <h2 className="text-mobile-3xl font-bold font-heading mb-4">
               Ready to Transform Your Floors — <span className="text-gradient-gold">The Right Way?</span>
             </h2>
