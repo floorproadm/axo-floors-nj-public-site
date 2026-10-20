@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as FinishesRouteImport } from './routes/finishes'
+import { Route as RefinishingRouteImport } from './routes/refinishing'
+import { Route as SandingAndRefinishRouteImport } from './routes/sanding-and-refinish'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
@@ -32,6 +34,16 @@ const SplatRoute = SplatRouteImport.update({
 const FinishesRoute = FinishesRouteImport.update({
   id: '/finishes',
   path: '/finishes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefinishingRoute = RefinishingRouteImport.update({
+  id: '/refinishing',
+  path: '/refinishing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SandingAndRefinishRoute = SandingAndRefinishRouteImport.update({
+  id: '/sanding-and-refinish',
+  path: '/sanding-and-refinish',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -71,6 +83,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/finishes': typeof FinishesRoute
+  '/refinishing': typeof RefinishingRoute
+  '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/': typeof BlogIndexRoute
@@ -82,6 +96,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/finishes': typeof FinishesRoute
+  '/refinishing': typeof RefinishingRoute
+  '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog': typeof BlogIndexRoute
@@ -94,6 +110,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/finishes': typeof FinishesRoute
+  '/refinishing': typeof RefinishingRoute
+  '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/': typeof BlogIndexRoute
@@ -107,6 +125,8 @@ export interface FileRouteTypes {
     | '/'
     | '/$'
     | '/finishes'
+    | '/refinishing'
+    | '/sanding-and-refinish'
     | '/sitemap.xml'
     | '/blog/$slug'
     | '/blog/'
@@ -118,6 +138,8 @@ export interface FileRouteTypes {
     | '/'
     | '/$'
     | '/finishes'
+    | '/refinishing'
+    | '/sanding-and-refinish'
     | '/sitemap.xml'
     | '/blog/$slug'
     | '/blog'
@@ -129,6 +151,8 @@ export interface FileRouteTypes {
     | '/'
     | '/$'
     | '/finishes'
+    | '/refinishing'
+    | '/sanding-and-refinish'
     | '/sitemap.xml'
     | '/blog/$slug'
     | '/blog/'
@@ -141,6 +165,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SplatRoute: typeof SplatRoute
   FinishesRoute: typeof FinishesRoute
+  RefinishingRoute: typeof RefinishingRoute
+  SandingAndRefinishRoute: typeof SandingAndRefinishRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   BlogSlugRoute: typeof BlogSlugRoute
   BlogIndexRoute: typeof BlogIndexRoute
@@ -170,6 +196,20 @@ declare module '@tanstack/react-router' {
       path: '/finishes'
       fullPath: '/finishes'
       preLoaderRoute: typeof FinishesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/refinishing': {
+      id: '/refinishing'
+      path: '/refinishing'
+      fullPath: '/refinishing'
+      preLoaderRoute: typeof RefinishingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sanding-and-refinish': {
+      id: '/sanding-and-refinish'
+      path: '/sanding-and-refinish'
+      fullPath: '/sanding-and-refinish'
+      preLoaderRoute: typeof SandingAndRefinishRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sitemap.xml': {
@@ -221,6 +261,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SplatRoute: SplatRoute,
   FinishesRoute: FinishesRoute,
+  RefinishingRoute: RefinishingRoute,
+  SandingAndRefinishRoute: SandingAndRefinishRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   BlogSlugRoute: BlogSlugRoute,
   BlogIndexRoute: BlogIndexRoute,
