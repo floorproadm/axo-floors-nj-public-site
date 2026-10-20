@@ -121,3 +121,66 @@ export function initializeAnalytics(measurementId: string) {
   };
   track(window.location.href);
 }
+// ---- Phase 1B events: strict allowlist, fixed values only, never customer details ----
+const eventParams = {
+  generate_lead: { form_location: ['get_started'], service_path: ['new-installation', 'floor-refinish', 'install-plus-refinish', 'not-sure'] },
+  estimate_step_1_completed: { form_location: ['get_started'] },
+  sms_click: { link_location: ['get_started', 'get_started_thank_you', 'gallery', 'mobile_sticky'] },
+  phone_click: { link_location: ['get_started', 'gallery', 'mobile_sticky', 'header', 'footer'] },
+} as const;
+export type AnalyticsEventName = keyof typeof eventParams;
+const productionHosts = new Set(['axofloorsnj.com', 'www.axofloorsnj.com', 'axo-floors-nj.lovable.app']);
+
+export function safeAnalyticsEvent(name: string, params: Record<string, unknown> = {}) {
+  const allowed = (eventParams as Record<string, Record<string, readonly string[]>>)[name];
+  if (!allowed) return null;
+  const out: Record<string, string> = {};
+  for (const [key, values] of Object.entries(allowed)) {
+    const value = params[key];
+    if (typeof value === 'string' && values.includes(value)) out[key] = value;
+    else return null; // Every allowlisted parameter is required and fixed.
+  }
+  return out;
+}
+
+export function createEventDispatcher(send: (name: string, params: Record<string, string>) => void) {
+  const sentKeys = new Set<string>();
+  return (name: AnalyticsEventName, params: Record<string, unknown>, href: string, dedupeKey?: string) => {
+    try {
+      const url = new URL(href);
+      if (!productionHosts.has(url.hostname) || !safeAnalyticsPage(href)) return false;
+      const safe = safeAnalyticsEvent(name, params);
+      if (!safe) return false;
+      if (dedupeKey) { const key = `${name}:${dedupeKey}`; if (sentKeys.has(key)) return false; sentKeys.add(key); }
+      send(name, safe);
+      return true;
+    } catch { return false; }
+  };
+}
+
+const dispatch = createEventDispatcher((name, params) => {
+  const tag = (window as AnalyticsWindow).gtag;
+  if (stopTracking && tag) tag('event', name, params);
+});
+
+/** Never throws; silently skipped without GA4, off-production, or on private pages. */
+export function trackEvent(name: AnalyticsEventName, params: Record<string, unknown>, dedupeKey?: string) {
+  if (typeof window === 'undefined') return false;
+  return dispatch(name, params, window.location.href, dedupeKey);
+}
+
+/** Call only after the server has confirmed the existing final lead save. */
+export function trackGenerateLead(servicePath: string, submissionId: string) {
+  return trackEvent('generate_lead', { form_location: 'get_started', service_path: servicePath }, submissionId);
+}
+
+// OFF until Project A's private partial-capture API confirms durable storage.
+export const STEP1_CAPTURE_ENABLED = false;
+export function trackEstimateStep1Completed(confirmation: { durable: boolean; captureId: string } | null, enabled = STEP1_CAPTURE_ENABLED) {
+  if (!enabled || !confirmation?.durable || !confirmation.captureId) return false;
+  return trackEvent('estimate_step_1_completed', { form_location: 'get_started' }, confirmation.captureId);
+}
+
+export function trackContactClick(kind: 'sms_click' | 'phone_click', location: string) {
+  return trackEvent(kind, { link_location: location });
+}

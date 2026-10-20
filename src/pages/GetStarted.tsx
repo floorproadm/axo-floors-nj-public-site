@@ -21,6 +21,7 @@ import { gsCopy, estimateCopy, SERVICE_TYPE_OPTIONS, FINISH_SCOPE_OPTIONS, FLOOR
 import { captureEstimateAttribution, emptyEstimate, estimateSchema, sendEstimate, type EstimateAttribution } from "@/features/get-started/estimate";
 import { emptyJourney, journeySchema, journeyServices, journeySteps, stepFields, switchJourneyService, normalizeJourney, timelineOptions, contactOptions, type Journey, type JourneyStep } from "@/features/get-started/journey";
 import { saveEstimate } from "@/features/get-started/estimate.functions";
+import { trackContactClick, trackGenerateLead } from "@/lib/analytics";
 import { ProjectPhotos } from "@/features/get-started/ProjectPhotos";
 import "@/features/get-started/estimate.css";
 
@@ -123,6 +124,8 @@ export default function GetStarted() {
         const result = await insert({ data: { form: data, attribution: safe } });
         if (!result.saved) throw new Error("not_saved");
         saved.current = true;
+        // Only after the server confirmed the save; never blocks the form.
+        try { trackGenerateLead(journey.serviceType, crypto.randomUUID()); } catch { /* analytics optional */ }
       }, async () => true); // The single lead email is sent by FloorPRO when the lead is saved.
       setNotificationFailed(!result.notificationSent); setDone(true);
       setForm(emptyEstimate); setJourney(emptyJourney);
@@ -201,7 +204,7 @@ export default function GetStarted() {
           </CardContent>
         </Card>
       </>}
-      <div className="mt-5 text-center"><Button asChild variant="link" className={`h-auto min-h-12 whitespace-normal text-sm ${done ? "estimate-sms" : "text-foreground"}`}><a href={sms}><MessageSquare className="h-4 w-4 shrink-0" />{done ? "Text Us Directly" : "Prefer texting? Text Us Directly"}</a></Button></div>
+      <div className="mt-5 text-center"><Button asChild variant="link" className={`h-auto min-h-12 whitespace-normal text-sm ${done ? "estimate-sms" : "text-foreground"}`}><a href={sms} onClick={() => trackContactClick("sms_click", done ? "get_started_thank_you" : "get_started")}><MessageSquare className="h-4 w-4 shrink-0" />{done ? "Text Us Directly" : "Prefer texting? Text Us Directly"}</a></Button></div>
     </main>}
   </div>;
 }
