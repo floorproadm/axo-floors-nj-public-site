@@ -41,7 +41,7 @@ const helpers: Partial<Record<JourneyStep, string>> = {
 
 type Options = readonly { value: string; label: string; hint?: string }[];
 function ChoiceCards({ field, value, options, onChange, error, compact = false, area = false }: { field: string; value: string; options: Options; onChange: (value: string) => void; error?: string; compact?: boolean; area?: boolean }) {
-  return <RadioGroup value={value} onValueChange={onChange} aria-label={field} aria-invalid={Boolean(error)} aria-describedby={error ? `${field}-error` : undefined} className={area ? "grid grid-cols-2 gap-3 sm:grid-cols-4" : "grid grid-cols-1 gap-4 sm:grid-cols-2"}>
+  return <RadioGroup value={value} onValueChange={onChange} aria-label={field} aria-invalid={Boolean(error)} aria-describedby={error ? `${field}-error` : undefined} className={area ? "grid grid-cols-2 gap-3 sm:grid-cols-4" : compact ? "grid grid-cols-2 gap-3" : "grid grid-cols-1 gap-4 sm:grid-cols-2"}>
     {options.map((option, index) => <Label key={option.value} htmlFor={`${field}-${option.value}`} className={`relative flex cursor-pointer flex-col items-center justify-center rounded-lg border-2 text-center transition-all hover:shadow-md focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 ${area ? "p-3 min-h-20" : compact ? "p-4 min-h-14" : "p-6 min-h-28"} ${value === option.value ? "border-gold bg-gold/10" : "border-grey/20 bg-card hover:border-gold/50"}`}>
       <RadioGroupItem id={`${field}-${option.value}`} value={option.value} data-field={index === 0 ? field : undefined} className="sr-only" />
       <span className={`${area ? "text-sm" : "text-base"} font-semibold text-navy`}>{option.label}</span>

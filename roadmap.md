@@ -1,5 +1,5 @@
 # GA4 page measurement
-- [ ] Owner-approved guided Get Started: archived Welcome, quiz-style branched steps, validated same-lead notes, synthetic tests and mobile/desktop checks; preview only.
+- [x] Owner-approved guided Get Started: archived Welcome, quiz-style branched steps, validated same-lead notes; 87 tests and eight 375px/1280px synthetic branch flows pass, preview build OK; media previews only, awaiting visual approval, no publication.
 - [x] Compact Get Started: multi-service checkboxes and exclusive archived consultation key; 48 tests and 375px/1280px synthetic single-save/notification checks pass, preview build OK; awaiting visual approval, no publishing or live leads.
 - [x] Remove only /campaign, /builder-offer and /axo-pages without archives or publishing; surviving pages and sitemap verified, 33 tests pass; existing wildcard returns HTTP 200 with a 404 screen (separate SEO follow-up).
 - [x] Compact Get Started enhancements: Email reordered; local-only photo previews and 33 tests/mobile-desktop checks pass; archive unchanged; no live submissions or publishing.
