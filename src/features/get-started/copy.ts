@@ -119,7 +119,7 @@ export const SERVICE_OPTIONS = [
 export const SERVICE_TYPE_OPTIONS = [
   { value: "new-installation", label: "New Installation", hint: "Installing new flooring" },
   { value: "floor-refinish", label: "Refinishing (Sand & Finish)", hint: "Refinishing existing floors" },
-  { value: "install-plus-refinish", label: "Installation + Refinishing", hint: "Both — install new and refinish" },
+  { value: "install-plus-refinish", label: "Installation + Finishing", hint: "Both — install new and refinish" },
   { value: "not-sure", label: "Not sure / Need guidance", hint: "Talk to an expert first" },
 ] as const;
 
