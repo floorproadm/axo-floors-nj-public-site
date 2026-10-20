@@ -1,5 +1,6 @@
 # Architecture rules
 - Keep the compact Get Started form schema and payload mapping in its feature module; validate again in its server function and insert through existing anonymous RLS, then notify once after confirmed insertion, so other lead pathways stay isolated.
+- Keep compact estimate service selection as a validated canonical array with feature-local exclusive-guidance transitions; preserve its full order in the single lead and label-rich notes so shared lead and notification contracts remain unchanged.
 - Keep project-photo previews memory-only and isolated from form payloads, using data URLs allowed by existing image-security rules; uploads remain disabled until private lead-scoped storage and staff access are verified, preventing accidental disclosure or orphaned attachments.
 - Initialize GA4 in the root shell through a browser effect and a public server function exposing only the validated Measurement ID, so server-held configuration never leaks unrelated secrets.
 - Observe the shared browser-history boundary for page measurement across existing routers; do not migrate rendering or edit form logic for analytics.
