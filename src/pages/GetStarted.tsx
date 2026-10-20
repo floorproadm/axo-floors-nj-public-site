@@ -150,8 +150,8 @@ export default function GetStarted() {
           <Button type="button" className={`w-full py-6 text-base ${goldButton}`} onClick={() => { setDirection("right"); setStep(1); }}>{gsCopy.intro.cta}</Button>
         </div>
       </main>
-    </div> : <main className={`mx-auto w-full flex-1 ${done ? "flex max-w-xl flex-col items-center px-5 pb-24 pt-8 text-center" : "max-w-3xl px-5 py-10 sm:py-16"}`}>
-      {done ? <><Link to="/" aria-label="AXO Floors home" className="animate-gs-slide-in-right mx-auto block w-fit"><img src={logo} alt="AXO Floors" className="mx-auto h-16 w-auto" /></Link><section className="animate-gs-slide-in-right my-auto w-full space-y-6 pt-8 text-center" aria-live="polite">
+    </div> : <main className={`mx-auto w-full flex-1 ${done ? "flex max-w-xl flex-col items-center px-5 pb-24 pt-8 text-center sm:pt-12" : "max-w-3xl px-5 py-10 sm:py-16"}`}>
+      {done ? <><Link to="/" aria-label="AXO Floors home" className="animate-gs-slide-in-right mx-auto block w-fit"><img src={logo} alt="AXO Floors" className="mx-auto h-16 w-auto" /></Link><section className="animate-gs-slide-in-right my-auto w-full space-y-6 pt-8 text-center sm:pt-12" aria-live="polite">
         <h1 ref={heading} tabIndex={-1} className="text-3xl font-bold [text-wrap:balance] focus:outline-none sm:text-4xl">Thank You — You're in Good Hands</h1>
         <p className="leading-relaxed text-muted-foreground">Thank you for considering AXO Floors. Our team will reach out to discuss your goals, answer your questions, and help you plan the next steps.</p>
         {notificationFailed && <p role="status" className="text-sm text-muted-foreground">Your request is saved, but the email notification could not be confirmed. You can text us directly; please don't submit again.</p>}
