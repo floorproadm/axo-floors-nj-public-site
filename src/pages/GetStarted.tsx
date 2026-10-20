@@ -205,7 +205,7 @@ export default function GetStarted() {
           </CardContent>
         </Card>
       </>}
-      <div className="mt-5 text-center"><Button asChild variant="link" className="h-auto min-h-12 whitespace-normal text-sm text-foreground"><a href={sms}><MessageSquare className="h-4 w-4 shrink-0" />Prefer texting? Text Us Directly</a></Button></div>
+      <div className="mt-5 text-center"><Button asChild variant="link" className={`h-auto min-h-12 whitespace-normal text-sm ${done ? "estimate-sms" : "text-foreground"}`}><a href={sms}><MessageSquare className="h-4 w-4 shrink-0" />{done ? "Text Us Directly" : "Prefer texting? Text Us Directly"}</a></Button></div>
     </main>}
   </div>;
 }
