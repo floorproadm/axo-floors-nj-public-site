@@ -56,7 +56,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           url: "https://axofloorsnj.com",
           priceRange: "$$",
           serviceArea: { "@type": "State", name: "New Jersey" },
-          aggregateRating: { "@type": "AggregateRating", ratingValue: "4.9", reviewCount: "47" },
           openingHours: "Mo-Sa 08:00-18:00",
         }),
       },
