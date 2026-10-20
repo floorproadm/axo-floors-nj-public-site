@@ -97,9 +97,11 @@ export default function ScheduleEstimate() {
 
       // Create a lead if none provided (organic visit)
       if (!activeLeadId) {
-        const { data: newLead, error: leadErr } = await supabase
+        const newLeadId = crypto.randomUUID();
+        const { error: leadErr } = await supabase
           .from("leads")
           .insert({
+            id: newLeadId,
             organization_id: AXO_ORG_ID,
             name: name.trim(),
             email: email.trim() || null,
@@ -109,11 +111,9 @@ export default function ScheduleEstimate() {
               .filter(Boolean)
               .join("\n") || null,
             lead_source: "schedule_estimate",
-          })
-          .select("id")
-          .single();
+          });
         if (leadErr) throw leadErr;
-        activeLeadId = newLead.id;
+        activeLeadId = newLeadId;
       }
 
       const { error } = await supabase.from("appointment_requests").insert({
