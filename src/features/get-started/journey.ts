@@ -24,6 +24,7 @@ export const emptyJourney: Journey = { serviceType: "", finishScope: "", floorTy
 export const isInstallation = (service: string) => service === "new-installation" || service === "install-plus-refinish";
 export function normalizeJourney(input: Journey): Journey {
   const data = { ...input };
+  if (data.serviceType === "new-installation") { data.finishScope = ""; data.startDate = ""; }
   if (!isInstallation(data.serviceType)) { data.finishScope = ""; data.floorType = ""; data.materials = ""; data.delivered = ""; data.startDate = ""; }
   if (data.serviceType !== "floor-refinish") data.condition = "";
   if (data.serviceType === "not-sure" || !data.serviceType) { data.areaPreset = ""; data.customArea = ""; data.stairs = ""; data.stairsCount = ""; }
@@ -45,7 +46,8 @@ export const journeySchema = journeyFields.transform(normalizeJourney).superRefi
   const required = (key: keyof Journey) => { if (!data[key]) ctx.addIssue({ code: "custom", path: [key], message: "Please choose an option." }); };
   required("serviceType"); required("timeline"); required("contactMethod");
   if (isInstallation(data.serviceType)) {
-    required("finishScope"); required("floorType"); required("materials");
+    if (data.serviceType === "install-plus-refinish") required("finishScope");
+    required("floorType"); required("materials");
     if (data.materials === "customer_has") required("delivered");
     if (data.startDate) {
       const date = new Date(`${data.startDate}T12:00:00Z`);
@@ -62,6 +64,7 @@ export const journeySchema = journeyFields.transform(normalizeJourney).superRefi
 });
 export type JourneyStep = "contact" | "service" | "finishScope" | "floorType" | "materials" | "condition" | "area" | "date" | "details" | "timeline" | "reach";
 export function journeySteps(service: string): JourneyStep[] {
+  if (service === "new-installation") return ["contact", "service", "floorType", "materials", "area", "timeline", "reach"];
   const technical: JourneyStep[] = isInstallation(service) ? ["finishScope", "floorType", "materials", "area", "date"] : service === "floor-refinish" ? ["condition", "area"] : [];
   return ["contact", "service", ...technical, "details", "timeline", "reach"];
 }
@@ -70,7 +73,8 @@ export function journeyNotes(data: Journey): string[] {
   const label = (options: readonly { value: string; label: string }[], value: string) => options.find((option) => option.value === value)?.label || value;
   const rows = [`- Service journey: ${label(SERVICE_TYPE_OPTIONS, data.serviceType)}`];
   if (isInstallation(data.serviceType)) {
-    rows.push(`- Finish scope: ${label(FINISH_SCOPE_OPTIONS, data.finishScope)}`, `- Flooring type: ${label(FLOOR_TYPE_OPTIONS, data.floorType)}`, `- Materials: ${label(MATERIALS_OPTIONS, data.materials)}`);
+    if (data.finishScope) rows.push(`- Finish scope: ${label(FINISH_SCOPE_OPTIONS, data.finishScope)}`);
+    rows.push(`- Flooring type: ${label(FLOOR_TYPE_OPTIONS, data.floorType)}`, `- Materials: ${label(MATERIALS_OPTIONS, data.materials)}`);
     if (data.delivered) rows.push(`- Material delivered: ${label(MATERIAL_DELIVERED_OPTIONS, data.delivered)}`);
     if (data.startDate) rows.push(`- Preferred exact start date: ${data.startDate}`);
   }
