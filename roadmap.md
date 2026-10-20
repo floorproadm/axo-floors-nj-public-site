@@ -1,5 +1,6 @@
 # GA4 page measurement
 - [x] Compact Get Started enhancements: Email reordered; local-only photo previews and 33 tests/mobile-desktop checks pass; archive unchanged; no live submissions or publishing.
+- [x] Point the /hub "Get Your Free Estimate" button to /get-started (was /contact); verified in preview, nothing published.
 - [ ] Enable secure photo attachments: blocked by unavailable read-only external storage/policy access and missing verified lead-scoped upload authorization; requires separate owner approval for any necessary storage/policy/schema/FloorPRO changes.
 - [x] Phase 1B Step B: verify questionnaire archive, replace only Get Started, and validate synthetic submissions and mobile/desktop preview without publishing.
 - [x] Install one shared Google tag using the saved Measurement ID.

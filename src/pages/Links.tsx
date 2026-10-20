@@ -5,7 +5,7 @@ import axoLogo from "@/assets/axo-logo-official.png";
 import woodyMascot from "@/assets/woody-mascot.jpg";
 
 const links = [
-  { label: "Get Your Free Estimate", to: "/contact", icon: Calendar, primary: true },
+  { label: "Get Your Free Estimate", to: "/get-started", icon: Calendar, primary: true },
   { label: "Call Us — (732) 351-8653", to: "tel:+17323518653", icon: Phone, primary: true, external: true },
   { label: "About Us", to: "/about", icon: ClipboardCheck },
   { label: "Our Services", to: "/#services", icon: Wrench, hash: true },
