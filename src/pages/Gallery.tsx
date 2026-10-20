@@ -775,20 +775,21 @@ const Gallery = () => {
       )}
 
       {/* Follow Us / Social Loop Section */}
-      <section className="py-16 md:py-24 bg-navy text-white overflow-hidden">
+      <section className="py-16 md:py-24 bg-background text-navy overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mb-10 md:mb-14">
             <p className="text-gold font-semibold tracking-widest uppercase text-sm mb-3">Follow Us</p>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mb-4">
-              See Us in <span className="text-gradient-gold">Action</span>
+              See Us in <span className="text-gold">Action</span>
             </h2>
-            <p className="text-white/80 text-base md:text-lg leading-relaxed">
+            <p className="text-grey text-base md:text-lg leading-relaxed">
               Follow along on social media for behind-the-scenes looks at our latest projects.
             </p>
+
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            <div className="sm:col-span-2 lg:col-span-2 rounded-2xl overflow-hidden shadow-elegant bg-black/20 aspect-[9/16] sm:aspect-[16/9]">
+            <div className="sm:col-span-2 lg:col-span-2 rounded-2xl overflow-hidden shadow-elegant bg-muted aspect-[9/16] sm:aspect-[16/9]">
               <video
                 ref={sandingVideoRef}
                 src={sandingVideo.url}
@@ -802,7 +803,7 @@ const Gallery = () => {
                 aria-label="Behind the scenes: dust-controlled hardwood floor sanding"
               />
             </div>
-            <div className="sm:col-span-2 lg:col-span-2 rounded-2xl overflow-hidden shadow-elegant bg-black/20 aspect-[9/16] sm:aspect-[16/9]">
+            <div className="sm:col-span-2 lg:col-span-2 rounded-2xl overflow-hidden shadow-elegant bg-muted aspect-[9/16] sm:aspect-[16/9]">
               <video
                 ref={beforeAfterVideoRef}
                 src={beforeAfterVideo.url}
@@ -823,7 +824,7 @@ const Gallery = () => {
               href="https://www.instagram.com/axofloors/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-full px-6 py-3 transition-smooth w-full sm:w-auto"
+              className="inline-flex items-center justify-center gap-2 bg-navy hover:bg-navy-dark text-primary-foreground border border-navy rounded-full px-6 py-3 transition-smooth w-full sm:w-auto"
             >
               <Instagram className="w-5 h-5" />
               <span className="font-medium">@axofloors</span>
