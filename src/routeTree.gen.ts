@@ -11,7 +11,6 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SplatRouteImport } from './routes/$'
-import { Route as AxoPagesRouteImport } from './routes/axo-pages'
 import { Route as FinishesRouteImport } from './routes/finishes'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
@@ -28,11 +27,6 @@ const IndexRoute = IndexRouteImport.update({
 const SplatRoute = SplatRouteImport.update({
   id: '/$',
   path: '/$',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AxoPagesRoute = AxoPagesRouteImport.update({
-  id: '/axo-pages',
-  path: '/axo-pages',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FinishesRoute = FinishesRouteImport.update({
@@ -76,7 +70,6 @@ const ServiceAreasNewJerseySlugRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
-  '/axo-pages': typeof AxoPagesRoute
   '/finishes': typeof FinishesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -88,7 +81,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
-  '/axo-pages': typeof AxoPagesRoute
   '/finishes': typeof FinishesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -101,7 +93,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
-  '/axo-pages': typeof AxoPagesRoute
   '/finishes': typeof FinishesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/blog/$slug': typeof BlogSlugRoute
@@ -115,7 +106,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/$'
-    | '/axo-pages'
     | '/finishes'
     | '/sitemap.xml'
     | '/blog/$slug'
@@ -127,7 +117,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/$'
-    | '/axo-pages'
     | '/finishes'
     | '/sitemap.xml'
     | '/blog/$slug'
@@ -139,7 +128,6 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/$'
-    | '/axo-pages'
     | '/finishes'
     | '/sitemap.xml'
     | '/blog/$slug'
@@ -152,7 +140,6 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SplatRoute: typeof SplatRoute
-  AxoPagesRoute: typeof AxoPagesRoute
   FinishesRoute: typeof FinishesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   BlogSlugRoute: typeof BlogSlugRoute
@@ -176,13 +163,6 @@ declare module '@tanstack/react-router' {
       path: '/$'
       fullPath: '/$'
       preLoaderRoute: typeof SplatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/axo-pages': {
-      id: '/axo-pages'
-      path: '/axo-pages'
-      fullPath: '/axo-pages'
-      preLoaderRoute: typeof AxoPagesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/finishes': {
@@ -240,7 +220,6 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SplatRoute: SplatRoute,
-  AxoPagesRoute: AxoPagesRoute,
   FinishesRoute: FinishesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   BlogSlugRoute: BlogSlugRoute,

@@ -10,7 +10,7 @@ const BASE_URL = PUBLIC_SITE_URL;
 const paths = [
   "/", "/installation", "/refinishing", "/vinyl-plank-flooring",
   "/gallery", "/stain-gallery", "/about", "/contact", "/get-started", "/schedule-estimate",
-  "/campaign", "/referral-program", "/builders", "/realtors", "/builder-offer",
+  "/referral-program", "/builders", "/realtors",
   "/partner-program", "/wow-pack", "/hub", "/blog",
   "/service-areas/new-jersey",
   ...getPublishedLocations()
