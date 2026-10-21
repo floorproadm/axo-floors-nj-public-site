@@ -139,7 +139,7 @@ export default function RefinishV2() {
             <div className="mt-8 flex justify-center sm:justify-start">
               <Link to="/gallery" className={primaryBtn}>Explore Our Projects <ArrowRight className="h-4 w-4" aria-hidden /></Link>
             </div>
-            <p className="mt-6 text-xs text-muted-foreground">Results depend on the wood's condition, species, and selected finish.</p>
+            <p className="mt-6 text-[10px] leading-snug text-muted-foreground">Results depend on the wood's condition, species, and selected finish.</p>
           </div>
         </section>
 
