@@ -85,13 +85,13 @@ const ProjectStrip = () => {
 
   return (
     <div className="mt-8">
-      <div className="relative">
+      <div className="relative -mx-5 md:mx-0">
         <div
           ref={strip}
           onScroll={sync}
           tabIndex={0}
           aria-label="AXO Floors project photos"
-          className="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 outline-none focus-visible:ring-2 focus-visible:ring-gold md:mx-0 md:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="flex snap-x snap-mandatory gap-4 overflow-x-auto px-[10vw] pb-2 outline-none focus-visible:ring-2 focus-visible:ring-gold sm:px-5 md:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {projectPhotos.map((photo) => (
             <img
@@ -99,7 +99,7 @@ const ProjectStrip = () => {
               src={photo.src}
               alt={photo.alt}
               loading="lazy"
-              className="aspect-[16/10] w-[80%] shrink-0 snap-center rounded-lg object-cover shadow-md sm:w-[45%] sm:snap-start md:w-[31%]"
+              className="aspect-[16/10] w-[80vw] shrink-0 snap-center rounded-lg object-cover shadow-md sm:w-[45%] sm:snap-start md:w-[31%]"
             />
           ))}
         </div>
