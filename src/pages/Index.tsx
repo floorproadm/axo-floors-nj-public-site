@@ -127,20 +127,35 @@ const Index = () => {
     description: "We don't leave until every detail meets your standard — and ours."
   }];
   const testimonials = [{
-    name: "Michelle Allen",
-    text: "Outstanding experience overall! The workmanship was superb, we highly recommend AXO Floors to everyone!",
+    name: "Becky Cordero",
+    text: "This is the first time I use this company. I'm so happy with the results! They gave us exactly what we envisioned and asked for. Our staircase looks so beautiful and they brought our old tired floors back to life! They also work super neat and went beyond what they offered. We most definitely highly recommend! We feel as though we have a new house!",
     rating: 5,
-    location: "Ocean County, NJ"
+    location: "Google review",
+    href: "https://maps.app.goo.gl/nCpYcktkT9A73EcB6"
   }, {
-    name: "Richard Davis",
-    text: "We hired AXO Floors and they did amazing work! It was done fast, we had all the work completed. We would highly recommend to anyone! Thank you once again!",
+    name: "Tim Hochrun",
+    text: "Eduardo and his crew did an amazing job with our flooring project. They were prompt, professional and knowledgeable from start to finish. His prices are very fair and the quality of work is second to none. Will be using him again",
     rating: 5,
-    location: "Monmouth County, NJ"
+    location: "Google review",
+    href: "https://maps.app.goo.gl/ETC2gjD6QyPuBqc18"
   }, {
-    name: "David Nakano",
-    text: "Professional and quality work! They transformed our home and we couldn't be happier with the results.",
+    name: "Diana Bastidas",
+    text: "Excellent work on my floors! He was punctual, professional, and did a fantastic job polishing them. They look brand new. Highly recommended",
     rating: 5,
-    location: "Middlesex County, NJ"
+    location: "Google review",
+    href: "https://maps.app.goo.gl/qSyCberyp3AYXVp1A"
+  }, {
+    name: "Thomas Wohanka",
+    text: "They do a great job!! Very professional and they pay attention to detail. I would highly recommend them!!",
+    rating: 5,
+    location: "Google review",
+    href: "https://maps.app.goo.gl/Sbe1fMc6NKsCBn9q6"
+  }, {
+    name: "Natanael",
+    text: "These guys are amazing!! I hired them to sand and refinish the floors in my house, and everything went better than I expected. The price was fair, they were on time, and the quality of work was excellent. They paid attention to every detail and really brought my floors back to life. On top of that, they respected my home and kept everything clean and organized. I’d definitely hire them again and highly recommend them!",
+    rating: 5,
+    location: "Google review",
+    href: "https://maps.app.goo.gl/WoU2CTPnX6BZ6BTB8"
   }];
   return <div className="min-h-screen">
       <SEOHead title="AXO Floors NJ - #1 Hardwood Flooring Experts in New Jersey" description="Transform your home with AXO Floors NJ. Expert hardwood installation, refinishing & restoration. 4.9★ rating, licensed & insured. Free estimates - Call (732) 351-8653" keywords="hardwood flooring NJ, floor refinishing New Jersey, flooring installation Newark, wood floor restoration Jersey City, AXO Floors, professional flooring contractors" />
@@ -316,9 +331,9 @@ const Index = () => {
                     <p className="text-accent font-semibold text-lg">
                       {testimonial.name}
                     </p>
-                    <p className="text-white/60 text-sm">
+                    <a href={testimonial.href} target="_blank" rel="noopener noreferrer" className="text-white/60 text-sm underline hover:text-accent">
                       {testimonial.location}
-                    </p>
+                    </a>
                   </div>
                 </CardContent>
               </Card>)}
