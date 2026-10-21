@@ -244,7 +244,7 @@ export default function RefinishV2() {
         </section>
 
         {/* 05 PROTECTION */}
-        <section className="bg-background py-16 md:py-24">
+        <section className="bg-background pb-10 pt-16 md:pb-24 md:pt-24">
           <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 md:grid-cols-2 md:px-10">
             <div className="order-2 md:order-1">
               <Eyebrow>Your Home Matters</Eyebrow>
@@ -267,7 +267,7 @@ export default function RefinishV2() {
         </section>
 
         {/* 07 COLOR & FINISH */}
-        <section className="bg-background py-16 md:py-24">
+        <section className="bg-background pb-16 pt-10 md:pb-24 md:pt-24">
           <div className="mx-auto grid max-w-7xl gap-12 px-5 md:grid-cols-12 md:px-10">
             <figure className="overflow-hidden rounded-lg shadow-lg md:col-span-5">
               <img src={stainImg} alt="Stain being applied to a sanded hardwood floor by AXO Floors" loading="lazy" className="h-full min-h-72 w-full object-cover" />
