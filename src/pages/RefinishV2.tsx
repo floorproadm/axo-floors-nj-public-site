@@ -4,7 +4,7 @@ import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ArrowRight, ChevronLeft, ChevronRight, Droplets, Layers, Palette, Phone, ScanLine, ShieldCheck, SunMedium } from "lucide-react";
-import heroImg from "@/assets/sanding-hero.jpg";
+import heroBg from "@/assets/axo-refinish-hero.jpg.asset.json";
 import crewImg from "@/assets/service-sanding-crew-cropped.jpg";
 import stainImg from "@/assets/stain-process-work.jpg";
 import { Button } from "@/components/ui/button";
@@ -147,8 +147,9 @@ export default function RefinishV2() {
       <main>
         {/* 01 HERO */}
         <section className="relative isolate overflow-hidden bg-navy-dark text-primary-foreground">
-          <img src={heroImg} alt="AXO Floors crew sanding a hardwood floor" className="absolute inset-0 -z-10 h-full w-full object-cover opacity-35" />
-          <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-r from-navy-dark via-navy-dark/85 to-navy-dark/30" />
+          <img src={heroBg.url} alt="Herringbone hardwood floor, half refinished in a warm honey tone and half sanded to bare wood" className="absolute inset-0 -z-10 h-full w-full -scale-x-100 object-cover object-center" />
+          <div aria-hidden className="absolute inset-0 -z-10 bg-navy-dark/30 md:bg-navy-dark/15" />
+          <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-r from-navy-dark/90 via-navy-dark/50 to-navy-dark/10 md:to-navy-dark/5" />
           <div className="mx-auto max-w-7xl px-5 pb-16 pt-20 md:px-10 md:pb-24 md:pt-28">
             <div className="max-w-2xl">
               <h1 className="font-heading text-4xl font-bold leading-[1.08] md:text-6xl">
@@ -164,7 +165,7 @@ export default function RefinishV2() {
                 <Link to="/get-started" className={primaryBtn}>Get My Free Estimate <ArrowRight className="h-4 w-4" aria-hidden /></Link>
                 <Link to="/gallery" className={ghostLight}>See Our Work</Link>
               </div>
-              <p className="mt-8 font-heading text-xs uppercase tracking-[0.18em] text-primary-foreground/70">
+              <p className="mt-8 font-heading text-xs uppercase tracking-[0.18em] text-primary-foreground/95 drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]">
                 Expert Sanding <span className="text-gold">•</span> Custom Stains <span className="text-gold">•</span> Quality Finishes
               </p>
             </div>
