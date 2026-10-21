@@ -1,12 +1,20 @@
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { ArrowRight, Check, Droplets, Layers, Palette, Phone, ScanLine, ShieldCheck, Sparkles, SunMedium } from "lucide-react";
+import { ArrowRight, Check, ChevronLeft, ChevronRight, Droplets, Layers, Palette, Phone, ScanLine, ShieldCheck, Sparkles, SunMedium } from "lucide-react";
 import heroImg from "@/assets/sanding-hero.jpg";
 import crewImg from "@/assets/service-sanding-crew-cropped.jpg";
 import stainImg from "@/assets/stain-process-work.jpg";
-import RefinishProjectViewer from "@/components/shared/RefinishProjectViewer";
+import { Button } from "@/components/ui/button";
+import beforeAfter from "@/assets/before-after-kitchen-refinish.png.asset.json";
+import photo1 from "@/assets/refinish-project-1-2.png.asset.json";
+import photo4 from "@/assets/refinish-project-4-2.png.asset.json";
+import photo5 from "@/assets/refinish-project-5.png.asset.json";
+import photo8 from "@/assets/refinish-project-8.png.asset.json";
+import photo9 from "@/assets/refinish-project-9.png.asset.json";
+import photo11 from "@/assets/refinish-project-11.png.asset.json";
 
 const Eyebrow = ({ children, light }: { children: React.ReactNode; light?: boolean }) => (
   <p className={`font-heading text-xs font-semibold uppercase tracking-[0.22em] ${light ? "text-gold" : "text-gold-warm"}`}>
@@ -21,6 +29,76 @@ const ghostLight =
   "inline-flex min-h-12 items-center justify-center gap-2 rounded-md border border-primary-foreground/40 px-6 py-3 font-heading text-sm font-semibold text-primary-foreground transition hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold motion-reduce:transition-none";
 const textLink =
   "inline-flex items-center gap-2 font-heading text-sm font-bold text-navy underline decoration-gold decoration-2 underline-offset-8 hover:text-gold-warm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold";
+
+const projectPhotos = [
+  { src: beforeAfter.url, alt: "Before and after of an AXO Floors kitchen hardwood refinishing project" },
+  { src: photo1.url, alt: "Before and after of hardwood flooring beside a curved staircase" },
+  { src: photo4.url, alt: "Before and after of worn hardwood flooring beside kitchen cabinets" },
+  { src: photo5.url, alt: "Before and after of hardwood flooring in a room with large windows" },
+  { src: photo8.url, alt: "Before and after of hardwood flooring through adjoining rooms" },
+  { src: photo9.url, alt: "Before and after of hardwood flooring beside a carpeted staircase" },
+  { src: photo11.url, alt: "Before and after of worn hardwood flooring in a room with baseboard heating" },
+];
+
+const ProjectStrip = () => {
+  const strip = useRef<HTMLDivElement>(null);
+  const [atStart, setAtStart] = useState(true);
+  const [atEnd, setAtEnd] = useState(false);
+
+  const sync = () => {
+    const el = strip.current;
+    if (!el) return;
+    setAtStart(el.scrollLeft < 8);
+    setAtEnd(el.scrollLeft + el.clientWidth >= el.scrollWidth - 8);
+  };
+
+  useEffect(sync, []);
+
+  const shift = (direction: number) => {
+    const el = strip.current;
+    if (!el) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el.scrollBy({ left: direction * Math.round(el.clientWidth * 0.8), behavior: reduce ? "auto" : "smooth" });
+  };
+
+  return (
+    <div className="mt-8">
+      <div className="relative">
+        <div
+          ref={strip}
+          onScroll={sync}
+          tabIndex={0}
+          aria-label="AXO Floors project photos"
+          className="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-2 outline-none focus-visible:ring-2 focus-visible:ring-gold md:mx-0 md:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        >
+          {projectPhotos.map((photo) => (
+            <img
+              key={photo.src}
+              src={photo.src}
+              alt={photo.alt}
+              loading="lazy"
+              className="aspect-[16/10] w-[80%] shrink-0 snap-start rounded-lg object-cover shadow-md sm:w-[45%] md:w-[31%]"
+            />
+          ))}
+        </div>
+        <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-secondary to-transparent md:hidden" />
+      </div>
+      <div className="mt-4 flex items-center justify-between gap-4">
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+          {projectPhotos.length} real projects<span className="md:hidden"> · swipe for more</span>
+        </p>
+        <div className="flex gap-2">
+          <Button type="button" variant="outline" size="icon" aria-label="Previous photos" disabled={atStart} onClick={() => shift(-1)} className="h-11 w-11 rounded-md disabled:opacity-40">
+            <ChevronLeft className="h-5 w-5" aria-hidden />
+          </Button>
+          <Button type="button" variant="outline" size="icon" aria-label="Next photos" disabled={atEnd} onClick={() => shift(1)} className="h-11 w-11 rounded-md disabled:opacity-40">
+            <ChevronRight className="h-5 w-5" aria-hidden />
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const steps = [
   ["Jobsite Protection", "We protect nearby surfaces and prepare the work area with professional dust-control measures."],
@@ -135,7 +213,7 @@ export default function RefinishV2() {
             <h2 className="mt-5 font-heading text-3xl font-bold md:text-4xl">See the Difference.</h2>
             <p className="mt-6 leading-relaxed text-muted-foreground">A professional refinish can change the look and feel of an entire room.</p>
             <p className="mt-3 leading-relaxed text-muted-foreground">Explore real AXO Floors projects, from worn hardwood to renewed surfaces and custom finishes.</p>
-            <RefinishProjectViewer />
+            <ProjectStrip />
             <p className="mt-4 -mx-3 text-center text-[11px] leading-snug text-muted-foreground sm:mx-0 sm:text-left">Results depend on the wood's condition, species, and selected finish.</p>
             <div className="mt-6 flex justify-center sm:justify-start">
               <Link to="/gallery" className={primaryBtn}>Explore Our Projects <ArrowRight className="h-4 w-4" aria-hidden /></Link>
