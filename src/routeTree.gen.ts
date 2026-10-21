@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as FinishesRouteImport } from './routes/finishes'
+import { Route as RefinishRouteImport } from './routes/refinish'
 import { Route as RefinishingRouteImport } from './routes/refinishing'
 import { Route as SandingAndRefinishRouteImport } from './routes/sanding-and-refinish'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
@@ -34,6 +35,11 @@ const SplatRoute = SplatRouteImport.update({
 const FinishesRoute = FinishesRouteImport.update({
   id: '/finishes',
   path: '/finishes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefinishRoute = RefinishRouteImport.update({
+  id: '/refinish',
+  path: '/refinish',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RefinishingRoute = RefinishingRouteImport.update({
@@ -83,6 +89,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/finishes': typeof FinishesRoute
+  '/refinish': typeof RefinishRoute
   '/refinishing': typeof RefinishingRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -96,6 +103,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/finishes': typeof FinishesRoute
+  '/refinish': typeof RefinishRoute
   '/refinishing': typeof RefinishingRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -110,6 +118,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/finishes': typeof FinishesRoute
+  '/refinish': typeof RefinishRoute
   '/refinishing': typeof RefinishingRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -125,6 +134,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$'
     | '/finishes'
+    | '/refinish'
     | '/refinishing'
     | '/sanding-and-refinish'
     | '/sitemap.xml'
@@ -138,6 +148,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$'
     | '/finishes'
+    | '/refinish'
     | '/refinishing'
     | '/sanding-and-refinish'
     | '/sitemap.xml'
@@ -151,6 +162,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$'
     | '/finishes'
+    | '/refinish'
     | '/refinishing'
     | '/sanding-and-refinish'
     | '/sitemap.xml'
@@ -165,6 +177,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SplatRoute: typeof SplatRoute
   FinishesRoute: typeof FinishesRoute
+  RefinishRoute: typeof RefinishRoute
   RefinishingRoute: typeof RefinishingRoute
   SandingAndRefinishRoute: typeof SandingAndRefinishRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -196,6 +209,13 @@ declare module '@tanstack/react-router' {
       path: '/finishes'
       fullPath: '/finishes'
       preLoaderRoute: typeof FinishesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/refinish': {
+      id: '/refinish'
+      path: '/refinish'
+      fullPath: '/refinish'
+      preLoaderRoute: typeof RefinishRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/refinishing': {
@@ -261,6 +281,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SplatRoute: SplatRoute,
   FinishesRoute: FinishesRoute,
+  RefinishRoute: RefinishRoute,
   RefinishingRoute: RefinishingRoute,
   SandingAndRefinishRoute: SandingAndRefinishRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
