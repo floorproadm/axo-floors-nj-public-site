@@ -249,12 +249,6 @@ const Index = () => {
         </div>
       </section>
 
-
-
-
-      {/* Portfolio Section (Section 5 — Proof) */}
-      <Portfolio />
-
       {/* Authority Section */}
       <section className="spacing-mobile-md bg-background">
         <div className="container mx-auto px-4">
@@ -271,6 +265,10 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Portfolio Section (Section 5 — Proof) */}
+      <Portfolio />
+
 
       {/* Process Section */}
       <section className="spacing-mobile-md bg-secondary/40">
