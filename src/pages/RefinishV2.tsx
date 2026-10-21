@@ -4,7 +4,7 @@ import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ArrowRight, ChevronLeft, ChevronRight, Droplets, Layers, Palette, Phone, ScanLine, ShieldCheck, SunMedium } from "lucide-react";
-import heroImg from "@/assets/sanding-hero.jpg";
+import heroBg from "@/assets/axo-refinish-hero.jpg.asset.json";
 import crewImg from "@/assets/service-sanding-crew-cropped.jpg";
 import stainImg from "@/assets/stain-process-work.jpg";
 import { Button } from "@/components/ui/button";
@@ -147,8 +147,8 @@ export default function RefinishV2() {
       <main>
         {/* 01 HERO */}
         <section className="relative isolate overflow-hidden bg-navy-dark text-primary-foreground">
-          <img src={heroImg} alt="AXO Floors crew sanding a hardwood floor" className="absolute inset-0 -z-10 h-full w-full object-cover opacity-35" />
-          <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-r from-navy-dark via-navy-dark/85 to-navy-dark/30" />
+          <img src={heroBg.url} alt="Herringbone hardwood floor, half refinished in a warm honey tone and half sanded to bare wood" className="absolute inset-0 -z-10 h-full w-full object-cover object-center opacity-80" />
+          <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-r from-navy-dark via-navy-dark/80 to-navy-dark/25" />
           <div className="mx-auto max-w-7xl px-5 pb-16 pt-20 md:px-10 md:pb-24 md:pt-28">
             <div className="max-w-2xl">
               <h1 className="font-heading text-4xl font-bold leading-[1.08] md:text-6xl">
