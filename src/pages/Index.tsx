@@ -132,8 +132,8 @@ const Index = () => {
   }, {
     icon: BadgeCheck,
     step: "04",
-    title: "Final Walkthrough & Approval",
-    description: "We don't leave until every detail meets your standard — and ours."
+    title: "Final Walkthrough",
+    description: "We review the completed work with you and discuss care instructions."
   }];
   const testimonials = [{
     name: "Becky Cordero",
