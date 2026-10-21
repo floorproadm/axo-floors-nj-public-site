@@ -15,7 +15,7 @@ import { AXO_PHONE_DISPLAY } from "@/lib/constants";
  * interactive without depending on the SPA router.
  */
 const services = [
-  { name: "Sanding & Refinishing", href: "/sanding-and-refinish" },
+  { name: "Sanding & Refinishing", href: "/refinishing" },
   { name: "Flooring Installation", href: "/hardwood-flooring" },
   { name: "Stairs & Railings", href: "/stairs" },
   { name: "Vinyl Plank Flooring", href: "/vinyl-plank-flooring" },
