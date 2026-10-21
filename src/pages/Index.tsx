@@ -326,11 +326,11 @@ const Index = () => {
             </h2>
           </div>
 
-          <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 max-w-6xl mx-auto overflow-x-auto snap-x snap-mandatory pb-4 md:pb-0 -mx-4 px-4 md:mx-auto md:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex gap-5 md:gap-6 max-w-6xl mx-auto overflow-x-auto snap-x snap-mandatory pb-4 -mx-4 px-4 xl:mx-auto xl:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {testimonials.map((testimonial, index) => {
               const timeAgo: Record<string, string> = { "Becky Cordero": "2 years ago", "Tim Hochrun": "3 weeks ago", "Diana Bastidas": "a month ago", "Thomas Wohanka": "5 months ago", "Natanael": "5 months ago" };
               const avatarColors = ["bg-accent", "bg-primary", "bg-secondary-foreground", "bg-accent", "bg-primary"];
-              return <div key={index} className="min-w-[85vw] sm:min-w-[60vw] md:min-w-0 snap-center bg-card text-card-foreground rounded-2xl p-6 border border-border shadow-elegant flex flex-col">
+              return <div key={index} className="w-[85vw] sm:w-[360px] shrink-0 snap-start bg-card text-card-foreground rounded-2xl p-6 border border-border shadow-elegant flex flex-col">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
                     <div className={`w-10 h-10 rounded-full ${avatarColors[index % avatarColors.length]} flex items-center justify-center text-primary-foreground font-bold text-sm`}>
