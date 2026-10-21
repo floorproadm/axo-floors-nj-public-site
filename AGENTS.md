@@ -1,4 +1,5 @@
 # Architecture rules
+- Keep the experimental refinish photo viewer isolated from Gallery data and routing, using CDN asset pointers and the shared accessible dialog controls; this preserves the existing gallery and SSR page.
 - Keep Get Started journey transitions and branch validation in its feature module; the existing estimate server function revalidates and inserts through anonymous RLS, then notifies once after confirmed insertion, isolating other lead pathways.
 - Derive Get Started services from the validated journey and normalize hidden answers before constructing label-rich notes on the same lead; retain the existing legacy estimate payload contract for isolated consumers.
 - Keep project-photo previews memory-only and isolated from form payloads, using data URLs allowed by existing image-security rules; uploads remain disabled until private lead-scoped storage and staff access are verified, preventing accidental disclosure or orphaned attachments.
