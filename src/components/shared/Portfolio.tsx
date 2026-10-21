@@ -43,7 +43,7 @@ const Portfolio = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const categories = ["All", "Hardwood", "Vinyl", "Refinishing", "Commercial"];
   const filteredItems = selectedCategory === "All" ? portfolioItems : portfolioItems.filter(item => item.category === selectedCategory);
-  return <section className="py-12 sm:py-16 lg:py-20 bg-grey-light">
+  return <section className="py-12 sm:py-16 lg:py-20 pt-8 sm:pt-10 lg:pt-12 bg-grey-light">
       <div className="container mx-auto px-4">
         <div className="text-center mb-8 sm:mb-12 lg:mb-16">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-heading text-navy mb-4 sm:mb-6 px-2">
