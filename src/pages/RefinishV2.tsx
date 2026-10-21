@@ -136,7 +136,7 @@ export default function RefinishV2() {
             <figure className="mt-8 overflow-hidden rounded-lg shadow-lg">
               <img src={beforeAfter.url} alt="Before and after of an AXO Floors kitchen hardwood refinishing project" loading="lazy" className="aspect-[16/10] w-full object-cover" />
             </figure>
-            <p className="mt-4 text-center text-[11px] leading-snug text-muted-foreground sm:text-left">Results depend on the wood's condition, species, and selected finish.</p>
+            <p className="mt-4 -mx-3 text-center text-[11px] leading-snug text-muted-foreground sm:mx-0 sm:text-left">Results depend on the wood's condition, species, and selected finish.</p>
             <div className="mt-6 flex justify-center sm:justify-start">
               <Link to="/gallery" className={primaryBtn}>Explore Our Projects <ArrowRight className="h-4 w-4" aria-hidden /></Link>
             </div>
