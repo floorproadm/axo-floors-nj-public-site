@@ -85,7 +85,7 @@ const ProjectStrip = () => {
       </div>
       <div className="mt-4 flex items-center justify-between gap-4">
         <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-          {projectPhotos.length} real projects<span className="md:hidden"> · swipe for more</span>
+          {projectPhotos.length} real projects
         </p>
         <div className="flex gap-2">
           <Button type="button" variant="outline" size="icon" aria-label="Previous photos" disabled={atStart} onClick={() => shift(-1)} className="h-11 w-11 rounded-md disabled:opacity-40">
