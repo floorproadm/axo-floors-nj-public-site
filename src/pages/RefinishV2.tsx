@@ -138,13 +138,6 @@ export default function RefinishV2() {
               <h2 className="mt-5 font-heading text-3xl font-bold md:text-4xl">See the Difference.</h2>
               <p className="mt-6 leading-relaxed text-muted-foreground">A professional refinish can change the look and feel of an entire room.</p>
               <p className="mt-3 leading-relaxed text-muted-foreground">Explore real AXO Floors projects, from worn hardwood to renewed surfaces and custom finishes.</p>
-              <ul className="mt-8 flex flex-wrap gap-3">
-                {[["Before & After", "/gallery"], ["Natural Hardwood", "/gallery"], ["Custom Stain Colors", "/stain-gallery"]].map(([l, h]) => (
-                  <li key={l}>
-                    <Link to={h} className="inline-flex min-h-11 items-center rounded-full border border-navy/20 bg-background px-4 font-heading text-sm font-semibold hover:border-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold">{l}</Link>
-                  </li>
-                ))}
-              </ul>
               <Link to="/gallery" className={`${primaryBtn} mt-8`}>Explore Our Projects <ArrowRight className="h-4 w-4" aria-hidden /></Link>
               <p className="mt-6 text-xs text-muted-foreground">Results depend on the wood's condition, species, and selected finish.</p>
             </div>
