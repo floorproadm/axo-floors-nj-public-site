@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight, Eye } from "lucide-react";
-import ImageLightbox from "@/components/locations/ssr/ImageLightbox";
+import ProjectStrip from "@/components/shared/ProjectStrip";
 import ba1 from "@/assets/before-after-1.png.asset.json";
 import ba2 from "@/assets/before-after-kitchen-refinish.png.asset.json";
 import ba3 from "@/assets/before-after-installation-restoration.png.asset.json";
@@ -54,13 +54,9 @@ const Portfolio = () => {
           </p>
         </div>
 
-        {/* Before & After Grid */}
+        {/* Before & After Strip */}
         <div className="mb-12 sm:mb-16">
-          <ImageLightbox
-            images={beforeAfterPhotos}
-            gridClassName="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6"
-            itemClassName="relative overflow-hidden rounded-xl aspect-[2/1] bg-grey-light cursor-zoom-in shadow-elegant"
-          />
+          <ProjectStrip photos={beforeAfterPhotos} className="" />
         </div>
 
 
