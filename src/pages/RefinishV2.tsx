@@ -320,7 +320,7 @@ export default function RefinishV2() {
             <Eyebrow light>Let's Get Started</Eyebrow>
             <h2 className="mt-5 font-heading text-3xl font-bold md:text-5xl">Your Floors Deserve a <span className="text-gold">Second Look.</span></h2>
             <div className="mt-6 space-y-2 leading-relaxed text-primary-foreground/80">
-              <p>You don't need to know which sanding process, stain, or finish your floors need.</p>
+              <p>{"\n"}</p>
               <p className="font-heading font-semibold text-primary-foreground">{"\n"}</p>
               <p>Tell us about your project. We'll help you understand your options and plan the next step.</p>
             </div>
