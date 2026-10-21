@@ -10,13 +10,21 @@ import SEOHead from "@/components/shared/SEOHead";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
-import { CheckCircle, Star, ArrowRight, Award, Users, Clock, Shield, BookOpen, Calculator, Palette, Wind, Zap, Home, Trophy, ClipboardList, FileText, Hammer, BadgeCheck } from "lucide-react";
+import { CheckCircle, Star, ArrowRight, ExternalLink, Award, Users, Clock, Shield, BookOpen, Calculator, Palette, Wind, Zap, Home, Trophy, ClipboardList, FileText, Hammer, BadgeCheck } from "lucide-react";
 import homeHero from "@/assets/home-hero.jpg";
 import serviceSandingImg from "@/assets/service-sanding-crew-cropped.jpg";
 import serviceInstallAsset from "@/assets/axo-vinyl-plank-install.jpg.asset.json";
 import stairsRailingsImg from "@/assets/stairs-railings.jpg.asset.json";
 import { useState, useEffect, useRef } from "react";
 import LeadMagnetGate from "@/components/shared/LeadMagnetGate";
+const GoogleLogo = () => (
+  <svg viewBox="0 0 24 24" className="w-5 h-5 shrink-0" fill="none" aria-hidden="true">
+    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
+    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+  </svg>
+);
 const Index = () => {
   const [activeServiceIndex, setActiveServiceIndex] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
@@ -308,35 +316,44 @@ const Index = () => {
       {/* Testimonials Section */}
       <section className="spacing-mobile-md navy-gradient text-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-10 lg:mb-16">
-            <div className="inline-flex items-center gap-1 mb-3 sm:mb-4">
-              {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 sm:w-6 sm:h-6 fill-accent text-accent" />)}
+          <div className="text-center mb-10 lg:mb-14">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <GoogleLogo />
+              <span className="text-xs font-medium tracking-wider text-white/70 uppercase">Google Reviews</span>
             </div>
             <h2 className="text-mobile-3xl font-bold font-heading mb-4 sm:mb-6 px-2 [text-wrap:balance] leading-tight">
               What Homeowners <span className="block sm:inline text-accent">Say About AXO</span>
             </h2>
           </div>
 
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => <Card key={index} className="bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/15 transition-smooth">
-                <CardContent className="p-8">
-                  <div className="flex items-center gap-1 mb-4">
+          <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 max-w-6xl mx-auto overflow-x-auto snap-x snap-mandatory pb-4 md:pb-0 -mx-4 px-4 md:mx-auto md:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {testimonials.map((testimonial, index) => {
+              const timeAgo: Record<string, string> = { "Becky Cordero": "2 years ago", "Tim Hochrun": "3 weeks ago", "Diana Bastidas": "a month ago", "Thomas Wohanka": "5 months ago", "Natanael": "5 months ago" };
+              const avatarColors = ["bg-accent", "bg-primary", "bg-secondary-foreground", "bg-accent", "bg-primary"];
+              return <div key={index} className="min-w-[85vw] sm:min-w-[60vw] md:min-w-0 snap-center bg-card text-card-foreground rounded-2xl p-6 border border-border shadow-elegant flex flex-col">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className={`w-10 h-10 rounded-full ${avatarColors[index % avatarColors.length]} flex items-center justify-center text-primary-foreground font-bold text-sm`}>
+                      {testimonial.name.charAt(0)}
+                    </div>
+                    <div>
+                      <p className="text-foreground text-sm font-semibold leading-tight">{testimonial.name}</p>
+                      <p className="text-muted-foreground text-xs">{timeAgo[testimonial.name]}</p>
+                    </div>
+                  </div>
+                  <GoogleLogo />
+                </div>
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="flex gap-0.5">
                     {[...Array(testimonial.rating)].map((_, i) => <Star key={i} className="w-4 h-4 fill-accent text-accent" />)}
                   </div>
-                  <p className="text-white/90 mb-6 leading-relaxed text-lg">
-                    "{testimonial.text}"
-                  </p>
-                  <div>
-                    <p className="text-accent font-semibold text-lg">
-                      {testimonial.name}
-                    </p>
-                    <a href={testimonial.href} target="_blank" rel="noopener noreferrer" className="text-white/60 text-sm underline hover:text-accent">
-                      {testimonial.location}
-                    </a>
-                  </div>
-                </CardContent>
-              </Card>)}
+                </div>
+                <p className="text-muted-foreground text-sm leading-relaxed mb-4 flex-1">"{testimonial.text}"</p>
+                <a href={testimonial.href} target="_blank" rel="noopener noreferrer" className="text-accent text-xs font-semibold hover:underline inline-flex items-center gap-1">
+                  Read on Google <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>;
+            })}
           </div>
         </div>
       </section>
