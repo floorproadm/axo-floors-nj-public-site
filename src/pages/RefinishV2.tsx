@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { ArrowRight, Check, ChevronLeft, ChevronRight, Droplets, Layers, Palette, Phone, ScanLine, ShieldCheck, Sparkles, SunMedium } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, Droplets, Layers, Palette, Phone, ScanLine, ShieldCheck, SunMedium } from "lucide-react";
 import heroImg from "@/assets/sanding-hero.jpg";
 import crewImg from "@/assets/service-sanding-crew-cropped.jpg";
 import stainImg from "@/assets/stain-process-work.jpg";
