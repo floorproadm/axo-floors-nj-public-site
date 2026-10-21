@@ -135,7 +135,6 @@ const faqs = [
   ["Is the sanding process dust-free?", "No sanding process is completely dust-free. We use professional dust-collection equipment and work-area protection to reduce dust."],
   ["Can I stay in my home during refinishing?", "Sometimes. It depends on the work area, home layout, and products used. We'll discuss access and precautions before starting."],
   ["Can I change my floor color?", "In many cases, yes. We can review natural and stain options, including samples on your floor when appropriate."],
-  ["What's the difference between Standard and Premium?", "Both include professional sanding. Premium adds advanced surface refinement where suitable and a selected high-performance finishing system."],
   ["When can I walk on my floors again?", "It depends on the finish and curing conditions. We provide care instructions for foot traffic, furniture, and rugs."],
   ["Will refinishing remove all damage?", "Refinishing removes many surface marks. Deep stains, dents, or damaged boards may need additional repairs."],
 ];
