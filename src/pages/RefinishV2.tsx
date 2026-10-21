@@ -6,7 +6,7 @@ import { ArrowRight, Check, Droplets, Layers, Palette, Phone, ScanLine, ShieldCh
 import heroImg from "@/assets/sanding-hero.jpg";
 import crewImg from "@/assets/service-sanding-crew-cropped.jpg";
 import stainImg from "@/assets/stain-process-work.jpg";
-import beforeAfter from "@/assets/before-after-kitchen-refinish.png.asset.json";
+import RefinishProjectViewer from "@/components/shared/RefinishProjectViewer";
 
 const Eyebrow = ({ children, light }: { children: React.ReactNode; light?: boolean }) => (
   <p className={`font-heading text-xs font-semibold uppercase tracking-[0.22em] ${light ? "text-gold" : "text-gold-warm"}`}>
@@ -133,9 +133,7 @@ export default function RefinishV2() {
             <h2 className="mt-5 font-heading text-3xl font-bold md:text-4xl">See the Difference.</h2>
             <p className="mt-6 leading-relaxed text-muted-foreground">A professional refinish can change the look and feel of an entire room.</p>
             <p className="mt-3 leading-relaxed text-muted-foreground">Explore real AXO Floors projects, from worn hardwood to renewed surfaces and custom finishes.</p>
-            <figure className="mt-8 overflow-hidden rounded-lg shadow-lg">
-              <img src={beforeAfter.url} alt="Before and after of an AXO Floors kitchen hardwood refinishing project" loading="lazy" className="aspect-[16/10] w-full object-cover" />
-            </figure>
+            <RefinishProjectViewer />
             <p className="mt-4 -mx-3 text-center text-[11px] leading-snug text-muted-foreground sm:mx-0 sm:text-left">Results depend on the wood's condition, species, and selected finish.</p>
             <div className="mt-6 flex justify-center sm:justify-start">
               <Link to="/gallery" className={primaryBtn}>Explore Our Projects <ArrowRight className="h-4 w-4" aria-hidden /></Link>
