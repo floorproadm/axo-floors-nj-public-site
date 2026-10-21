@@ -52,9 +52,9 @@ const Refinishing = () => {
       <Header />
 
       <Hero
-        title="Don't Replace Your Floors. Restore Them."
+        title="Scratches, worn finish, or a color you no longer love?"
         subtitle="Hardwood Floor Refinishing"
-        description="Most worn floors don't need to be replaced — they need to be refinished. Half the cost, a fraction of the mess, and the same wood you already love."
+        description="Scratches, worn finish, or a color you no longer love? Most worn floors don't need to be replaced — they need to be refinished. Half the cost, a fraction of the mess, and the same wood you already love."
         image={sandingHero}
         ctaPrimary="Get My Free Estimate"
         ctaSecondary="See Before & After"
