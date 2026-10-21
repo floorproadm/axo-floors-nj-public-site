@@ -140,25 +140,6 @@ const faqs = [
   ["Will refinishing remove all damage?", "Refinishing removes many surface marks. Deep stains, dents, or damaged boards may need additional repairs."],
 ];
 
-const plans = [
-  {
-    name: "Standard Finish",
-    tag: "Timeless. Durable. Beautiful.",
-    text: "A practical refinishing option for everyday residential use.",
-    items: ["Professional sanding and preparation", "Edge and corner detailing", "Natural wood or custom stain", "Professional water-based finish", "Final inspection"],
-    close: "Beautiful hardwood, professionally restored.",
-    dark: false,
-  },
-  {
-    name: "Premium Finish",
-    tag: "Enhanced Protection. A Refined Result.",
-    text: "Advanced surface preparation paired with a high-performance finishing system.",
-    items: ["Everything in Standard preparation", "Advanced surface refinement where suitable", "Natural wood or custom stain", "Selected two-component finish system", "Premium final finish protection", "Final inspection"],
-    close: "A refined finish designed for active homes.",
-    dark: true,
-  },
-];
-
 export default function RefinishV2() {
   return (
     <div className="min-h-screen bg-background font-body text-navy">
