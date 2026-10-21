@@ -121,7 +121,7 @@ export default function RefinishV2() {
                   );
                 })}
               </ul>
-              <Link to="/get-started" className={`${textLink} mt-6`}>Find Out What Your Floors Need <ArrowRight className="h-4 w-4" aria-hidden /></Link>
+              <Link to="/get-started" className={`${primaryBtn} mt-8`}>Find Out What Your Floors Need <ArrowRight className="h-4 w-4" aria-hidden /></Link>
             </div>
           </div>
         </section>
