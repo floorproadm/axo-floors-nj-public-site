@@ -166,7 +166,7 @@ export default function RefinishV2() {
                 <Link to="/gallery" className={ghostLight}>See Our Work</Link>
               </div>
               <p className="mt-8 font-heading text-xs uppercase tracking-[0.18em] text-primary-foreground/95 drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]">
-                Expert Sanding <span className="text-gold">•</span> Custom Stains <span className="text-gold">•</span> Quality Finishes
+                Professional craftsmanship. Clear communication. Respect for your home.
               </p>
             </div>
           </div>
