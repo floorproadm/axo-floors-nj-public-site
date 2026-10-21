@@ -54,7 +54,7 @@ const Refinishing = () => {
       <Hero
         title="Scratches, worn finish, or a color you no longer love?"
         subtitle="Hardwood Floor Refinishing"
-        description={"Your floors may not need to be replaced. They may need the right care.\n\n\nWe restore existing hardwood with professional sanding, dust-control and carefully selected finishes."}
+        description={"Your floors may not need to be replaced. They may need the right care.\n\nWe restore existing hardwood with professional sanding, dust-control and carefully selected finishes."}
         image={sandingHero}
         ctaPrimary="Get My Free Estimate"
         ctaSecondary="See Before & After"
