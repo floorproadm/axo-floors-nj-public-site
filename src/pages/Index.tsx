@@ -180,7 +180,7 @@ const Index = () => {
         ctaSecondary="See Our Work"
         ctaPrimaryHref="/get-started"
         ctaSecondaryHref="/gallery"
-        trustLine="Family-Owned • Professional Workmanship • Respect for your Home."
+        trustLine="FAMILY-OWNED. CRAFTSMANSHIP-DRIVEN."
         showReviews={true}
       />
 
