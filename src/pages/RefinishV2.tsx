@@ -73,10 +73,9 @@ export default function RefinishV2() {
         <section className="relative isolate overflow-hidden bg-navy-dark text-primary-foreground">
           <img src={heroImg} alt="AXO Floors crew sanding a hardwood floor" className="absolute inset-0 -z-10 h-full w-full object-cover opacity-35" />
           <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-r from-navy-dark via-navy-dark/85 to-navy-dark/30" />
-          <div className="mx-auto max-w-7xl px-5 pb-20 pt-32 md:px-10 md:pb-28 md:pt-40">
+          <div className="mx-auto max-w-7xl px-5 pb-20 pt-20 md:px-10 md:pb-28 md:pt-28">
             <div className="max-w-2xl">
-              <Eyebrow light>Hardwood Floor Sanding & Refinishing in New Jersey</Eyebrow>
-              <h1 className="mt-6 font-heading text-4xl font-bold leading-[1.08] md:text-6xl">
+              <h1 className="font-heading text-4xl font-bold leading-[1.08] md:text-6xl">
                 Bring Your Hardwood Floors <span className="text-gold">Back to Life.</span>
               </h1>
               <p className="mt-6 text-lg leading-relaxed text-primary-foreground/90">
