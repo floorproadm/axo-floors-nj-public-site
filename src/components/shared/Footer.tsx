@@ -32,10 +32,11 @@ const Footer = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
             {/* Company Logo & Tagline */}
             <div className="text-center lg:text-left">
-              <div className="text-3xl sm:text-4xl font-heading font-bold text-white mb-2">
-                <span className="text-gold">•</span>AXO<span className="text-gold">•</span>
-                <div className="text-sm font-medium tracking-[0.2em] text-white">FLOORS</div>
-              </div>
+              <img
+                src={axoLogo}
+                alt="AXO Floors"
+                className="h-12 w-auto mx-auto lg:mx-0"
+              />
               <p className="text-white/80 text-sm mt-4">
                 We bring your vision to life
               </p>
