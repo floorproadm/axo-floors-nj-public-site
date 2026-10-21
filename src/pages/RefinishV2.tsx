@@ -129,18 +129,16 @@ export default function RefinishV2() {
 
         {/* 03 BEFORE & AFTER */}
         <section className="bg-secondary py-20 md:py-28">
-          <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 md:grid-cols-2 md:px-10">
-            <figure className="overflow-hidden rounded-lg shadow-lg">
-              <img src={beforeAfter.url} alt="Before and after of an AXO Floors kitchen hardwood refinishing project" loading="lazy" className="aspect-[4/3] w-full object-cover" />
+          <div className="mx-auto max-w-4xl px-5 md:px-10">
+            <Eyebrow>Real Work. Real Results.</Eyebrow>
+            <h2 className="mt-5 font-heading text-3xl font-bold md:text-4xl">See the Difference.</h2>
+            <p className="mt-6 leading-relaxed text-muted-foreground">A professional refinish can change the look and feel of an entire room.</p>
+            <p className="mt-3 leading-relaxed text-muted-foreground">Explore real AXO Floors projects, from worn hardwood to renewed surfaces and custom finishes.</p>
+            <figure className="mt-8 overflow-hidden rounded-lg shadow-lg">
+              <img src={beforeAfter.url} alt="Before and after of an AXO Floors kitchen hardwood refinishing project" loading="lazy" className="aspect-[16/10] w-full object-cover" />
             </figure>
-            <div>
-              <Eyebrow>Real Work. Real Results.</Eyebrow>
-              <h2 className="mt-5 font-heading text-3xl font-bold md:text-4xl">See the Difference.</h2>
-              <p className="mt-6 leading-relaxed text-muted-foreground">A professional refinish can change the look and feel of an entire room.</p>
-              <p className="mt-3 leading-relaxed text-muted-foreground">Explore real AXO Floors projects, from worn hardwood to renewed surfaces and custom finishes.</p>
-              <Link to="/gallery" className={`${primaryBtn} mt-8`}>Explore Our Projects <ArrowRight className="h-4 w-4" aria-hidden /></Link>
-              <p className="mt-6 text-xs text-muted-foreground">Results depend on the wood's condition, species, and selected finish.</p>
-            </div>
+            <Link to="/gallery" className={`${primaryBtn} mt-8`}>Explore Our Projects <ArrowRight className="h-4 w-4" aria-hidden /></Link>
+            <p className="mt-6 text-xs text-muted-foreground">Results depend on the wood's condition, species, and selected finish.</p>
           </div>
         </section>
 
