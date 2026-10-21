@@ -51,7 +51,7 @@ const ThankYou = () => {
     if (quizData.serviceType === "new-installation") {
       return "/hardwood-flooring";
     }
-    return "/sanding-and-refinish";
+    return "/refinishing";
   };
   if (!quizData) {
     return <div className="min-h-screen bg-background">
