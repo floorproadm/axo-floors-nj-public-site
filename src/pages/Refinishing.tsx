@@ -54,7 +54,7 @@ const Refinishing = () => {
       <Hero
         title="Scratches, worn finish, or a color you no longer love?"
         subtitle="Hardwood Floor Refinishing"
-        description="Scratches, worn finish, or a color you no longer love? Most worn floors don't need to be replaced — they need to be refinished. Half the cost, a fraction of the mess, and the same wood you already love."
+        description="Your floors may not need to be replaced. They may need the right care.\n\nAt AXO Floors, we restore existing hardwood with careful sanding, dust-control measures, and professional finish options."
         image={sandingHero}
         ctaPrimary="Get My Free Estimate"
         ctaSecondary="See Before & After"
