@@ -289,7 +289,9 @@ export default function Refinishing() {
                 })}
               </ul>
               <p className="mt-6 text-sm leading-relaxed">We work with professional products from LOBA and Bona to help you achieve the look you want.</p>
-              <Link to="/stain-gallery" className={`${primaryBtn} mt-6`}>Explore Colors & Finishes <ArrowRight className="h-4 w-4" aria-hidden /></Link>
+              <div className="mt-6 flex justify-center sm:justify-start">
+                <Link to="/stain-gallery" className={primaryBtn}>Explore Colors & Finishes <ArrowRight className="h-4 w-4" aria-hidden /></Link>
+              </div>
             </div>
           </div>
         </section>
