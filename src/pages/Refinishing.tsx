@@ -27,8 +27,6 @@ const primaryBtn =
   "inline-flex min-h-12 items-center justify-center gap-2 rounded-md bg-gold px-6 py-3 font-heading text-sm font-bold text-navy transition hover:bg-gold-warm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 motion-reduce:transition-none";
 const ghostLight =
   "inline-flex min-h-12 items-center justify-center gap-2 rounded-md border border-primary-foreground/40 px-6 py-3 font-heading text-sm font-semibold text-primary-foreground transition hover:border-gold hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold motion-reduce:transition-none";
-const textLink =
-  "inline-flex items-center gap-2 font-heading text-sm font-bold text-navy underline decoration-gold decoration-2 underline-offset-8 hover:text-gold-warm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold";
 
 const projectPhotos = [
   { src: beforeAfter.url, alt: "Before and after of an AXO Floors kitchen hardwood refinishing project" },
@@ -291,7 +289,7 @@ export default function Refinishing() {
                 })}
               </ul>
               <p className="mt-6 text-sm leading-relaxed">We work with professional products from LOBA and Bona to help you achieve the look you want.</p>
-              <Link to="/stain-gallery" className={`${textLink} mt-6`}>Explore Colors & Finishes <ArrowRight className="h-4 w-4" aria-hidden /></Link>
+              <Link to="/stain-gallery" className={`${primaryBtn} mt-6`}>Explore Colors & Finishes <ArrowRight className="h-4 w-4" aria-hidden /></Link>
             </div>
           </div>
         </section>
