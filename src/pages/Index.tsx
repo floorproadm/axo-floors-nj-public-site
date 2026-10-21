@@ -180,7 +180,7 @@ const Index = () => {
         ctaSecondary="See Our Work"
         ctaPrimaryHref="/get-started"
         ctaSecondaryHref="/gallery"
-        trustLine="500+ Homes Transformed • 10+ Years Hands-On Experience"
+        trustLine="Family-Owned • Professional Workmanship • Respect for your Home."
         showReviews={true}
       />
 
