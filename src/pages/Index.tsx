@@ -249,22 +249,6 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Authority Section */}
-      <section className="spacing-mobile-md navy-gradient text-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-mobile-3xl font-bold font-heading mb-6">
-              Crafted by Experts Who <span className="text-gradient-gold">Treat Every Floor Like Their Own</span>
-            </h2>
-            <p className="text-mobile-base text-white/75 leading-relaxed mb-4">
-              AXO is a father-and-son flooring company with 15+ years of hands-on experience.
-            </p>
-            <p className="text-mobile-base text-white leading-relaxed">
-              We stay close to every project because our craftsmanship is hard to hand off.
-            </p>
-          </div>
-        </div>
-      </section>
 
       {/* Portfolio Section (Section 5 — Proof) */}
       <Portfolio />
