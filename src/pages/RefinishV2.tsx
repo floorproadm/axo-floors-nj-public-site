@@ -258,7 +258,7 @@ export default function RefinishV2() {
                 <ShieldCheck className="h-5 w-5 shrink-0 text-gold-warm" aria-hidden />
                 No sanding process is completely dust-free, but careful preparation helps keep the work area clean and organized.
               </p>
-              <p className="mt-8 font-heading text-sm font-semibold">Clean Work Areas. Careful Workmanship. Clear Communication.</p>
+              <p className="mt-8 text-center font-heading text-sm font-semibold md:text-left">Clean Work Areas. Careful Workmanship. Clear Communication.</p>
             </div>
             <figure className="order-1 overflow-hidden rounded-lg shadow-lg md:order-2">
               <img src={crewImg} alt="AXO Floors team sanding hardwood with professional equipment" loading="lazy" className="aspect-[4/3] w-full object-cover" />
