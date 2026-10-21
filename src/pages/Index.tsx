@@ -188,7 +188,7 @@ const Index = () => {
 
 
       {/* Services Section */}
-      <section id="services" className="spacing-mobile-md bg-secondary/30 scroll-mt-24">
+      <section id="services" className="spacing-mobile-md pt-8 pb-8 sm:pt-10 sm:pb-10 lg:pt-14 lg:pb-14 bg-secondary/30 scroll-mt-24">
         <div className="container mx-auto px-4">
           <div className="text-center mb-10 lg:mb-16">
             <h2 className="text-mobile-3xl font-bold font-heading mb-4 md:mb-6 [text-wrap:balance] px-2 leading-tight">
