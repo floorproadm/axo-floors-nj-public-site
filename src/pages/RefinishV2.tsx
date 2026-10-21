@@ -147,7 +147,7 @@ export default function RefinishV2() {
       <main>
         {/* 01 HERO */}
         <section className="relative isolate overflow-hidden bg-navy-dark text-primary-foreground">
-          <img src={heroBg.url} alt="Herringbone hardwood floor, half refinished in a warm honey tone and half sanded to bare wood" className="absolute inset-0 -z-10 h-full w-full object-cover object-center" />
+          <img src={heroBg.url} alt="Herringbone hardwood floor, half refinished in a warm honey tone and half sanded to bare wood" className="absolute inset-0 -z-10 h-full w-full -scale-x-100 object-cover object-center" />
           <div aria-hidden className="absolute inset-0 -z-10 bg-navy-dark/30 md:bg-navy-dark/15" />
           <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-r from-navy-dark/90 via-navy-dark/50 to-navy-dark/10 md:to-navy-dark/5" />
           <div className="mx-auto max-w-7xl px-5 pb-16 pt-20 md:px-10 md:pb-24 md:pt-28">
