@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Phone, Mail, Facebook, Instagram } from "lucide-react";
+import axoLogo from "@/assets/axo-logo-official.png";
 const Footer = () => {
   const navigationLinks = [{
     name: "Services",
