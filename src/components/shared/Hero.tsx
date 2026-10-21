@@ -57,7 +57,7 @@ const Hero = ({
           </h1>
 
           {/* Description */}
-          <p className="text-base sm:text-lg md:text-xl text-white/90 mb-8 sm:mb-8 max-w-md sm:max-w-3xl mx-auto leading-relaxed [text-wrap:pretty]">
+          <p className="text-base sm:text-lg md:text-xl text-white/90 mb-8 sm:mb-8 max-w-md sm:max-w-3xl mx-auto leading-relaxed whitespace-pre-line [text-wrap:pretty]">
             {description}
           </p>
 
