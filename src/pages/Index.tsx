@@ -70,7 +70,7 @@ const Index = () => {
     imagePosition: "object-center"
   }, {
     title: "Flooring Installation",
-    description: "New hardwood, planned around your home.\nFrom material and layout to transitions and finishing details, every installation is built for a seamless result.",
+    description: "From hardwood to luxury vinyl plank, we focus on proper preparation, precise installation, and clean finishing details.",
     href: "/hardwood-flooring",
     features: ["Solid, Engineered Hardwood and LVP", "Straight • Herringbone • Chevron", "Custom transitions & details"],
     cta: "Explore Flooring",
