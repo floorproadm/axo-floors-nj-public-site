@@ -83,18 +83,13 @@ const ProjectStrip = () => {
         </div>
         <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-secondary to-transparent md:hidden" />
       </div>
-      <div className="mt-4 flex items-center justify-between gap-4">
-        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-          {projectPhotos.length} real projects
-        </p>
-        <div className="flex gap-2">
-          <Button type="button" variant="outline" size="icon" aria-label="Previous photos" disabled={atStart} onClick={() => shift(-1)} className="h-11 w-11 rounded-md disabled:opacity-40">
-            <ChevronLeft className="h-5 w-5" aria-hidden />
-          </Button>
-          <Button type="button" variant="outline" size="icon" aria-label="Next photos" disabled={atEnd} onClick={() => shift(1)} className="h-11 w-11 rounded-md disabled:opacity-40">
-            <ChevronRight className="h-5 w-5" aria-hidden />
-          </Button>
-        </div>
+      <div className="mt-4 flex justify-center gap-2">
+        <Button type="button" variant="ghost" size="icon" aria-label="Previous photos" disabled={atStart} onClick={() => shift(-1)} className="h-11 w-11 rounded-full border border-border/70 text-muted-foreground hover:border-gold hover:text-navy disabled:opacity-30">
+          <ChevronLeft className="h-5 w-5" aria-hidden />
+        </Button>
+        <Button type="button" variant="ghost" size="icon" aria-label="Next photos" disabled={atEnd} onClick={() => shift(1)} className="h-11 w-11 rounded-full border border-border/70 text-muted-foreground hover:border-gold hover:text-navy disabled:opacity-30">
+          <ChevronRight className="h-5 w-5" aria-hidden />
+        </Button>
       </div>
     </div>
   );
