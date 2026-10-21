@@ -123,7 +123,7 @@ const Index = () => {
     icon: FileText,
     step: "02",
     title: "Clear Scope & Estimate",
-     description: "You receive a written estimate with the recommended process, project scope, and pricing clearly defined."
+     description: "You receive a written estimate that explains the proposed work and pricing."
   }, {
     icon: Hammer,
     step: "03",
