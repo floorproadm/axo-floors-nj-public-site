@@ -1,13 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Router } from "react-router-dom";
 import Refinishing from "@/pages/Refinishing";
-import MobileStickyCTA from "@/components/shared/MobileStickyCTA";
 
 const URL = "https://axofloorsnj.com/refinishing";
-// Must match the SEOHead props in src/pages/Refinishing.tsx so the client effect never conflicts.
+// The page itself renders no SEOHead; this head() is the only source of metadata.
 const TITLE = "Hardwood Floor Refinishing in NJ | AXO Floors";
 const DESCRIPTION =
-  "Don't replace your hardwood floors — refinish them for half the cost. Dustless sanding, 10-year warranty, 2–4 day turnaround. Free estimate in 24 hours.";
+  "Restore worn hardwood floors with AXO Floors in New Jersey. Professional sanding, dust control, custom stains, and quality finishes. Request an estimate.";
 
 export const Route = createFileRoute("/refinishing")({
   head: () => ({
@@ -68,7 +67,6 @@ function RefinishingRoute() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     <Router location="/refinishing" navigator={navigator as any}>
       <Refinishing />
-      <MobileStickyCTA />
     </Router>
   );
 }
