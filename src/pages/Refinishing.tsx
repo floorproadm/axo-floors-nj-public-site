@@ -210,7 +210,7 @@ export default function Refinishing() {
             <Eyebrow>Real Work. Real Results.</Eyebrow>
             <h2 className="mt-5 font-heading text-3xl font-bold md:text-4xl">See the Difference.</h2>
             <p className="mt-6 leading-relaxed text-muted-foreground">A professional refinish can change the look and feel of an entire room.</p>
-            <p className="mt-3 leading-relaxed text-muted-foreground">Explore real AXO Floors projects, from worn hardwood to renewed surfaces and custom finishes.</p>
+            <p className="mt-3 leading-relaxed text-muted-foreground">Explore AXO Floors projects, from worn hardwood to renewed surfaces and custom finishes.</p>
             <ProjectStrip />
             <p className="mt-4 -mx-3 text-center text-[11px] leading-snug text-muted-foreground sm:mx-0 sm:text-left">Results depend on the wood's condition, species, and selected finish.</p>
             <div className="mt-6 flex justify-center sm:justify-start">
