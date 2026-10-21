@@ -121,7 +121,9 @@ export default function RefinishV2() {
                   );
                 })}
               </ul>
-              <Link to="/get-started" className={`${primaryBtn} mt-8`}>Find Out What Your Floors Need <ArrowRight className="h-4 w-4" aria-hidden /></Link>
+              <div className="mt-8 flex justify-center sm:justify-start">
+                <Link to="/get-started" className={primaryBtn}>Find Out What Your Floors Need <ArrowRight className="h-4 w-4" aria-hidden /></Link>
+              </div>
             </div>
           </div>
         </section>
