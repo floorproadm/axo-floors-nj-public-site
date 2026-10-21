@@ -73,7 +73,7 @@ export default function RefinishV2() {
         <section className="relative isolate overflow-hidden bg-navy-dark text-primary-foreground">
           <img src={heroImg} alt="AXO Floors crew sanding a hardwood floor" className="absolute inset-0 -z-10 h-full w-full object-cover opacity-35" />
           <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-r from-navy-dark via-navy-dark/85 to-navy-dark/30" />
-          <div className="mx-auto max-w-7xl px-5 pb-20 pt-20 md:px-10 md:pb-28 md:pt-28">
+          <div className="mx-auto max-w-7xl px-5 pb-16 pt-20 md:px-10 md:pb-24 md:pt-28">
             <div className="max-w-2xl">
               <h1 className="font-heading text-4xl font-bold leading-[1.08] md:text-6xl">
                 Bring Your Hardwood Floors <span className="text-gold">Back to Life.</span>
@@ -96,7 +96,7 @@ export default function RefinishV2() {
         </section>
 
         {/* 02 IS REFINISHING RIGHT */}
-        <section className="bg-background py-20 md:py-28">
+        <section className="bg-background py-16 md:py-24">
           <div className="mx-auto grid max-w-7xl gap-12 px-5 md:grid-cols-12 md:px-10">
             <div className="md:col-span-5">
               <Eyebrow>Restore What You Already Have</Eyebrow>
@@ -129,7 +129,7 @@ export default function RefinishV2() {
         </section>
 
         {/* 03 BEFORE & AFTER */}
-        <section className="bg-secondary py-20 md:py-28">
+        <section className="bg-secondary py-16 md:py-24">
           <div className="mx-auto max-w-4xl px-5 md:px-10">
             <Eyebrow>Real Work. Real Results.</Eyebrow>
             <h2 className="mt-5 font-heading text-3xl font-bold md:text-4xl">See the Difference.</h2>
@@ -144,7 +144,7 @@ export default function RefinishV2() {
         </section>
 
         {/* 04 PROCESS */}
-        <section className="bg-navy py-20 text-primary-foreground md:py-28">
+        <section className="bg-navy py-16 text-primary-foreground md:py-24">
           <div className="mx-auto max-w-7xl px-5 md:px-10">
             <div className="max-w-2xl">
               <Eyebrow light>How We Work</Eyebrow>
@@ -167,7 +167,7 @@ export default function RefinishV2() {
         </section>
 
         {/* 05 PROTECTION */}
-        <section className="bg-background py-20 md:py-28">
+        <section className="bg-background py-16 md:py-24">
           <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 md:grid-cols-2 md:px-10">
             <div className="order-2 md:order-1">
               <Eyebrow>Your Home Matters</Eyebrow>
@@ -190,7 +190,7 @@ export default function RefinishV2() {
         </section>
 
         {/* 06 STANDARD VS PREMIUM */}
-        <section className="bg-secondary py-20 md:py-28">
+        <section className="bg-secondary py-16 md:py-24">
           <div className="mx-auto max-w-6xl px-5 md:px-10">
             <div className="mx-auto max-w-2xl text-center">
               <Eyebrow>Two Ways to Finish Your Floors</Eyebrow>
@@ -224,7 +224,7 @@ export default function RefinishV2() {
         </section>
 
         {/* 07 COLOR & FINISH */}
-        <section className="bg-background py-20 md:py-28">
+        <section className="bg-background py-16 md:py-24">
           <div className="mx-auto grid max-w-7xl gap-12 px-5 md:grid-cols-12 md:px-10">
             <figure className="overflow-hidden rounded-lg shadow-lg md:col-span-5">
               <img src={stainImg} alt="Stain being applied to a sanded hardwood floor by AXO Floors" loading="lazy" className="h-full min-h-72 w-full object-cover" />
@@ -255,7 +255,7 @@ export default function RefinishV2() {
         </section>
 
         {/* 08 FAQ */}
-        <section className="bg-secondary py-20 md:py-28">
+        <section className="bg-secondary py-16 md:py-24">
           <div className="mx-auto max-w-3xl px-5 md:px-10">
             <div className="text-center">
               <Eyebrow>Good Questions. Clear Answers.</Eyebrow>
@@ -273,7 +273,7 @@ export default function RefinishV2() {
         </section>
 
         {/* 09 FINAL CTA */}
-        <section className="bg-navy-dark py-20 text-center text-primary-foreground md:py-28">
+        <section className="bg-navy-dark py-16 text-center text-primary-foreground md:py-24">
           <div className="mx-auto max-w-2xl px-5">
             <Eyebrow light>Let's Get Started</Eyebrow>
             <h2 className="mt-5 font-heading text-3xl font-bold md:text-5xl">Your Floors Deserve a <span className="text-gold">Second Look.</span></h2>
