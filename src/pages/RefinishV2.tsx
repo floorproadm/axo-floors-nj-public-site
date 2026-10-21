@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { ArrowRight, Check, ChevronLeft, ChevronRight, Droplets, Layers, Palette, Phone, ScanLine, ShieldCheck, Sparkles, SunMedium } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, Droplets, Layers, Palette, Phone, ScanLine, ShieldCheck, SunMedium } from "lucide-react";
 import heroImg from "@/assets/sanding-hero.jpg";
 import crewImg from "@/assets/service-sanding-crew-cropped.jpg";
 import stainImg from "@/assets/stain-process-work.jpg";
@@ -140,25 +140,6 @@ const faqs = [
   ["Will refinishing remove all damage?", "Refinishing removes many surface marks. Deep stains, dents, or damaged boards may need additional repairs."],
 ];
 
-const plans = [
-  {
-    name: "Standard Finish",
-    tag: "Timeless. Durable. Beautiful.",
-    text: "A practical refinishing option for everyday residential use.",
-    items: ["Professional sanding and preparation", "Edge and corner detailing", "Natural wood or custom stain", "Professional water-based finish", "Final inspection"],
-    close: "Beautiful hardwood, professionally restored.",
-    dark: false,
-  },
-  {
-    name: "Premium Finish",
-    tag: "Enhanced Protection. A Refined Result.",
-    text: "Advanced surface preparation paired with a high-performance finishing system.",
-    items: ["Everything in Standard preparation", "Advanced surface refinement where suitable", "Natural wood or custom stain", "Selected two-component finish system", "Premium final finish protection", "Final inspection"],
-    close: "A refined finish designed for active homes.",
-    dark: true,
-  },
-];
-
 export default function RefinishV2() {
   return (
     <div className="min-h-screen bg-background font-body text-navy">
@@ -281,40 +262,6 @@ export default function RefinishV2() {
             <figure className="order-1 overflow-hidden rounded-lg shadow-lg md:order-2">
               <img src={crewImg} alt="AXO Floors team sanding hardwood with professional equipment" loading="lazy" className="aspect-[4/3] w-full object-cover" />
             </figure>
-          </div>
-        </section>
-
-        {/* 06 STANDARD VS PREMIUM */}
-        <section className="bg-secondary py-16 md:py-24">
-          <div className="mx-auto max-w-6xl px-5 md:px-10">
-            <div className="mx-auto max-w-2xl text-center">
-              <Eyebrow>Two Ways to Finish Your Floors</Eyebrow>
-              <h2 className="mt-5 font-heading text-3xl font-bold md:text-4xl">Same Craftsmanship. Two Finish Options.</h2>
-              <p className="mt-4 leading-relaxed text-muted-foreground">Choose the finish system that fits your home, lifestyle, and expectations.</p>
-            </div>
-            <div className="mt-12 grid gap-6 md:grid-cols-2">
-              {plans.map((p) => (
-                <article key={p.name} className={`flex flex-col rounded-lg p-8 shadow-md md:p-10 ${p.dark ? "bg-navy-dark text-primary-foreground ring-2 ring-gold" : "bg-card"}`}>
-                  <div className="flex items-center gap-3">
-                    {p.dark ? <Sparkles className="h-5 w-5 text-gold" aria-hidden /> : <Layers className="h-5 w-5 text-gold-warm" aria-hidden />}
-                    <h3 className="font-heading text-sm font-bold uppercase tracking-[0.2em]">{p.name}</h3>
-                  </div>
-                  <p className={`mt-5 font-heading text-xl font-bold ${p.dark ? "text-gold" : ""}`}>{p.tag}</p>
-                  <p className={`mt-3 text-sm leading-relaxed ${p.dark ? "text-primary-foreground/80" : "text-muted-foreground"}`}>{p.text}</p>
-                  <ul className="mt-6 space-y-3">
-                    {p.items.map((it) => (
-                      <li key={it} className="flex gap-3 text-sm"><Check className="mt-0.5 h-4 w-4 shrink-0 text-gold-warm" aria-hidden />{it}</li>
-                    ))}
-                  </ul>
-                  <p className={`mt-auto pt-8 font-heading text-sm italic ${p.dark ? "text-primary-foreground/90" : ""}`}>{p.close}</p>
-                </article>
-              ))}
-            </div>
-            <div className="mt-12 text-center">
-              <p className="font-heading text-lg font-bold">Not sure which option fits your floors?</p>
-              <p className="mt-2 text-muted-foreground">We'll explain the differences and recommend a system based on your project.</p>
-              <Link to="/get-started" className={`${primaryBtn} mt-6`}>Explore My Finish Options <ArrowRight className="h-4 w-4" aria-hidden /></Link>
-            </div>
           </div>
         </section>
 
