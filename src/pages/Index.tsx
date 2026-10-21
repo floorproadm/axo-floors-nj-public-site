@@ -262,7 +262,7 @@ const Index = () => {
               Simple. Clear. <span className="text-gradient-gold">Done Right.</span>
             </h2>
             <p className="text-mobile-base text-muted-foreground max-w-2xl mx-auto">
-              Four steps from first call to finished floor. No surprises along the way.
+              We make the process clear, from your first conversation to the final walkthrough.
             </p>
           </div>
 
