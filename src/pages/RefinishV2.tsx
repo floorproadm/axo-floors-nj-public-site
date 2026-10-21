@@ -165,7 +165,7 @@ export default function RefinishV2() {
                 <Link to="/get-started" className={primaryBtn}>Get My Free Estimate <ArrowRight className="h-4 w-4" aria-hidden /></Link>
                 <Link to="/gallery" className={ghostLight}>See Our Work</Link>
               </div>
-              <p className="mt-8 font-heading text-xs uppercase tracking-[0.18em] text-primary-foreground/95 drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]">
+              <p className="mt-8 text-center font-heading text-xs uppercase tracking-[0.18em] text-primary-foreground/95 drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)] md:text-left">
                 Professional craftsmanship. Clear communication. Respect for your home.
               </p>
             </div>
