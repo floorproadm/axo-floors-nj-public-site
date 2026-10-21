@@ -127,7 +127,7 @@ const Index = () => {
   }, {
     icon: Hammer,
     step: "03",
-    title: "Precision Execution",
+    title: "Professional Execution",
     description: "We prepare the work area and complete each stage with care and attention to detail."
   }, {
     icon: BadgeCheck,
