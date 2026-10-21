@@ -58,6 +58,28 @@ const ProjectStrip = () => {
     const el = strip.current;
     if (!el) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (window.innerWidth < 640) {
+      // Mobile: land each photo exactly centered, on its snap point.
+      const items = Array.from(el.children) as HTMLElement[];
+      const elRect = el.getBoundingClientRect();
+      const targets = items.map((item) => {
+        const r = item.getBoundingClientRect();
+        return el.scrollLeft + r.left - elRect.left - (el.clientWidth - r.width) / 2;
+      });
+      let index = 0;
+      let best = Infinity;
+      targets.forEach((t, i) => {
+        const d = Math.abs(t - el.scrollLeft);
+        if (d < best) {
+          best = d;
+          index = i;
+        }
+      });
+      const next = Math.max(0, Math.min(items.length - 1, index + direction));
+      if (next === index) return;
+      el.scrollTo({ left: targets[next], behavior: reduce ? "auto" : "smooth" });
+      return;
+    }
     el.scrollBy({ left: direction * Math.round(el.clientWidth * 0.8), behavior: reduce ? "auto" : "smooth" });
   };
 
@@ -77,7 +99,7 @@ const ProjectStrip = () => {
               src={photo.src}
               alt={photo.alt}
               loading="lazy"
-              className="aspect-[16/10] w-[80%] shrink-0 snap-start rounded-lg object-cover shadow-md sm:w-[45%] md:w-[31%]"
+              className="aspect-[16/10] w-[80%] shrink-0 snap-center rounded-lg object-cover shadow-md sm:w-[45%] md:w-[31%] md:snap-start"
             />
           ))}
         </div>
