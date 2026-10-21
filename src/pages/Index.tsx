@@ -62,7 +62,7 @@ const Index = () => {
   }, [isMobile]);
   const services = [{
     title: "Sanding & Refinishing",
-    description: "Restore what time has worn away.\nRemove scratches, worn finish and outdated color while bringing the natural character of your hardwood back to life.",
+    description: "Restore worn hardwood with professional sanding, dust-control measures, and carefully selected finishes.",
     href: "/refinishing",
     features: ["Dust-controlled sanding", "Custom stain options\n", "Premium finish"],
     cta: "Explore Refinishing",
