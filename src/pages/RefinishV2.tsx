@@ -75,7 +75,6 @@ export default function RefinishV2() {
           <div aria-hidden className="absolute inset-0 -z-10 bg-gradient-to-r from-navy-dark via-navy-dark/85 to-navy-dark/30" />
           <div className="mx-auto max-w-7xl px-5 pb-20 pt-32 md:px-10 md:pb-28 md:pt-40">
             <div className="max-w-2xl">
-              <Eyebrow light>Hardwood Floor Sanding & Refinishing in New Jersey</Eyebrow>
               <h1 className="mt-6 font-heading text-4xl font-bold leading-[1.08] md:text-6xl">
                 Bring Your Hardwood Floors <span className="text-gold">Back to Life.</span>
               </h1>
