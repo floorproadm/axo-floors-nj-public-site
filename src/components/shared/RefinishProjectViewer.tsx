@@ -42,7 +42,7 @@ export default function RefinishProjectViewer() {
       </figure>
       <DialogContent
         aria-describedby={undefined}
-        className="flex h-[100dvh] max-w-none flex-col gap-0 rounded-none border-0 bg-navy-dark p-0 text-primary-foreground sm:rounded-none [&>button]:flex [&>button]:h-11 [&>button]:w-11 [&>button]:items-center [&>button]:justify-center motion-reduce:animate-none"
+        className="z-[200] flex h-[100dvh] max-w-none flex-col gap-0 rounded-none border-0 bg-navy-dark p-0 text-primary-foreground sm:rounded-none [&>button]:flex [&>button]:h-11 [&>button]:w-11 [&>button]:items-center [&>button]:justify-center motion-reduce:animate-none"
         onKeyDown={(event) => {
           if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
             event.preventDefault();
