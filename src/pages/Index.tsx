@@ -118,7 +118,7 @@ const Index = () => {
     icon: ClipboardList,
     step: "01",
     title: "In-Home Consultation",
-    description: "We visit your home, measure precisely, and listen to what you actually want."
+    description: "We listen to your goals, assess your floors, and discuss the right approach."
   }, {
     icon: FileText,
     step: "02",
