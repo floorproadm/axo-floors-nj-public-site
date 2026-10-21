@@ -121,7 +121,6 @@ export default function RefinishV2() {
                   );
                 })}
               </ul>
-              <p className="mt-8 leading-relaxed">Not every floor needs the same solution. We evaluate its condition and recommend the right approach.</p>
               <Link to="/get-started" className={`${textLink} mt-6`}>Find Out What Your Floors Need <ArrowRight className="h-4 w-4" aria-hidden /></Link>
             </div>
           </div>
