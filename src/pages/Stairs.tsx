@@ -25,7 +25,7 @@ function EstimateButton({ children = "Get My Free Estimate" }: { children?: Reac
 const services = [
   { title: "Stair Refinishing", text: "Restore worn hardwood stairs with professional sanding, stain, and finish.", src: stairRefinishing.url, alt: "AXO Floors worker in a branded shirt refinishing a hardwood staircase with black iron balusters", position: "object-center" },
   { title: "Treads & Risers", text: "Replace worn or carpeted steps with beautiful hardwood.", src: treadsRisers.url, alt: "Hardwood staircase treads in a warm brown stain with white-painted risers, oak base rail and black iron balusters", position: "object-bottom" },
-  { title: "Handrails & Newel Posts", text: "Refinish or upgrade the details that bring your staircase together.", src: handrailNewel.url, alt: "Wooden handrails and turned newel posts on a staircase with black iron balusters during a refinishing job", position: "object-center" },
+  { title: "Handrails & Newel Posts", text: "Refinish or upgrade the details that bring your staircase together.", src: handrailNewel.url, alt: "Turned wooden newel post with its cap and a wooden handrail section on a staircase with black iron balusters during a refinishing job", position: "object-center" },
   { title: "Wood & Iron Balusters", text: "Refresh your railing design with wood or iron options.", src: workmanship.url, alt: "AXO Floors craftsman working beside decorative iron staircase balusters", position: "object-center" },
 ];
 const styles = [
