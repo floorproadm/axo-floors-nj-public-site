@@ -6,7 +6,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { ArrowRight, Check, Layers, Leaf, MessageSquare, Phone, ShieldCheck } from "lucide-react";
 import hero from "@/assets/axo-hardwood-foyer-staircase.jpg.asset.json";
 import straightLayPhoto from "@/assets/straight-lay-floor-hq.jpg.asset.json";
-import chevronPhoto from "@/assets/chevron-floor-hq.jpg.asset.json";
+import chevronPhoto from "@/assets/chevron-floor-hq2.jpg.asset.json";
 import herringbonePhoto from "@/assets/herringbone-floor-hq.jpg.asset.json";
 import { FloorPattern, VinylPlank, WoodConstruction, type FloorLayout } from "@/features/installation-preview/WoodIllustrations";
 
@@ -26,7 +26,7 @@ const layouts: FloorLayout[] = ["Straight Lay", "Herringbone", "Chevron"];
 const layoutPhotos: Partial<Record<FloorLayout, { src: string; alt: string }>> = {
   "Straight Lay": { src: straightLayPhoto.url, alt: "Freshly finished hardwood floor laid in a straight lay pattern with staggered plank joints" },
   "Herringbone": { src: herringbonePhoto.url, alt: "Hardwood floor laid in a herringbone pattern, with staggered planks forming interlocking zigzag columns" },
-  "Chevron": { src: chevronPhoto.url, alt: "Hardwood floor laid in a chevron pattern, with angled planks meeting in straight V seams" },
+  "Chevron": { src: chevronPhoto.url, alt: "Unfinished white oak floor boards laid out in a chevron pattern, with angled planks meeting in straight V seams" },
 };
 const steps = [
   ["Consultation", "We learn about your project and goals."],
