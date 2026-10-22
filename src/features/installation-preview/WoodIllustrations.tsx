@@ -1,6 +1,6 @@
 import { useId } from "react";
 
-export type FloorLayout = "Straight Lay" | "Herringbone" | "Chevron";
+export type FloorLayout = "Straight Lay" | "Herringbone" | "Chevron" | "Diagonal Lay";
 
 /** Geometric plank diagrams, never represented as completed AXO projects. */
 export function FloorPattern({ layout }: { layout: FloorLayout }) {
@@ -10,6 +10,13 @@ export function FloorPattern({ layout }: { layout: FloorLayout }) {
   if (layout === "Straight Lay") {
     for (let row = -1; row < 12; row++) {
       for (let col = -1; col < 5; col++) {
+        planks.push(<rect key={`${row}-${col}`} x={col * 120 + (row % 3) * 40} y={row * 28} width="120" height="28" className={tone(row + col)} />);
+      }
+    }
+  } else if (layout === "Diagonal Lay") {
+    // Parallel boards laid at 45 degrees; same plank grammar as straight lay, rotated.
+    for (let row = -4; row < 16; row++) {
+      for (let col = -3; col < 9; col++) {
         planks.push(<rect key={`${row}-${col}`} x={col * 120 + (row % 3) * 40} y={row * 28} width="120" height="28" className={tone(row + col)} />);
       }
     }
@@ -34,7 +41,7 @@ export function FloorPattern({ layout }: { layout: FloorLayout }) {
   }
   return <svg viewBox="0 0 400 300" role="img" preserveAspectRatio="xMidYMid slice" aria-label={`Illustration of ${layout.toLowerCase()} layout`} className="h-full w-full">
     <defs><pattern id={`grain-${id}`} width="100" height="24" patternUnits="userSpaceOnUse"><path d="M0 4 Q25 0 50 5 T100 4 M0 12 Q35 17 65 11 T100 12 M0 21 Q30 16 55 21 T100 20" className="wood-grain" fill="none" /></pattern></defs>
-    <g transform={layout === "Herringbone" ? "translate(200 -140) rotate(45)" : undefined}>{planks}</g>
+    <g transform={layout === "Herringbone" ? "translate(200 -140) rotate(45)" : layout === "Diagonal Lay" ? "rotate(45 200 150)" : undefined}>{planks}</g>
     <rect width="400" height="300" fill={`url(#grain-${id})`} opacity="0.32" />
   </svg>;
 }
