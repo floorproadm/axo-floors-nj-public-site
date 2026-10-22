@@ -25,6 +25,7 @@ function EstimateButton({ children = "Get My Free Estimate" }: { children?: Reac
 const layouts: FloorLayout[] = ["Straight Lay", "Herringbone", "Chevron"];
 const layoutPhotos: Partial<Record<FloorLayout, { src: string; alt: string }>> = {
   "Straight Lay": { src: straightLayPhoto.url, alt: "Freshly finished hardwood floor laid in a straight lay pattern with staggered plank joints" },
+  "Herringbone": { src: herringbonePhoto.url, alt: "Hardwood floor laid in a herringbone pattern, with staggered planks forming interlocking zigzag columns" },
   "Chevron": { src: chevronPhoto.url, alt: "Hardwood floor laid in a chevron pattern, with angled planks meeting in straight V seams" },
 };
 const steps = [
