@@ -165,11 +165,18 @@ const Gallery = () => {
   }, []);
 
   // Open an album straight from the URL, e.g. /gallery?album=stairs
+  const albumParamRef = useRef<string | null>(null);
+  const albumParamRead = useRef(false);
   const albumParamApplied = useRef(false);
+  if (!albumParamRead.current) {
+    albumParamRead.current = true;
+    albumParamRef.current = albumParamFromUrl();
+  }
+
   useEffect(() => {
     if (albumParamApplied.current || folders.length === 0) return;
     albumParamApplied.current = true;
-    const raw = albumParamFromUrl();
+    const raw = albumParamRef.current;
     if (!raw) return;
     if (raw === "all") {
       setActiveAlbum("all");
@@ -185,6 +192,8 @@ const Gallery = () => {
   // Keep the URL in step with the album view so it can be shared or reloaded
   useEffect(() => {
     if (typeof window === "undefined") return;
+    // Leave the deep link alone until it has been resolved against the folders
+    if (!albumParamApplied.current && albumParamRef.current) return;
     const url = new URL(window.location.href);
     if (activeAlbum === null) url.searchParams.delete("album");
     else if (activeAlbum === "all") url.searchParams.set("album", "all");
