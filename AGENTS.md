@@ -1,5 +1,5 @@
 # Architecture rules
-- Keep /installation-v2 isolated, SSR-rendered and noindex/nofollow with scoped styling and explicitly illustrated wood diagrams; never add it to navigation or sitemap or change the production installation page as part of this experiment.
+- Serve the owner-approved installation design from src/pages/Installation.tsx through the SSR /installation route and the legacy App fallback; keep wood diagrams and styling scoped, and keep /installation-v2 and /hardwood-flooring as HTTP 301 redirects to /installation. Why: one canonical page preserves owner edits and external links without duplicate content.
 - Keep the /refinishing project photos as an inline horizontal scroll-snap strip using CDN asset pointers, isolated from Gallery data and routing and with no lightbox dialog; this preserves the existing gallery and SSR page.
 - Keep Get Started journey transitions and branch validation in its feature module; the existing estimate server function revalidates and inserts through anonymous RLS, then notifies once after confirmed insertion, isolating other lead pathways.
 - Derive Get Started services from the validated journey and normalize hidden answers before constructing label-rich notes on the same lead; retain the existing legacy estimate payload contract for isolated consumers.

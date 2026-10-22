@@ -19,3 +19,7 @@
 # Installation preview
 - [x] Build isolated /installation-v2 with authentic media and illustrated layouts/materials.
 - [x] Verify SSR/noindex, 115 tests, automatic build OK, and 375px/1280px UI/FAQ/CTA navigation without overflow, publishing or live submissions.
+
+# Installation promotion
+- [ ] Promote the latest approved installation page intact to /installation; replace legacy copy and redirect both old URLs.
+- [ ] Update only navigation destinations and verify SSR, metadata, sitemap, mobile/desktop parity, full tests and automatic production build; do not publish.

@@ -8,7 +8,7 @@ import { AXO_PHONE_DISPLAY, AXO_EMAIL } from "@/lib/constants";
  * TanStack routes.
  */
 const navigationLinks = [
-  { name: "Services", href: "/hardwood-flooring" },
+  { name: "Services", href: "/installation" },
   { name: "Contact", href: "/contact" },
   { name: "About", href: "/about" },
   { name: "Gallery", href: "/gallery" },
