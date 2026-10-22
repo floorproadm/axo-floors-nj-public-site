@@ -50,3 +50,23 @@ export function WoodConstruction({ engineered }: { engineered?: boolean }) {
     {engineered ? Array.from({ length: 6 }, (_, i) => <g key={i}><path d={`M45 ${130 + i * 5} L285 ${185 + i * 5} L375 ${115 + i * 5}`} className="wood-layer" fill="none" /></g>) : <><path d="M50 145 Q135 151 280 195 M295 193 L365 139" className="wood-grain" fill="none" /><path d="M65 138 Q175 158 270 181" className="wood-grain" fill="none" /></>}
   </svg>;
 }
+
+/** Layered cross-section diagram of a luxury vinyl plank, never a project photograph. */
+export function VinylPlank() {
+  const id = useId().replace(/:/g, "");
+  const front = (f1: number, f2: number, cls: string) => <polygon points={`45,${120 + 40 * f1} 285,${175 + 40 * f1} 285,${175 + 40 * f2} 45,${120 + 40 * f2}`} className={cls} />;
+  const side = (f1: number, f2: number, cls: string) => <polygon points={`285,${175 + 40 * f1} 375,${105 + 40 * f1} 375,${105 + 40 * f2} 285,${175 + 40 * f2}`} className={cls} />;
+  return <svg viewBox="0 0 420 250" role="img" aria-label="Illustration of luxury vinyl plank construction: clear wear layer, printed design layer, rigid core and backing" className="h-full w-full">
+    <defs><pattern id={`print-${id}`} width="160" height="30" patternUnits="userSpaceOnUse"><path d="M0 6 Q45 0 90 8 T160 6 M0 18 Q65 25 110 16 T160 18" className="wood-grain" fill="none" /></pattern></defs>
+    <polygon points="45,120 135,55 375,105 285,175" className="wood-tone-1 wood-plank" />
+    <polygon points="45,120 135,55 375,105 285,175" fill={`url(#print-${id})`} opacity="0.5" />
+    {front(0, 0.16, "vinyl-wear wood-plank")}
+    {front(0.16, 0.32, "wood-tone-1 wood-plank")}
+    {front(0.32, 0.8, "vinyl-core wood-plank")}
+    {front(0.8, 1, "vinyl-backing wood-plank")}
+    {side(0, 0.16, "vinyl-wear wood-plank")}
+    {side(0.16, 0.32, "wood-tone-2 wood-plank")}
+    {side(0.32, 0.8, "vinyl-core wood-plank")}
+    {side(0.8, 1, "vinyl-backing wood-plank")}
+  </svg>;
+}

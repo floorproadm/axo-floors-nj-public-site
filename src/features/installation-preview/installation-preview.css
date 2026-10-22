@@ -12,6 +12,9 @@
   --wood-grain: oklch(0.44 0.065 65);
   --wood-maple: oklch(0.86 0.045 82);
   --wood-stage: oklch(0.95 0.016 79);
+  --vinyl-wear: oklch(0.96 0.008 90 / 0.55);
+  --vinyl-core: oklch(0.62 0.02 250);
+  --vinyl-backing: oklch(0.42 0.02 250);
   letter-spacing: 0;
 }
 .installation-preview .wood-plank { stroke: var(--wood-joint); stroke-width: 0.75; }

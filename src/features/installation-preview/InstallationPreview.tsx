@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ArrowRight, Check, Layers, Leaf, MessageSquare, Phone, ShieldCheck } from "lucide-react";
 import hero from "@/assets/axo-hardwood-foyer-staircase.jpg.asset.json";
-import { FloorPattern, WoodConstruction, type FloorLayout } from "./WoodIllustrations";
+import { FloorPattern, VinylPlank, WoodConstruction, type FloorLayout } from "./WoodIllustrations";
 
 const container = "mx-auto max-w-6xl px-5 md:px-10";
 const heading = "preview-heading mt-4 font-heading text-3xl font-bold leading-tight md:text-4xl";
@@ -78,10 +78,13 @@ export default function InstallationPreview() {
       <section aria-labelledby="types-heading" className="pb-16 pt-10 md:pb-24 md:pt-12">
         <div className={container}>
           <div className="text-center"><Eyebrow>Hardwood Types</Eyebrow><h2 id="types-heading" className={heading}>Pick the Right Fit.</h2><p className="mt-4 leading-relaxed text-muted-foreground">Choose the material that matches your space, style, and needs.</p></div>
-          <div className="mx-auto mt-8 grid max-w-4xl grid-cols-2 gap-3 sm:gap-6">
-            {[false, true].map(engineered => <figure key={String(engineered)} className="overflow-hidden rounded-lg border border-border bg-card"><div className="wood-stage aspect-[1.4] sm:aspect-[1.8]"><WoodConstruction engineered={engineered} /></div><figcaption className="border-t border-border p-4 sm:p-6"><h3 className="font-heading text-base font-bold sm:text-xl">{engineered ? "Engineered Hardwood" : "Solid Hardwood"}</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">{engineered ? "Real wood with added versatility." : "Classic, natural, and timeless."}</p></figcaption></figure>)}
+          <div className="mt-8 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-4 sm:gap-6 md:mx-auto md:grid md:max-w-5xl md:grid-cols-3 md:gap-6" tabIndex={0} aria-label="Flooring material illustrations">
+            {[[false, "Solid Hardwood", "Classic, natural, and timeless.", ""], [true, "Engineered Hardwood", "Real wood with added versatility.", ""], ["vinyl", "Luxury Vinyl Plank", "A durable, stylish alternative.", "/vinyl-plank-flooring"]].map(([kind, title, text, href]) => {
+              const isVinyl = kind === "vinyl";
+              return <figure key={title as string} className="w-[78%] shrink-0 snap-center overflow-hidden rounded-lg border border-border bg-card md:w-auto"><div className="wood-stage aspect-[1.4] sm:aspect-[1.8]">{isVinyl ? <VinylPlank /> : <WoodConstruction engineered={kind as boolean} />}</div><figcaption className="border-t border-border p-4 sm:p-6"><h3 className="font-heading text-base font-bold sm:text-xl">{href ? <Link to={href as string}>{title as string}</Link> : title as string}</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">{text as string}</p></figcaption></figure>;
+            })}
           </div>
-          <p className="mt-3 text-center text-xs text-muted-foreground">Illustrations of wood construction.</p>
+          <p className="mt-3 text-center text-xs text-muted-foreground">Illustrations of floor construction.</p>
           <div className="mx-auto mt-10 max-w-3xl border-y border-border py-7 text-center">
             <h3 className="font-heading text-lg font-bold">Popular Wood Species</h3><p className="mt-1 text-sm text-muted-foreground">Popular species to explore</p>
             <ul className="mx-auto mt-6 grid max-w-xl grid-cols-4 gap-2">
