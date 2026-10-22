@@ -77,3 +77,59 @@ export function VinylPlank() {
     {side(0.8, 1, "vinyl-backing wood-plank")}
   </svg>;
 }
+
+const TOP_FACE = "45,120 135,55 375,105 285,175";
+
+/** Bilinear map over the shared top face: s runs A(45,120)->D(285,175), t runs A->B(135,55). */
+function isoXY(s: number, t: number): [number, number] {
+  const lerp = (a: number, b: number, k: number) => a + (b - a) * k;
+  return [lerp(lerp(45, 285, s), lerp(135, 375, s), t), lerp(lerp(120, 175, s), lerp(55, 105, s), t)];
+}
+const iso = (s: number, t: number) => isoXY(s, t).map(n => Math.round(n * 10) / 10).join(",");
+const frontBand = (h: number, f1: number, f2: number, cls: string) => <polygon points={`45,${120 + h * f1} 285,${175 + h * f1} 285,${175 + h * f2} 45,${120 + h * f2}`} className={cls} />;
+const sideBand = (h: number, f1: number, f2: number, cls: string) => <polygon points={`285,${175 + h * f1} 375,${105 + h * f1} 375,${105 + h * f2} 285,${175 + h * f2}`} className={cls} />;
+const frontSeam = (key: string, s: number, h: number) => { const [x, y] = isoXY(s, 0); return <line key={key} x1={x} y1={y} x2={x} y2={y + h} className="tile-seam" />; };
+const sideSeam = (key: string, t: number, h: number) => { const [x, y] = isoXY(1, t); return <line key={key} x1={x} y1={y} x2={x} y2={y + h} className="tile-seam" />; };
+const topSeam = (key: string, s1: number, t1: number, s2: number, t2: number) => { const [x1, y1] = isoXY(s1, t1); const [x2, y2] = isoXY(s2, t2); return <line key={key} x1={x1} y1={y1} x2={x2} y2={y2} className="tile-seam" />; };
+
+/** Modular carpet tiles laid edge to edge over a backing; a schematic, never a project photograph. */
+export function CarpetTile() {
+  const id = useId().replace(/:/g, "");
+  const h = 26;
+  const cells: React.ReactNode[] = [];
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 2; j++) {
+      cells.push(<polygon key={`${i}-${j}`} points={`${iso(i / 3, j / 2)} ${iso((i + 1) / 3, j / 2)} ${iso((i + 1) / 3, (j + 1) / 2)} ${iso(i / 3, (j + 1) / 2)}`} className={`carpet-cell ${(i + j) % 2 ? "carpet-b" : "carpet-a"}`} />);
+    }
+  }
+  return <svg viewBox="0 0 420 250" role="img" aria-label="Illustration of carpet tile: modular square tiles laid edge to edge over a backing layer" className="h-full w-full">
+    <defs><pattern id={`tuft-${id}`} width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(18)"><path d="M0 2h4M5 7h4" className="carpet-tuft" fill="none" /></pattern></defs>
+    {frontBand(h, 0, 0.72, "carpet-front")}
+    {frontBand(h, 0.72, 1, "carpet-back")}
+    {sideBand(h, 0, 0.72, "carpet-side")}
+    {sideBand(h, 0.72, 1, "carpet-back")}
+    {cells}
+    <polygon points={TOP_FACE} fill={`url(#tuft-${id})`} opacity="0.4" />
+    {[1, 2].map(i => frontSeam(`cf${i}`, i / 3, h))}
+    {sideSeam("cs0", 0.5, h)}
+  </svg>;
+}
+
+/** Thick resilient tile with a speckled wear surface; a schematic, never a project photograph. */
+export function RubberFlooring() {
+  const id = useId().replace(/:/g, "");
+  const h = 34;
+  return <svg viewBox="0 0 420 250" role="img" aria-label="Illustration of rubber flooring: a thick resilient tile with a speckled surface over a solid base" className="h-full w-full">
+    <defs><pattern id={`speck-${id}`} width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="3" cy="4" r="1.4" className="rubber-speck" /><circle cx="11" cy="9" r="1" className="rubber-speck" /><circle cx="7" cy="13" r="0.7" className="rubber-speck" /><circle cx="14" cy="2" r="0.9" className="rubber-speck" /></pattern></defs>
+    {frontBand(h, 0, 0.55, "rubber-front")}
+    {frontBand(h, 0.55, 1, "rubber-base")}
+    {sideBand(h, 0, 0.55, "rubber-side")}
+    {sideBand(h, 0.55, 1, "rubber-base")}
+    <polygon points={TOP_FACE} className="rubber-top" />
+    <polygon points={TOP_FACE} fill={`url(#speck-${id})`} opacity="0.5" />
+    {topSeam("rt-s", 0.5, 0, 0.5, 1)}
+    {topSeam("rt-t", 0, 0.5, 1, 0.5)}
+    {frontSeam("rf0", 0.5, h)}
+    {sideSeam("rs0", 0.5, h)}
+  </svg>;
+}

@@ -15,6 +15,18 @@
   --vinyl-wear: oklch(0.96 0.008 90 / 0.55);
   --vinyl-core: oklch(0.62 0.02 250);
   --vinyl-backing: oklch(0.42 0.02 250);
+  --carpet-a: oklch(0.85 0.014 80);
+  --carpet-b: oklch(0.79 0.02 78);
+  --carpet-front: oklch(0.76 0.018 78);
+  --carpet-side: oklch(0.7 0.02 76);
+  --carpet-back: oklch(0.55 0.015 72);
+  --carpet-tuft: oklch(0.6 0.02 74);
+  --rubber-top: oklch(0.5 0.015 250);
+  --rubber-front: oklch(0.45 0.015 250);
+  --rubber-side: oklch(0.4 0.015 250);
+  --rubber-base: oklch(0.32 0.02 250);
+  --rubber-speck: oklch(0.78 0.02 250);
+  --tile-seam: oklch(0.42 0.02 70);
   letter-spacing: 0;
 }
 .installation-preview .wood-plank { stroke: var(--wood-joint); stroke-width: 0.75; }
