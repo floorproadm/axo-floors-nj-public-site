@@ -141,10 +141,8 @@ export function FloorRemoval() {
     <rect x="8" y="52" width="32" height="16" rx="1.5" fill="#c7a583" stroke="#a8865f" strokeWidth="1" />
     <rect x="42" y="52" width="32" height="16" rx="1.5" fill="#b89b7a" stroke="#a8865f" strokeWidth="1" />
     <path d="M8 60h32M42 60h32" stroke="#a8865f" strokeWidth="0.8" opacity=".5" />
-    <rect x="80" y="70" width="42" height="4" fill="#b5aaa0" opacity=".55" />
-    <polygon points="80,56 120,42 120,56 80,70" fill="#c7a583" stroke="#a8865f" strokeWidth="1" />
-    <path d="M80 63L120 49" stroke="#a8865f" strokeWidth="0.8" opacity=".5" />
-    <path d="M116 34q10-6 16 3" fill="none" stroke="#b5aaa0" strokeWidth="1.6" strokeDasharray="3 3" />
+    <g transform="rotate(-14 120 57)"><rect x="80" y="42" width="40" height="16" rx="1.5" fill="#c7a583" stroke="#a8865f" strokeWidth="1" /><path d="M80 50h40" stroke="#a8865f" strokeWidth="0.8" opacity=".5" /></g>
+    <path d="M118 34q9-5 15 3" fill="none" stroke="#b5aaa0" strokeWidth="1.6" strokeDasharray="3 3" />
   </svg>;
 }
 
