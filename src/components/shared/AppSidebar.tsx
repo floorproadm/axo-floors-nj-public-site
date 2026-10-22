@@ -11,7 +11,7 @@ interface AppSidebarProps {
 
 const services = [
   { name: "Sanding & Refinishing", href: "/refinishing" },
-  { name: "Flooring Installation", href: "/hardwood-flooring" },
+  { name: "Flooring Installation", href: "/installation" },
   { name: "Stairs & Railings", href: "/stairs" },
   { name: "Vinyl Plank Flooring", href: "/vinyl-plank-flooring" },
 ];

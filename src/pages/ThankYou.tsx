@@ -49,7 +49,7 @@ const ThankYou = () => {
   const getRecommendedService = () => {
     if (!quizData) return "/";
     if (quizData.serviceType === "new-installation") {
-      return "/hardwood-flooring";
+      return "/installation";
     }
     return "/refinishing";
   };
