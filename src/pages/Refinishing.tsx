@@ -252,7 +252,6 @@ export default function Refinishing() {
               <Link to="/get-started" className={primaryBtn}>Get My Free Estimate <ArrowRight className="h-4 w-4" aria-hidden /></Link>
               <a href="tel:+17323518653" className={ghostLight}><Phone className="h-4 w-4" aria-hidden /> Call (732) 351-8653</a>
             </div>
-            <p className="mt-10 font-heading text-lg text-gold">Let's bring your hardwood floors back to life.</p>
           </div>
         </section>
       </main>
