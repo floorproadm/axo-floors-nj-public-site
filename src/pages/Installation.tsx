@@ -77,7 +77,7 @@ export default function Installation() {
 
       <section className="pb-8 pt-16 md:py-24">
         <div className={`${container} grid items-center gap-10 md:grid-cols-2 md:gap-16`}>
-          <div><Eyebrow>Hardwood Installation</Eyebrow><h2 className={heading}>The Right Installation Makes the Difference.</h2><p className="mt-5 leading-relaxed text-muted-foreground">A beautiful floor starts long before the final board is in place. We help you choose the right material, prepare the space properly, and install with attention to every detail.</p></div>
+          <div><Eyebrow>FLOOR INSTALLATION</Eyebrow><h2 className={heading}>The Right Installation Makes the Difference.</h2><p className="mt-5 leading-relaxed text-muted-foreground">A beautiful floor starts long before the final board is in place. We help you choose the right material, prepare the space properly, and install with attention to every detail.</p></div>
           <div>
             <ul className="space-y-3">
               {[[Leaf, "Solid Hardwood", "Natural beauty and lasting value."], [Layers, "Engineered Hardwood", "Real wood with added versatility."], [ShieldCheck, "Luxury Vinyl Plank", "A durable, stylish alternative."], [Grid3x3, "Carpet Tile", "Modular tiles for flexible, easy-to-update spaces."], [Dumbbell, "Rubber Flooring", "A resilient surface for gyms, playrooms, and utility areas."]].map(([Icon, title, text]) => {
