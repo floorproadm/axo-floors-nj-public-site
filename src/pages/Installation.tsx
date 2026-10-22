@@ -65,7 +65,7 @@ const additionalServices: Service[] = [
   { n: "01", title: "Floor Removal", text: "We carefully remove existing hardwood, carpet, laminate, tile, or vinyl flooring to prepare your space for a fresh start.", media: "removal" },
   { n: "02", title: "Subfloor Preparation", text: "A great floor starts with a solid foundation. We address uneven surfaces, damaged areas, and subfloor imperfections before installation.", media: "subfloor" },
   { n: "03", title: "Hardwood Floor Repairs", text: "From damaged boards to worn or uneven areas, we provide precise repairs that restore the beauty and integrity of your hardwood floors.", media: "repair" },
-  { n: "04", title: "Stair Installation", text: "From hardwood treads and risers to complete stair upgrades, we bring craftsmanship and attention to detail to every step.", media: "stair" },
+  { n: "04", title: "Stair Installation", text: "Treads, risers and complete stair flooring solutions", media: "stair" },
 ];
 
 export default function Installation() {
