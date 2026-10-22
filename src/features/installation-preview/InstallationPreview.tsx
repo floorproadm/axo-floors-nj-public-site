@@ -66,7 +66,7 @@ export default function InstallationPreview() {
         </div>
       </section>
 
-      <section aria-labelledby="style-heading" className="bg-secondary py-16 md:py-24">
+      <section aria-labelledby="style-heading" className="bg-secondary pb-8 pt-16 md:pb-10 md:pt-24">
         <div className={container}>
           <div className="max-w-2xl"><Eyebrow>Choose Your Style</Eyebrow><h2 id="style-heading" className={heading}>See the Difference.</h2><p className="mt-5 leading-relaxed text-muted-foreground">From timeless straight lay to eye-catching patterns, we create a look that fits your home.</p></div>
           <div className="mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 md:grid md:grid-cols-3 md:gap-6" tabIndex={0} aria-label="Floor layout illustrations">
@@ -75,7 +75,7 @@ export default function InstallationPreview() {
         </div>
       </section>
 
-      <section aria-labelledby="types-heading" className="py-16 md:py-24">
+      <section aria-labelledby="types-heading" className="pb-16 pt-10 md:pb-24 md:pt-12">
         <div className={container}>
           <div className="text-center"><Eyebrow>Hardwood Types</Eyebrow><h2 id="types-heading" className={heading}>Pick the Right Fit.</h2><p className="mt-4 leading-relaxed text-muted-foreground">Choose the material that matches your space, style, and needs.</p></div>
           <div className="mx-auto mt-8 grid max-w-4xl grid-cols-2 gap-3 sm:gap-6">
