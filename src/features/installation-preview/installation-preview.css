@@ -40,6 +40,19 @@
 .installation-preview .vinyl-wear { fill: var(--vinyl-wear); }
 .installation-preview .vinyl-core { fill: var(--vinyl-core); }
 .installation-preview .vinyl-backing { fill: var(--vinyl-backing); }
+.installation-preview .carpet-a { fill: var(--carpet-a); }
+.installation-preview .carpet-b { fill: var(--carpet-b); }
+.installation-preview .carpet-front { fill: var(--carpet-front); }
+.installation-preview .carpet-side { fill: var(--carpet-side); }
+.installation-preview .carpet-back { fill: var(--carpet-back); }
+.installation-preview .carpet-cell { stroke: var(--tile-seam); stroke-width: 0.8; stroke-opacity: 0.5; }
+.installation-preview .carpet-tuft { stroke: var(--carpet-tuft); stroke-width: 0.9; }
+.installation-preview .rubber-top { fill: var(--rubber-top); }
+.installation-preview .rubber-front { fill: var(--rubber-front); }
+.installation-preview .rubber-side { fill: var(--rubber-side); }
+.installation-preview .rubber-base { fill: var(--rubber-base); }
+.installation-preview .rubber-speck { fill: var(--rubber-speck); }
+.installation-preview .tile-seam { stroke: var(--tile-seam); stroke-width: 0.9; stroke-opacity: 0.55; }
 .installation-preview .species-swatch {
   background: repeating-linear-gradient(95deg, transparent 0 9px, color-mix(in oklab, var(--wood-grain) 25%, transparent) 10px 11px, transparent 12px 18px), var(--wood-honey);
   box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--wood-joint) 15%, transparent);
