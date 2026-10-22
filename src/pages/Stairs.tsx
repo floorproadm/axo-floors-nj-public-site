@@ -77,7 +77,7 @@ export default function Stairs() {
       <section aria-labelledby="styles-heading" className="bg-secondary py-14 md:py-20"><div className={container}>
         <Eyebrow>MAKE IT YOURS</Eyebrow><h2 id="styles-heading" className={heading}>Find the Look That Fits Your Home.</h2>
         <div className="mt-8 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4 md:grid md:grid-cols-3" tabIndex={0} role="region" aria-label="Staircase styles">{styles.map(style => <figure key={style.title} className="w-[85%] shrink-0 snap-start overflow-hidden rounded-lg border border-border bg-card md:w-auto"><img src={style.src} alt={style.alt} loading="lazy" className="aspect-[4/5] w-full object-cover" /><figcaption className="p-5"><h3 className="font-heading text-lg font-bold">{style.title}</h3><p className="mt-3 text-sm leading-relaxed text-muted-foreground">{style.text}</p></figcaption></figure>)}</div>
-        <p className="mt-4 text-xs leading-relaxed text-muted-foreground">Available options depend on your staircase and project scope.</p>
+        <p className="mt-4 text-center text-xs leading-relaxed text-muted-foreground md:text-left">Available options depend on your staircase and project scope.</p>
       </div></section>
 
       <section aria-labelledby="projects-heading" className="py-14 md:py-20"><div className={container}>
