@@ -141,9 +141,10 @@ export function FloorRemoval() {
     <rect x="8" y="52" width="32" height="16" rx="1.5" fill="#c7a583" stroke="#a8865f" strokeWidth="1" />
     <rect x="42" y="52" width="32" height="16" rx="1.5" fill="#b89b7a" stroke="#a8865f" strokeWidth="1" />
     <path d="M8 60h32M42 60h32" stroke="#a8865f" strokeWidth="0.8" opacity=".5" />
-    <g transform="rotate(-22 116 68)"><rect x="76" y="52" width="40" height="15" rx="1.5" fill="#c7a583" stroke="#a8865f" strokeWidth="1" /><path d="M76 59.5h40" stroke="#a8865f" strokeWidth="0.8" opacity=".5" /></g>
-    <g transform="rotate(-18 106 34)"><rect x="102" y="6" width="8" height="52" rx="3.5" fill="#17293f" /><rect x="98" y="2" width="16" height="9" rx="4" fill="#c9a227" /></g>
-    <g fill="#b0a49a"><rect x="86" y="76" width="10" height="3" rx="1.5" transform="rotate(-8 91 77)" /><rect x="102" y="80" width="7" height="3" rx="1.5" transform="rotate(6 105 81)" /></g>
+    <rect x="80" y="70" width="42" height="4" fill="#b5aaa0" opacity=".55" />
+    <polygon points="80,56 120,42 120,56 80,70" fill="#c7a583" stroke="#a8865f" strokeWidth="1" />
+    <path d="M80 63L120 49" stroke="#a8865f" strokeWidth="0.8" opacity=".5" />
+    <path d="M116 34q10-6 16 3" fill="none" stroke="#b5aaa0" strokeWidth="1.6" strokeDasharray="3 3" />
   </svg>;
 }
 
