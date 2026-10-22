@@ -19,6 +19,7 @@ import { Route as RefinishRouteImport } from './routes/refinish'
 import { Route as RefinishingRouteImport } from './routes/refinishing'
 import { Route as SandingAndRefinishRouteImport } from './routes/sanding-and-refinish'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as StairsRouteImport } from './routes/stairs'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as ApiPublicLeadNotifyRouteImport } from './routes/api/public/lead-notify'
@@ -75,6 +76,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StairsRoute = StairsRouteImport.update({
+  id: '/stairs',
+  path: '/stairs',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogIndexRoute = BlogIndexRouteImport.update({
   id: '/blog/',
   path: '/blog/',
@@ -114,6 +120,7 @@ export interface FileRoutesByFullPath {
   '/refinishing': typeof RefinishingRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/stairs': typeof StairsRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/': typeof BlogIndexRoute
   '/api/public/lead-notify': typeof ApiPublicLeadNotifyRoute
@@ -131,6 +138,7 @@ export interface FileRoutesByTo {
   '/refinishing': typeof RefinishingRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/stairs': typeof StairsRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog': typeof BlogIndexRoute
   '/api/public/lead-notify': typeof ApiPublicLeadNotifyRoute
@@ -149,6 +157,7 @@ export interface FileRoutesById {
   '/refinishing': typeof RefinishingRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/stairs': typeof StairsRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/': typeof BlogIndexRoute
   '/api/public/lead-notify': typeof ApiPublicLeadNotifyRoute
@@ -168,6 +177,7 @@ export interface FileRouteTypes {
     | '/refinishing'
     | '/sanding-and-refinish'
     | '/sitemap.xml'
+    | '/stairs'
     | '/blog/$slug'
     | '/blog/'
     | '/api/public/lead-notify'
@@ -185,6 +195,7 @@ export interface FileRouteTypes {
     | '/refinishing'
     | '/sanding-and-refinish'
     | '/sitemap.xml'
+    | '/stairs'
     | '/blog/$slug'
     | '/blog'
     | '/api/public/lead-notify'
@@ -202,6 +213,7 @@ export interface FileRouteTypes {
     | '/refinishing'
     | '/sanding-and-refinish'
     | '/sitemap.xml'
+    | '/stairs'
     | '/blog/$slug'
     | '/blog/'
     | '/api/public/lead-notify'
@@ -220,6 +232,7 @@ export interface RootRouteChildren {
   RefinishingRoute: typeof RefinishingRoute
   SandingAndRefinishRoute: typeof SandingAndRefinishRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  StairsRoute: typeof StairsRoute
   BlogSlugRoute: typeof BlogSlugRoute
   BlogIndexRoute: typeof BlogIndexRoute
   ApiPublicLeadNotifyRoute: typeof ApiPublicLeadNotifyRoute
@@ -299,6 +312,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/stairs': {
+      id: '/stairs'
+      path: '/stairs'
+      fullPath: '/stairs'
+      preLoaderRoute: typeof StairsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blog/': {
       id: '/blog/'
       path: '/blog'
@@ -348,6 +368,7 @@ const rootRouteChildren: RootRouteChildren = {
   RefinishingRoute: RefinishingRoute,
   SandingAndRefinishRoute: SandingAndRefinishRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  StairsRoute: StairsRoute,
   BlogSlugRoute: BlogSlugRoute,
   BlogIndexRoute: BlogIndexRoute,
   ApiPublicLeadNotifyRoute: ApiPublicLeadNotifyRoute,
