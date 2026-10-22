@@ -77,7 +77,7 @@ export default function InstallationPreview() {
 
       <section aria-labelledby="types-heading" className="pb-16 pt-10 md:pb-24 md:pt-12">
         <div className={container}>
-          <div className="text-center"><Eyebrow>Hardwood Types</Eyebrow><h2 id="types-heading" className={heading}>Pick the Right Fit.</h2><p className="mt-4 leading-relaxed text-muted-foreground">Choose the material that matches your space, style, and needs.</p></div>
+          <div className="text-center"><Eyebrow>MATERIAL TYPES</Eyebrow><h2 id="types-heading" className={heading}>Pick the Right Fit.</h2><p className="mt-4 leading-relaxed text-muted-foreground">Choose the material that matches your space, style, and needs.</p></div>
           <div className="mt-8 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-4 sm:gap-6 md:mx-auto md:grid md:max-w-5xl md:grid-cols-3 md:gap-6" tabIndex={0} aria-label="Flooring material illustrations">
             {[[false, "Solid Hardwood", "Classic, natural, and timeless.", ""], [true, "Engineered Hardwood", "Real wood with added versatility.", ""], ["vinyl", "Luxury Vinyl Plank", "A durable, stylish alternative.", "/vinyl-plank-flooring"]].map(([kind, title, text, href]) => {
               const isVinyl = kind === "vinyl";
