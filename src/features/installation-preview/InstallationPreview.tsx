@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ArrowRight, Check, Layers, Leaf, MessageSquare, Phone, ShieldCheck } from "lucide-react";
 import hero from "@/assets/axo-hardwood-foyer-staircase.jpg.asset.json";
+import straightLayPhoto from "@/assets/straight-lay-floor.jpg.asset.json";
 import { FloorPattern, VinylPlank, WoodConstruction, type FloorLayout } from "./WoodIllustrations";
 
 const container = "mx-auto max-w-6xl px-5 md:px-10";
@@ -20,6 +21,9 @@ function EstimateButton({ children = "Get My Free Estimate" }: { children?: Reac
   return <Button asChild className={primary}><Link to="/get-started">{children}<ArrowRight aria-hidden="true" /></Link></Button>;
 }
 const layouts: FloorLayout[] = ["Straight Lay", "Herringbone", "Chevron"];
+const layoutPhotos: Partial<Record<FloorLayout, { src: string; alt: string }>> = {
+  "Straight Lay": { src: straightLayPhoto.url, alt: "Freshly finished hardwood floor laid in a straight lay pattern with staggered plank joints" },
+};
 const steps = [
   ["Consultation", "We learn about your project and goals."],
   ["Material Selection", "We help you choose the right floor."],
@@ -72,7 +76,7 @@ export default function InstallationPreview() {
         <div className={container}>
           <div className="max-w-2xl"><Eyebrow>Choose Your Style</Eyebrow><h2 id="style-heading" className={heading}>See the Difference.</h2><p className="mt-5 leading-relaxed text-muted-foreground">From timeless straight lay to eye-catching patterns, we create a look that fits your home.</p></div>
           <div className="mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 md:grid md:grid-cols-3 md:gap-6" tabIndex={0} aria-label="Floor layout illustrations">
-            {layouts.map(layout => <figure key={layout} className="relative w-[74%] shrink-0 snap-center overflow-hidden rounded-xl border border-border bg-card shadow-elegant md:w-auto"><div className="aspect-[1/1] overflow-hidden"><FloorPattern layout={layout} /></div><div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-navy-dark/30 to-transparent" /><figcaption className="absolute inset-x-0 bottom-0 flex justify-center pb-4"><h3 className="rounded-full bg-gold px-4 py-2 font-heading text-sm font-bold text-navy shadow-md">{layout}</h3></figcaption></figure>)}
+            {layouts.map(layout => <figure key={layout} className="relative w-[74%] shrink-0 snap-center overflow-hidden rounded-xl border border-border bg-card shadow-elegant md:w-auto"><div className="aspect-[1/1] overflow-hidden">{layoutPhotos[layout] ? <img src={layoutPhotos[layout]!.src} alt={layoutPhotos[layout]!.alt} loading="lazy" className="h-full w-full object-cover" /> : <FloorPattern layout={layout} />}</div><div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-navy-dark/30 to-transparent" /><figcaption className="absolute inset-x-0 bottom-0 flex justify-center pb-4"><h3 className="rounded-full bg-gold px-4 py-2 font-heading text-sm font-bold text-navy shadow-md">{layout}</h3></figcaption></figure>)}
           </div>
         </div>
       </section>
