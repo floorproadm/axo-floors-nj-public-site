@@ -4,7 +4,8 @@ import Footer from "@/components/shared/Footer";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ArrowRight, Check, Dumbbell, Grid3x3, Layers, Leaf, MessageSquare, Phone, ShieldCheck } from "lucide-react";
-import hero from "@/assets/installation-hero-materials.jpg.asset.json";
+import hero from "@/assets/installation-hero-chevron-hall-v2.jpg.asset.json";
+import heroPhone from "@/assets/installation-hero-chevron-floor-phone.jpg.asset.json";
 import whyCrewPhoto from "@/assets/why-axo-crew-install.jpg.asset.json";
 import straightLayPhoto from "@/assets/straight-lay-floor-hq.jpg.asset.json";
 import chevronPhoto from "@/assets/chevron-floor-hq.jpg.asset.json";
@@ -58,12 +59,15 @@ export default function Installation() {
     <Header />
     <main>
       <section className="relative isolate overflow-hidden bg-navy-dark text-primary-foreground">
-        <img src={hero.url} alt="Bundles of unfinished oak planks with a digital moisture meter and humidity probe resting on top" fetchPriority="high" className="absolute inset-0 -z-10 h-full w-full object-cover object-right md:object-center" />
-        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-navy-dark/70 md:bg-gradient-to-r md:from-navy-dark/90 md:via-navy-dark/70 md:to-navy-dark/40" />
+        <picture className="absolute inset-0 -z-10">
+          <source media="(min-width: 768px)" srcSet={hero.url} />
+          <img src={heroPhone.url} alt="A newly installed chevron oak floor" fetchPriority="high" className="h-full w-full object-cover object-center md:object-[center_84%]" />
+        </picture>
+        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[linear-gradient(to_right,color-mix(in_srgb,var(--color-navy-dark)_58%,transparent)_0%,color-mix(in_srgb,var(--color-navy-dark)_72%,transparent)_100%)] md:bg-navy-dark/0 md:bg-gradient-to-r md:from-navy-dark/90 md:via-navy-dark/55 md:to-navy-dark/5" />
         <div className={`${container} pb-14 pt-16 md:pb-20 md:pt-24`}>
           <div className="max-w-2xl">
             <Eyebrow light>FLOOR INSTALLATION IN NEW JERSEY</Eyebrow>
-            <h1 className="preview-heading mt-5 font-heading text-4xl font-bold leading-[1.12] md:text-6xl">Beautiful Floors <span className="text-gold">Start Here.</span></h1>
+            <h1 className="preview-heading mt-5 font-heading text-4xl font-bold leading-[1.12] md:text-6xl">Beautiful Floors <span className="text-gold whitespace-nowrap">Start Here.</span></h1>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-primary-foreground/90 md:text-lg">From classic hardwood to custom layouts, we install floors with precision, care, and respect for your home.</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row"><EstimateButton /><Button asChild variant="outline" className={outline}><Link to="/gallery">See Our Work</Link></Button></div>
             <p className="mt-7 text-center text-xs leading-relaxed text-primary-foreground/90 sm:text-left">Solid Hardwood • Engineered Hardwood • Custom Layouts</p>
