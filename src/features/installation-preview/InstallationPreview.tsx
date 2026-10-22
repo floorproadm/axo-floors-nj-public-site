@@ -72,7 +72,6 @@ export default function InstallationPreview() {
           <div className="mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 md:grid md:grid-cols-3 md:gap-6" tabIndex={0} aria-label="Floor layout illustrations">
             {layouts.map(layout => <figure key={layout} className="relative w-[74%] shrink-0 snap-center overflow-hidden rounded-xl border border-border bg-card shadow-elegant md:w-auto"><div className="aspect-[1/1] overflow-hidden"><FloorPattern layout={layout} /></div><div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-navy-dark/30 to-transparent" /><figcaption className="absolute inset-x-0 bottom-0 flex justify-center pb-4"><h3 className="rounded-full bg-gold px-4 py-2 font-heading text-sm font-bold text-navy shadow-md">{layout}</h3></figcaption></figure>)}
           </div>
-          <p className="mt-2 text-xs leading-relaxed text-muted-foreground">Layout illustrations, not project photographs.</p>
         </div>
       </section>
 
