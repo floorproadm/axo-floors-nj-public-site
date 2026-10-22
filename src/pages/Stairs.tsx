@@ -11,6 +11,7 @@ import stairRefinishing from "@/assets/stair-refinishing-job.jpg.asset.json";
 import workmanship from "@/assets/stairs-railings.jpg.asset.json";
 import treadsRisers from "@/assets/treads-risers-job.jpg.asset.json";
 import handrailNewel from "@/assets/handrail-newel-job.jpg.asset.json";
+import railingStyles from "@/assets/railing-styles-job.jpg.asset.json";
 
 const container = "mx-auto max-w-6xl px-5 md:px-10";
 const heading = "mt-4 font-heading text-3xl font-bold leading-tight md:text-4xl";
@@ -31,7 +32,7 @@ const services = [
 const styles = [
   { title: "Natural Wood", text: "Highlight the natural color and grain of your hardwood.", src: foyer.url, alt: "Light natural wood staircase and matching entryway floor" },
   { title: "Custom Stain", text: "Explore colors that complement your existing floors.", src: refinished.url, alt: "Rich wood tones on a staircase and entryway floor" },
-  { title: "Railing Styles", text: "Choose handrail and baluster details that complete the look.", src: workmanship.url, alt: "Wood handrail with decorative black iron balusters" },
+  { title: "Railing Styles", text: "Choose handrail and baluster details that complete the look.", src: railingStyles.url, alt: "Stained wood handrail with black iron balusters featuring twisted bars and a decorative basket ornament, mounted beside white wainscoting" },
 ];
 const projects = [
   { src: foyer.url, alt: "Hardwood staircase with light wood treads, white risers and iron balusters" },
