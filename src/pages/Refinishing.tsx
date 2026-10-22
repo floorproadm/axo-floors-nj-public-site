@@ -248,7 +248,6 @@ export default function Refinishing() {
               <p className="font-heading font-semibold text-primary-foreground">{"\n"}</p>
               <p>Tell us about your project. We'll help you understand your options and plan the next step.</p>
             </div>
-            <p className="mt-6 font-heading text-sm italic text-primary-foreground/90">Professional craftsmanship. Clear communication. Respect for your home.</p>
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
               <Link to="/get-started" className={primaryBtn}>Get My Free Estimate <ArrowRight className="h-4 w-4" aria-hidden /></Link>
               <a href="tel:+17323518653" className={ghostLight}><Phone className="h-4 w-4" aria-hidden /> Call (732) 351-8653</a>
