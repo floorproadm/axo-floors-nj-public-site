@@ -67,7 +67,7 @@ export default function Installation() {
         <div className={`${container} pb-14 pt-16 md:pb-20 md:pt-24`}>
           <div className="max-w-2xl">
             <Eyebrow light>FLOOR INSTALLATION IN NEW JERSEY</Eyebrow>
-            <h1 className="preview-heading mt-5 font-heading text-4xl font-bold leading-[1.12] md:text-6xl">Beautiful Floors <span className="text-gold">Start Here.</span></h1>
+            <h1 className="preview-heading mt-5 font-heading text-4xl font-bold leading-[1.12] md:text-6xl">Beautiful Floors <span className="text-gold whitespace-nowrap">Start Here.</span></h1>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-primary-foreground/90 md:text-lg">From classic hardwood to custom layouts, we install floors with precision, care, and respect for your home.</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row"><EstimateButton /><Button asChild variant="outline" className={outline}><Link to="/gallery">See Our Work</Link></Button></div>
             <p className="mt-7 text-center text-xs leading-relaxed text-primary-foreground/90 sm:text-left">Solid Hardwood • Engineered Hardwood • Custom Layouts</p>
