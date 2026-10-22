@@ -1,0 +1,33 @@
+/* All preview-specific values are scoped; existing AXO pages are unchanged. */
+.installation-preview {
+  --gold-accent: 45.36 84.68% 51.37%; /* Owner's #ECB81A */
+  --navy-primary: 206 76% 13%;
+  --navy-dark: 206 76% 10%;
+  --background: 40 25% 98%;
+  --wood-light: oklch(0.80 0.065 73);
+  --wood-honey: oklch(0.72 0.085 67);
+  --wood-medium: oklch(0.64 0.08 62);
+  --wood-deep: oklch(0.56 0.075 58);
+  --wood-joint: oklch(0.39 0.04 60);
+  --wood-grain: oklch(0.44 0.065 65);
+  --wood-maple: oklch(0.86 0.045 82);
+  --wood-stage: oklch(0.95 0.016 79);
+  letter-spacing: 0;
+}
+.installation-preview .wood-plank { stroke: var(--wood-joint); stroke-width: 0.75; }
+.installation-preview .wood-tone-0 { fill: var(--wood-light); }
+.installation-preview .wood-tone-1 { fill: var(--wood-honey); }
+.installation-preview .wood-tone-2 { fill: var(--wood-medium); }
+.installation-preview .wood-tone-3 { fill: var(--wood-deep); }
+.installation-preview .wood-grain { stroke: var(--wood-grain); stroke-width: 0.9; }
+.installation-preview .wood-layer { stroke: var(--wood-light); stroke-width: 2.2; }
+.installation-preview .wood-stage { background: var(--wood-stage); }
+.installation-preview .species-swatch {
+  background: repeating-linear-gradient(95deg, transparent 0 9px, color-mix(in oklab, var(--wood-grain) 25%, transparent) 10px 11px, transparent 12px 18px), var(--wood-honey);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--wood-joint) 15%, transparent);
+}
+.installation-preview .species-white-oak { background-color: var(--wood-light); }
+.installation-preview .species-maple { background-color: var(--wood-maple); }
+.installation-preview .species-hickory { background-color: var(--wood-medium); }
+.installation-preview .preview-heading { letter-spacing: 0; }
+.installation-preview .preview-button { height: auto; min-height: 48px; white-space: normal; }
