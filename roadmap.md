@@ -17,5 +17,5 @@
 - [ ] Phase 1B activation: blocked until Project A verifies its live secret/switch, fixes concurrent capture/completion acknowledgements, and agrees a durable suppression/reconciliation contract covering total intake outages; switch, scheduler and publishing require separate owner approval.
 
 # Installation preview
-- [ ] Build isolated /installation-v2 with authentic media and illustrated layouts/materials.
-- [ ] Verify SSR/noindex, all tests, and 375px/1280px UI without publishing or live submissions.
+- [x] Build isolated /installation-v2 with authentic media and illustrated layouts/materials.
+- [x] Verify SSR/noindex, 115 tests, automatic build OK, and 375px/1280px UI/FAQ/CTA navigation without overflow, publishing or live submissions.
