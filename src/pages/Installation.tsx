@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ArrowRight, Check, Layers, Leaf, MessageSquare, Phone, ShieldCheck } from "lucide-react";
 import hero from "@/assets/axo-hardwood-foyer-staircase.jpg.asset.json";
+import whyCrewPhoto from "@/assets/why-axo-crew-install.jpg.asset.json";
 import straightLayPhoto from "@/assets/straight-lay-floor-hq.jpg.asset.json";
 import chevronPhoto from "@/assets/chevron-floor-hq.jpg.asset.json";
 import herringbonePhoto from "@/assets/herringbone-floor-hq.jpg.asset.json";
@@ -114,7 +115,7 @@ export default function Installation() {
       </section>
 
       <section className="pb-8 pt-16 md:pb-12 md:pt-24"><div className={`${container} grid items-center gap-10 md:grid-cols-2 md:gap-16`}>
-        <figure className="overflow-hidden rounded-lg"><img src={hero.url} alt="Hardwood flooring and stair details in an AXO Floors home project" loading="lazy" className="aspect-[4/3] w-full object-cover object-bottom" /></figure>
+        <figure className="overflow-hidden rounded-lg"><img src={whyCrewPhoto.url} alt="AXO Floors crew member installing wood-look flooring planks in a home" loading="lazy" className="aspect-[4/3] w-full object-cover object-bottom" /></figure>
         <div><Eyebrow>Why AXO Floors</Eyebrow><h2 className={heading}>Your Home Deserves Respect.</h2><p className="mt-5 leading-relaxed text-muted-foreground">Good work starts with listening. It continues with careful preparation and attention to every detail.</p><ul className="mt-7 divide-y divide-border">{[[Check, "Professional craftsmanship"], [MessageSquare, "Clear communication"], [ShieldCheck, "Respect for your home"]].map(([Icon, title]) => { const I = Icon as typeof Check; return <li key={title as string} className="flex items-center gap-3 py-4 font-heading text-sm font-semibold"><I aria-hidden="true" className="h-5 w-5 text-gold-warm" />{title as string}</li>; })}</ul></div>
       </div></section>
 
