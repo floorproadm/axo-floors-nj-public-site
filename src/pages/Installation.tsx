@@ -9,7 +9,7 @@ import whyCrewPhoto from "@/assets/why-axo-crew-install.jpg.asset.json";
 import straightLayPhoto from "@/assets/straight-lay-floor-hq.jpg.asset.json";
 import chevronPhoto from "@/assets/chevron-floor-hq.jpg.asset.json";
 import herringbonePhoto from "@/assets/herringbone-floor-hq.jpg.asset.json";
-import { FloorPattern, VinylPlank, WoodConstruction, type FloorLayout } from "@/features/installation-preview/WoodIllustrations";
+import { CarpetTile, FloorPattern, RubberFlooring, VinylPlank, WoodConstruction, type FloorLayout } from "@/features/installation-preview/WoodIllustrations";
 
 const container = "mx-auto max-w-6xl px-5 md:px-10";
 const heading = "preview-heading mt-4 font-heading text-3xl font-bold leading-tight md:text-4xl";
@@ -42,6 +42,15 @@ const faqs = [
   ["Can you remove existing flooring?", "Yes, when removal is included in the estimate. We review the existing floor and any preparation needed before work begins."],
   ["Do you install prefinished and unfinished wood?", "Yes. Prefinished flooring has its finish applied at the factory. Unfinished wood can be sanded, stained, and finished after installation."],
   ["How long does installation take?", "It depends on the area, selected material, site preparation, and finishing requirements. We provide an expected schedule with your project plan."],
+];
+
+type Material = { kind: "solid" | "engineered" | "vinyl" | "carpet" | "rubber"; title: string; text: string; href?: string };
+const materials: Material[] = [
+  { kind: "solid", title: "Solid Hardwood", text: "Classic, natural, and timeless." },
+  { kind: "engineered", title: "Engineered Hardwood", text: "Real wood with added versatility." },
+  { kind: "vinyl", title: "Luxury Vinyl Plank", text: "A durable, stylish alternative.", href: "/vinyl-plank-flooring" },
+  { kind: "carpet", title: "Carpet Tile", text: "Modular tiles for flexible, easy-to-update spaces." },
+  { kind: "rubber", title: "Rubber Flooring", text: "A resilient surface for gyms, playrooms, and utility areas." },
 ];
 
 export default function Installation() {
