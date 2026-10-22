@@ -59,7 +59,7 @@ export default function Installation() {
     <main>
       <section className="relative isolate overflow-hidden bg-navy-dark text-primary-foreground">
         <img src={hero.url} alt="Bundles of unfinished oak planks with a digital moisture meter and humidity probe resting on top" fetchPriority="high" className="absolute inset-0 -z-10 h-full w-full object-cover object-right md:object-center" />
-        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-navy-dark/65 md:bg-navy-dark/55" />
+        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-navy-dark/70 md:bg-gradient-to-r md:from-navy-dark/90 md:via-navy-dark/70 md:to-navy-dark/40" />
         <div className={`${container} pb-14 pt-16 md:pb-20 md:pt-24`}>
           <div className="max-w-2xl">
             <Eyebrow light>FLOOR INSTALLATION IN NEW JERSEY</Eyebrow>
