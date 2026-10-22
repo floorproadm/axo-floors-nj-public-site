@@ -58,8 +58,8 @@ export default function Installation() {
     <Header />
     <main>
       <section className="relative isolate overflow-hidden bg-navy-dark text-primary-foreground">
-        <img src={hero.url} alt="A newly installed chevron oak floor running down a sunlit corridor with black-framed glass windows" fetchPriority="high" className="absolute inset-0 -z-10 h-full w-full object-cover object-bottom" />
-        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-navy-dark/70 md:bg-gradient-to-r md:from-navy-dark/90 md:via-navy-dark/70 md:to-navy-dark/40" />
+        <img src={hero.url} alt="A newly installed chevron oak floor running down a sunlit corridor with black-framed glass windows" fetchPriority="high" className="absolute inset-0 -z-10 h-full w-full object-cover object-bottom md:object-[center_67%]" />
+        <div aria-hidden="true" className="absolute inset-0 -z-10 bg-navy-dark/70 md:bg-gradient-to-r md:from-navy-dark/90 md:via-navy-dark/65 md:to-navy-dark/25" />
         <div className={`${container} pb-14 pt-16 md:pb-20 md:pt-24`}>
           <div className="max-w-2xl">
             <Eyebrow light>FLOOR INSTALLATION IN NEW JERSEY</Eyebrow>
