@@ -3,7 +3,7 @@ import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { ArrowRight, Check, Layers, Leaf, MessageSquare, Phone, ShieldCheck } from "lucide-react";
+import { ArrowRight, Check, Dumbbell, Grid3x3, Layers, Leaf, MessageSquare, Phone, ShieldCheck } from "lucide-react";
 import hero from "@/assets/axo-hardwood-foyer-staircase.jpg.asset.json";
 import whyCrewPhoto from "@/assets/why-axo-crew-install.jpg.asset.json";
 import straightLayPhoto from "@/assets/straight-lay-floor-hq.jpg.asset.json";
@@ -67,7 +67,7 @@ export default function Installation() {
           <div><Eyebrow>Hardwood Installation</Eyebrow><h2 className={heading}>The Right Installation Makes the Difference.</h2><p className="mt-5 leading-relaxed text-muted-foreground">A beautiful floor starts long before the final board is in place. We help you choose the right material, prepare the space properly, and install with attention to every detail.</p></div>
           <div>
             <ul className="space-y-3">
-              {[[Leaf, "Solid Hardwood", "Natural beauty and lasting value."], [Layers, "Engineered Hardwood", "Real wood with added versatility."], [ShieldCheck, "Luxury Vinyl Plank", "A durable, stylish alternative."]].map(([Icon, title, text]) => {
+              {[[Leaf, "Solid Hardwood", "Natural beauty and lasting value."], [Layers, "Engineered Hardwood", "Real wood with added versatility."], [ShieldCheck, "Luxury Vinyl Plank", "A durable, stylish alternative."], [Grid3x3, "Carpet Tile", "Modular tiles for flexible, easy-to-update spaces."], [Dumbbell, "Rubber Flooring", "A resilient surface for gyms, playrooms, and utility areas."]].map(([Icon, title, text]) => {
                 const I = Icon as typeof Leaf;
                 return <li key={title as string} className="flex items-center gap-4 rounded-lg border border-border bg-card px-5 py-5"><I aria-hidden="true" className="h-6 w-6 shrink-0 text-gold-warm" /><div><h3 className="font-heading text-base font-bold">{title === "Luxury Vinyl Plank" ? <Link to="/vinyl-plank-flooring">{title as string}</Link> : title as string}</h3><p className="mt-1 text-sm leading-relaxed text-muted-foreground">{text as string}</p></div></li>;
               })}
