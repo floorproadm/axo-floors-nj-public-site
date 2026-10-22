@@ -7,6 +7,7 @@ import { ArrowRight, Check, Layers, Leaf, MessageSquare, Phone, ShieldCheck } fr
 import hero from "@/assets/axo-hardwood-foyer-staircase.jpg.asset.json";
 import straightLayPhoto from "@/assets/straight-lay-floor.jpg.asset.json";
 import chevronPhoto from "@/assets/chevron-floor.jpg.asset.json";
+import herringbonePhoto from "@/assets/herringbone-floor.jpg.asset.json";
 import { FloorPattern, VinylPlank, WoodConstruction, type FloorLayout } from "./WoodIllustrations";
 
 const container = "mx-auto max-w-6xl px-5 md:px-10";
