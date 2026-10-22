@@ -10,6 +10,7 @@ import refinished from "@/assets/service-staircase-refinished.jpg.asset.json";
 import stairRefinishing from "@/assets/stair-refinishing-job.jpg.asset.json";
 import workmanship from "@/assets/stairs-railings.jpg.asset.json";
 import treadsRisers from "@/assets/treads-risers-job.jpg.asset.json";
+import handrailNewel from "@/assets/handrail-newel-job.jpg.asset.json";
 
 const container = "mx-auto max-w-6xl px-5 md:px-10";
 const heading = "mt-4 font-heading text-3xl font-bold leading-tight md:text-4xl";
@@ -24,7 +25,7 @@ function EstimateButton({ children = "Get My Free Estimate" }: { children?: Reac
 const services = [
   { title: "Stair Refinishing", text: "Restore worn hardwood stairs with professional sanding, stain, and finish.", src: stairRefinishing.url, alt: "AXO Floors worker in a branded shirt refinishing a hardwood staircase with black iron balusters", position: "object-center" },
   { title: "Treads & Risers", text: "Replace worn or carpeted steps with beautiful hardwood.", src: treadsRisers.url, alt: "Hardwood staircase treads in a warm brown stain with white-painted risers, oak base rail and black iron balusters", position: "object-bottom" },
-  { title: "Handrails & Newel Posts", text: "Refinish or upgrade the details that bring your staircase together.", src: refinished.url, alt: "Wood handrails and newel posts on a finished staircase", position: "object-bottom" },
+  { title: "Handrails & Newel Posts", text: "Refinish or upgrade the details that bring your staircase together.", src: handrailNewel.url, alt: "Turned wooden newel post with its cap and a wooden handrail section on a staircase with black iron balusters during a refinishing job", position: "object-center" },
   { title: "Wood & Iron Balusters", text: "Refresh your railing design with wood or iron options.", src: workmanship.url, alt: "AXO Floors craftsman working beside decorative iron staircase balusters", position: "object-center" },
 ];
 const styles = [
