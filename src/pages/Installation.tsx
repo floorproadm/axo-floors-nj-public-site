@@ -9,7 +9,7 @@ import whyCrewPhoto from "@/assets/why-axo-crew-install.jpg.asset.json";
 import straightLayPhoto from "@/assets/straight-lay-floor-hq.jpg.asset.json";
 import chevronPhoto from "@/assets/chevron-floor-hq.jpg.asset.json";
 import herringbonePhoto from "@/assets/herringbone-floor-hq.jpg.asset.json";
-import { FloorPattern, VinylPlank, WoodConstruction, type FloorLayout } from "@/features/installation-preview/WoodIllustrations";
+import { CarpetTile, FloorPattern, RubberFlooring, VinylPlank, WoodConstruction, type FloorLayout } from "@/features/installation-preview/WoodIllustrations";
 
 const container = "mx-auto max-w-6xl px-5 md:px-10";
 const heading = "preview-heading mt-4 font-heading text-3xl font-bold leading-tight md:text-4xl";
@@ -42,6 +42,15 @@ const faqs = [
   ["Can you remove existing flooring?", "Yes, when removal is included in the estimate. We review the existing floor and any preparation needed before work begins."],
   ["Do you install prefinished and unfinished wood?", "Yes. Prefinished flooring has its finish applied at the factory. Unfinished wood can be sanded, stained, and finished after installation."],
   ["How long does installation take?", "It depends on the area, selected material, site preparation, and finishing requirements. We provide an expected schedule with your project plan."],
+];
+
+type Material = { kind: "solid" | "engineered" | "vinyl" | "carpet" | "rubber"; title: string; text: string; href?: string };
+const materials: Material[] = [
+  { kind: "solid", title: "Solid Hardwood", text: "Classic, natural, and timeless." },
+  { kind: "engineered", title: "Engineered Hardwood", text: "Real wood with added versatility." },
+  { kind: "vinyl", title: "Luxury Vinyl Plank", text: "A durable, stylish alternative.", href: "/vinyl-plank-flooring" },
+  { kind: "carpet", title: "Carpet Tile", text: "Modular tiles for flexible, easy-to-update spaces." },
+  { kind: "rubber", title: "Rubber Flooring", text: "A resilient surface for gyms, playrooms, and utility areas." },
 ];
 
 export default function Installation() {
@@ -89,13 +98,14 @@ export default function Installation() {
       <section aria-labelledby="types-heading" className="pb-16 pt-10 md:pb-24 md:pt-12">
         <div className={container}>
           <div className="text-center"><Eyebrow>MATERIAL TYPES</Eyebrow><h2 id="types-heading" className={heading}>Pick the Right Fit.</h2><p className="mt-4 leading-relaxed text-muted-foreground">Choose the material that matches your space, style, and needs.</p></div>
-          <div className="mt-8 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-4 sm:gap-6 md:mx-auto md:grid md:max-w-5xl md:grid-cols-3 md:gap-6" tabIndex={0} aria-label="Flooring material illustrations">
-            {[[false, "Solid Hardwood", "Classic, natural, and timeless.", ""], [true, "Engineered Hardwood", "Real wood with added versatility.", ""], ["vinyl", "Luxury Vinyl Plank", "A durable, stylish alternative.", "/vinyl-plank-flooring"]].map(([kind, title, text, href]) => {
-              const isVinyl = kind === "vinyl";
-              return <figure key={title as string} className="w-[78%] shrink-0 snap-center overflow-hidden rounded-lg border border-border bg-card md:w-auto"><div className="wood-stage aspect-[1.4] sm:aspect-[1.8]">{isVinyl ? <VinylPlank /> : <WoodConstruction engineered={kind as boolean} />}</div><figcaption className="border-t border-border p-4 sm:p-6"><h3 className="font-heading text-base font-bold sm:text-xl">{href ? <Link to={href as string}>{title as string}</Link> : title as string}</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">{text as string}</p></figcaption></figure>;
-            })}
+        </div>
+        <div className="mx-auto mt-8 max-w-7xl px-5 md:px-10 lg:px-4">
+          <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-4 sm:gap-6 lg:grid lg:grid-cols-5 lg:gap-3 xl:gap-4" tabIndex={0} aria-label="Flooring materials">
+            {materials.map(material => <figure key={material.title} className="w-[78%] shrink-0 snap-center overflow-hidden rounded-lg border border-border bg-card lg:w-auto"><div className="wood-stage aspect-[1.4] sm:aspect-[1.8]">{material.kind === "vinyl" ? <VinylPlank /> : material.kind === "carpet" ? <CarpetTile /> : material.kind === "rubber" ? <RubberFlooring /> : <WoodConstruction engineered={material.kind === "engineered"} />}</div><figcaption className="border-t border-border p-4 sm:p-6 lg:p-3 xl:p-4"><h3 className="font-heading text-base font-bold sm:text-xl lg:text-sm xl:text-base">{material.href ? <Link to={material.href}>{material.title}</Link> : material.title}</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">{material.text}</p></figcaption></figure>)}
           </div>
-          <p className="mt-3 text-center text-xs text-muted-foreground">Illustrations of floor construction.</p>
+          <p className="mt-3 text-center text-xs text-muted-foreground">Illustrations of flooring materials.</p>
+        </div>
+        <div className={container}>
           <div className="mx-auto mt-10 max-w-3xl border-y border-border py-7 text-center">
             <h3 className="font-heading text-lg font-bold">Popular Wood Species</h3><p className="mt-1 text-sm text-muted-foreground">Popular species to explore</p>
             <ul className="mx-auto mt-6 grid max-w-xl grid-cols-4 gap-2">
