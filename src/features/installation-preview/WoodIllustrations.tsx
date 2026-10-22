@@ -32,7 +32,7 @@ export function FloorPattern({ layout }: { layout: FloorLayout }) {
       }
     }
   }
-  return <svg viewBox="0 0 400 300" role="img" aria-label={`Illustration of ${layout.toLowerCase()} layout`} className="h-full w-full">
+  return <svg viewBox="0 0 400 300" role="img" preserveAspectRatio="xMidYMid slice" aria-label={`Illustration of ${layout.toLowerCase()} layout`} className="h-full w-full">
     <defs><pattern id={`grain-${id}`} width="100" height="24" patternUnits="userSpaceOnUse"><path d="M0 4 Q25 0 50 5 T100 4 M0 12 Q35 17 65 11 T100 12 M0 21 Q30 16 55 21 T100 20" className="wood-grain" fill="none" /></pattern></defs>
     <g transform={layout === "Herringbone" ? "translate(200 -140) rotate(45)" : undefined}>{planks}</g>
     <rect width="400" height="300" fill={`url(#grain-${id})`} opacity="0.32" />
