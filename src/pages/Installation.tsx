@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ArrowRight, Check, Dumbbell, Grid3x3, Layers, Leaf, MessageSquare, Phone, ShieldCheck } from "lucide-react";
 import hero from "@/assets/installation-hero-chevron-hall-v2.jpg.asset.json";
+import heroPhone from "@/assets/installation-hero-chevron-floor-phone.jpg.asset.json";
 import whyCrewPhoto from "@/assets/why-axo-crew-install.jpg.asset.json";
 import straightLayPhoto from "@/assets/straight-lay-floor-hq.jpg.asset.json";
 import chevronPhoto from "@/assets/chevron-floor-hq.jpg.asset.json";
