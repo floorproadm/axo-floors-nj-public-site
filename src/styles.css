@@ -58,6 +58,19 @@
   --font-body: "Roboto", system-ui, sans-serif;
 }
 
+/* Owner-approved staircase identity, isolated from the other marketing pages. */
+.stairs-page {
+  --gold-accent: 45.36 84.68% 51.37%;
+  --navy-primary: 206 76% 13%;
+  --navy-dark: 206 76% 10%;
+  --stairs-hero-overlay: linear-gradient(90deg, hsl(var(--navy-dark) / .9), hsl(var(--navy-dark) / .68) 55%, hsl(var(--navy-dark) / .15));
+  letter-spacing: 0;
+}
+.stairs-page .stairs-hero-shade { background: var(--stairs-hero-overlay); }
+@media (max-width: 767px) {
+  .stairs-page { --stairs-hero-overlay: linear-gradient(0deg, hsl(var(--navy-dark) / .92), hsl(var(--navy-dark) / .7) 58%, hsl(var(--navy-dark) / .24)); }
+}
+
 :root {
   --radius: 0.75rem;
 
