@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as FinishesRouteImport } from './routes/finishes'
+import { Route as InstallationV2RouteImport } from './routes/installation-v2'
 import { Route as RefinishRouteImport } from './routes/refinish'
 import { Route as RefinishingRouteImport } from './routes/refinishing'
 import { Route as SandingAndRefinishRouteImport } from './routes/sanding-and-refinish'
@@ -35,6 +36,11 @@ const SplatRoute = SplatRouteImport.update({
 const FinishesRoute = FinishesRouteImport.update({
   id: '/finishes',
   path: '/finishes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InstallationV2Route = InstallationV2RouteImport.update({
+  id: '/installation-v2',
+  path: '/installation-v2',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RefinishRoute = RefinishRouteImport.update({
@@ -89,6 +95,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/finishes': typeof FinishesRoute
+  '/installation-v2': typeof InstallationV2Route
   '/refinish': typeof RefinishRoute
   '/refinishing': typeof RefinishingRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
@@ -103,6 +110,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/finishes': typeof FinishesRoute
+  '/installation-v2': typeof InstallationV2Route
   '/refinish': typeof RefinishRoute
   '/refinishing': typeof RefinishingRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
@@ -118,6 +126,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/finishes': typeof FinishesRoute
+  '/installation-v2': typeof InstallationV2Route
   '/refinish': typeof RefinishRoute
   '/refinishing': typeof RefinishingRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
@@ -134,6 +143,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$'
     | '/finishes'
+    | '/installation-v2'
     | '/refinish'
     | '/refinishing'
     | '/sanding-and-refinish'
@@ -148,6 +158,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$'
     | '/finishes'
+    | '/installation-v2'
     | '/refinish'
     | '/refinishing'
     | '/sanding-and-refinish'
@@ -162,6 +173,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$'
     | '/finishes'
+    | '/installation-v2'
     | '/refinish'
     | '/refinishing'
     | '/sanding-and-refinish'
@@ -177,6 +189,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SplatRoute: typeof SplatRoute
   FinishesRoute: typeof FinishesRoute
+  InstallationV2Route: typeof InstallationV2Route
   RefinishRoute: typeof RefinishRoute
   RefinishingRoute: typeof RefinishingRoute
   SandingAndRefinishRoute: typeof SandingAndRefinishRoute
@@ -209,6 +222,13 @@ declare module '@tanstack/react-router' {
       path: '/finishes'
       fullPath: '/finishes'
       preLoaderRoute: typeof FinishesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/installation-v2': {
+      id: '/installation-v2'
+      path: '/installation-v2'
+      fullPath: '/installation-v2'
+      preLoaderRoute: typeof InstallationV2RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/refinish': {
@@ -281,6 +301,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SplatRoute: SplatRoute,
   FinishesRoute: FinishesRoute,
+  InstallationV2Route: InstallationV2Route,
   RefinishRoute: RefinishRoute,
   RefinishingRoute: RefinishingRoute,
   SandingAndRefinishRoute: SandingAndRefinishRoute,
