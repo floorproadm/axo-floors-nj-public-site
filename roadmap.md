@@ -15,3 +15,7 @@
 - [ ] Verify published-domain collection: awaiting authorized publishing after Google settings are corrected.- [x] Phase 1B website bridge for partial-estimate intake (preview; inert until secret + FloorPRO switch/scheduler)
 - [x] Review Phase 1B secret presence, HMAC contract, cookies, failure paths and synthetic tests in preview; Project B secret is present, but read-only authenticated probe returned 401 and production readiness is HOLD.
 - [ ] Phase 1B activation: blocked until Project A verifies its live secret/switch, fixes concurrent capture/completion acknowledgements, and agrees a durable suppression/reconciliation contract covering total intake outages; switch, scheduler and publishing require separate owner approval.
+
+# Installation preview
+- [ ] Build isolated /installation-v2 with authentic media and illustrated layouts/materials.
+- [ ] Verify SSR/noindex, all tests, and 375px/1280px UI without publishing or live submissions.
