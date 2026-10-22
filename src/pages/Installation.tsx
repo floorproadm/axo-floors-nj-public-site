@@ -11,7 +11,9 @@ import straightLayPhoto from "@/assets/straight-lay-floor-hq.jpg.asset.json";
 import chevronPhoto from "@/assets/chevron-floor-hq.jpg.asset.json";
 import herringbonePhoto from "@/assets/herringbone-floor-hq.jpg.asset.json";
 import diagonalLayPhoto from "@/assets/diagonal-lay-floor-hq.jpg.asset.json";
-import { CarpetTile, FloorPattern, RubberFlooring, VinylPlank, WoodConstruction, type FloorLayout } from "@/features/installation-preview/WoodIllustrations";
+import repairPhoto from "@/assets/damaged-floor-closeup.jpg";
+import stairPhoto from "@/assets/axo-hardwood-foyer-staircase.jpg.asset.json";
+import { CarpetTile, FloorPattern, FloorRemoval, RubberFlooring, SubfloorPrep, VinylPlank, WoodConstruction, type FloorLayout } from "@/features/installation-preview/WoodIllustrations";
 
 const container = "mx-auto max-w-6xl px-5 md:px-10";
 const heading = "preview-heading mt-4 font-heading text-3xl font-bold leading-tight md:text-4xl";
@@ -54,6 +56,14 @@ const materials: Material[] = [
   { kind: "vinyl", title: "Luxury Vinyl Plank", text: "A durable, stylish alternative.", href: "/vinyl-plank-flooring" },
   { kind: "carpet", title: "Carpet Tile", text: "Modular tiles for flexible, easy-to-update spaces." },
   { kind: "rubber", title: "Rubber Flooring", text: "A resilient surface for gyms, playrooms, and utility areas." },
+];
+
+type Service = { n: string; title: string; text: string; media: "removal" | "subfloor" | "repair" | "stair" };
+const additionalServices: Service[] = [
+  { n: "01", title: "Floor Removal", text: "We carefully remove existing hardwood, carpet, laminate, tile, or vinyl flooring to prepare your space for a fresh start.", media: "removal" },
+  { n: "02", title: "Subfloor Preparation", text: "A great floor starts with a solid foundation. We address uneven surfaces, damaged areas, and subfloor imperfections before installation.", media: "subfloor" },
+  { n: "03", title: "Hardwood Floor Repairs", text: "From damaged boards to worn or uneven areas, we provide precise repairs that restore the beauty and integrity of your hardwood floors.", media: "repair" },
+  { n: "04", title: "Stair Installation", text: "From hardwood treads and risers to complete stair upgrades, we bring craftsmanship and attention to detail to every step.", media: "stair" },
 ];
 
 export default function Installation() {
@@ -120,6 +130,16 @@ export default function Installation() {
             <p className="mt-5 text-xs leading-relaxed text-muted-foreground">Wood tones shown for illustration; species and finish vary.</p>
           </div>
           <div className="mx-auto mt-7 max-w-3xl text-center"><h3 className="font-heading text-base font-bold">Prefinished or Site-Finished?</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">Factory-finished boards or a custom finish applied on-site. We'll help you compare.</p></div>
+        </div>
+      </section>
+
+      <section aria-labelledby="additional-services-heading" className="bg-secondary pb-8 pt-10 md:pb-10 md:pt-24">
+        <div className={container}>
+          <div className="max-w-2xl"><Eyebrow>Additional Services</Eyebrow><h2 id="additional-services-heading" className={heading}>Beyond Installation.</h2><p className="mt-5 leading-relaxed text-muted-foreground">Complete flooring solutions to prepare, restore, and perfect your space.</p></div>
+          <div className="mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-4 md:grid md:grid-cols-4 md:gap-5" tabIndex={0} aria-label="Additional flooring services">
+            {additionalServices.map(service => <figure key={service.n} className="w-[80%] shrink-0 snap-center overflow-hidden rounded-lg border border-border bg-card md:w-auto"><div className="wood-stage aspect-[16/10]">{service.media === "removal" ? <FloorRemoval /> : service.media === "subfloor" ? <SubfloorPrep /> : service.media === "repair" ? <img src={repairPhoto} alt="Close view of cracked and damaged hardwood floorboards awaiting repair" loading="lazy" className="h-full w-full object-cover" /> : <img src={stairPhoto.url} alt="Hardwood staircase with light oak treads installed in a home" loading="lazy" className="h-full w-full object-cover object-[center_70%]" />}</div><figcaption className="p-5"><span className="font-heading text-xs font-bold tracking-[0.18em] text-gold">{service.n}</span><h3 className="mt-2 font-heading text-base font-bold">{service.title}</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">{service.text}</p></figcaption></figure>)}
+          </div>
+          <p className="mt-3 text-center text-xs text-muted-foreground">Photos are real job-site images; other images are illustrations.</p>
         </div>
       </section>
 

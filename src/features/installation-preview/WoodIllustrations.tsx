@@ -133,3 +133,27 @@ export function RubberFlooring() {
     {sideSeam("rs0", 0.5, h)}
   </svg>;
 }
+
+export function FloorRemoval() {
+  return <svg viewBox="0 0 140 100" aria-hidden="true" className="h-full w-full">
+    <rect x="6" y="70" width="128" height="18" rx="2" fill="#d8cfc4" />
+    <path d="M18 70v18M34 70v18M50 70v18M66 70v18M82 70v18M98 70v18M114 70v18" stroke="#b5aaa0" strokeWidth="0.9" />
+    <rect x="8" y="52" width="32" height="16" rx="1.5" fill="#c7a583" stroke="#a8865f" strokeWidth="1" />
+    <rect x="42" y="52" width="32" height="16" rx="1.5" fill="#b89b7a" stroke="#a8865f" strokeWidth="1" />
+    <path d="M8 60h32M42 60h32" stroke="#a8865f" strokeWidth="0.8" opacity=".5" />
+    <g transform="rotate(-22 116 68)"><rect x="76" y="52" width="40" height="15" rx="1.5" fill="#c7a583" stroke="#a8865f" strokeWidth="1" /><path d="M76 59.5h40" stroke="#a8865f" strokeWidth="0.8" opacity=".5" /></g>
+    <g transform="rotate(-18 106 34)"><rect x="102" y="6" width="8" height="52" rx="3.5" fill="#17293f" /><rect x="98" y="2" width="16" height="9" rx="4" fill="#c9a227" /></g>
+    <g fill="#b0a49a"><rect x="86" y="76" width="10" height="3" rx="1.5" transform="rotate(-8 91 77)" /><rect x="102" y="80" width="7" height="3" rx="1.5" transform="rotate(6 105 81)" /></g>
+  </svg>;
+}
+
+export function SubfloorPrep() {
+  return <svg viewBox="0 0 140 100" aria-hidden="true" className="h-full w-full">
+    <g fill="#17293f"><rect x="12" y="80" width="13" height="16" rx="1" /><rect x="47" y="80" width="13" height="16" rx="1" /><rect x="82" y="80" width="13" height="16" rx="1" /><rect x="117" y="80" width="13" height="16" rx="1" /></g>
+    <rect x="6" y="64" width="128" height="16" rx="1.5" fill="#c7a583" stroke="#a8865f" strokeWidth="1" />
+    <path d="M6 70h128M6 75h128" stroke="#a8865f" strokeWidth="0.7" opacity=".45" />
+    <path d="M52 64v16M98 64v16" stroke="#a8865f" strokeWidth="1" opacity=".7" />
+    <path d="M6 57H134v7q-16 3-32 0t-32 0t-32 0t-32 0z" fill="#e6dcd0" stroke="#b89b7a" strokeWidth="1" />
+    <g><rect x="62" y="50" width="60" height="7" rx="3" fill="#c9a227" /><rect x="86" y="36" width="9" height="15" rx="4" fill="#17293f" /><rect x="72" y="30" width="37" height="9" rx="4.5" fill="#17293f" /></g>
+  </svg>;
+}
