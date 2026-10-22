@@ -62,7 +62,7 @@ const materials: Material[] = [
 
 type Service = { n: string; title: string; text: string; media: "removal" | "subfloor" | "repair" | "stair" };
 const additionalServices: Service[] = [
-  { n: "01", title: "Floor Removal", text: "We carefully remove existing hardwood, carpet, laminate, tile, or vinyl flooring to prepare your space for a fresh start.", media: "removal" },
+  { n: "01", title: "Floor Removal", text: "We remove carpet, vinyl, or existing flooring to prepare your space for a fresh start.", media: "removal" },
   { n: "02", title: "Subfloor Preparation", text: "Leveling repairs and a solid foundation for a lasting result.", media: "subfloor" },
   { n: "03", title: "Hardwood Floor Repairs", text: "We fix damaged boards and restore the beauty of your floors.", media: "repair" },
   { n: "04", title: "Stair Installation", text: "Treads, risers and complete stair flooring solutions", media: "stair" },
