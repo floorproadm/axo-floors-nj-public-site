@@ -21,6 +21,6 @@
 - [x] Verify SSR/noindex, 115 tests, automatic build OK, and 375px/1280px UI/FAQ/CTA navigation without overflow, publishing or live submissions.
 
 # Installation promotion
-- [ ] Update only /stairs with approved copy, real staircase photos and SSR metadata; validate 375px/1280px, FAQs, CTAs, images and complete tests; do not publish.
+- [x] Update /stairs with all eight approved sections, authentic staircase photos, isolated styling, SSR metadata and sitemap entry; 375px/1280px images, FAQs/keyboard, horizontal galleries and CTA navigation pass; 117 tests and automatic production build OK; not published.
 - [x] Promote the latest approved installation page intact to /installation; replace legacy copy and redirect both old URLs.
 - [x] Update only navigation destinations and verify SSR, metadata, sitemap, mobile/desktop parity, full tests and automatic production build; do not publish.
