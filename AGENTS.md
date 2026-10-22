@@ -1,4 +1,5 @@
 # Architecture rules
+- Serve /stairs from src/pages/Stairs.tsx through its dedicated SSR route and the existing legacy fallback, with page-scoped styling and inline asset-pointer galleries independent of Gallery data; keep metadata in the leaf route. Why: one canonical page preserves owner copy and existing forms, analytics, and other pages.
 - Serve the owner-approved installation design from src/pages/Installation.tsx through the SSR /installation route and the legacy App fallback; keep wood diagrams and styling scoped, and keep /installation-v2 and /hardwood-flooring as HTTP 301 redirects to /installation. Why: one canonical page preserves owner edits and external links without duplicate content.
 - Keep the /refinishing project photos as an inline horizontal scroll-snap strip using CDN asset pointers, isolated from Gallery data and routing and with no lightbox dialog; this preserves the existing gallery and SSR page.
 - Keep Get Started journey transitions and branch validation in its feature module; the existing estimate server function revalidates and inserts through anonymous RLS, then notifies once after confirmed insertion, isolating other lead pathways.
