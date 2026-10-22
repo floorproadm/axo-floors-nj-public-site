@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as SplatRouteImport } from './routes/$'
 import { Route as FinishesRouteImport } from './routes/finishes'
+import { Route as HardwoodFlooringRouteImport } from './routes/hardwood-flooring'
+import { Route as InstallationRouteImport } from './routes/installation'
 import { Route as InstallationV2RouteImport } from './routes/installation-v2'
 import { Route as RefinishRouteImport } from './routes/refinish'
 import { Route as RefinishingRouteImport } from './routes/refinishing'
@@ -36,6 +38,16 @@ const SplatRoute = SplatRouteImport.update({
 const FinishesRoute = FinishesRouteImport.update({
   id: '/finishes',
   path: '/finishes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HardwoodFlooringRoute = HardwoodFlooringRouteImport.update({
+  id: '/hardwood-flooring',
+  path: '/hardwood-flooring',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InstallationRoute = InstallationRouteImport.update({
+  id: '/installation',
+  path: '/installation',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InstallationV2Route = InstallationV2RouteImport.update({
@@ -95,6 +107,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/finishes': typeof FinishesRoute
+  '/hardwood-flooring': typeof HardwoodFlooringRoute
+  '/installation': typeof InstallationRoute
   '/installation-v2': typeof InstallationV2Route
   '/refinish': typeof RefinishRoute
   '/refinishing': typeof RefinishingRoute
@@ -110,6 +124,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/finishes': typeof FinishesRoute
+  '/hardwood-flooring': typeof HardwoodFlooringRoute
+  '/installation': typeof InstallationRoute
   '/installation-v2': typeof InstallationV2Route
   '/refinish': typeof RefinishRoute
   '/refinishing': typeof RefinishingRoute
@@ -126,6 +142,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/$': typeof SplatRoute
   '/finishes': typeof FinishesRoute
+  '/hardwood-flooring': typeof HardwoodFlooringRoute
+  '/installation': typeof InstallationRoute
   '/installation-v2': typeof InstallationV2Route
   '/refinish': typeof RefinishRoute
   '/refinishing': typeof RefinishingRoute
@@ -143,6 +161,8 @@ export interface FileRouteTypes {
     | '/'
     | '/$'
     | '/finishes'
+    | '/hardwood-flooring'
+    | '/installation'
     | '/installation-v2'
     | '/refinish'
     | '/refinishing'
@@ -158,6 +178,8 @@ export interface FileRouteTypes {
     | '/'
     | '/$'
     | '/finishes'
+    | '/hardwood-flooring'
+    | '/installation'
     | '/installation-v2'
     | '/refinish'
     | '/refinishing'
@@ -173,6 +195,8 @@ export interface FileRouteTypes {
     | '/'
     | '/$'
     | '/finishes'
+    | '/hardwood-flooring'
+    | '/installation'
     | '/installation-v2'
     | '/refinish'
     | '/refinishing'
@@ -189,6 +213,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SplatRoute: typeof SplatRoute
   FinishesRoute: typeof FinishesRoute
+  HardwoodFlooringRoute: typeof HardwoodFlooringRoute
+  InstallationRoute: typeof InstallationRoute
   InstallationV2Route: typeof InstallationV2Route
   RefinishRoute: typeof RefinishRoute
   RefinishingRoute: typeof RefinishingRoute
@@ -222,6 +248,20 @@ declare module '@tanstack/react-router' {
       path: '/finishes'
       fullPath: '/finishes'
       preLoaderRoute: typeof FinishesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hardwood-flooring': {
+      id: '/hardwood-flooring'
+      path: '/hardwood-flooring'
+      fullPath: '/hardwood-flooring'
+      preLoaderRoute: typeof HardwoodFlooringRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/installation': {
+      id: '/installation'
+      path: '/installation'
+      fullPath: '/installation'
+      preLoaderRoute: typeof InstallationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/installation-v2': {
@@ -301,6 +341,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SplatRoute: SplatRoute,
   FinishesRoute: FinishesRoute,
+  HardwoodFlooringRoute: HardwoodFlooringRoute,
+  InstallationRoute: InstallationRoute,
   InstallationV2Route: InstallationV2Route,
   RefinishRoute: RefinishRoute,
   RefinishingRoute: RefinishingRoute,
