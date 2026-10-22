@@ -80,6 +80,14 @@ const imageMap: Record<string, string> = {
 
 const resolveImage = (url?: string) => (url ? imageMap[url] || url : "");
 
+// Album deep-link: /gallery?album=<folder name | slug | folder id | "all">
+const slugify = (value: string) =>
+  value.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const albumParamFromUrl = () => {
+  if (typeof window === "undefined") return null;
+  return new URLSearchParams(window.location.search).get("album");
+};
+
 const Gallery = () => {
   const [projects, setProjects] = useState<GalleryProject[]>([]);
   const [folders, setFolders] = useState<GalleryFolder[]>([]);
@@ -155,6 +163,48 @@ const Gallery = () => {
     fetchFoldersAndProjects();
     fetchPublicFeedPosts();
   }, []);
+
+  // Open an album straight from the URL, e.g. /gallery?album=stairs
+  const albumParamRef = useRef<string | null>(null);
+  const albumParamRead = useRef(false);
+  const albumParamApplied = useRef(false);
+  if (!albumParamRead.current) {
+    albumParamRead.current = true;
+    albumParamRef.current = albumParamFromUrl();
+  }
+
+  useEffect(() => {
+    if (albumParamApplied.current || folders.length === 0) return;
+    albumParamApplied.current = true;
+    const raw = albumParamRef.current;
+    if (!raw) return;
+    if (raw === "all") {
+      setActiveAlbum("all");
+      return;
+    }
+    const wanted = slugify(raw);
+    const folder =
+      folders.find((f) => f.id === raw) ||
+      folders.find((f) => slugify(f.name) === wanted);
+    if (folder) setActiveAlbum(folder.id);
+  }, [folders]);
+
+  // Keep the URL in step with the album view so it can be shared or reloaded
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    // Leave the deep link alone until it has been resolved against the folders
+    if (!albumParamApplied.current && albumParamRef.current) return;
+    const url = new URL(window.location.href);
+    if (activeAlbum === null) url.searchParams.delete("album");
+    else if (activeAlbum === "all") url.searchParams.set("album", "all");
+    else
+      url.searchParams.set(
+        "album",
+        slugify(folders.find((f) => f.id === activeAlbum)?.name || activeAlbum)
+      );
+    if (url.toString() !== window.location.href)
+      window.history.replaceState(null, "", url.toString());
+  }, [activeAlbum, folders]);
 
   // Scroll to top when entering or leaving an album view
   useEffect(() => {

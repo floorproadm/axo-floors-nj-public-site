@@ -83,7 +83,7 @@ export default function Stairs() {
       <section aria-labelledby="projects-heading" className="py-14 md:py-20"><div className={container}>
         <div className="max-w-2xl"><Eyebrow>REAL WORK. REAL RESULTS.</Eyebrow><h2 id="projects-heading" className={heading}>See What's Possible.</h2><p className="mt-5 leading-relaxed text-muted-foreground">A staircase can change the look of an entire entryway. Explore real AXO Floors projects and discover what professional refinishing and thoughtful upgrades can achieve.</p></div>
         <div className="mt-8 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-4" role="region" tabIndex={0} aria-label="AXO staircase project photos">{projects.map(photo => <figure key={photo.src} className="w-[85%] shrink-0 snap-start overflow-hidden rounded-lg md:w-[42%]"><img src={photo.src} alt={photo.alt} loading="lazy" className="aspect-[4/5] w-full object-cover" /></figure>)}</div>
-        <div className="mt-6 flex justify-center"><Button asChild className={primary}><Link to="/gallery">Explore Our Stair Projects<ArrowRight aria-hidden="true" className="h-4 w-4" /></Link></Button></div>
+        <div className="mt-6 flex justify-center"><Button asChild className={primary}><Link to="/gallery?album=stairs">Explore Our Stair Projects<ArrowRight aria-hidden="true" className="h-4 w-4" /></Link></Button></div>
       </div></section>
 
       <section className="bg-navy py-14 text-primary-foreground md:py-20"><div className={container}>
