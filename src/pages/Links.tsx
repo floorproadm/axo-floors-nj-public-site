@@ -1,7 +1,7 @@
 import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Calendar, Phone, MessageSquare, Wrench, Images, ClipboardCheck, Star, Gift } from "lucide-react";
+import { Calendar, Phone, MessageSquare, Wrench, Images, ClipboardCheck, Star, Gift, ChevronDown } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { AXO_PHONE_DISPLAY, AXO_PHONE_TEL } from "@/lib/constants";
 import axoLogo from "@/assets/axo-logo-official.png";
@@ -34,47 +34,52 @@ const item = {
 const SMS_BODY = "Hi AXO Floors! I'd like to discuss an estimate for my flooring project.";
 
 const PhoneToggle = () => {
-  const [mode, setMode] = useState<"call" | "text">("call");
-  const isCall = mode === "call";
-  const href = isCall
-    ? `tel:${AXO_PHONE_TEL}`
-    : `sms:${AXO_PHONE_TEL}?body=${encodeURIComponent(SMS_BODY)}`;
+  const [open, setOpen] = useState(false);
 
-  const segment = (active: boolean) =>
-    `min-h-[44px] rounded-md px-2 py-2 font-heading text-xs font-semibold leading-tight transition-colors ${
-      active ? "bg-white text-navy" : "text-white/60 hover:text-white"
-    }`;
+  const options = [
+    { label: "Call now", href: `tel:${AXO_PHONE_TEL}`, icon: Phone },
+    {
+      label: "Prefer texting? Text Us Directly",
+      href: `sms:${AXO_PHONE_TEL}?body=${encodeURIComponent(SMS_BODY)}`,
+      icon: MessageSquare,
+    },
+  ];
 
   return (
     <motion.div variants={item} className="rounded-xl bg-white/10 p-3">
-      <div
-        role="group"
-        aria-label="Choose how to reach AXO Floors"
-        className="grid grid-cols-2 gap-1 rounded-lg bg-black/25 p-1"
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-controls="phone-options"
+        onClick={() => setOpen((o) => !o)}
+        className="gold-gradient flex min-h-[44px] w-full items-center justify-center gap-2 rounded-lg px-4 py-3 font-heading text-sm font-semibold text-black transition-all duration-200 hover:scale-[1.03]"
       >
-        <button type="button" aria-pressed={isCall} onClick={() => setMode("call")} className={segment(isCall)}>
-          Call now
-        </button>
-        <button
-          type="button"
-          aria-pressed={!isCall}
-          onClick={() => setMode("text")}
-          className={segment(!isCall)}
+        <Phone className="h-4 w-4 shrink-0" aria-hidden />
+        <span>Call or text us — {AXO_PHONE_DISPLAY}</span>
+        <ChevronDown
+          className={`h-4 w-4 shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          aria-hidden
+        />
+      </button>
+      {open && (
+        <div
+          id="phone-options"
+          role="group"
+          aria-label="Choose how to reach AXO Floors"
+          className="mt-3 flex flex-col gap-2"
         >
-          Prefer texting? Text Us Directly
-        </button>
-      </div>
-      <a
-        href={href}
-        className="gold-gradient mt-3 flex items-center justify-center gap-2 rounded-lg px-4 py-3 font-heading text-sm font-semibold text-black transition-all duration-200 hover:scale-[1.03]"
-      >
-        {isCall ? (
-          <Phone className="h-4 w-4 shrink-0" aria-hidden />
-        ) : (
-          <MessageSquare className="h-4 w-4 shrink-0" aria-hidden />
-        )}
-        {isCall ? `Call now — ${AXO_PHONE_DISPLAY}` : `Text us — ${AXO_PHONE_DISPLAY}`}
-      </a>
+          {options.map(({ label, href, icon: Icon }) => (
+            <a
+              key={label}
+              href={href}
+              className="flex min-h-[44px] items-center gap-3 rounded-lg bg-white/10 px-4 py-3 font-heading text-sm font-semibold text-white transition-colors hover:bg-white/20"
+            >
+              <Icon className="h-5 w-5 shrink-0 text-gold" aria-hidden />
+              {label}
+            </a>
+          ))}
+        </div>
+      )}
     </motion.div>
   );
 };

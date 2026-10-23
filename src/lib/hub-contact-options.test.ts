@@ -19,4 +19,20 @@ describe("hub contact options", () => {
     expect(hub).not.toContain('"Call Us — (732) 351-8653"');
     expect(hub).not.toContain('to: "tel:+17323518653"');
   });
+
+  it("hides the two choices behind a button that opens them below", () => {
+    expect(hub).toContain("aria-expanded");
+    expect(hub).toContain('aria-controls="phone-options"');
+    expect(hub).toContain('id="phone-options"');
+    // The choices only exist once the button is opened.
+    expect(hub).toContain("{open && (");
+    // Panel sits after the button in the markup, i.e. below it.
+    expect(hub.indexOf('id="phone-options"')).toBeGreaterThan(hub.indexOf("aria-expanded"));
+  });
+
+  it("marks each choice with an icon", () => {
+    expect(hub).toMatch(/icon:\s*Phone/);
+    expect(hub).toMatch(/icon:\s*MessageSquare/);
+    expect(hub).toMatch(/<Icon[^>]*aria-hidden/);
+  });
 });
