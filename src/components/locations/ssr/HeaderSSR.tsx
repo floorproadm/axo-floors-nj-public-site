@@ -26,7 +26,6 @@ const mobileLinks = [
   { name: "Gallery", href: "/gallery" },
   { name: "Blog", href: "/blog" },
   { name: "Stain Colors", href: "/stain-gallery" },
-  { name: "Builders", href: "/builders" },
 ];
 
 const HeaderSSR = () => {
