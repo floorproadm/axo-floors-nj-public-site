@@ -16,7 +16,7 @@ import serviceSandingImg from "@/assets/service-sanding-crew-cropped.jpg";
 import serviceInstallAsset from "@/assets/axo-vinyl-plank-install.jpg.asset.json";
 import stairsRailingsImg from "@/assets/stairs-railings.jpg.asset.json";
 import { useState, useEffect, useRef } from "react";
-import { AXO_PHONE_TEL, AXO_SMS_HREF } from "@/lib/constants";
+import { AXO_SMS_HREF } from "@/lib/constants";
 import LeadMagnetGate from "@/components/shared/LeadMagnetGate";
 const GoogleLogo = () => (
   <svg viewBox="0 0 24 24" className="w-5 h-5 shrink-0" fill="none" aria-hidden="true">

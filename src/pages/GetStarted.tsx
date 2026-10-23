@@ -15,7 +15,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import SEOHead from "@/components/shared/SEOHead";
 import logo from "@/assets/axo-logo-official.png";
-import { AXO_PHONE_TEL, AXO_SMS_HREF } from "@/lib/constants";
+import { AXO_SMS_HREF } from "@/lib/constants";
 import { formatPhoneInput } from "@/utils/validation";
 import { gsCopy, estimateCopy, SERVICE_TYPE_OPTIONS, FINISH_SCOPE_OPTIONS, FLOOR_TYPE_OPTIONS, MATERIALS_OPTIONS, MATERIAL_DELIVERED_OPTIONS, AREA_PRESETS, QUIZ_CONDITION_OPTIONS, STAIRS_COUNT_OPTIONS } from "@/features/get-started/copy";
 import { captureEstimateAttribution, emptyEstimate, estimateSchema, sendEstimate, type EstimateAttribution } from "@/features/get-started/estimate";

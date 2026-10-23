@@ -6,7 +6,7 @@ import Footer from "@/components/shared/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Image, ChevronLeft, ChevronRight, X, MapPin, Play, ArrowLeft, ArrowRight, ArrowUpRight, MessageSquare, LayoutGrid, Instagram } from "lucide-react";
-import { AXO_PHONE_TEL, AXO_SMS_HREF } from "@/lib/constants";
+import { AXO_SMS_HREF } from "@/lib/constants";
 import sandingVideo from "@/assets/gallery-social-sanding.mp4.asset.json";
 import beforeAfterVideo from "@/assets/gallery-social-before-after.mp4.asset.json";
 import { Badge } from "@/components/ui/badge";
