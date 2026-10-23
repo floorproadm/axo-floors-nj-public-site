@@ -21,4 +21,10 @@ describe("menu contents", () => {
     expect(read("src/App.tsx")).toContain('<Route path="/builders" element={<Builders />} />');
     expect(read("src/routes/sitemap[.]xml.ts")).toContain('"/builders"');
   });
+
+  it("keeps the mobile drawer free of a Contact link, since its yellow CONTACT US button covers it", () => {
+    const drawer = read("src/components/shared/AppSidebar.tsx");
+    expect(drawer).not.toContain('{ name: "Contact", href: "/contact" }');
+    expect(drawer).toContain("CONTACT US");
+  });
 });
