@@ -2,11 +2,21 @@ import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Calendar, Phone, MessageSquare, Wrench, Images, ClipboardCheck, Star, Gift } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { AXO_PHONE_DISPLAY, AXO_PHONE_TEL } from "@/lib/constants";
 import axoLogo from "@/assets/axo-logo-official.png";
 import woodyMascot from "@/assets/woody-mascot.jpg";
 
-const links = [
+type LinkItem = {
+  label: string;
+  to: string;
+  icon: LucideIcon;
+  primary?: boolean;
+  external?: boolean;
+  hash?: boolean;
+};
+
+const links: LinkItem[] = [
   { label: "Get Your Free Estimate", to: "/get-started", icon: Calendar, primary: true },
   { label: "About Us", to: "/about", icon: ClipboardCheck },
   { label: "Our Services", to: "/#services", icon: Wrench, hash: true },
