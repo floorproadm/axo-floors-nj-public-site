@@ -83,7 +83,7 @@ export default function Installation() {
             <h1 className="preview-heading mt-5 font-heading text-4xl font-bold leading-[1.12] md:text-6xl">Beautiful Floors <span className="text-gold whitespace-nowrap">Start Here.</span></h1>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-primary-foreground/90 md:text-lg">From classic hardwood to custom layouts, we install floors with precision, care, and respect for your home.</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row"><EstimateButton /><Button asChild variant="outline" className={outline}><Link to="/gallery">See Our Work</Link></Button></div>
-            <p className="mt-7 text-center text-xs leading-relaxed text-primary-foreground/90 sm:text-left">Solid Hardwood • Engineered Hardwood • Custom Layouts</p>
+            <p className="mt-7 text-center font-heading text-xs uppercase leading-relaxed tracking-[0.18em] text-primary-foreground/90 drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)] sm:text-left">Solid Hardwood • Engineered Hardwood • Custom Layouts</p>
           </div>
         </div>
       </section>
