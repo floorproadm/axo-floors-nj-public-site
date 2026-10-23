@@ -50,10 +50,8 @@ describe("hub contact options", () => {
     expect(hub).toMatch(/<Icon[^>]*aria-hidden/);
   });
 
-  it("pre-fills the text with the owner's message", () => {
-    expect(hub).toContain(
-      'const SMS_BODY = "Hi! My name is [Your Name]. I\'m interested in getting a flooring quote.";',
-    );
+  it("pre-fills the text with the owner's shared message", () => {
+    expect(hub).toContain("const SMS_BODY = AXO_SMS_MESSAGE;");
     expect(hub).not.toContain("Hi AXO Floors!");
   });
 });
