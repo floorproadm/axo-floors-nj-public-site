@@ -132,7 +132,7 @@ export function AppSidebar({ onClose }: AppSidebarProps) {
           <div className="flex items-center justify-center gap-1 text-white/70 text-xs">
             <span>Google</span>
             <div className="flex text-gold">★★★★★</div>
-            <span>35+ Reviews</span>
+            <span>{"\n"}</span>
           </div>
         </div>
       </div>
