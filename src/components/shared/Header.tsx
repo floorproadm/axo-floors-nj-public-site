@@ -19,7 +19,6 @@ const Header = () => {
     { name: "Sanding & Refinishing", href: "/refinishing" },
     { name: "Flooring Installation", href: "/installation" },
     { name: "Stairs & Railings", href: "/stairs" },
-    { name: "Vinyl Plank Flooring", href: "/vinyl-plank-flooring" },
   ];
 
   return (

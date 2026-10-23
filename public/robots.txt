@@ -7,7 +7,6 @@ Sitemap: https://axofloorsnj.com/sitemap.xml
 # Specific pages optimized for local SEO
 Allow: /hardwood-flooring
 Allow: /sanding-and-refinish
-Allow: /vinyl-plank-flooring
 Allow: /staircase
 Allow: /contact  
 Allow: /gallery

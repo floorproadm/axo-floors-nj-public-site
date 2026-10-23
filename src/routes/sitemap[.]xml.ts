@@ -8,7 +8,7 @@ const BASE_URL = PUBLIC_SITE_URL;
 // Previously a static public/sitemap.xml shadowed this route; its NJ
 // service-area entries are now emitted here so blog posts can be dynamic.
 const paths = [
-  "/", "/installation", "/refinishing", "/stairs", "/vinyl-plank-flooring",
+  "/", "/installation", "/refinishing", "/stairs",
   "/gallery", "/stain-gallery", "/about", "/contact", "/get-started", "/schedule-estimate",
   "/referral-program", "/builders", "/realtors",
   "/partner-program", "/wow-pack", "/hub", "/blog",
