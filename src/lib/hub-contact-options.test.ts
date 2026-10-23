@@ -31,9 +31,17 @@ describe("hub contact options", () => {
     expect(hub.indexOf('id="phone-options"')).toBeGreaterThan(hub.indexOf("aria-expanded"));
   });
 
-  it("styles the button like every other hub link, not as a highlighted call-to-action", () => {
-    expect(toggle).not.toContain("gold-gradient");
-    expect(toggle).toContain("rounded-xl bg-white/10 px-5 py-3.5 font-heading");
+  it("keeps the button the same shape as every hub row, in the gold primary style", () => {
+    expect(toggle).toContain("rounded-xl px-5 py-3.5 font-heading");
+    expect(toggle).toContain("gold-gradient");
+    expect(toggle).toContain("text-black");
+    // The revealed choices stay quiet rows.
+    expect(toggle).toContain("bg-white/10");
+  });
+
+  it("shows an arrow that flips when the list opens", () => {
+    expect(toggle).toContain("ChevronDown");
+    expect(toggle).toContain("rotate-180");
   });
 
   it("marks each choice with an icon", () => {
