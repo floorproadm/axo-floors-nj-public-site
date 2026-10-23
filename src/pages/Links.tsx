@@ -1,7 +1,7 @@
 import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Calendar, Phone, MessageSquare, Wrench, Images, ClipboardCheck, Star, Gift } from "lucide-react";
+import { Calendar, Phone, MessageSquare, Wrench, Images, ClipboardCheck, Star, Gift, ChevronDown } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { AXO_PHONE_DISPLAY, AXO_PHONE_TEL } from "@/lib/constants";
 import axoLogo from "@/assets/axo-logo-official.png";
@@ -39,6 +39,9 @@ const PhoneToggle = () => {
   const row =
     "flex w-full items-center gap-3 rounded-xl bg-white/10 px-5 py-3.5 font-heading text-sm font-semibold text-white transition-all duration-200 hover:bg-white/20";
 
+  const buttonRow =
+    "gold-gradient flex w-full items-center gap-3 rounded-xl px-5 py-3.5 font-heading text-sm font-semibold text-black transition-all duration-200 hover:scale-[1.03]";
+
   const options = [
     { label: "Call now", href: `tel:${AXO_PHONE_TEL}`, icon: Phone },
     {
@@ -55,10 +58,14 @@ const PhoneToggle = () => {
         aria-expanded={open}
         aria-controls="phone-options"
         onClick={() => setOpen((o) => !o)}
-        className={row}
+        className={buttonRow}
       >
         <Phone className="w-5 h-5 shrink-0" aria-hidden />
         <span>Call or text us — {AXO_PHONE_DISPLAY}</span>
+        <ChevronDown
+          className={`ml-auto w-5 h-5 shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          aria-hidden
+        />
       </button>
       {open && (
         <div
