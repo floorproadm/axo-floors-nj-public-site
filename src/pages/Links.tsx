@@ -1,7 +1,7 @@
 import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Calendar, Phone, MessageSquare, Wrench, Images, ClipboardCheck, Star, Gift, ChevronDown } from "lucide-react";
+import { Calendar, Phone, MessageSquare, Wrench, Images, ClipboardCheck, Star, Gift } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { AXO_PHONE_DISPLAY, AXO_PHONE_TEL } from "@/lib/constants";
 import axoLogo from "@/assets/axo-logo-official.png";
@@ -31,10 +31,13 @@ const item = {
   show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" as const } },
 };
 
-const SMS_BODY = "Hi AXO Floors! I'd like to discuss an estimate for my flooring project.";
+const SMS_BODY = "Hi! My name is [Your Name]. I'm interested in getting a flooring quote.";
 
 const PhoneToggle = () => {
   const [open, setOpen] = useState(false);
+
+  const row =
+    "flex w-full items-center gap-3 rounded-xl bg-white/10 px-5 py-3.5 font-heading text-sm font-semibold text-white transition-all duration-200 hover:bg-white/20";
 
   const options = [
     { label: "Call now", href: `tel:${AXO_PHONE_TEL}`, icon: Phone },
@@ -46,35 +49,27 @@ const PhoneToggle = () => {
   ];
 
   return (
-    <motion.div variants={item} className="rounded-xl bg-white/10 p-3">
+    <motion.div variants={item} className="flex flex-col gap-2">
       <button
         type="button"
         aria-expanded={open}
         aria-controls="phone-options"
         onClick={() => setOpen((o) => !o)}
-        className="gold-gradient flex min-h-[44px] w-full items-center justify-center gap-2 rounded-lg px-4 py-3 font-heading text-sm font-semibold text-black transition-all duration-200 hover:scale-[1.03]"
+        className={row}
       >
-        <Phone className="h-4 w-4 shrink-0" aria-hidden />
+        <Phone className="w-5 h-5 shrink-0" aria-hidden />
         <span>Call or text us — {AXO_PHONE_DISPLAY}</span>
-        <ChevronDown
-          className={`h-4 w-4 shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
-          aria-hidden
-        />
       </button>
       {open && (
         <div
           id="phone-options"
           role="group"
           aria-label="Choose how to reach AXO Floors"
-          className="mt-3 flex flex-col gap-2"
+          className="flex flex-col gap-2"
         >
           {options.map(({ label, href, icon: Icon }) => (
-            <a
-              key={label}
-              href={href}
-              className="flex min-h-[44px] items-center gap-3 rounded-lg bg-white/10 px-4 py-3 font-heading text-sm font-semibold text-white transition-colors hover:bg-white/20"
-            >
-              <Icon className="h-5 w-5 shrink-0 text-gold" aria-hidden />
+            <a key={label} href={href} className={row}>
+              <Icon className="w-5 h-5 shrink-0 text-gold" aria-hidden />
               {label}
             </a>
           ))}

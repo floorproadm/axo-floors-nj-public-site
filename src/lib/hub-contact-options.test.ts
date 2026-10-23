@@ -7,6 +7,7 @@ const read = (file: string) => readFileSync(resolve(process.cwd(), file), "utf8"
 
 describe("hub contact options", () => {
   const hub = read("src/pages/Links.tsx");
+  const toggle = hub.slice(hub.indexOf("const PhoneToggle"), hub.indexOf("const Links ="));
 
   it("offers a call pathway and a text pathway, chosen by the visitor", () => {
     expect(hub).toContain("tel:${AXO_PHONE_TEL}");
@@ -30,9 +31,21 @@ describe("hub contact options", () => {
     expect(hub.indexOf('id="phone-options"')).toBeGreaterThan(hub.indexOf("aria-expanded"));
   });
 
+  it("styles the button like every other hub link, not as a highlighted call-to-action", () => {
+    expect(toggle).not.toContain("gold-gradient");
+    expect(toggle).toContain("rounded-xl bg-white/10 px-5 py-3.5 font-heading");
+  });
+
   it("marks each choice with an icon", () => {
     expect(hub).toMatch(/icon:\s*Phone/);
     expect(hub).toMatch(/icon:\s*MessageSquare/);
     expect(hub).toMatch(/<Icon[^>]*aria-hidden/);
+  });
+
+  it("pre-fills the text with the owner's message", () => {
+    expect(hub).toContain(
+      'const SMS_BODY = "Hi! My name is [Your Name]. I\'m interested in getting a flooring quote.";',
+    );
+    expect(hub).not.toContain("Hi AXO Floors!");
   });
 });
