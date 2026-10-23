@@ -100,7 +100,7 @@ export default function Refinishing() {
               <Eyebrow>Restore What You Already Have</Eyebrow>
               <h2 className="mt-5 font-heading text-3xl font-bold leading-tight md:text-4xl">Worn Floors Don't Always Need Replacing.</h2>
               <p className="mt-6 leading-relaxed text-muted-foreground">Scratches, dull spots, and worn finish can make good hardwood look old.</p>
-              <p className="mt-3 leading-relaxed text-muted-foreground">Professional refinishing can restore its appearance without replacing the boards.</p>
+              <p className="mt-3 leading-relaxed text-muted-foreground">We restore existing hardwood with professional sanding, dust-control measures, and carefully selected finishes.</p>
             </div>
             <div className="md:col-span-7">
               <ul className="grid gap-4 sm:grid-cols-3">
