@@ -16,7 +16,7 @@ import serviceSandingImg from "@/assets/service-sanding-crew-cropped.jpg";
 import serviceInstallAsset from "@/assets/axo-vinyl-plank-install.jpg.asset.json";
 import stairsRailingsImg from "@/assets/stairs-railings.jpg.asset.json";
 import { useState, useEffect, useRef } from "react";
-import { AXO_PHONE_TEL } from "@/lib/constants";
+import { AXO_PHONE_TEL, AXO_SMS_HREF } from "@/lib/constants";
 import LeadMagnetGate from "@/components/shared/LeadMagnetGate";
 const GoogleLogo = () => (
   <svg viewBox="0 0 24 24" className="w-5 h-5 shrink-0" fill="none" aria-hidden="true">
@@ -362,7 +362,7 @@ We'll review it and get back to you within 24 hours with the next step.
                   <ArrowRight className="w-5 h-5 text-black" />
                 </Link>
               </Button>
-              <a href={`sms:${AXO_PHONE_TEL}?body=${encodeURIComponent("Hi AXO Floors! I'd like to discuss an estimate for my flooring project.")}`} className="inline-flex items-center justify-center gap-2 py-2 text-base sm:text-sm font-semibold text-navy hover:text-accent transition-colors">
+              <a href={AXO_SMS_HREF} className="inline-flex items-center justify-center gap-2 py-2 text-base sm:text-sm font-semibold text-navy hover:text-accent transition-colors">
                 <MessageSquare aria-hidden="true" className="h-4 w-4 shrink-0" /> Prefer texting? Text Us Directly
               </a>
             </div>

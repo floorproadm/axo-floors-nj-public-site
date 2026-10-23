@@ -15,7 +15,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import SEOHead from "@/components/shared/SEOHead";
 import logo from "@/assets/axo-logo-official.png";
-import { AXO_PHONE_TEL } from "@/lib/constants";
+import { AXO_PHONE_TEL, AXO_SMS_HREF } from "@/lib/constants";
 import { formatPhoneInput } from "@/utils/validation";
 import { gsCopy, estimateCopy, SERVICE_TYPE_OPTIONS, FINISH_SCOPE_OPTIONS, FLOOR_TYPE_OPTIONS, MATERIALS_OPTIONS, MATERIAL_DELIVERED_OPTIONS, AREA_PRESETS, QUIZ_CONDITION_OPTIONS, STAIRS_COUNT_OPTIONS } from "@/features/get-started/copy";
 import { captureEstimateAttribution, emptyEstimate, estimateSchema, sendEstimate, type EstimateAttribution } from "@/features/get-started/estimate";
@@ -76,7 +76,7 @@ export default function GetStarted() {
   const steps = journeySteps(journey.serviceType);
   const current = steps[step - 1];
   const displayedStep = journey.serviceType === "new-installation" ? Math.max(1, step - 1) : step;
-  const sms = `sms:${AXO_PHONE_TEL}?body=${encodeURIComponent("Hi AXO Floors! I'd like to discuss an estimate for my flooring project.")}`;
+  const sms = AXO_SMS_HREF;
 
   // Never hydrate legacy wizard drafts or put contact data/media into URLs or analytics.
   useEffect(() => { attribution.current = captureEstimateAttribution(); void flush().catch(() => undefined); }, []);

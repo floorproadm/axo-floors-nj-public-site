@@ -4,6 +4,7 @@ import { Menu, Phone, ChevronDown, Facebook, Instagram, X } from "lucide-react";
 import axoLogo from "@/assets/axo-logo-official.png";
 import { AppSidebar } from "./AppSidebar";
 import { useState } from "react";
+import { AXO_SMS_HREF } from "@/lib/constants";
 
 const Header = () => {
   const [isServicesOpen, setIsServicesOpen] = useState(false);
@@ -26,7 +27,7 @@ const Header = () => {
       {/* Top Contact Bar */}
       <div className="bg-gold text-black py-3 px-4">
         <div className="container mx-auto flex justify-between items-center">
-          <a href="sms:(732) 351-8653?body=Hi! Interested in flooring quote from your website" className="flex items-center gap-2 hover:opacity-80 transition-smooth font-semibold">
+          <a href={AXO_SMS_HREF} className="flex items-center gap-2 hover:opacity-80 transition-smooth font-semibold">
             <Phone className="h-4 w-4" />
             (732) 351-8653
           </a>

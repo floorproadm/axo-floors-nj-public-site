@@ -2,7 +2,7 @@ import { Phone, Facebook, Instagram, Menu, ChevronDown, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SafeLink from "./SafeLink";
 import axoLogo from "@/assets/axo-logo-official.png";
-import { AXO_PHONE_DISPLAY } from "@/lib/constants";
+import { AXO_PHONE_DISPLAY, AXO_SMS_HREF } from "@/lib/constants";
 
 /**
  * SSR-safe header used by the city + NJ hub TanStack routes.
@@ -34,7 +34,7 @@ const HeaderSSR = () => {
       <div className="bg-gold text-black py-3 px-4">
         <div className="container mx-auto flex justify-between items-center">
           <a
-            href={`sms:${AXO_PHONE_DISPLAY}?body=Hi! Interested in flooring quote from your website`}
+            href={AXO_SMS_HREF}
             className="flex items-center gap-2 hover:opacity-80 transition-smooth font-semibold"
           >
             <Phone className="h-4 w-4" />

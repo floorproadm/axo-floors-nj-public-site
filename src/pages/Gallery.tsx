@@ -6,7 +6,7 @@ import Footer from "@/components/shared/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Image, ChevronLeft, ChevronRight, X, MapPin, Play, ArrowLeft, ArrowRight, ArrowUpRight, MessageSquare, LayoutGrid, Instagram } from "lucide-react";
-import { AXO_PHONE_TEL } from "@/lib/constants";
+import { AXO_PHONE_TEL, AXO_SMS_HREF } from "@/lib/constants";
 import sandingVideo from "@/assets/gallery-social-sanding.mp4.asset.json";
 import beforeAfterVideo from "@/assets/gallery-social-before-after.mp4.asset.json";
 import { Badge } from "@/components/ui/badge";
@@ -814,7 +814,7 @@ const Gallery = () => {
                   <Link to="/get-started">Get My Estimate <ArrowRight aria-hidden="true" /></Link>
                 </Button>
                 <Button asChild variant="link" className="h-auto min-h-12 whitespace-normal px-0 py-3 text-primary-foreground/90 focus-visible:ring-2 focus-visible:ring-gold">
-                  <a href={`sms:${AXO_PHONE_TEL}?body=${encodeURIComponent("Hi AXO Floors! I'd like to discuss an estimate for my flooring project.")}`}>
+                  <a href={AXO_SMS_HREF}>
                     <MessageSquare aria-hidden="true" /> Prefer texting? Text Us Directly
                   </a>
                 </Button>
