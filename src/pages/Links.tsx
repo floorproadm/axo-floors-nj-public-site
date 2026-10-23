@@ -1,12 +1,23 @@
+import { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Calendar, Phone, Wrench, Images, ClipboardCheck, Star, Gift } from "lucide-react";
+import { Calendar, Phone, MessageSquare, Wrench, Images, ClipboardCheck, Star, Gift } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import { AXO_PHONE_DISPLAY, AXO_PHONE_TEL } from "@/lib/constants";
 import axoLogo from "@/assets/axo-logo-official.png";
 import woodyMascot from "@/assets/woody-mascot.jpg";
 
-const links = [
+type LinkItem = {
+  label: string;
+  to: string;
+  icon: LucideIcon;
+  primary?: boolean;
+  external?: boolean;
+  hash?: boolean;
+};
+
+const links: LinkItem[] = [
   { label: "Get Your Free Estimate", to: "/get-started", icon: Calendar, primary: true },
-  { label: "Call Us — (732) 351-8653", to: "tel:+17323518653", icon: Phone, primary: true, external: true },
   { label: "About Us", to: "/about", icon: ClipboardCheck },
   { label: "Our Services", to: "/#services", icon: Wrench, hash: true },
   { label: "See Our Work", to: "/gallery", icon: Images },
@@ -18,6 +29,54 @@ const container = { hidden: {}, show: { transition: { staggerChildren: 0.07 } } 
 const item = {
   hidden: { opacity: 0, y: 16 },
   show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" as const } },
+};
+
+const SMS_BODY = "Hi AXO Floors! I'd like to discuss an estimate for my flooring project.";
+
+const PhoneToggle = () => {
+  const [mode, setMode] = useState<"call" | "text">("call");
+  const isCall = mode === "call";
+  const href = isCall
+    ? `tel:${AXO_PHONE_TEL}`
+    : `sms:${AXO_PHONE_TEL}?body=${encodeURIComponent(SMS_BODY)}`;
+
+  const segment = (active: boolean) =>
+    `min-h-[44px] rounded-md px-2 py-2 font-heading text-xs font-semibold leading-tight transition-colors ${
+      active ? "bg-white text-navy" : "text-white/60 hover:text-white"
+    }`;
+
+  return (
+    <motion.div variants={item} className="rounded-xl bg-white/10 p-3">
+      <div
+        role="group"
+        aria-label="Choose how to reach AXO Floors"
+        className="grid grid-cols-2 gap-1 rounded-lg bg-black/25 p-1"
+      >
+        <button type="button" aria-pressed={isCall} onClick={() => setMode("call")} className={segment(isCall)}>
+          Call now
+        </button>
+        <button
+          type="button"
+          aria-pressed={!isCall}
+          onClick={() => setMode("text")}
+          className={segment(!isCall)}
+        >
+          Prefer texting? Text Us Directly
+        </button>
+      </div>
+      <a
+        href={href}
+        className="gold-gradient mt-3 flex items-center justify-center gap-2 rounded-lg px-4 py-3 font-heading text-sm font-semibold text-black transition-all duration-200 hover:scale-[1.03]"
+      >
+        {isCall ? (
+          <Phone className="h-4 w-4 shrink-0" aria-hidden />
+        ) : (
+          <MessageSquare className="h-4 w-4 shrink-0" aria-hidden />
+        )}
+        {isCall ? `Call now — ${AXO_PHONE_DISPLAY}` : `Text us — ${AXO_PHONE_DISPLAY}`}
+      </a>
+    </motion.div>
+  );
 };
 
 const Links = () => (
@@ -60,7 +119,8 @@ const Links = () => (
         }`;
 
         return (
-          <motion.div key={l.label} variants={item}>
+          <Fragment key={l.label}>
+          <motion.div variants={item}>
             {l.external || l.hash ? (
               <a
                 href={l.to}
@@ -78,6 +138,8 @@ const Links = () => (
               </Link>
             )}
           </motion.div>
+          {l.to === "/get-started" && <PhoneToggle />}
+          </Fragment>
         );
       })}
     </motion.div>
