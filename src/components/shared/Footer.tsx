@@ -87,10 +87,6 @@ const Footer = () => {
           <div className="text-center mt-6 pt-4 border-t border-white/10">
             <p className="text-white/60 text-sm">
               2024 | All Rights Reserved - Axo Floors LLC
-              <span className="mx-2">•</span>
-              <Link to="/auth" className="text-white/40 hover:text-gold transition-smooth text-xs">
-                Admin
-              </Link>
             </p>
           </div>
         </div>
