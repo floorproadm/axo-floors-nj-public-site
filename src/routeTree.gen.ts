@@ -20,6 +20,7 @@ import { Route as RefinishingRouteImport } from './routes/refinishing'
 import { Route as SandingAndRefinishRouteImport } from './routes/sanding-and-refinish'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as StairsRouteImport } from './routes/stairs'
+import { Route as VinylPlankFlooringRouteImport } from './routes/vinyl-plank-flooring'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as ApiPublicLeadNotifyRouteImport } from './routes/api/public/lead-notify'
@@ -81,6 +82,11 @@ const StairsRoute = StairsRouteImport.update({
   path: '/stairs',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VinylPlankFlooringRoute = VinylPlankFlooringRouteImport.update({
+  id: '/vinyl-plank-flooring',
+  path: '/vinyl-plank-flooring',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogIndexRoute = BlogIndexRouteImport.update({
   id: '/blog/',
   path: '/blog/',
@@ -121,6 +127,7 @@ export interface FileRoutesByFullPath {
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stairs': typeof StairsRoute
+  '/vinyl-plank-flooring': typeof VinylPlankFlooringRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/': typeof BlogIndexRoute
   '/api/public/lead-notify': typeof ApiPublicLeadNotifyRoute
@@ -139,6 +146,7 @@ export interface FileRoutesByTo {
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stairs': typeof StairsRoute
+  '/vinyl-plank-flooring': typeof VinylPlankFlooringRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog': typeof BlogIndexRoute
   '/api/public/lead-notify': typeof ApiPublicLeadNotifyRoute
@@ -158,6 +166,7 @@ export interface FileRoutesById {
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/stairs': typeof StairsRoute
+  '/vinyl-plank-flooring': typeof VinylPlankFlooringRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/blog/': typeof BlogIndexRoute
   '/api/public/lead-notify': typeof ApiPublicLeadNotifyRoute
@@ -178,6 +187,7 @@ export interface FileRouteTypes {
     | '/sanding-and-refinish'
     | '/sitemap.xml'
     | '/stairs'
+    | '/vinyl-plank-flooring'
     | '/blog/$slug'
     | '/blog/'
     | '/api/public/lead-notify'
@@ -196,6 +206,7 @@ export interface FileRouteTypes {
     | '/sanding-and-refinish'
     | '/sitemap.xml'
     | '/stairs'
+    | '/vinyl-plank-flooring'
     | '/blog/$slug'
     | '/blog'
     | '/api/public/lead-notify'
@@ -214,6 +225,7 @@ export interface FileRouteTypes {
     | '/sanding-and-refinish'
     | '/sitemap.xml'
     | '/stairs'
+    | '/vinyl-plank-flooring'
     | '/blog/$slug'
     | '/blog/'
     | '/api/public/lead-notify'
@@ -233,6 +245,7 @@ export interface RootRouteChildren {
   SandingAndRefinishRoute: typeof SandingAndRefinishRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StairsRoute: typeof StairsRoute
+  VinylPlankFlooringRoute: typeof VinylPlankFlooringRoute
   BlogSlugRoute: typeof BlogSlugRoute
   BlogIndexRoute: typeof BlogIndexRoute
   ApiPublicLeadNotifyRoute: typeof ApiPublicLeadNotifyRoute
@@ -319,6 +332,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StairsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/vinyl-plank-flooring': {
+      id: '/vinyl-plank-flooring'
+      path: '/vinyl-plank-flooring'
+      fullPath: '/vinyl-plank-flooring'
+      preLoaderRoute: typeof VinylPlankFlooringRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blog/': {
       id: '/blog/'
       path: '/blog'
@@ -369,6 +389,7 @@ const rootRouteChildren: RootRouteChildren = {
   SandingAndRefinishRoute: SandingAndRefinishRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StairsRoute: StairsRoute,
+  VinylPlankFlooringRoute: VinylPlankFlooringRoute,
   BlogSlugRoute: BlogSlugRoute,
   BlogIndexRoute: BlogIndexRoute,
   ApiPublicLeadNotifyRoute: ApiPublicLeadNotifyRoute,
