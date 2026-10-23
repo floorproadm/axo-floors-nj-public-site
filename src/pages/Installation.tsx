@@ -34,7 +34,7 @@ const layoutPhotos: Partial<Record<FloorLayout, { src: string; alt: string }>> =
   "Straight Lay": { src: straightLayPhoto.url, alt: "Freshly finished hardwood floor laid in a straight lay pattern with staggered plank joints" },
   "Herringbone": { src: herringbonePhoto.url, alt: "Hardwood floor laid in a herringbone pattern, with staggered planks forming interlocking zigzag columns" },
   "Chevron": { src: chevronPhoto.url, alt: "Hardwood floor laid in a chevron pattern, with angled planks meeting in straight V seams" },
-  "Diagonal Lay": { src: diagonalLayPhoto.url, alt: "Hardwood floor laid on the diagonal, with planks running at an angle to the walls and staggered end joints" },
+  "Diagonal Lay": { src: diagonalLayPhoto.url, alt: "AXO Floors installers snapping a red layout line across freshly laid hardwood planks" },
 };
 const steps = [
   ["Consultation", "We learn about your project and goals."],
