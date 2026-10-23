@@ -55,7 +55,7 @@ type Material = { kind: "solid" | "engineered" | "vinyl" | "carpet" | "rubber"; 
 const materials: Material[] = [
   { kind: "solid", title: "Solid Hardwood", text: "Classic, natural, and timeless." },
   { kind: "engineered", title: "Engineered Hardwood", text: "Real wood with added versatility." },
-  { kind: "vinyl", title: "Luxury Vinyl Plank", text: "A durable, stylish alternative.", href: "/vinyl-plank-flooring" },
+  { kind: "vinyl", title: "Luxury Vinyl Plank", text: "A durable, stylish alternative." },
   { kind: "carpet", title: "Carpet Tile", text: "Modular tiles for flexible, easy-to-update spaces." },
   { kind: "rubber", title: "Rubber Flooring", text: "A resilient surface for gyms, playrooms, and utility areas." },
 ];
@@ -95,7 +95,7 @@ export default function Installation() {
             <ul className="space-y-3">
               {[[Leaf, "Solid Hardwood", "Natural beauty and lasting value."], [Layers, "Engineered Hardwood", "Real wood with added versatility."], [ShieldCheck, "Luxury Vinyl Plank", "A durable, stylish alternative."], [Grid3x3, "Carpet Tile", "Modular tiles for flexible, easy-to-update spaces."], [Dumbbell, "Rubber Flooring", "A resilient surface for gyms, playrooms, and utility areas."]].map(([Icon, title, text]) => {
                 const I = Icon as typeof Leaf;
-                return <li key={title as string} className="flex items-center gap-4 rounded-lg border border-border bg-card px-5 py-5"><I aria-hidden="true" className="h-6 w-6 shrink-0 text-gold-warm" /><div><h3 className="font-heading text-base font-bold">{title === "Luxury Vinyl Plank" ? <Link to="/vinyl-plank-flooring">{title as string}</Link> : title as string}</h3><p className="mt-1 text-sm leading-relaxed text-muted-foreground">{text as string}</p></div></li>;
+                return <li key={title as string} className="flex items-center gap-4 rounded-lg border border-border bg-card px-5 py-5"><I aria-hidden="true" className="h-6 w-6 shrink-0 text-gold-warm" /><div><h3 className="font-heading text-base font-bold">{title as string}</h3><p className="mt-1 text-sm leading-relaxed text-muted-foreground">{text as string}</p></div></li>;
               })}
             </ul>
             <div className="mt-6 flex justify-center md:justify-start"><EstimateButton>Let's Plan Your Project</EstimateButton></div>
