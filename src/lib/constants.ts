@@ -61,6 +61,9 @@ export function formatAppointmentTime(
 export const AXO_PHONE_DISPLAY = '(732) 351-8653';
 export const AXO_PHONE_TEL = '+17323518653';
 export const AXO_PHONE_E164 = '+17323518653';
+// Owner-approved message every "text us" button opens with.
+export const AXO_SMS_MESSAGE = "Hi! My name is [Your Name]. I'm interested in getting a flooring quote.";
+export const AXO_SMS_HREF = `sms:${AXO_PHONE_TEL}?body=${encodeURIComponent(AXO_SMS_MESSAGE)}`;
 export const AXO_EMAIL = 'info@axofloorsnj.com';
 export const AXO_FACEBOOK = 'https://www.facebook.com/axofloorsnj';
 export const AXO_INSTAGRAM = 'https://www.instagram.com/axofloorsnj';

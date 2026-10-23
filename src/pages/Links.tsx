@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Calendar, Phone, MessageSquare, Wrench, Images, ClipboardCheck, Star, Gift, ChevronDown } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { AXO_PHONE_DISPLAY, AXO_PHONE_TEL } from "@/lib/constants";
+import { AXO_PHONE_DISPLAY, AXO_PHONE_TEL, AXO_SMS_MESSAGE } from "@/lib/constants";
 import axoLogo from "@/assets/axo-logo-official.png";
 import woodyMascot from "@/assets/woody-mascot.jpg";
 
@@ -31,7 +31,7 @@ const item = {
   show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" as const } },
 };
 
-const SMS_BODY = "Hi! My name is [Your Name]. I'm interested in getting a flooring quote.";
+const SMS_BODY = AXO_SMS_MESSAGE;
 
 const PhoneToggle = () => {
   const [open, setOpen] = useState(false);
