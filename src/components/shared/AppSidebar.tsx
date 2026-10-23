@@ -16,7 +16,6 @@ const services = [
 ];
 
 const mainNavigation = [
-  { name: "Contact", href: "/contact" },
   { name: "About", href: "/about" },
   { name: "Gallery", href: "/gallery" },
   { name: "Stain Colors", href: "/stain-gallery" },
