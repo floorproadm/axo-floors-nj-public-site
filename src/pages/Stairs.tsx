@@ -64,7 +64,7 @@ export default function Stairs() {
           <h1 className="font-heading text-4xl font-bold leading-[1.12] md:text-6xl">Give Your Staircase <span className="text-gold">a Fresh Start.</span></h1>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-primary-foreground/90 md:text-lg">Worn steps, outdated railings, or a staircase that no longer matches your floors? From refinishing existing stairs to installing new treads and railings, we help create a look that fits your home.</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row"><EstimateButton /><Button asChild variant="outline" className={secondary}><Link to="/gallery">See Our Work</Link></Button></div>
-          <p className="mt-7 text-xs leading-relaxed text-primary-foreground/90">Stair Refinishing • Hardwood Treads • Handrails & Balusters</p>
+          <p className="mt-7 text-center font-heading text-xs uppercase leading-relaxed tracking-[0.18em] text-primary-foreground/90 drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)] md:text-left">Stair Refinishing • Hardwood Treads • Handrails & Balusters</p>
         </div></div>
       </section>
 
