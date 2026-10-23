@@ -79,9 +79,6 @@ export default function Refinishing() {
               <p className="mt-6 text-lg leading-relaxed text-primary-foreground/90">
                 Scratches, worn finish, or an outdated color? Your hardwood floors may not need to be replaced.
               </p>
-              <p className="mt-3 text-base leading-relaxed text-primary-foreground/75">
-                We restore existing hardwood with professional sanding, dust-control measures, and carefully selected finishes.
-              </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link to="/get-started" className={primaryBtn}>Get My Free Estimate <ArrowRight className="h-4 w-4" aria-hidden /></Link>
                 <Link to="/gallery" className={ghostLight}>See Our Work</Link>
