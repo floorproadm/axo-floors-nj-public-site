@@ -20,7 +20,6 @@ const mainNavigation = [
   { name: "About", href: "/about" },
   { name: "Gallery", href: "/gallery" },
   { name: "Stain Colors", href: "/stain-gallery" },
-  { name: "Builders", href: "/builders" },
 ];
 
 export function AppSidebar({ onClose }: AppSidebarProps) {
