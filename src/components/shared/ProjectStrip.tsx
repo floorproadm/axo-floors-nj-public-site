@@ -66,7 +66,7 @@ const ProjectStrip = ({ photos, className = "mt-8" }: ProjectStripProps) => {
               src={photo.src}
               alt={photo.alt}
               loading="lazy"
-              className="aspect-[16/10] w-[80vw] shrink-0 snap-center rounded-lg object-cover shadow-md sm:w-[45%] sm:snap-start md:w-[31%]"
+              className="aspect-[16/10] w-[86vw] shrink-0 snap-center rounded-lg object-cover shadow-md sm:w-[50%] sm:snap-start md:w-[34%]"
             />
           ))}
         </div>
