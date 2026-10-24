@@ -58,7 +58,7 @@ const ProjectStrip = ({ photos, className = "mt-8" }: ProjectStripProps) => {
           onScroll={sync}
           tabIndex={0}
           aria-label="AXO Floors project photos"
-          className="flex snap-x snap-mandatory gap-4 overflow-x-auto px-[10vw] pb-2 outline-none focus-visible:ring-2 focus-visible:ring-gold sm:px-5 md:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="flex snap-x snap-mandatory gap-4 overflow-x-auto px-[7vw] pb-2 outline-none focus-visible:ring-2 focus-visible:ring-gold sm:px-5 md:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {photos.map((photo) => (
             <img
