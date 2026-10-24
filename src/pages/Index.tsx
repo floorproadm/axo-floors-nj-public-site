@@ -72,7 +72,7 @@ const Index = () => {
     title: "Flooring Installation",
     description: "From hardwood to luxury vinyl plank, we focus on proper preparation, precise installation, and clean finishing details.",
     href: "/installation",
-    features: ["Solid, Engineered Hardwood and LVP", "Straight • Herringbone • Chevron", "Custom transitions & details"],
+    features: ["Solid, Engineered Hardwood and LVP", "Straight • Diagonal • Herringbone • Chevron", "Custom transitions & details"],
     cta: "Explore Flooring",
     image: serviceInstallAsset.url,
     imagePosition: "object-[60%_50%]"
