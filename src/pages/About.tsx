@@ -79,7 +79,7 @@ const About = () => {
                         <p className="text-gold font-medium">General Manager</p>
                       </div>
                     </div>
-                    <p className="text-muted-foreground leading-relaxed">Following in his father’s footsteps, Eduardo has nearly a decade of experience in the hardwood flooring industry, proudly serving homeowners across NJ, NY, and PA. He guides clients through every decision — from stain colors to finish options — ensuring clarity, confidence, and satisfaction at every step. His mission: to make sure every client feels they made the right choice when the job is complete.</p>
+                    <p className="text-muted-foreground leading-relaxed">Following in his father’s footsteps, Eduardo has over a decade of experience in the hardwood flooring industry, proudly serving homeowners across NJ, NY, and PA. He guides clients through every decision — from stain colors to finish options — ensuring clarity, confidence, and satisfaction at every step. His mission: to make sure every client feels they made the right choice when the job is complete.</p>
                     
                   </CardContent>
                 </Card>
