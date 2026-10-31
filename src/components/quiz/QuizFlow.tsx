@@ -10,7 +10,7 @@ import { ArrowRight, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { trackEvent as trackMetaEvent } from "@/lib/metaTracking";
-import { asLeadRow, isUnknownConsentColumnError, withAdsConsent } from "@/lib/ads-consent";
+import { asLeadRow, isUnknownConsentColumnError, reportConsentSaveFailure, withAdsConsent } from "@/lib/ads-consent";
 import AdsConsentNotice from "@/components/shared/AdsConsentNotice";
 import {
   validateForm,
@@ -273,10 +273,11 @@ const QuizFlow = ({ embedded = false, partnerId, onComplete }: QuizFlowProps) =>
       };
 
       // The consent notice above the submit button is the consent action; store
-      // it on the lead. If the external table lacks the columns yet, retry
-      // without them so a missing migration never blocks a lead.
+      // it on the lead. If the columns are rejected, report it (no PII) and
+      // still save the lead without the consent record.
       let { data: savedLead, error: saveError } = await supabase.from("leads").insert([asLeadRow(withAdsConsent(quizData))]).select().single();
       if (saveError && isUnknownConsentColumnError(saveError)) {
+        reportConsentSaveFailure("quiz", saveError);
         ({ data: savedLead, error: saveError } = await supabase.from("leads").insert([quizData]).select().single());
       }
       if (saveError) throw new Error(`Failed to save quiz response: ${saveError.message}`);
