@@ -1,4 +1,5 @@
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
+import { trackEvent as trackMetaEvent } from "@/lib/metaTracking";
 import { Link } from "react-router-dom";
 import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
@@ -54,6 +55,10 @@ const faqs = [
 ];
 
 export default function Stairs() {
+  useEffect(() => {
+    trackMetaEvent("ViewContent", { content_name: "stairs", content_category: "service" });
+  }, []);
+
   return <div className="stairs-page min-h-screen bg-background font-body text-foreground">
     <Header />
     <main>

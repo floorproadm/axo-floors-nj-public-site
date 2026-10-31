@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { trackEvent as trackMetaEvent } from "@/lib/metaTracking";
 import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
 import { Button } from "@/components/ui/button";
@@ -69,6 +71,10 @@ const additionalServices: Service[] = [
 ];
 
 export default function Installation() {
+  useEffect(() => {
+    trackMetaEvent("ViewContent", { content_name: "installation", content_category: "service" });
+  }, []);
+
   return <div className="installation-preview min-h-screen bg-background font-body text-navy">
     <Header />
     <main>
