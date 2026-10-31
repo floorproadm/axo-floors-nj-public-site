@@ -4,7 +4,7 @@ import { emptyJourney, journeySchema, journeySteps, journeyServices, normalizeJo
 import { estimateSchema, buildEstimatePayload, sendEstimate } from "./estimate";
 import { insertEstimate } from "./estimate.server";
 const database = vi.hoisted(() => ({ insert: vi.fn() }));
-vi.mock("@supabase/supabase-js", () => ({ createClient: () => ({ from: () => ({ insert: database.insert }) }) }));
+vi.mock("@supabase/supabase-js", () => ({ createClient: () => ({ rpc: database.insert }) }));
 const contact = { name: "Synthetic Journey", phone: "7325550123", email: "", location: "07728", message: "Synthetic project", consent: true };
 const install: Journey = { ...emptyJourney, serviceType: "new-installation", finishScope: "new-floor", floorType: "hardwood", materials: "customer_has", delivered: "yes", areaPreset: "1200", stairs: "yes", stairsCount: "12-20", startDate: "2026-11-14", timeline: "not-sure", contactMethod: "text" };
 const refinish: Journey = { ...emptyJourney, serviceType: "floor-refinish", condition: "moderate-wear", customArea: "345.5", stairs: "no", timeline: "asap", contactMethod: "phone" };
@@ -98,10 +98,10 @@ describe("Owner-approved guided journey", () => {
     expect(database.insert).not.toHaveBeenCalled();
   });
   it("server inserts one canonical combined lead with structured notes", async () => {
-    database.insert.mockClear(); database.insert.mockResolvedValue({ error: null });
+    database.insert.mockClear(); database.insert.mockResolvedValue({ data: "11111111-1111-4111-8111-111111111111", error: null });
     expect(await insertEstimate(form({ ...install, serviceType: "install-plus-refinish" }), {})).toEqual({ saved: true, id: expect.any(String) });
     expect(database.insert).toHaveBeenCalledTimes(1);
-    expect(database.insert).toHaveBeenCalledWith([expect.objectContaining({ services: ["installation", "refinishing"], notes: expect.stringContaining("Whole Floor (1200+ sq ft)") })]);
+    expect(database.insert).toHaveBeenCalledWith("submit_public_lead", expect.objectContaining({ p_services: ["installation", "refinishing"], p_message: expect.stringContaining("Whole Floor (1200+ sq ft)") }));
   });
   it("no notification for failed insert; no reinsert for failed notification", async () => {
     const insert = vi.fn(async () => { throw new Error("synthetic"); }), notify = vi.fn(async () => false);

@@ -5,6 +5,7 @@ import { reportMetaConversion } from "@/lib/meta-capi.functions";
 import { safeAnalyticsPage } from "@/lib/analytics";
 import { isMetaTrackingActive } from "@/lib/meta-pixel";
 import type { LeadMatchInput } from "@/lib/meta-capi-match";
+import { isLeadId } from "@/lib/public-lead";
 
 export type MetaStandardEvent = "Lead" | "Contact" | "ViewContent" | "Schedule";
 
@@ -27,6 +28,7 @@ export function trackPageView(): void {
 // userData goes only to the server copy (hashed there); the browser fbq call
 // never receives it.
 export function trackEvent(name: MetaStandardEvent, params: Record<string, unknown> = {}, userData?: LeadMatchInput): void {
+  if (name === "Lead" && !isLeadId(userData?.leadId)) return;
   // In consent-required or unresolved regions the pixel never started, so no
   // event — browser or server — may leave for this visit.
   if (!isMetaTrackingActive()) return;

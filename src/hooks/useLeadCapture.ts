@@ -1,3 +1,6 @@
+import { submitPublicLead, PUBLIC_LEAD_ERROR } from "@/lib/public-lead";
+import { usePublicLeadGuard } from "@/components/shared/LeadHoneypot";
+import { trackEvent as trackMetaEvent } from "@/lib/metaTracking";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -13,11 +16,13 @@ export interface LeadData {
 }
 
 export const useLeadCapture = () => {
+  const guard = usePublicLeadGuard();
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const { validateField } = useFieldValidation();
 
   const captureLead = async (leadData: LeadData) => {
+    if (guard.shouldIgnore()) return { success: true, lead: undefined };
     setIsLoading(true);
 
     try {
@@ -42,15 +47,9 @@ export const useLeadCapture = () => {
         organization_id: AXO_ORG_ID,
       };
 
-      const { data: savedLead, error: saveError } = await supabase
-        .from('leads')
-        .insert([dbData])
-        .select()
-        .single();
-
-      if (saveError) {
-        throw new Error(`Failed to save lead: ${saveError.message}`);
-      }
+      const leadId = await submitPublicLead(supabase, { name: dbData.name, email: dbData.email, phone: "", services: leadData.category ? [leadData.category] : [], source: "contact", message: dbData.notes });
+      const savedLead = { id: leadId };
+      trackMetaEvent("Lead", { content_name: "lead-capture" }, { name: leadData.name, email: leadData.email, leadId });
 
       // Send Gmail follow-up email
       try {
@@ -124,11 +123,11 @@ export const useLeadCapture = () => {
       return { success: true, lead: savedLead };
 
     } catch (error) {
-      console.error('Lead capture error:', error);
+      console.error("[public-lead] capture failed");
       
       toast({
         title: "Something went wrong",
-        description: "Please try again or contact us directly.",
+        description: "Please call or text (732) 351-8653.",
         variant: "destructive"
       });
 
@@ -146,6 +145,7 @@ export const useLeadCapture = () => {
   };
 
   return {
+    guard,
     captureLead,
     triggerDownload,
     isLoading

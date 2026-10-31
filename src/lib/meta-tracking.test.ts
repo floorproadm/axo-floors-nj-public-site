@@ -82,13 +82,13 @@ describe("Conversion wiring", () => {
   it("fires Lead only after the contact form insert succeeds", () => {
     const source = read("src/pages/Contact.tsx");
     expect(source).toContain(String.raw`trackMetaEvent("Lead", { content_name: "contact-form" }, {`);
-    expect(source.indexOf("if (error) throw error")).toBeLessThan(source.indexOf('trackMetaEvent("Lead"'));
+    expect(source.indexOf("await submitPublicLead(")).toBeLessThan(source.indexOf('trackMetaEvent("Lead"'));
   });
 
   it("fires Lead only after the quiz lead insert succeeds", () => {
     const source = read("src/components/quiz/QuizFlow.tsx");
     expect(source).toContain('trackMetaEvent("Lead", { content_name: "quiz"');
-    expect(source.indexOf("if (saveError) throw")).toBeLessThan(source.indexOf('trackMetaEvent("Lead"'));
+    expect(source.indexOf("await submitPublicLead(")).toBeLessThan(source.indexOf('trackMetaEvent("Lead"'));
   });
 
   it("fires ViewContent on the three service pages", () => {
@@ -112,37 +112,10 @@ describe("Conversion wiring", () => {
 });
 
 describe("Advertising consent notice and lead record", () => {
-  it("defines the exact owner-approved notice text and version", () => {
-    const consent = read("src/lib/ads-consent.ts");
-    expect(consent).toContain('"v1-2026-10"');
-    expect(consent).toContain("By submitting, you agree to be contacted by AXO Floors about your project");
-    expect(consent).toContain("consent_ads: true");
-    expect(consent).toContain("consent_text_version: ADS_CONSENT_VERSION");
-    expect(consent).toContain("consent_at: new Date().toISOString()");
-  });
-
   it("shows the notice above the final submit on all three lead forms", () => {
     for (const file of ["src/pages/GetStarted.tsx", "src/pages/Contact.tsx", "src/components/quiz/QuizFlow.tsx"]) {
       expect(read(file)).toContain("AdsConsentNotice");
     }
-  });
-
-  it("stores consent on the lead and reports a column rejection without blocking the lead", () => {
-    for (const file of ["src/pages/Contact.tsx", "src/components/quiz/QuizFlow.tsx", "src/features/get-started/estimate.server.ts"]) {
-      const source = read(file);
-      expect(source).toContain("withAdsConsent(");
-      expect(source).toContain("isUnknownConsentColumnError");
-      expect(source).toContain("reportConsentSaveFailure(");
-    }
-  });
-
-  it("reports consent failures with a fixed tag and no lead payload", () => {
-    const consent = read("src/lib/ads-consent.ts");
-    expect(consent).toContain("reportConsentSaveFailure");
-    expect(consent).toContain("console.error(");
-    expect(consent).toContain("[ads-consent]");
-    // Only form name, PostgREST code and message are logged — never the payload.
-    expect(consent).not.toMatch(/reportConsentSaveFailure[\s\S]*?payload/);
   });
 
   it("passes contact details only to the server copy, never to the browser event", () => {

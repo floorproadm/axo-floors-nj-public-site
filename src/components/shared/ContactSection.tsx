@@ -1,3 +1,7 @@
+import { submitPublicLead, PUBLIC_LEAD_ERROR } from "@/lib/public-lead";
+import LeadHoneypot, { usePublicLeadGuard } from "@/components/shared/LeadHoneypot";
+import AdsConsentNotice from "@/components/shared/AdsConsentNotice";
+import { trackEvent as trackMetaEvent } from "@/lib/metaTracking";
 import { useState } from "react";
 import { AXO_ORG_ID } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
@@ -34,8 +38,13 @@ const ContactSection = () => {
       service: value
     }));
   };
+  const guard = usePublicLeadGuard();
+  const [success, setSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (guard.shouldIgnore()) { setSuccess(true); return; }
+    setSubmitError("");
     if (!formData.name || !formData.email) {
       toast({
         title: "Please fill in all required fields",
@@ -63,13 +72,11 @@ const ContactSection = () => {
         notes: refCode ? buildReferralNotes(null, refCode) : null,
         organization_id: AXO_ORG_ID,
       };
-      const {
-        data: savedContact,
-        error: saveError
-      } = await supabase.from('leads').insert([contactData]).select().single();
-      if (saveError) {
-        throw new Error(`Failed to save contact: ${saveError.message}`);
-      }
+      const leadId = await submitPublicLead(supabase, { name: formData.name, email: formData.email, phone: formData.phone,
+        services: formData.service ? [formData.service] : [], source: "contact",
+        message: [formData.message, contactData.notes].filter(Boolean).join("\n") });
+      trackMetaEvent("Lead", { content_name: "contact-section" }, { name: formData.name, email: formData.email, phone: formData.phone, leadId });
+      setSuccess(true);
 
       // Send to Notion
       try {
@@ -135,10 +142,10 @@ const ContactSection = () => {
         message: ""
       });
     } catch (error: any) {
-      console.error('Contact form error:', error);
+      setSubmitError(PUBLIC_LEAD_ERROR);
       toast({
         title: "Error",
-        description: "There was a problem submitting your request. Please try again.",
+        description: "Please call or text (732) 351-8653.",
         variant: "destructive"
       });
     } finally {
@@ -163,7 +170,9 @@ const ContactSection = () => {
               <p className="text-sm sm:text-base text-muted-foreground text-center mt-2">Fill out the form below and we'll get back to you within 24 hours</p>
             </CardHeader>
             <CardContent className="p-6 sm:p-8 pt-2 relative z-10">
-              <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
+              {success ? <p role="status">Thank you! Your request has been received.</p> : <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
+<LeadHoneypot guard={guard} />
+
                 {/* Mobile: Stack all inputs, Desktop: Grid layout */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
                   <div className="space-y-2">
@@ -201,6 +210,8 @@ const ContactSection = () => {
                   <Textarea id="message" name="message" value={formData.message} onChange={handleInputChange} placeholder="Tell us about your project: room size, current flooring, timeline, etc..." className="min-h-[120px] sm:min-h-[140px] text-base border-2 focus:border-accent transition-colors duration-300 resize-none" />
                 </div>
 
+{submitError && <p role="alert" className="text-destructive">{submitError}</p>}
+<AdsConsentNotice />
                 <Button type="submit" disabled={isLoading} className="w-full bg-accent text-accent-foreground hover:bg-accent/90 hover:scale-[1.02] transition-all duration-300 text-base font-semibold min-h-[52px] rounded-lg disabled:opacity-50 disabled:cursor-not-allowed">
                   <Send className="w-5 h-5 mr-2" />
                   {isLoading ? "Sending..." : "Send Quote Request"}
@@ -209,7 +220,7 @@ const ContactSection = () => {
                 <p className="text-xs text-muted-foreground text-center pt-2">
                   By submitting this form, you agree to be contacted by AXO Floors about your project. We respect your privacy.
                 </p>
-              </form>
+              </form>}
             </CardContent>
           </Card>
         </div>

@@ -10,7 +10,8 @@ import { ArrowRight, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { trackEvent as trackMetaEvent } from "@/lib/metaTracking";
-import { asLeadRow, isUnknownConsentColumnError, reportConsentSaveFailure, withAdsConsent } from "@/lib/ads-consent";
+import { submitPublicLead, PUBLIC_LEAD_ERROR } from "@/lib/public-lead";
+import LeadHoneypot, { usePublicLeadGuard } from "@/components/shared/LeadHoneypot";
 import AdsConsentNotice from "@/components/shared/AdsConsentNotice";
 import {
   validateForm,
@@ -49,6 +50,9 @@ interface QuizFlowProps {
 
 const QuizFlow = ({ embedded = false, partnerId, onComplete }: QuizFlowProps) => {
   const navigate = useNavigate();
+  const guard = usePublicLeadGuard();
+  const [ignored, setIgnored] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const { toast } = useToast();
   const { validateField } = useFieldValidation();
   const [currentStep, setCurrentStep] = useState(1);
@@ -187,6 +191,9 @@ const QuizFlow = ({ embedded = false, partnerId, onComplete }: QuizFlowProps) =>
     formData.materialsStatus === "needs_help";
 
   const handleSubmit = async () => {
+    if (isLoading) return;
+    if (guard.shouldIgnore()) { setIgnored(true); return; }
+    setSubmitError("");
     const validationRules = {
       name: ["required", "name"],
       email: ["required", "email"],
@@ -203,7 +210,7 @@ const QuizFlow = ({ embedded = false, partnerId, onComplete }: QuizFlowProps) =>
     const clientId = getClientIdentifier();
     const rateLimitCheck = checkRateLimit(clientId);
     if (!rateLimitCheck.allowed) {
-      monitorRateLimit(clientId, rateLimitCheck.remainingTime!);
+      monitorRateLimit(clientId, rateLimitCheck.remainingTime ?? 0);
       toast({
         title: "Too many submissions",
         description: `Please wait ${rateLimitCheck.remainingTime} seconds before submitting again.`,
@@ -272,21 +279,15 @@ const QuizFlow = ({ embedded = false, partnerId, onComplete }: QuizFlowProps) =>
         organization_id: AXO_ORG_ID,
       };
 
-      // The consent notice above the submit button is the consent action; store
-      // it on the lead. If the columns are rejected, report it (no PII) and
-      // still save the lead without the consent record.
-      let { data: savedLead, error: saveError } = await supabase.from("leads").insert([asLeadRow(withAdsConsent(quizData))]).select().single();
-      if (saveError && isUnknownConsentColumnError(saveError)) {
-        reportConsentSaveFailure("quiz", saveError);
-        ({ data: savedLead, error: saveError } = await supabase.from("leads").insert([quizData]).select().single());
-      }
-      if (saveError) throw new Error(`Failed to save quiz response: ${saveError.message}`);
+      const leadId = await submitPublicLead(supabase, { name: quizData.name, email: quizData.email,
+        phone: quizData.phone, message: `City: ${quizData.city}\n${notesString}\nBudget: ${formData.budget}`,
+        services: quizData.services, source: "quiz" });
       trackMetaEvent("Lead", { content_name: "quiz", content_category: formData.serviceType || "unknown" }, {
         email: formData.email,
         phone: formData.phone,
         name: formData.name,
         city: formData.city,
-        leadId: savedLead?.id,
+        leadId: leadId,
       });
 
       // Fire-and-forget integrations
@@ -315,7 +316,7 @@ const QuizFlow = ({ embedded = false, partnerId, onComplete }: QuizFlowProps) =>
       });
 
       const result: QuizFlowSubmitResult = {
-        leadId: savedLead?.id,
+        leadId: leadId,
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
@@ -330,10 +331,10 @@ const QuizFlow = ({ embedded = false, partnerId, onComplete }: QuizFlowProps) =>
         navigate("/thank-you", { state: { quizData: result } });
       }
     } catch (error) {
-      console.error("Quiz submission error:", error);
+      setSubmitError(PUBLIC_LEAD_ERROR);
       toast({
         title: "Something went wrong",
-        description: "Please try again or call us directly at (732) 351-8653",
+        description: "Please try again or call or text (732) 351-8653",
         variant: "destructive",
       });
     } finally {
@@ -377,6 +378,8 @@ const QuizFlow = ({ embedded = false, partnerId, onComplete }: QuizFlowProps) =>
 
   const stepKey = getCurrentStepKey();
   const totalSteps = getTotalSteps();
+
+  if (ignored) return <p role="status" className="py-12 text-center">Thank you! We'll contact you with your personalized recommendations.</p>;
 
   return (
     <div className={embedded ? "" : "max-w-3xl mx-auto"}>
@@ -811,6 +814,8 @@ const QuizFlow = ({ embedded = false, partnerId, onComplete }: QuizFlowProps) =>
             </div>
           )}
 
+          <LeadHoneypot guard={guard} />
+          {submitError && <p role="alert" className="text-destructive">{submitError}</p>}
           <div className={`flex mt-8 pt-6 border-t border-grey/20 ${stepKey === "contact" ? "justify-center" : "justify-between"}`}>
             {currentStep > 1 && stepKey !== "contact" && (
               <Button variant="outline" onClick={prevStep} className="border-grey/30 text-grey hover:border-gold hover:text-gold">

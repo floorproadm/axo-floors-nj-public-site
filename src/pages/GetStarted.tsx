@@ -17,6 +17,8 @@ import SEOHead from "@/components/shared/SEOHead";
 import logo from "@/assets/axo-logo-official.png";
 import { AXO_SMS_HREF } from "@/lib/constants";
 import { trackEvent as trackMetaEvent } from "@/lib/metaTracking";
+import { PUBLIC_LEAD_ERROR } from "@/lib/public-lead";
+import LeadHoneypot, { usePublicLeadGuard } from "@/components/shared/LeadHoneypot";
 import AdsConsentNotice from "@/components/shared/AdsConsentNotice";
 import { formatPhoneInput } from "@/utils/validation";
 import { gsCopy, estimateCopy, SERVICE_TYPE_OPTIONS, FINISH_SCOPE_OPTIONS, FLOOR_TYPE_OPTIONS, MATERIALS_OPTIONS, MATERIAL_DELIVERED_OPTIONS, AREA_PRESETS, QUIZ_CONDITION_OPTIONS, STAIRS_COUNT_OPTIONS } from "@/features/get-started/copy";
@@ -59,6 +61,7 @@ export default function GetStarted() {
   const [form, setForm] = useState(emptyEstimate);
   const [journey, setJourney] = useState<Journey>(emptyJourney);
   const [step, setStep] = useState(0);
+  const guard = usePublicLeadGuard(step > 0);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [sending, setSending] = useState(false);
   const [done, setDone] = useState(false);
@@ -116,10 +119,12 @@ export default function GetStarted() {
   }
   async function advance(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (locked.current || saved.current || !validateStep()) return;
+    if (locked.current || saved.current) return;
+    if (step === steps.length && guard.shouldIgnore()) { setDone(true); return; }
+    if (!validateStep()) return;
     if (step < steps.length) {
       // Partial capture never blocks or delays the form; GA4 fires only on the server's durable confirmation.
-      if (current === "contact") void capture({ data: { name: form.name, phone: form.phone, email: form.email, location: form.location } })
+      if (current === "contact" && !guard.shouldIgnore()) void capture({ data: { name: form.name, phone: form.phone, email: form.email, location: form.location } })
         .then((r) => { if (r.firstDurable) trackEstimateStep1Completed({ durable: true, captureId: "session" }); }).catch(() => undefined);
       else if (current) void touch().catch(() => undefined);
       setDirection("right"); setStep(step + 1); return;
@@ -134,7 +139,7 @@ export default function GetStarted() {
     try {
       const result = await sendEstimate(parsed.data, attribution.current, async (data, safe) => {
         const result = await insert({ data: { form: data, attribution: safe } });
-        if (!result.saved) throw new Error("not_saved");
+        if (!result.saved || !result.id) throw new Error("not_saved");
         saved.current = true;
         // Only after the server confirmed the save; never blocks the form.
         try { trackGenerateLead(journey.serviceType, crypto.randomUUID()); } catch { /* analytics optional */ }
@@ -151,7 +156,7 @@ export default function GetStarted() {
       setNotificationFailed(!result.notificationSent); setDone(true);
       setForm(emptyEstimate); setJourney(emptyJourney);
     } catch {
-      setSubmitError("We couldn't confirm your request was saved. Please text us directly before retrying.");
+      setSubmitError(PUBLIC_LEAD_ERROR);
     } finally { setSending(false); if (!saved.current) locked.current = false; }
   }
   const errorFor = (field: string) => errors[field] ? <p id={`${field}-error`} role="alert" className="mt-2 text-sm text-destructive">{errors[field]}</p> : null;
@@ -183,6 +188,7 @@ export default function GetStarted() {
           <CardHeader className="pb-4 text-center"><CardTitle className="font-heading text-xl text-navy">Step {displayedStep} of {steps.length}</CardTitle></CardHeader>
           <CardContent className="p-6 sm:p-8">
             <form ref={formRef} onSubmit={advance} noValidate aria-label="Estimate request" aria-busy={sending}>
+              <LeadHoneypot guard={guard} />
               <div key={current} className={`animate-gs-slide-in-${direction} space-y-6`}>
                 <div className="mb-6 text-center"><h1 ref={heading} tabIndex={-1} className="mb-2 font-heading text-2xl font-bold text-navy focus:outline-none">{titles[current]}</h1>{helpers[current] && <p className="text-grey">{helpers[current]}</p>}</div>
                 <fieldset disabled={sending} className="space-y-6">
