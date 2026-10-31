@@ -22,6 +22,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "keywords", content: "hardwood flooring NJ, floor refinishing New Jersey, flooring installation, wood floor restoration, AXO Floors, Newark flooring, Jersey City floors" },
       { name: "author", content: "AXO Floors NJ" },
       { name: "google-site-verification", content: "7HWMnXaq3YOf1whDa2wZWzH8V06rUvgEi2ScW_ObOH0" },
+      { name: "facebook-domain-verification", content: "ji0rza11layhtf208ql5v7mbyzfn9j" },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "AXO Floors NJ" },
       { property: "og:locale", content: "en_US" },

@@ -16,6 +16,14 @@ type MetaFbq = ((...args: unknown[]) => void) & {
 type MetaWindow = Window & { fbq?: MetaFbq; _fbq?: MetaFbq };
 
 let stopPixel: (() => void) | undefined;
+let trackingActive = false;
+
+// True only after the pixel actually started for this visit — i.e. the page is
+// public and the resolved region allows advertising tracking without a banner.
+// Conversion helpers must check this before sending anything, browser or server.
+export function isMetaTrackingActive(): boolean {
+  return trackingActive;
+}
 
 export function initializeMetaPixel(pixelId: string): void {
   if (typeof window === "undefined" || stopPixel) return;
@@ -76,7 +84,12 @@ function parseTrace(text: string): Record<string, string> {
 
 function start(pixelId: string): void {
   const w = window as MetaWindow;
-  if (w.fbq) return; // Another install already owns the queue.
+  if (w.fbq) {
+    // Another install already owns the queue; events may still flow through it.
+    trackingActive = true;
+    return;
+  }
+  trackingActive = true;
   const fbq: MetaFbq = function (...args: unknown[]) {
     // Dispatch through callMethod when the SDK is ready; queue otherwise.
     if (fbq.callMethod) fbq.callMethod.apply(fbq, args);
