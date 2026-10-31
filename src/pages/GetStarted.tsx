@@ -120,11 +120,11 @@ export default function GetStarted() {
   async function advance(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (locked.current || saved.current) return;
-    if (guard.shouldIgnore()) { setDone(true); return; }
+    if (step === steps.length && guard.shouldIgnore()) { setDone(true); return; }
     if (!validateStep()) return;
     if (step < steps.length) {
       // Partial capture never blocks or delays the form; GA4 fires only on the server's durable confirmation.
-      if (current === "contact") void capture({ data: { name: form.name, phone: form.phone, email: form.email, location: form.location } })
+      if (current === "contact" && !guard.shouldIgnore()) void capture({ data: { name: form.name, phone: form.phone, email: form.email, location: form.location } })
         .then((r) => { if (r.firstDurable) trackEstimateStep1Completed({ durable: true, captureId: "session" }); }).catch(() => undefined);
       else if (current) void touch().catch(() => undefined);
       setDirection("right"); setStep(step + 1); return;

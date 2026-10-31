@@ -1,3 +1,7 @@
+import { submitPublicLead, PUBLIC_LEAD_ERROR } from "@/lib/public-lead";
+import LeadHoneypot, { usePublicLeadGuard } from "@/components/shared/LeadHoneypot";
+import AdsConsentNotice from "@/components/shared/AdsConsentNotice";
+import { trackEvent as trackMetaEvent } from "@/lib/metaTracking";
 import { useState } from "react";
 import { AXO_ORG_ID } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
@@ -39,6 +43,8 @@ export const LeadMagnetGate = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const guard = usePublicLeadGuard(isOpen);
+  const [submitError, setSubmitError] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const { toast } = useToast();
   const { validateField } = useFieldValidation();
@@ -58,6 +64,9 @@ export const LeadMagnetGate = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmitting) return;
+    if (guard.shouldIgnore()) { setIsSuccess(true); return; }
+    setSubmitError("");
     
     if (!validateForm()) {
       toast({
@@ -83,15 +92,9 @@ export const LeadMagnetGate = ({
         organization_id: AXO_ORG_ID,
       };
 
-      const { data: savedLead, error: saveError } = await supabase
-        .from('leads')
-        .insert([leadData])
-        .select()
-        .single();
-
-      if (saveError) {
-        throw new Error(`Failed to save lead: ${saveError.message}`);
-      }
+      const leadId = await submitPublicLead(supabase, { name: leadData.name, email: leadData.email, phone: "",
+        services: [category], source: "contact", message: leadData.notes });
+      trackMetaEvent("Lead", { content_name: "lead-magnet" }, { name, email, leadId });
 
       // Send follow-up email
       try {
@@ -130,10 +133,10 @@ export const LeadMagnetGate = ({
       }, 2000);
 
     } catch (error) {
-      console.error('Lead magnet submission error:', error);
+      setSubmitError(PUBLIC_LEAD_ERROR);
       toast({
         title: "Something went wrong",
-        description: "Please try again or contact us directly.",
+        description: "Please call or text (732) 351-8653.",
         variant: "destructive"
       });
     } finally {
@@ -201,6 +204,7 @@ export const LeadMagnetGate = ({
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-4">
+              <LeadHoneypot guard={guard} />
               <div className="space-y-2">
                 <Label htmlFor="name" className="text-sm font-medium">
                   Your Name *
@@ -247,6 +251,8 @@ export const LeadMagnetGate = ({
                 </div>
               </div>
 
+              {submitError && <p role="alert" className="text-destructive">{submitError}</p>}
+              <AdsConsentNotice />
               <Button 
                 type="submit" 
                 className="w-full bg-gold text-navy hover:bg-gold/90 font-semibold"

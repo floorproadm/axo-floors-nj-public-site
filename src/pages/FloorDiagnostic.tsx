@@ -1,3 +1,7 @@
+import { submitPublicLead, PUBLIC_LEAD_ERROR } from "@/lib/public-lead";
+import LeadHoneypot, { usePublicLeadGuard } from "@/components/shared/LeadHoneypot";
+import AdsConsentNotice from "@/components/shared/AdsConsentNotice";
+import { trackEvent as trackMetaEvent } from "@/lib/metaTracking";
 import { useState, useEffect } from "react";
 import { AXO_ORG_ID } from "@/lib/constants";
 import { useNavigate } from "react-router-dom";
@@ -38,6 +42,8 @@ type ApplicationStatus = 'form' | 'approved' | 'rejected';
 type RejectionReason = 'price-focused' | 'no-timeline' | 'outside-area' | 'rental' | null;
 
 const FloorDiagnostic = () => {
+  const guard = usePublicLeadGuard();
+  const [submitError, setSubmitError] = useState("");
   const navigate = useNavigate();
   const { toast } = useToast();
   const { validateField } = useFieldValidation();
@@ -127,6 +133,9 @@ const FloorDiagnostic = () => {
   };
 
   const handleSubmit = async () => {
+    if (isLoading) return;
+    if (guard.shouldIgnore()) { setApplicationStatus("approved"); return; }
+    setSubmitError("");
     const validationRules = {
       name: ['required', 'name'],
       email: ['required', 'email'],
@@ -199,11 +208,9 @@ const FloorDiagnostic = () => {
         `.trim()
       };
 
-      const { error: saveError } = await supabase
-        .from('leads')
-        .insert([leadData]);
-
-      if (saveError) throw saveError;
+      const leadId = await submitPublicLead(supabase, { name: leadData.name, email: leadData.email, phone: leadData.phone,
+        services: ["diagnostic"], source: "get-started", message: `Address: ${leadData.address}\n${leadData.notes}` });
+      trackMetaEvent("Lead", { content_name: "floor-diagnostic" }, { name: formData.name, email: formData.email, phone: formData.phone, leadId });
 
       // Send to Notion
       try {
@@ -226,10 +233,10 @@ const FloorDiagnostic = () => {
       }
 
     } catch (error) {
-      console.error('Submission error:', error);
+      setSubmitError(PUBLIC_LEAD_ERROR);
       toast({
         title: "Submission failed",
-        description: "Please call us directly at (732) 351-8653",
+        description: "Please call or text (732) 351-8653",
         variant: "destructive"
       });
     } finally {
@@ -598,6 +605,7 @@ const FloorDiagnostic = () => {
             <Card className="border-2 border-gold/20">
               <CardContent className="p-6 md:p-8">
                 
+                <LeadHoneypot guard={guard} />
                 {/* Step 1: Property */}
                 {currentStep === 1 && (
                   <div className="space-y-6">
@@ -1079,6 +1087,8 @@ const FloorDiagnostic = () => {
                   </div>
                 )}
 
+                {submitError && <p role="alert" className="text-destructive">{submitError}</p>}
+                {currentStep === totalSteps && <AdsConsentNotice />}
                 {/* Navigation Buttons */}
                 <div className="flex justify-between mt-8 pt-6 border-t border-muted">
                   {currentStep > 1 ? (

@@ -1,3 +1,7 @@
+import { submitPublicLead, PUBLIC_LEAD_ERROR } from "@/lib/public-lead";
+import LeadHoneypot, { usePublicLeadGuard } from "@/components/shared/LeadHoneypot";
+import AdsConsentNotice from "@/components/shared/AdsConsentNotice";
+import { trackEvent as trackMetaEvent } from "@/lib/metaTracking";
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { format, addDays, isWeekend } from "date-fns";
@@ -43,6 +47,8 @@ const SERVICE_TYPES = [
 const PHONE = "+17323518653";
 
 export default function ScheduleEstimate() {
+  const guard = usePublicLeadGuard();
+  const [submitError, setSubmitError] = useState("");
   const [params] = useSearchParams();
   const leadIdParam = params.get("lead");
 
@@ -87,6 +93,9 @@ export default function ScheduleEstimate() {
   );
 
   const handleSubmit = async () => {
+    if (loading) return;
+    if (guard.shouldIgnore()) { setDone(true); return; }
+    setSubmitError("");
     if (!canSubmit || !date) {
       toast.error("Please fill name, phone, date and time.");
       return;
@@ -97,23 +106,10 @@ export default function ScheduleEstimate() {
 
       // Create a lead if none provided (organic visit)
       if (!activeLeadId) {
-        const newLeadId = crypto.randomUUID();
-        const { error: leadErr } = await supabase
-          .from("leads")
-          .insert({
-            id: newLeadId,
-            organization_id: AXO_ORG_ID,
-            name: name.trim(),
-            email: email.trim() || null,
-            phone: phone.trim(),
-            address: address.trim() || null,
-            notes: [serviceType && `Service: ${serviceType}`, notes.trim()]
-              .filter(Boolean)
-              .join("\n") || null,
-            lead_source: "schedule_estimate",
-          });
-        if (leadErr) throw leadErr;
-        activeLeadId = newLeadId;
+        activeLeadId = await submitPublicLead(supabase, { name, email, phone, services: serviceType ? [serviceType] : [], source: "get-started",
+          message: [`Address: ${address}`, `Service: ${serviceType}`, `Preferred visit: ${format(date, "yyyy-MM-dd")} | ${time}`, notes].join("\n") });
+        setLeadId(activeLeadId);
+        trackMetaEvent("Lead", { content_name: "schedule-estimate" }, { name, email, phone, leadId: activeLeadId });
       }
 
       const { error } = await supabase.from("appointment_requests").insert({
@@ -136,8 +132,8 @@ export default function ScheduleEstimate() {
 
       setDone(true);
     } catch (err: any) {
-      console.error("schedule-estimate error", err);
-      toast.error(err?.message || "Could not send request. Please call us.");
+      setSubmitError(PUBLIC_LEAD_ERROR);
+      toast.error(PUBLIC_LEAD_ERROR);
     } finally {
       setLoading(false);
     }
@@ -197,6 +193,7 @@ export default function ScheduleEstimate() {
           </header>
 
           <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 sm:p-6 space-y-4">
+            <LeadHoneypot guard={guard} />
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="space-y-1.5">
                 <Label>Full name *</Label>
@@ -313,6 +310,8 @@ export default function ScheduleEstimate() {
               />
             </div>
 
+            {submitError && <p role="alert" className="text-destructive">{submitError}</p>}
+            <AdsConsentNotice />
             <Button
               onClick={handleSubmit}
               disabled={loading || !canSubmit}

@@ -1,3 +1,7 @@
+import { submitPublicLead, PUBLIC_LEAD_ERROR } from "@/lib/public-lead";
+import LeadHoneypot, { usePublicLeadGuard } from "@/components/shared/LeadHoneypot";
+import AdsConsentNotice from "@/components/shared/AdsConsentNotice";
+import { trackEvent as trackMetaEvent } from "@/lib/metaTracking";
 import { useState } from 'react';
 import { AXO_ORG_ID } from '@/lib/constants';
 import { supabase } from '@/integrations/supabase/client';
@@ -75,91 +79,20 @@ const ContactForm = () => {
     }
   };
 
-  // Helper function to get Facebook pixel data
-  const getFacebookPixelData = () => {
-    try {
-      // Get Facebook Click ID from URL parameters
-      const urlParams = new URLSearchParams(window.location.search);
-      const fbc = urlParams.get('fbclid') ? `fb.1.${Date.now()}.${urlParams.get('fbclid')}` : undefined;
-      
-      // Get Facebook Browser ID from cookie
-      const cookies = document.cookie.split(';');
-      const fbpCookie = cookies.find(cookie => cookie.trim().startsWith('_fbp='));
-      const fbp = fbpCookie ? fbpCookie.split('=')[1] : undefined;
-      
-      return { fbc, fbp };
-    } catch (error) {
-      console.error('Error getting Facebook pixel data:', error);
-      return { fbc: undefined, fbp: undefined };
-    }
-  };
-
-  // Helper function to send Facebook conversion
-  const sendFacebookConversion = async (leadData: any) => {
-    try {
-      const { fbc, fbp } = getFacebookPixelData();
-      
-      const eventData = {
-        event_name: 'Lead',
-        email: leadData.email,
-        phone: leadData.phone,
-        first_name: leadData.name.split(' ')[0],
-        last_name: leadData.name.split(' ').slice(1).join(' '),
-        source_url: window.location.href,
-        value: leadData.budget ? parseInt(leadData.budget) : 0,
-        service: leadData.services.join(', '),
-        fbc,
-        fbp,
-        custom_data: {
-          lead_source: 'contact',
-          services: leadData.services,
-          city: leadData.city,
-          zip_code: leadData.zip_code
-        }
-      };
-
-      const { error } = await supabase.functions.invoke('facebook-conversions', {
-        body: { eventData }
-      });
-
-      if (error) {
-        console.error('Facebook conversion error:', error);
-      } else {
-        console.log('Facebook conversion sent successfully');
-      }
-    } catch (error) {
-      console.error('Error sending Facebook conversion:', error);
-    }
-  };
-
+  const guard = usePublicLeadGuard();
+  const [success, setSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (guard.shouldIgnore()) { setSuccess(true); return; }
+    setSubmitError("");
     setIsSubmitting(true);
 
     try {
       const refCode = getReferralCodeFromURL();
-      // Insert into leads table
-      const { error } = await supabase
-        .from('leads')
-        .insert([{
-          name: formData.name,
-          email: formData.email || null,
-          phone: formData.phone,
-          lead_source: refCode ? 'referral' : 'contact',
-          status: 'cold_lead',
-          priority: formData.priority,
-          services: formData.services,
-          budget: formData.budget ? parseInt(formData.budget) : null,
-          room_size: formData.room_size || null,
-          city: formData.city || null,
-          zip_code: formData.zip_code || null,
-          message: formData.message || null,
-          notes: refCode ? buildReferralNotes(null, refCode) : null,
-          organization_id: AXO_ORG_ID,
-        }]);
-
-      if (error) throw error;
-
+      const leadId = await submitPublicLead(supabase, { name: formData.name, email: formData.email, phone: formData.phone,
+        services: formData.services, source: "contact", message: [formData.message, `City: ${formData.city} | ZIP: ${formData.zip_code}`, `Area: ${formData.room_size} | Budget: ${formData.budget} | Priority: ${formData.priority}`, refCode ? buildReferralNotes(null, refCode) : ""].filter(Boolean).join("\n") });
+      trackMetaEvent("Lead", { content_name: "estimate-form" }, { name: formData.name, email: formData.email, phone: formData.phone, city: formData.city, zip: formData.zip_code, leadId });
       // Send to Notion
       try {
         await supabase.functions.invoke('send-to-notion', {
@@ -186,7 +119,7 @@ const ContactForm = () => {
       }
 
       // Send Facebook conversion event
-      await sendFacebookConversion(formData);
+      setSuccess(true);
 
       toast({
         title: "Message sent successfully!",
@@ -208,10 +141,10 @@ const ContactForm = () => {
       });
 
     } catch (error) {
-      console.error('Error submitting contact form:', error);
+      setSubmitError(PUBLIC_LEAD_ERROR);
       toast({
         title: "Error sending message",
-        description: "Please try again or call us directly.",
+        description: "Please call or text (732) 351-8653.",
         variant: "destructive"
       });
     } finally {
@@ -229,7 +162,9 @@ const ContactForm = () => {
         <p className="text-grey">Tell us about your flooring project and we'll provide a detailed quote.</p>
       </CardHeader>
       <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        {success ? <p role="status">Thank you! Your request has been received.</p> : <form onSubmit={handleSubmit} className="space-y-6">
+<LeadHoneypot guard={guard} />
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="name">Full Name *</Label>
@@ -362,6 +297,8 @@ const ContactForm = () => {
             />
           </div>
 
+{submitError && <p role="alert" className="text-destructive">{submitError}</p>}
+<AdsConsentNotice />
           {/* Submit Button */}
           <div className="flex flex-col sm:flex-row gap-4 items-center pt-4">
             <Button 
@@ -390,7 +327,7 @@ const ContactForm = () => {
               </p>
             </div>
           </div>
-        </form>
+        </form>}
       </CardContent>
     </Card>
   );
