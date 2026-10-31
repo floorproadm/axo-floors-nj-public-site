@@ -38,15 +38,15 @@ export const reportMetaConversion = createServerFn({ method: "POST" })
     if (!gatewayKey || !connectionKey) return { sent: false as const };
 
     const request = getRequest();
-    const ip = (request.headers.get("cf-connecting-ip") ?? request.headers.get("x-forwarded-for") ?? "")
-      .split(",")[0]
-      .trim();
-    const user_data: Record<string, string> = {
-      client_user_agent: request.headers.get("user-agent") ?? "",
-    };
+    const ip = ["cf-connecting-ip", "x-forwarded-for", "x-real-ip"]
+      .map((header) => request.headers.get(header)?.split(",")[0]?.trim())
+      .find((value) => Boolean(value));
+    const userAgent = request.headers.get("user-agent")?.trim();
+    const user_data: Record<string, string> = {};
+    if (userAgent) user_data.client_user_agent = userAgent;
     if (ip) user_data.client_ip_address = ip;
-    if (data.fbp) user_data.fbp = data.fbp;
-    if (data.fbc) user_data.fbc = data.fbc;
+    if (data.fbp?.trim()) user_data.fbp = data.fbp;
+    if (data.fbc?.trim()) user_data.fbc = data.fbc;
     // Hashed matching fields only for consented Lead events; the consent record
     // (notice version + timestamp) lives on the lead row.
     if (data.event_name === "Lead" && data.match) {
@@ -58,6 +58,16 @@ export const reportMetaConversion = createServerFn({ method: "POST" })
         city: data.match.city,
         leadId: data.match.lead_id,
       }));
+    }
+    if (Object.keys(user_data).length === 0) {
+      console.info("[capi] skipped: no user_data");
+      return { sent: false as const };
+    }
+    // Every transmitted website event needs the original request's IP and UA.
+    // Never invent either or substitute the server's own identity.
+    if (!ip || !userAgent) {
+      console.info("[capi] skipped: missing request metadata");
+      return { sent: false as const };
     }
 
     const body: Record<string, unknown> = {
