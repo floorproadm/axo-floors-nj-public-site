@@ -4785,6 +4785,10 @@ export type Database = {
       }
     }
     Functions: {
+      submit_public_lead: {
+        Args: { p_org_id: string; p_name: string; p_email: string | null; p_phone: string; p_message: string; p_services: string[]; p_lead_source: string; p_consent_ads: boolean; p_consent_text_version: string }
+        Returns: string
+      }
       calculate_job_margin: {
         Args: { p_project_id: string }
         Returns: {

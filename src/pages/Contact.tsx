@@ -11,7 +11,8 @@ import { Phone, Plus, Minus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { sanitizeInput } from "@/utils/validation";
 import { trackEvent as trackMetaEvent } from "@/lib/metaTracking";
-import { asLeadRow, isUnknownConsentColumnError, reportConsentSaveFailure, withAdsConsent } from "@/lib/ads-consent";
+import { submitPublicLead, PUBLIC_LEAD_ERROR } from "@/lib/public-lead";
+import LeadHoneypot, { usePublicLeadGuard } from "@/components/shared/LeadHoneypot";
 import AdsConsentNotice from "@/components/shared/AdsConsentNotice";
 
 const projectSteps = [
@@ -39,6 +40,9 @@ const projectSteps = [
 
 const Contact = () => {
   const { toast } = useToast();
+  const guard = usePublicLeadGuard();
+  const [success, setSuccess] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [openStep, setOpenStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
@@ -50,6 +54,9 @@ const Contact = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmitting || success) return;
+    if (guard.shouldIgnore()) { setSuccess(true); return; }
+    setSubmitError("");
 
     if (!formData.name.trim() || !formData.message.trim()) {
       toast({
@@ -61,29 +68,11 @@ const Contact = () => {
     }
     setIsSubmitting(true);
     try {
-      const leadId = crypto.randomUUID();
-      const leadData = {
-        id: leadId,
-        name: sanitizeInput(formData.name),
-        email: formData.email.trim() ? sanitizeInput(formData.email) : null,
-        phone: formData.phone.trim() ? sanitizeInput(formData.phone) : '',
-        lead_source: 'contact',
-        status: 'cold_lead',
-        priority: 'medium',
-        services: ['general_inquiry'],
-        message: sanitizeInput(formData.message),
-        organization_id: AXO_ORG_ID,
-      };
-
-      // The consent notice above the submit button is the consent action; store
-      // it on the lead. If the columns are rejected, report it (no PII) and
-      // still save the lead without the consent record.
-      let { error } = await supabase.from('leads').insert([asLeadRow(withAdsConsent(leadData))]);
-      if (error && isUnknownConsentColumnError(error)) {
-        reportConsentSaveFailure("contact", error);
-        ({ error } = await supabase.from('leads').insert([leadData]));
-      }
-      if (error) throw error;
+      const leadId = await submitPublicLead(supabase, {
+        name: sanitizeInput(formData.name), email: sanitizeInput(formData.email),
+        phone: sanitizeInput(formData.phone), message: sanitizeInput(formData.message),
+        services: [], source: "contact",
+      });
       // The single lead email is sent by FloorPRO when the lead is saved.
       trackMetaEvent("Lead", { content_name: "contact-form" }, {
         email: formData.email,
@@ -97,12 +86,12 @@ const Contact = () => {
         description: "We'll get back to you as soon as we can."
       });
 
-      setFormData({ name: "", phone: "", email: "", message: "" });
+      setSuccess(true);
     } catch (error: any) {
-      console.error('Contact form submission error:', error);
+      setSubmitError(PUBLIC_LEAD_ERROR);
       toast({
         title: "Error",
-        description: "Please try again or call us directly at (732) 351-8653",
+        description: "Please try again or call or text (732) 351-8653",
         variant: "destructive"
       });
     } finally {
@@ -156,7 +145,8 @@ const Contact = () => {
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="bg-navy rounded-2xl p-6 sm:p-8 space-y-5 shadow-elegant">
+            {success ? <p role="status" className="text-center text-navy">Thank you for contacting us! We'll get back to you as soon as we can.</p> : <form onSubmit={handleSubmit} className="bg-navy rounded-2xl p-6 sm:p-8 space-y-5 shadow-elegant">
+              <LeadHoneypot guard={guard} />
               <div className="space-y-2">
                 <Label htmlFor="name" className="text-white">Name <span className="text-white/60">(required)</span></Label>
                 <Input
@@ -206,6 +196,7 @@ const Contact = () => {
                 />
               </div>
 
+              {submitError && <p role="alert" className="text-destructive">{submitError}</p>}
               <AdsConsentNotice className="text-white/70" />
 
               <Button
@@ -215,7 +206,7 @@ const Contact = () => {
               >
                 {isSubmitting ? "Sending..." : "Submit"}
               </Button>
-            </form>
+            </form>}
           </div>
         </div>
       </section>
