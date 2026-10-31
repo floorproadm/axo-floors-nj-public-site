@@ -14,6 +14,9 @@ const Footer = () => {
   }, {
     name: "Gallery",
     href: "/gallery"
+  }, {
+    name: "Privacy Policy",
+    href: "/privacy-policy"
   }];
   return <footer className="bg-black text-white">
       {/* Inspirational Section */}
