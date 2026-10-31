@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-const report = vi.hoisted(() => vi.fn(async () => ({ sent: true })));
+const report = vi.hoisted(() => vi.fn(async (_input: { data: { event_name: string; event_id: string; match?: { lead_id?: string } } }) => ({ sent: true })));
 vi.mock("@/lib/meta-capi.functions", () => ({ reportMetaConversion: report }));
 vi.mock("@/lib/meta-pixel", () => ({ isMetaTrackingActive: () => true }));
 vi.mock("@/lib/analytics", () => ({ safeAnalyticsPage: () => ({ page_location: "https://axofloorsnj.com/contact" }) }));
