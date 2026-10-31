@@ -103,6 +103,45 @@ describe("Conversion wiring", () => {
   });
 
   it("discloses the server-side reports in the privacy policy", () => {
-    expect(read("src/routes/privacy-policy.tsx")).toContain("Conversions API");
+    const policy = read("src/routes/privacy-policy.tsx");
+    expect(policy).toContain("Conversions API");
+    expect(policy).toContain("hashed (encrypted) contact information");
+    expect(policy).toContain("Opt out of ad sharing");
+    expect(policy).toContain("Last updated: October 2026");
+  });
+});
+
+describe("Advertising consent notice and lead record", () => {
+  it("defines the exact owner-approved notice text and version", () => {
+    const consent = read("src/lib/ads-consent.ts");
+    expect(consent).toContain('"v1-2026-10"');
+    expect(consent).toContain("By submitting, you agree to be contacted by AXO Floors about your project");
+    expect(consent).toContain("consent_ads: true");
+    expect(consent).toContain("consent_text_version: ADS_CONSENT_VERSION");
+    expect(consent).toContain("consent_at: new Date().toISOString()");
+  });
+
+  it("shows the notice above the final submit on all three lead forms", () => {
+    for (const file of ["src/pages/GetStarted.tsx", "src/pages/Contact.tsx", "src/components/quiz/QuizFlow.tsx"]) {
+      expect(read(file)).toContain("AdsConsentNotice");
+    }
+  });
+
+  it("stores consent on the lead with a missing-column fallback that never blocks the lead", () => {
+    for (const file of ["src/pages/Contact.tsx", "src/components/quiz/QuizFlow.tsx", "src/features/get-started/estimate.server.ts"]) {
+      const source = read(file);
+      expect(source).toContain("withAdsConsent(");
+      expect(source).toContain("isUnknownConsentColumnError");
+    }
+  });
+
+  it("passes contact details only to the server copy, never to the browser event", () => {
+    const helper = read("src/lib/metaTracking.ts");
+    expect(helper).toContain("userData?: LeadMatchInput");
+    // The fbq call receives only (name, params, eventID) — no userData.
+    expect(helper).toContain('fbq?.("track", name, params, { eventID: eventId })');
+    for (const file of ["src/pages/GetStarted.tsx", "src/pages/Contact.tsx", "src/components/quiz/QuizFlow.tsx"]) {
+      expect(read(file)).toMatch(/trackMetaEvent\("Lead",[\s\S]*?leadId/);
+    }
   });
 });
