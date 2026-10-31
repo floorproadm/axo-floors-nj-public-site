@@ -10,7 +10,11 @@ export const CONSENT_REQUIRED_REGIONS: ReadonlySet<string> = new Set([
 
 export function isTrackingAllowed(region: string): boolean {
   const code = region.trim().toUpperCase();
-  // "XX" is an unknown country, "T1" is Tor traffic; both stay unresolved.
-  if (!code || code === "XX" || code === "T1") return false;
+  // Only well-formed ISO-style country codes count. Anything else — unknown,
+  // Tor, a proxy's trace, or malformed output — stays unresolved and keeps
+  // the pixel off.
+  if (!/^[A-Z]{2}$/.test(code)) return false;
+  // "XX" is an unknown country and "T1" is Tor traffic.
+  if (code === "XX" || code === "T1") return false;
   return !CONSENT_REQUIRED_REGIONS.has(code);
 }
