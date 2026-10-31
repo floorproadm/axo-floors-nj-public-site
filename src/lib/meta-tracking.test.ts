@@ -127,12 +127,22 @@ describe("Advertising consent notice and lead record", () => {
     }
   });
 
-  it("stores consent on the lead with a missing-column fallback that never blocks the lead", () => {
+  it("stores consent on the lead and reports a column rejection without blocking the lead", () => {
     for (const file of ["src/pages/Contact.tsx", "src/components/quiz/QuizFlow.tsx", "src/features/get-started/estimate.server.ts"]) {
       const source = read(file);
       expect(source).toContain("withAdsConsent(");
       expect(source).toContain("isUnknownConsentColumnError");
+      expect(source).toContain("reportConsentSaveFailure(");
     }
+  });
+
+  it("reports consent failures with a fixed tag and no lead payload", () => {
+    const consent = read("src/lib/ads-consent.ts");
+    expect(consent).toContain("reportConsentSaveFailure");
+    expect(consent).toContain("console.error(");
+    expect(consent).toContain("[ads-consent]");
+    // Only form name, PostgREST code and message are logged — never the payload.
+    expect(consent).not.toMatch(/reportConsentSaveFailure[\s\S]*?payload/);
   });
 
   it("passes contact details only to the server copy, never to the browser event", () => {
