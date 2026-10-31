@@ -1,4 +1,5 @@
 # GA4 page measurement
+- [ ] Add agent integrations (MCP): verify existing authentication and supported access before exposing any app data; private leads, customer details and ads credentials must remain protected.
 - [x] Require actual request IP/UA on CAPI sends, preserve available cookies and hashed Lead fields, skip empty data; 40 tests/build pass and real preview function confirms missing-IP skip. Publication requested next; live deployment and Meta receipt require a later check.
 - [x] Replace Meta CAPI direct token with linked connector credentials; temporary TEST87766 saved; one actual preview server-function synthetic Lead attempted, rejected by Meta HTTP 400 / code 100 / subcode 2804050. Receipt unconfirmed; no live lead, ads or publishing. Production still requires owner-approved publication.
 - [x] Move all public lead submissions to submit_public_lead; 172 tests and simulated Contact/Quiz/Get Started flows verified, spam guards and 2-second retry retained; no live leads or publishing. External RPC execution remains unverified without a live submission.
