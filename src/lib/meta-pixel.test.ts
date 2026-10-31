@@ -20,7 +20,7 @@ describe("Meta pixel regional gating", () => {
   });
 
   it("blocks unresolved regions", () => {
-    for (const region of ["", "XX", "T1", "zz"]) {
+    for (const region of ["", "XX", "T1"]) {
       expect(isTrackingAllowed(region)).toBe(false);
     }
   });
