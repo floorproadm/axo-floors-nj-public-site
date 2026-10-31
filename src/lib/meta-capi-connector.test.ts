@@ -1,4 +1,5 @@
 import { beforeEach, afterEach, describe, expect, it, vi } from "vitest";
+const requestHeaders = vi.hoisted(() => ({ current: {} as Record<string, string> }));
 
 vi.mock("@tanstack/react-start", () => ({
   createServerFn: () => ({
@@ -6,13 +7,15 @@ vi.mock("@tanstack/react-start", () => ({
   }),
 }));
 vi.mock("@tanstack/react-start/server", () => ({
-  getRequest: () => new Request("https://axofloorsnj.com/", { headers: { "user-agent": "Synthetic validation" } }),
+  getRequest: () => new Request("https://axofloorsnj.com/", { headers: requestHeaders.current }),
 }));
 import { reportMetaConversion } from "./meta-capi.functions";
 
 // Mock only the RPC wrapper; exercise the real handler and transport logic.
 const invoke = reportMetaConversion as unknown as (input: { data: {
   event_name: "Lead"; event_id: string; event_source_url: string;
+  fbp?: string; fbc?: string;
+  match?: { email?: string; phone?: string; name?: string; zip?: string; lead_id?: string };
 } }) => Promise<{ sent: boolean; status?: number; response?: unknown }>;
 const input = { data: {
   event_name: "Lead" as const,
@@ -22,6 +25,7 @@ const input = { data: {
 
 describe("Meta connector server transport", () => {
   beforeEach(() => {
+    requestHeaders.current = { "user-agent": "Synthetic validation", "cf-connecting-ip": "192.0.2.1" };
     vi.stubEnv("LOVABLE_API_KEY", "synthetic-gateway-key");
     vi.stubEnv("META_ADS_API_KEY", "synthetic-connection-key");
     vi.stubEnv("META_TEST_EVENT_CODE", "TEST87766");
@@ -54,6 +58,33 @@ describe("Meta connector server transport", () => {
 
   it("does not send anything when connector credentials are missing", async () => {
     vi.stubEnv("META_ADS_API_KEY", "");
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+    expect(await invoke(input)).toEqual({ sent: false });
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it("includes request IP, UA, available cookies and hashed Lead fields", async () => {
+    requestHeaders.current = { "user-agent": "Synthetic validation", "cf-connecting-ip": " ", "x-forwarded-for": "192.0.2.2, 192.0.2.3" };
+    const fetchMock = vi.fn().mockResolvedValue(Response.json({ events_received: 1 }));
+    vi.stubGlobal("fetch", fetchMock);
+    await invoke({ data: { ...input.data, fbp: "synthetic_fbp", fbc: "synthetic_fbc", match: { email: "synthetic@example.invalid", phone: "2025550100", name: "Synthetic Person", zip: "00000", lead_id: input.data.event_id } } });
+    const userData = JSON.parse(fetchMock.mock.calls[0][1].body).data[0].user_data;
+    expect(userData).toMatchObject({ client_ip_address: "192.0.2.2", client_user_agent: "Synthetic validation", fbp: "synthetic_fbp", fbc: "synthetic_fbc" });
+    for (const field of ["em", "ph", "fn", "ln", "zp", "external_id"]) expect(userData[field]).toMatch(/^[a-f0-9]{64}$/);
+  });
+
+  it("skips empty user_data with the exact requested non-PII log", async () => {
+    requestHeaders.current = {};
+    const fetchMock = vi.fn();
+    vi.stubGlobal("fetch", fetchMock);
+    expect(await invoke(input)).toEqual({ sent: false });
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(console.info).toHaveBeenCalledWith("[capi] skipped: no user_data");
+  });
+
+  it.each(["cf-connecting-ip", "user-agent"])("skips when required request header %s is missing", async (header) => {
+    delete requestHeaders.current[header];
     const fetchMock = vi.fn();
     vi.stubGlobal("fetch", fetchMock);
     expect(await invoke(input)).toEqual({ sent: false });
