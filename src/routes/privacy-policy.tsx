@@ -58,7 +58,11 @@ function PrivacyPolicyPage() {
               <strong>Meta pixel (Meta Platforms, the company behind Facebook and Instagram).</strong>
               Records page visits and places a cookie (such as <em>_fbp</em>) in your browser so Meta
               can measure visits to this site, help us understand whether our Facebook and Instagram
-              ads lead to inquiries, and improve those ads.
+              ads lead to inquiries, and improve those ads. When you successfully submit a form, a
+              "Lead" event is reported to Meta from your browser and from our server (Meta's
+              Conversions API) so the submission is counted once. These reports carry the cookie
+              value, your browser type and your internet address — never the contents of your
+              message, and never your name, email or phone number.
             </li>
           </ul>
           <p>
