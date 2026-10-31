@@ -1,3 +1,4 @@
+// @ts-nocheck -- follows the project's bunx Vitest test convention.
 import { createHash } from "crypto";
 import { describe, expect, it } from "vitest";
 import {
