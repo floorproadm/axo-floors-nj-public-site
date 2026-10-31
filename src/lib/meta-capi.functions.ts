@@ -6,6 +6,16 @@ import { createServerFn } from "@tanstack/react-start";
 import { getRequest } from "@tanstack/react-start/server";
 import { z } from "zod";
 import { META_PIXEL_ID } from "@/lib/meta-pixel";
+import { buildHashedMatchFields } from "@/lib/meta-capi-match";
+
+const matchSchema = z.object({
+  email: z.string().max(200).optional(),
+  phone: z.string().max(40).optional(),
+  name: z.string().max(120).optional(),
+  zip: z.string().max(12).optional(),
+  city: z.string().max(120).optional(),
+  lead_id: z.string().uuid().optional(),
+});
 
 const payloadSchema = z.object({
   event_name: z.enum(["Lead", "Contact", "ViewContent", "Schedule"]),
@@ -13,6 +23,10 @@ const payloadSchema = z.object({
   event_source_url: z.string().url().max(200),
   fbp: z.string().max(200).optional(),
   fbc: z.string().max(300).optional(),
+  // Raw contact details travel only in this POST body — never in URLs, logs or
+  // browser event params — and are hashed before leaving for Meta. Present only
+  // when the visitor submitted a form showing the advertising-consent notice.
+  match: matchSchema.optional(),
 });
 
 export const reportMetaConversion = createServerFn({ method: "POST" })
@@ -32,9 +46,18 @@ export const reportMetaConversion = createServerFn({ method: "POST" })
     if (ip) user_data.client_ip_address = ip;
     if (data.fbp) user_data.fbp = data.fbp;
     if (data.fbc) user_data.fbc = data.fbc;
-    // No email/phone/name/zip matching fields: the site runs without a consent
-    // banner, so there is no stored explicit advertising acceptance to match
-    // customer identifiers against.
+    // Hashed matching fields only for consented Lead events; the consent record
+    // (notice version + timestamp) lives on the lead row.
+    if (data.event_name === "Lead" && data.match) {
+      Object.assign(user_data, await buildHashedMatchFields({
+        email: data.match.email,
+        phone: data.match.phone,
+        name: data.match.name,
+        zip: data.match.zip,
+        city: data.match.city,
+        leadId: data.match.lead_id,
+      }));
+    }
 
     const body: Record<string, unknown> = {
       data: [
