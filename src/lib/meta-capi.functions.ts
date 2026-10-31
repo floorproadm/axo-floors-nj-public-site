@@ -32,9 +32,10 @@ const payloadSchema = z.object({
 export const reportMetaConversion = createServerFn({ method: "POST" })
   .inputValidator((raw) => payloadSchema.parse(raw))
   .handler(async ({ data }) => {
-    const token = process.env["META_CAPI_TOKEN"];
-    // Token not configured yet: the browser pixel still reports on its own.
-    if (!token) return { sent: false as const };
+    const gatewayKey = process.env["LOVABLE_API_KEY"];
+    const connectionKey = process.env["META_ADS_API_KEY"];
+    // One server transport only: the linked connector replaces the old token.
+    if (!gatewayKey || !connectionKey) return { sent: false as const };
 
     const request = getRequest();
     const ip = (request.headers.get("cf-connecting-ip") ?? request.headers.get("x-forwarded-for") ?? "")
@@ -76,17 +77,36 @@ export const reportMetaConversion = createServerFn({ method: "POST" })
     if (testCode) body.test_event_code = testCode;
 
     try {
-      const response = await fetch(`https://graph.facebook.com/v21.0/${META_PIXEL_ID}/events?access_token=${token}`, {
+      const response = await fetch(`https://connector-gateway.lovable.dev/meta_ads/v26.0/${META_PIXEL_ID}/events`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${gatewayKey}`,
+          "X-Connection-Api-Key": connectionKey,
+        },
         body: JSON.stringify(body),
       });
-      if (!response.ok) {
-        console.error("Meta CAPI rejected an event", response.status, await response.text().catch(() => ""));
-      }
-      return { sent: response.ok };
-    } catch (error) {
-      console.error("Meta CAPI request failed", error);
+      // Return/log only receipt fields, never the event payload or arbitrary
+      // provider messages that might echo identifiers or credentials.
+      const raw = await response.json().catch(() => null);
+      const receiptSchema = z.object({
+        events_received: z.number().optional(),
+        fbtrace_id: z.string().regex(/^[A-Za-z0-9_-]+$/).max(200).optional(),
+        error: z.object({
+          code: z.number().optional(),
+          error_subcode: z.number().optional(),
+          type: z.string().regex(/^[A-Za-z0-9_]+$/).max(100).optional(),
+          fbtrace_id: z.string().regex(/^[A-Za-z0-9_-]+$/).max(200).optional(),
+        }).optional(),
+      });
+      const parsed = receiptSchema.safeParse(raw);
+      const receipt = parsed.success ? parsed.data : {};
+      const sent = response.ok && !receipt.error && (receipt.events_received ?? 0) > 0;
+      console.info("Meta CAPI receipt", { status: response.status, ...receipt });
+      if (!sent) console.error("Meta CAPI rejected an event", { status: response.status, ...receipt });
+      return { sent, status: response.status, response: receipt };
+    } catch {
+      console.error("Meta CAPI request failed", { reason: "transport_failure" });
       return { sent: false as const };
     }
   });

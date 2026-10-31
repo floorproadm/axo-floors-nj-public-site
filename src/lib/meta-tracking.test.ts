@@ -43,9 +43,12 @@ describe("Meta conversion helper", () => {
 describe("Meta Conversions API server function", () => {
   const capi = read("src/lib/meta-capi.functions.ts");
 
-  it("reads the access token inside the handler, never at module scope", () => {
-    expect(capi).toContain('process.env["META_CAPI_TOKEN"]');
-    expect(capi.indexOf('process.env["META_CAPI_TOKEN"]')).toBeGreaterThan(capi.indexOf(".handler"));
+  it("reads linked connector credentials inside the handler, with no direct-token path", () => {
+    for (const key of ["LOVABLE_API_KEY", "META_ADS_API_KEY"]) {
+      expect(capi.indexOf(`process.env["${key}"]`)).toBeGreaterThan(capi.indexOf(".handler"));
+    }
+    expect(capi).not.toContain("META_CAPI_TOKEN");
+    expect(capi).not.toContain("graph.facebook.com");
   });
 
   it("sends the deduplication pair and the lovable partner agent", () => {
