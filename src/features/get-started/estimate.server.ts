@@ -15,8 +15,10 @@ export async function insertEstimate(raw: unknown, attribution: unknown) {
   const withId = { ...payload, id: crypto.randomUUID() };
   // The consent notice above the final submit button is the consent action;
   // store it on the lead. If the external table lacks the columns yet, retry
-  // without them so a missing migration never blocks a lead.
-  let { error } = await client.from("leads").insert([withAdsConsent(withId)]);
+  // without them so a missing migration never blocks a lead. The generated
+  // types lag the external schema, hence the cast.
+  type LeadInsert = Database["public"]["Tables"]["leads"]["Insert"];
+  let { error } = await client.from("leads").insert([withAdsConsent(withId)] as LeadInsert[]);
   if (error && isUnknownConsentColumnError(error)) {
     ({ error } = await client.from("leads").insert([withId]));
   }
