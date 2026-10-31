@@ -58,10 +58,10 @@ function ChoiceCards({ field, value, options, onChange, error, compact = false, 
 }
 
 export default function GetStarted() {
-  const guard = usePublicLeadGuard();
   const [form, setForm] = useState(emptyEstimate);
   const [journey, setJourney] = useState<Journey>(emptyJourney);
   const [step, setStep] = useState(0);
+  const guard = usePublicLeadGuard(step > 0);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [sending, setSending] = useState(false);
   const [done, setDone] = useState(false);
