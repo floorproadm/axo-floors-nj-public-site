@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
-import { isUnknownConsentColumnError, withAdsConsent } from "@/lib/ads-consent";
+import { isUnknownConsentColumnError, reportConsentSaveFailure, withAdsConsent } from "@/lib/ads-consent";
 import { buildEstimatePayload } from "./estimate";
 
 // Same existing public anonymous connection as the generated browser client.
@@ -14,12 +14,13 @@ export async function insertEstimate(raw: unknown, attribution: unknown) {
   // external_id without a post-insert select.
   const withId = { ...payload, id: crypto.randomUUID() };
   // The consent notice above the final submit button is the consent action;
-  // store it on the lead. If the external table lacks the columns yet, retry
-  // without them so a missing migration never blocks a lead. The generated
-  // types lag the external schema, hence the cast.
+  // store it on the lead. If the columns are rejected, report it (no PII) and
+  // still save the lead without the consent record. The generated types lag
+  // the external schema, hence the cast.
   type LeadInsert = Database["public"]["Tables"]["leads"]["Insert"];
   let { error } = await client.from("leads").insert([withAdsConsent(withId)] as LeadInsert[]);
   if (error && isUnknownConsentColumnError(error)) {
+    reportConsentSaveFailure("get-started", error);
     ({ error } = await client.from("leads").insert([withId]));
   }
   if (error) return { saved: false as const };
