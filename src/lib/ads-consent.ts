@@ -31,3 +31,17 @@ export function isUnknownConsentColumnError(error: unknown): boolean {
     message.includes("consent_at")
   );
 }
+
+// The consent columns exist on the leads table, so a rejection now means a
+// real problem (dropped column, stale schema cache, drift). The lead must
+// still be saved, but the failure is reported loudly — fixed tag, form name,
+// PostgREST code and message only; never the lead payload or any contact
+// detail. console.error is the channel Sentry captures if it is added later.
+export function reportConsentSaveFailure(form: string, error: unknown) {
+  const err = error as { code?: string; message?: string } | null;
+  console.error("[ads-consent] consent columns rejected by leads table; lead saved without consent record", {
+    form,
+    code: err?.code ?? "unknown",
+    message: err?.message ?? "unknown",
+  });
+}
