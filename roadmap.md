@@ -1,4 +1,5 @@
 # GA4 page measurement
+- [ ] Replace Meta CAPI direct token with linked connector credentials, set temporary TEST87766 and validate one synthetic Lead through the actual server function; no ads or publishing.
 - [x] Move all public lead submissions to submit_public_lead; 172 tests and simulated Contact/Quiz/Get Started flows verified, spam guards and 2-second retry retained; no live leads or publishing. External RPC execution remains unverified without a live submission.
 - [x] Shorten only New Installation to flooring type (2), materials (3), area/stairs (4), timeline (5), contact/consent (6), then saved confirmation; 84 tests and 375px/1280px simulated flows pass, no live submissions or publishing.
 - [x] Owner-approved guided Get Started: archived Welcome, quiz-style branched steps, validated same-lead notes; 87 tests and eight 375px/1280px synthetic branch flows pass, preview build OK; media previews only, awaiting visual approval, no publication.
