@@ -59,10 +59,12 @@ describe("Meta Conversions API server function", () => {
     expect(capi).toContain("body.test_event_code = testCode");
   });
 
-  it("sends no customer matching identifiers without a stored consent record", () => {
-    expect(capi).not.toMatch(/sha-?256/i);
-    expect(capi).not.toContain("external_id");
-    expect(capi).not.toMatch(/\b(em|ph|fn|ln|zp):/);
+  it("hashes matching fields only for Lead events with a consent-backed match payload", () => {
+    expect(capi).toContain('data.event_name === "Lead" && data.match');
+    expect(capi).toContain("buildHashedMatchFields");
+    // Raw values never leave for Meta: hashing happens in meta-capi-match.ts.
+    expect(capi).not.toContain("em:");
+    expect(capi).not.toContain("ph:");
   });
 
   it("fails quiet so the form UX never breaks", () => {
