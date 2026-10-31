@@ -14,7 +14,8 @@ export function isTrackingAllowed(region: string): boolean {
   // Tor, a proxy's trace, or malformed output — stays unresolved and keeps
   // the pixel off.
   if (!/^[A-Z]{2}$/.test(code)) return false;
-  // "XX" is an unknown country and "T1" is Tor traffic.
-  if (code === "XX" || code === "T1") return false;
+  // Special codes: "XX" unknown country, "T1" Tor, "A1"/"A2"/"O1"
+  // anonymous-proxy / satellite / other-reserved classifications.
+  if (["XX", "T1", "A1", "A2", "O1"].includes(code)) return false;
   return !CONSENT_REQUIRED_REGIONS.has(code);
 }
