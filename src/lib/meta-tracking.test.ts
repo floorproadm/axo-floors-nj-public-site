@@ -81,7 +81,7 @@ describe("Conversion wiring", () => {
 
   it("fires Lead only after the contact form insert succeeds", () => {
     const source = read("src/pages/Contact.tsx");
-    expect(source).toContain('trackMetaEvent("Lead", { content_name: "contact-form" })');
+    expect(source).toContain(String.raw`trackMetaEvent("Lead", { content_name: "contact-form" }, {`);
     expect(source.indexOf("if (error) throw error")).toBeLessThan(source.indexOf('trackMetaEvent("Lead"'));
   });
 

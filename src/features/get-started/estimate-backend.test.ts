@@ -16,7 +16,7 @@ describe("Server-side estimate boundary", () => {
     expect(mocks.create).not.toHaveBeenCalled(); expect(mocks.insert).not.toHaveBeenCalled();
   });
   it("creates exactly one existing lead with optional email null and no session", async () => {
-    expect(await insertEstimate(valid, {})).toEqual({ saved: true });
+    expect(await insertEstimate(valid, {})).toEqual({ saved: true, id: expect.any(String) });
     expect(mocks.from).toHaveBeenCalledWith("leads"); expect(mocks.insert).toHaveBeenCalledTimes(1);
     expect(mocks.insert.mock.calls[0][0]).toEqual([expect.objectContaining({ email: null, services: ["stairs"], city: "Freehold", status: "new_lead" })]);
     expect(mocks.create.mock.calls[0][2].auth.persistSession).toBe(false);
@@ -28,12 +28,12 @@ describe("Server-side estimate boundary", () => {
   });
   it("inserts one lead containing the complete multi-service array and labels", async () => {
     const services = ["installation", "refinishing", "stairs"];
-    expect(await insertEstimate({ ...valid, services }, {})).toEqual({ saved: true });
+    expect(await insertEstimate({ ...valid, services }, {})).toEqual({ saved: true, id: expect.any(String) });
     expect(mocks.insert).toHaveBeenCalledTimes(1);
     expect(mocks.insert).toHaveBeenCalledWith([expect.objectContaining({ services, notes: expect.stringContaining("Flooring Installation, Sanding & Refinishing, Stairs & Railings") })]);
   });
   it("accepts the archived consultation key alone", async () => {
-    expect(await insertEstimate({ ...valid, services: ["consultation"] }, {})).toEqual({ saved: true });
+    expect(await insertEstimate({ ...valid, services: ["consultation"] }, {})).toEqual({ saved: true, id: expect.any(String) });
     expect(mocks.insert).toHaveBeenCalledWith([expect.objectContaining({ services: ["consultation"] })]);
   });
   it.each([[], ["unknown"], ["stairs", "stairs"], ["consultation", "stairs"], Array(6).fill("repair")])("rejects invalid arrays before any insert %j", async (services) => {
