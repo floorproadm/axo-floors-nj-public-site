@@ -13,6 +13,7 @@ const navigationLinks = [
   { name: "About", href: "/about" },
   { name: "Gallery", href: "/gallery" },
   { name: "New Jersey Service Areas", href: "/service-areas/new-jersey" },
+  { name: "Privacy Policy", href: "/privacy-policy" },
 ];
 
 const FooterSSR = () => {

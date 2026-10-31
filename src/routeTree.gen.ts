@@ -15,6 +15,7 @@ import { Route as FinishesRouteImport } from './routes/finishes'
 import { Route as HardwoodFlooringRouteImport } from './routes/hardwood-flooring'
 import { Route as InstallationRouteImport } from './routes/installation'
 import { Route as InstallationV2RouteImport } from './routes/installation-v2'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as RefinishRouteImport } from './routes/refinish'
 import { Route as RefinishingRouteImport } from './routes/refinishing'
 import { Route as SandingAndRefinishRouteImport } from './routes/sanding-and-refinish'
@@ -55,6 +56,11 @@ const InstallationRoute = InstallationRouteImport.update({
 const InstallationV2Route = InstallationV2RouteImport.update({
   id: '/installation-v2',
   path: '/installation-v2',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RefinishRoute = RefinishRouteImport.update({
@@ -122,6 +128,7 @@ export interface FileRoutesByFullPath {
   '/hardwood-flooring': typeof HardwoodFlooringRoute
   '/installation': typeof InstallationRoute
   '/installation-v2': typeof InstallationV2Route
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/refinish': typeof RefinishRoute
   '/refinishing': typeof RefinishingRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
@@ -141,6 +148,7 @@ export interface FileRoutesByTo {
   '/hardwood-flooring': typeof HardwoodFlooringRoute
   '/installation': typeof InstallationRoute
   '/installation-v2': typeof InstallationV2Route
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/refinish': typeof RefinishRoute
   '/refinishing': typeof RefinishingRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
@@ -161,6 +169,7 @@ export interface FileRoutesById {
   '/hardwood-flooring': typeof HardwoodFlooringRoute
   '/installation': typeof InstallationRoute
   '/installation-v2': typeof InstallationV2Route
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/refinish': typeof RefinishRoute
   '/refinishing': typeof RefinishingRoute
   '/sanding-and-refinish': typeof SandingAndRefinishRoute
@@ -182,6 +191,7 @@ export interface FileRouteTypes {
     | '/hardwood-flooring'
     | '/installation'
     | '/installation-v2'
+    | '/privacy-policy'
     | '/refinish'
     | '/refinishing'
     | '/sanding-and-refinish'
@@ -201,6 +211,7 @@ export interface FileRouteTypes {
     | '/hardwood-flooring'
     | '/installation'
     | '/installation-v2'
+    | '/privacy-policy'
     | '/refinish'
     | '/refinishing'
     | '/sanding-and-refinish'
@@ -220,6 +231,7 @@ export interface FileRouteTypes {
     | '/hardwood-flooring'
     | '/installation'
     | '/installation-v2'
+    | '/privacy-policy'
     | '/refinish'
     | '/refinishing'
     | '/sanding-and-refinish'
@@ -240,6 +252,7 @@ export interface RootRouteChildren {
   HardwoodFlooringRoute: typeof HardwoodFlooringRoute
   InstallationRoute: typeof InstallationRoute
   InstallationV2Route: typeof InstallationV2Route
+  PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   RefinishRoute: typeof RefinishRoute
   RefinishingRoute: typeof RefinishingRoute
   SandingAndRefinishRoute: typeof SandingAndRefinishRoute
@@ -295,6 +308,13 @@ declare module '@tanstack/react-router' {
       path: '/installation-v2'
       fullPath: '/installation-v2'
       preLoaderRoute: typeof InstallationV2RouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/refinish': {
@@ -384,6 +404,7 @@ const rootRouteChildren: RootRouteChildren = {
   HardwoodFlooringRoute: HardwoodFlooringRoute,
   InstallationRoute: InstallationRoute,
   InstallationV2Route: InstallationV2Route,
+  PrivacyPolicyRoute: PrivacyPolicyRoute,
   RefinishRoute: RefinishRoute,
   RefinishingRoute: RefinishingRoute,
   SandingAndRefinishRoute: SandingAndRefinishRoute,
