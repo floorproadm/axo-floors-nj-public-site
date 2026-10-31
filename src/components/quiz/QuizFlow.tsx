@@ -271,6 +271,7 @@ const QuizFlow = ({ embedded = false, partnerId, onComplete }: QuizFlowProps) =>
 
       const { data: savedLead, error: saveError } = await supabase.from("leads").insert([quizData]).select().single();
       if (saveError) throw new Error(`Failed to save quiz response: ${saveError.message}`);
+      trackMetaEvent("Lead", { content_name: "quiz", content_category: formData.serviceType || "unknown" });
 
       // Fire-and-forget integrations
       supabase.functions.invoke("send-to-notion", {

@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Phone, Plus, Minus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { sanitizeInput } from "@/utils/validation";
+import { trackEvent as trackMetaEvent } from "@/lib/metaTracking";
 
 const projectSteps = [
   {
@@ -73,6 +74,7 @@ const Contact = () => {
       const { error } = await supabase.from('leads').insert([leadData]);
       if (error) throw error;
       // The single lead email is sent by FloorPRO when the lead is saved.
+      trackMetaEvent("Lead", { content_name: "contact-form" });
 
       toast({
         title: "Thank you for contacting us!",
