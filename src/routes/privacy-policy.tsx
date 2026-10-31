@@ -55,14 +55,14 @@ function PrivacyPolicyPage() {
               personalization and we do not send it your name or contact details.
             </li>
             <li>
-              <strong>Meta pixel (Meta Platforms, the company behind Facebook and Instagram).</strong>
-              Records page visits and places a cookie (such as <em>_fbp</em>) in your browser so Meta
-              can measure visits to this site, help us understand whether our Facebook and Instagram
-              ads lead to inquiries, and improve those ads. When you successfully submit a form, a
-              "Lead" event is reported to Meta from your browser and from our server (Meta's
-              Conversions API) so the submission is counted once. These reports carry the cookie
-              value, your browser type and your internet address — never the contents of your
-              message, and never your name, email or phone number.
+              <strong>Meta Pixel and Meta Conversions API (Meta Platforms, the company behind
+              Facebook and Instagram).</strong> We use these to measure and improve our ads. They
+              record page visits and place a cookie (such as <em>_fbp</em>) in your browser. When you
+              submit a form, we share hashed (encrypted) contact information (email, phone, name,
+              zip) plus technical data (IP address, browser, cookies) with Meta for ad measurement
+              and audience matching. Hashing happens on our server before anything is sent — Meta
+              never receives your message contents or your readable contact details from these
+              reports.
             </li>
           </ul>
           <p>
@@ -85,7 +85,7 @@ function PrivacyPolicyPage() {
             You can block or delete these cookies at any time in your browser settings. You can also
             control how Meta uses data to personalize ads through your{" "}
             <a
-              href="https://www.facebook.com/adpreferences/adsettings"
+              href="https://www.facebook.com/adpreferences"
               target="_blank"
               rel="noopener noreferrer"
               className="text-navy underline hover:text-gold"
@@ -95,11 +95,16 @@ function PrivacyPolicyPage() {
             .
           </p>
           <p>
-            To ask questions, withdraw consent, or request that we stop measuring your visits, email{" "}
-            <a href="mailto:axofloorsnj@gmail.com" className="text-navy underline hover:text-gold">
+            To opt out of ad sharing, email{" "}
+            <a
+              href="mailto:axofloorsnj@gmail.com?subject=Opt%20out%20of%20ad%20sharing"
+              className="text-navy underline hover:text-gold"
+            >
               axofloorsnj@gmail.com
             </a>{" "}
-            or call (732) 351-8653.
+            with the subject "Opt out of ad sharing" — we will stop sharing your data and delete it
+            from our ad uploads. To ask questions, withdraw consent, or request that we stop
+            measuring your visits, email the same address or call (732) 351-8653.
           </p>
         </Section>
 
@@ -108,6 +113,8 @@ function PrivacyPolicyPage() {
             AXO Floors LLC — axofloorsnj@gmail.com — (732) 351-8653.
           </p>
         </Section>
+
+        <p className="mt-12 border-t border-grey/20 pt-6 text-sm text-grey">Last updated: October 2026</p>
       </section>
     </BlogShell>
   );

@@ -59,10 +59,12 @@ describe("Meta Conversions API server function", () => {
     expect(capi).toContain("body.test_event_code = testCode");
   });
 
-  it("sends no customer matching identifiers without a stored consent record", () => {
-    expect(capi).not.toMatch(/sha-?256/i);
-    expect(capi).not.toContain("external_id");
-    expect(capi).not.toMatch(/\b(em|ph|fn|ln|zp):/);
+  it("hashes matching fields only for Lead events with a consent-backed match payload", () => {
+    expect(capi).toContain('data.event_name === "Lead" && data.match');
+    expect(capi).toContain("buildHashedMatchFields");
+    // Raw values never leave for Meta: hashing happens in meta-capi-match.ts.
+    expect(capi).not.toContain("em:");
+    expect(capi).not.toContain("ph:");
   });
 
   it("fails quiet so the form UX never breaks", () => {
@@ -79,7 +81,7 @@ describe("Conversion wiring", () => {
 
   it("fires Lead only after the contact form insert succeeds", () => {
     const source = read("src/pages/Contact.tsx");
-    expect(source).toContain('trackMetaEvent("Lead", { content_name: "contact-form" })');
+    expect(source).toContain(String.raw`trackMetaEvent("Lead", { content_name: "contact-form" }, {`);
     expect(source.indexOf("if (error) throw error")).toBeLessThan(source.indexOf('trackMetaEvent("Lead"'));
   });
 
@@ -101,6 +103,45 @@ describe("Conversion wiring", () => {
   });
 
   it("discloses the server-side reports in the privacy policy", () => {
-    expect(read("src/routes/privacy-policy.tsx")).toContain("Conversions API");
+    const policy = read("src/routes/privacy-policy.tsx");
+    expect(policy).toContain("Conversions API");
+    expect(policy).toContain("hashed (encrypted) contact information");
+    expect(policy).toContain("Opt out of ad sharing");
+    expect(policy).toContain("Last updated: October 2026");
+  });
+});
+
+describe("Advertising consent notice and lead record", () => {
+  it("defines the exact owner-approved notice text and version", () => {
+    const consent = read("src/lib/ads-consent.ts");
+    expect(consent).toContain('"v1-2026-10"');
+    expect(consent).toContain("By submitting, you agree to be contacted by AXO Floors about your project");
+    expect(consent).toContain("consent_ads: true");
+    expect(consent).toContain("consent_text_version: ADS_CONSENT_VERSION");
+    expect(consent).toContain("consent_at: new Date().toISOString()");
+  });
+
+  it("shows the notice above the final submit on all three lead forms", () => {
+    for (const file of ["src/pages/GetStarted.tsx", "src/pages/Contact.tsx", "src/components/quiz/QuizFlow.tsx"]) {
+      expect(read(file)).toContain("AdsConsentNotice");
+    }
+  });
+
+  it("stores consent on the lead with a missing-column fallback that never blocks the lead", () => {
+    for (const file of ["src/pages/Contact.tsx", "src/components/quiz/QuizFlow.tsx", "src/features/get-started/estimate.server.ts"]) {
+      const source = read(file);
+      expect(source).toContain("withAdsConsent(");
+      expect(source).toContain("isUnknownConsentColumnError");
+    }
+  });
+
+  it("passes contact details only to the server copy, never to the browser event", () => {
+    const helper = read("src/lib/metaTracking.ts");
+    expect(helper).toContain("userData?: LeadMatchInput");
+    // The fbq call receives only (name, params, eventID) — no userData.
+    expect(helper).toContain('fbq?.("track", name, params, { eventID: eventId })');
+    for (const file of ["src/pages/GetStarted.tsx", "src/pages/Contact.tsx", "src/components/quiz/QuizFlow.tsx"]) {
+      expect(read(file)).toMatch(/trackMetaEvent\("Lead",[\s\S]*?leadId/);
+    }
   });
 });

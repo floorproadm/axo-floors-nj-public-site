@@ -99,7 +99,7 @@ describe("Owner-approved guided journey", () => {
   });
   it("server inserts one canonical combined lead with structured notes", async () => {
     database.insert.mockClear(); database.insert.mockResolvedValue({ error: null });
-    expect(await insertEstimate(form({ ...install, serviceType: "install-plus-refinish" }), {})).toEqual({ saved: true });
+    expect(await insertEstimate(form({ ...install, serviceType: "install-plus-refinish" }), {})).toEqual({ saved: true, id: expect.any(String) });
     expect(database.insert).toHaveBeenCalledTimes(1);
     expect(database.insert).toHaveBeenCalledWith([expect.objectContaining({ services: ["installation", "refinishing"], notes: expect.stringContaining("Whole Floor (1200+ sq ft)") })]);
   });

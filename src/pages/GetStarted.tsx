@@ -17,6 +17,7 @@ import SEOHead from "@/components/shared/SEOHead";
 import logo from "@/assets/axo-logo-official.png";
 import { AXO_SMS_HREF } from "@/lib/constants";
 import { trackEvent as trackMetaEvent } from "@/lib/metaTracking";
+import AdsConsentNotice from "@/components/shared/AdsConsentNotice";
 import { formatPhoneInput } from "@/utils/validation";
 import { gsCopy, estimateCopy, SERVICE_TYPE_OPTIONS, FINISH_SCOPE_OPTIONS, FLOOR_TYPE_OPTIONS, MATERIALS_OPTIONS, MATERIAL_DELIVERED_OPTIONS, AREA_PRESETS, QUIZ_CONDITION_OPTIONS, STAIRS_COUNT_OPTIONS } from "@/features/get-started/copy";
 import { captureEstimateAttribution, emptyEstimate, estimateSchema, sendEstimate, type EstimateAttribution } from "@/features/get-started/estimate";
@@ -137,7 +138,15 @@ export default function GetStarted() {
         saved.current = true;
         // Only after the server confirmed the save; never blocks the form.
         try { trackGenerateLead(journey.serviceType, crypto.randomUUID()); } catch { /* analytics optional */ }
-        trackMetaEvent("Lead", { content_name: "get-started", content_category: journey.serviceType, value: 0, currency: "USD" });
+        const isZip = /^\d{5}(?:-\d{4})?$/.test(data.location);
+        trackMetaEvent("Lead", { content_name: "get-started", content_category: journey.serviceType, value: 0, currency: "USD" }, {
+          email: data.email,
+          phone: data.phone,
+          name: data.name,
+          zip: isZip ? data.location : undefined,
+          city: isZip ? undefined : data.location,
+          leadId: result.id,
+        });
       }, async () => true); // The single lead email is sent by FloorPRO when the lead is saved.
       setNotificationFailed(!result.notificationSent); setDone(true);
       setForm(emptyEstimate); setJourney(emptyJourney);
@@ -208,6 +217,7 @@ export default function GetStarted() {
               {/* Keep previews mounted across Back/Next, but never send media in the payload. */}
               <div hidden={current !== "details"} className="mt-5"><ProjectPhotos disabled={sending} onCountChange={setPhotoCount} /></div>
               {submitError && <p role="alert" className="mt-4 text-sm text-destructive">{submitError}</p>}
+              {step === steps.length && <AdsConsentNotice className="mt-6 text-center" />}
               <div className="mt-8 flex justify-between gap-3 border-t border-grey/20 pt-6">
                 <Button type="button" variant="outline" onClick={back} disabled={sending} className="min-h-12 border-grey/30 text-grey hover:border-gold hover:text-gold"><ArrowLeft className="h-4 w-4" />Back</Button>
                 <Button type="submit" disabled={sending} className={`min-h-12 px-4 sm:px-8 ${goldButton}`}>{sending ? <><Loader2 className="h-4 w-4 animate-spin" />Sending…</> : <>Next Step<ArrowRight className="h-4 w-4" /></>}</Button>

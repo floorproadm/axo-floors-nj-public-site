@@ -4,6 +4,7 @@
 import { reportMetaConversion } from "@/lib/meta-capi.functions";
 import { safeAnalyticsPage } from "@/lib/analytics";
 import { isMetaTrackingActive } from "@/lib/meta-pixel";
+import type { LeadMatchInput } from "@/lib/meta-capi-match";
 
 export type MetaStandardEvent = "Lead" | "Contact" | "ViewContent" | "Schedule";
 
@@ -23,7 +24,9 @@ export function trackPageView(): void {
 
 // Fire ONLY after the underlying action succeeded (a saved form, a viewed
 // service page) — never on button clicks, step advances or validation errors.
-export function trackEvent(name: MetaStandardEvent, params: Record<string, unknown> = {}): void {
+// userData goes only to the server copy (hashed there); the browser fbq call
+// never receives it.
+export function trackEvent(name: MetaStandardEvent, params: Record<string, unknown> = {}, userData?: LeadMatchInput): void {
   // In consent-required or unresolved regions the pixel never started, so no
   // event — browser or server — may leave for this visit.
   if (!isMetaTrackingActive()) return;
@@ -43,6 +46,18 @@ export function trackEvent(name: MetaStandardEvent, params: Record<string, unkno
       event_source_url: page?.page_location ?? `${window.location.origin}/`,
       fbp: readCookie("_fbp"),
       fbc: readCookie("_fbc") || fbcFromClickId(),
+      ...(userData
+        ? {
+            match: {
+              email: userData.email,
+              phone: userData.phone,
+              name: userData.name,
+              zip: userData.zip,
+              city: userData.city,
+              lead_id: userData.leadId,
+            },
+          }
+        : {}),
     },
   }).catch(() => undefined);
 }

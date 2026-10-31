@@ -11,6 +11,8 @@ import { Phone, Plus, Minus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { sanitizeInput } from "@/utils/validation";
 import { trackEvent as trackMetaEvent } from "@/lib/metaTracking";
+import { asLeadRow, isUnknownConsentColumnError, withAdsConsent } from "@/lib/ads-consent";
+import AdsConsentNotice from "@/components/shared/AdsConsentNotice";
 
 const projectSteps = [
   {
@@ -59,7 +61,9 @@ const Contact = () => {
     }
     setIsSubmitting(true);
     try {
+      const leadId = crypto.randomUUID();
       const leadData = {
+        id: leadId,
         name: sanitizeInput(formData.name),
         email: formData.email.trim() ? sanitizeInput(formData.email) : null,
         phone: formData.phone.trim() ? sanitizeInput(formData.phone) : '',
@@ -71,10 +75,21 @@ const Contact = () => {
         organization_id: AXO_ORG_ID,
       };
 
-      const { error } = await supabase.from('leads').insert([leadData]);
+      // The consent notice above the submit button is the consent action; store
+      // it on the lead. If the external table lacks the columns yet, retry
+      // without them so a missing migration never blocks a lead.
+      let { error } = await supabase.from('leads').insert([asLeadRow(withAdsConsent(leadData))]);
+      if (error && isUnknownConsentColumnError(error)) {
+        ({ error } = await supabase.from('leads').insert([leadData]));
+      }
       if (error) throw error;
       // The single lead email is sent by FloorPRO when the lead is saved.
-      trackMetaEvent("Lead", { content_name: "contact-form" });
+      trackMetaEvent("Lead", { content_name: "contact-form" }, {
+        email: formData.email,
+        phone: formData.phone,
+        name: formData.name,
+        leadId,
+      });
 
       toast({
         title: "Thank you for contacting us!",
@@ -189,6 +204,8 @@ const Contact = () => {
                   onChange={e => setFormData(prev => ({ ...prev, message: e.target.value }))}
                 />
               </div>
+
+              <AdsConsentNotice className="text-white/70" />
 
               <Button
                 type="submit"
