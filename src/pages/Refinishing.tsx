@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { trackEvent as trackMetaEvent } from "@/lib/metaTracking";
 import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
 import ProjectStrip from "@/components/shared/ProjectStrip";
@@ -62,6 +64,10 @@ const faqs = [
 ];
 
 export default function Refinishing() {
+  useEffect(() => {
+    trackMetaEvent("ViewContent", { content_name: "refinishing", content_category: "service" });
+  }, []);
+
   return (
     <div className="min-h-screen bg-background font-body text-navy">
       <Header />
