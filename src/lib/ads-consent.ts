@@ -14,6 +14,12 @@ export function withAdsConsent<T extends Record<string, unknown>>(payload: T) {
   };
 }
 
+// The generated Database types lag the external leads schema; cast through this
+// helper so the consent columns typecheck before the types are regenerated.
+export function asLeadRow(payload: unknown): never {
+  return payload as never;
+}
+
 // PostgREST rejects columns missing from the schema cache. When the consent
 // columns have not been added to the external leads table yet, the caller
 // retries without them so a missing migration never blocks a lead.

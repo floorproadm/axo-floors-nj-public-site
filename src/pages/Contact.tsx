@@ -11,7 +11,7 @@ import { Phone, Plus, Minus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { sanitizeInput } from "@/utils/validation";
 import { trackEvent as trackMetaEvent } from "@/lib/metaTracking";
-import { isUnknownConsentColumnError, withAdsConsent } from "@/lib/ads-consent";
+import { asLeadRow, isUnknownConsentColumnError, withAdsConsent } from "@/lib/ads-consent";
 import AdsConsentNotice from "@/components/shared/AdsConsentNotice";
 
 const projectSteps = [
@@ -78,7 +78,7 @@ const Contact = () => {
       // The consent notice above the submit button is the consent action; store
       // it on the lead. If the external table lacks the columns yet, retry
       // without them so a missing migration never blocks a lead.
-      let { error } = await supabase.from('leads').insert([withAdsConsent(leadData)]);
+      let { error } = await supabase.from('leads').insert([asLeadRow(withAdsConsent(leadData))]);
       if (error && isUnknownConsentColumnError(error)) {
         ({ error } = await supabase.from('leads').insert([leadData]));
       }
