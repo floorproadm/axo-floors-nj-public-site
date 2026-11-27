@@ -176,7 +176,7 @@ const Index = () => {
         subtitle="FLOORING SOLUTIONS IN NEW JERSEY"
         description="Whether you're restoring existing hardwood or starting with something new, we'll help you create floors that feel right for your home."
         image={homeHero}
-        ctaPrimary="Get My Estimate"
+        ctaPrimary="Get My Free Estimate"
         ctaSecondary="See Our Work"
         ctaPrimaryHref="/get-started"
         ctaSecondaryHref="/gallery"
